@@ -101,7 +101,7 @@ ab2={'Nagi Nagi no mi v1','Flashstep','Nagi Nagi no mi v2','Suke Suke no mi v1',
 ab3={'Ashen Mage','Ash Crow','Berserker','Black Foot','Black Swordsman','Cotton Candy Lover','Cat Burglar','Cyborg','Devils Child','Demon God','Falcon of Light','Fire Fist','Falcon of Darkness','flamingo lord','God of Calamity','God','He Who is Above God','Iron Man','Iron Mace','King of The Sea','Knight of the Sea','Loan Shark','Nobody','One Piecee','Pirate Hunter','Slug Baron','Symbol of Evil','Shiva','Soul King',"Struggler",'Straw Hat','The Beast Tamer','The Forbidden One','Thunder Emperor','The Acrobat','White Falcon','God of Destruction'
 }
 
-ab4={'Human','Kumate Tribe','Spypiean','Torino Tribe','Vermin','A Bizarre Human','Human (Hybrid)',"Mink",'Celestial Dragon','Frieza Race','Fanalis','Uzumaki Clan'
+ab4={'Human',"Jiren's Race","Ghoul","Namekian","Majin",'Kumate Tribe','Spypiean','Torino Tribe','Vermin','A Bizarre Human','Human (Hybrid)',"Mink",'Celestial Dragon','Frieza Race','Fanalis','Uzumaki Clan'
 }
 
 ab5={'Hisashi Midoriya','Cain Barzad','Present Mic','Ace','Enel','Whitebeard','Dabi','Gecko Moria'
@@ -727,3 +727,11 @@ local CategoryVariableHere= Lib:Category("Credits")
 CategoryVariableHere:Label("Credits to a r q for ui liba")
 CategoryVariableHere:Label("Credits to DekuDimz#7960 aka me lol")
 Lib:Reload()
+game.StarterGui:SetCore("SendNotification", {
+Title = "Warning";
+Text = "RightShift to toggle";
+})
+game.StarterGui:SetCore("SendNotification", {
+Title = "Credis";
+Text = "CharWar Serverhops Toxic Mods screen thingy";
+})
