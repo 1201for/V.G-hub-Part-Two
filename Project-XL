@@ -43,8 +43,17 @@ game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(t
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
 end end)
- 
- 
+CategoryVariableHere:Toggle("Auto Dummy",function(State)
+yourdumb = State
+game:GetService('RunService').Stepped:connect(function()
+if yourdumb then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end end)
+while yourdumb do wait()
+c()
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(90,0,0) end end)
 CategoryVariableHere:Toggle("Auto Mob",function(State)
 system2 =State
 game:GetService('RunService').Stepped:connect(function()
@@ -73,6 +82,7 @@ end
 end)
 end)
 CategoryVariableHere:Dropdown("Select Mob",system,function(Selected) system = Selected end)
+
 
 CategoryVariableHere:Toggle("Auto Bosses Buggy af",function(State)
 system3 = State
@@ -120,6 +130,21 @@ ab8={'Hunter Snow Cap','Paper Hat','Du-rag','Ski Cap','Straw Hat','White Du-rag'
 }
 
 ab9={'Black Knight Armor','Blue Knight Armor',"Bounty Hunter's Gambeson",'Carta Assassin Armor',"Disciple's Armor",'Elite Mercenary Coat','Enchanter Robes','Fancy Suit','Griffon Plate','Heavy Adventurer Armor',"Innkeeper's Attire",'Iron Armor','Leather Armor','Mercenary Coat',"Nalthur's Armor","Oathbreaker's Armor","Pirate Hunter's Starter Outfit","Pirate's Outfit","Rice Farmer's Outfit",'Squire Armor','Rugged Adventurer Armor','Steel Armor',"Superior Battlemaster Coat","Superior Battlemaster Armor","Superior Battlemaster Mail","Superior Enchanter Coat",'Superior Vanguard Armor',"Templar Commander Armor",'Titanium Armor',"Vanguard Armor","Wizard Robes","Ancient Empyrean Armor","Ash Trap Mage's Outfit","Usopp's Pre Time-Skip Outfit","Franky's Outfit","Buggy's Outfit","Enel's Outfit","Enel's Outfit 2","Blackbeard's Outfit","Blackbeard's Outfit 2","Kidd's Outfit","UA Student's Outfit","The Almighty's Outfit","Muken Aizen's Outfit","Jiren's Outfit","Overhaul's Outfit","Usopp's Post Time-Skip Outfit","Magellan's Outfit","Black Foot's Outfit","Luffy's Marineford Outfit","Crocodile's Pre Time-Skip Outfit","Prime Whitebeard's Outfit","Sanji's Post Time-Skip Outfit","Kaido's Outfit","Kaido's Outfit 2","Dragon's Outfit"}
+
+CategoryVariableHere:Toggle("Make Npcs Jump ss",function(State)
+deeznuts = State
+while deeznuts do wait(1)
+for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+if v:IsA("Humanoid") then
+v.Jump = true
+end end end end)
+CategoryVariableHere:Toggle("Make Npcs Jump ss",function(State)
+deeznuts1 = State
+while deeznuts1 do wait(1)
+for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+if v:IsA("Humanoid") then
+v.Sit = true
+end end end end)
 CategoryVariableHere:Toggle("Ability Farm",function(State)
 Abily = State
 while Abily do wait(1)
@@ -281,6 +306,7 @@ CategoryVariableHere:Dropdown("Select Accessory",ab8,function(Selected) ab8 = Se
 local CategoryVariableHere= Lib:Category("Misc")
 CategoryVariableHere:Slider("WalkSpeed",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Val end)
 CategoryVariableHere:Slider("JumpPower",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.JumpPower = Val end)
+
 CategoryVariableHere:Toggle("InfiniteJump",function(State)
 InfiniteJumpEnabled = State
 game:GetService("UserInputService").JumpRequest:connect(function()
