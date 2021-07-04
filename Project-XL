@@ -83,7 +83,16 @@ end
 end)
 end)
 CategoryVariableHere:Dropdown("Select Mob",system,function(Selected) system = Selected end)
+CategoryVariableHere:Toggle("Auto Skills",function(State)
+for i,v in pairs({'E','R','C','X'}) do 
+ee = State
+coroutine.wrap(function() --Credits for help/teaching me coroutine.wrap by nil#0001
+while ee do  wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,v,false,uwu)
 
+end 
+end)()
+end end)
 
 CategoryVariableHere:Toggle("Auto Bosses Buggy af",function(State)
 system3 = State
@@ -106,6 +115,15 @@ v.CharacterValues.Disabled.Value = true end
 end
 end)  
 end  end)
+end)
+CategoryVariableHere:Button("Anti Lag",function() 
+for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+v.Material = Enum.Material.SmoothPlastic;
+if v:IsA("Texture") then
+v:Destroy();
+end end;		
+end;
 end)
 CategoryVariableHere:Toggle("Be Weird",function(State)
 sy = State
