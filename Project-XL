@@ -146,7 +146,7 @@ for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Humanoid") then
 v.Jump = true
 end end end end)
-CategoryVariableHere:Toggle("Make Npcs Jump ss",function(State)
+CategoryVariableHere:Toggle("Make Npcs Sit ss",function(State)
 deeznuts1 = State
 while deeznuts1 do wait(1)
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
