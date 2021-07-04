@@ -50,10 +50,11 @@ if yourdumb then
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 end end)
 while yourdumb do wait()
+pcall(function()
 c()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(90,0,0) end end)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(90,0,0)end) end end)
 CategoryVariableHere:Toggle("Auto Mob",function(State)
 system2 =State
 game:GetService('RunService').Stepped:connect(function()
