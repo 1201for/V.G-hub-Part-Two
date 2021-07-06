@@ -328,7 +328,9 @@ game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end en
 
 
 CategoryVariableHere:Dropdown("Select Accessory",ab8,function(Selected) ab8 = Selected end)
-
+CategoryVariableHere:Label("")
+CategoryVariableHere:Label("")
+CategoryVariableHere:Label("")
 
 local CategoryVariableHere= Lib:Category("Misc")
 CategoryVariableHere:Slider("WalkSpeed",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Val end)
@@ -542,6 +544,9 @@ Hear = State
 while Hear do wait(0.2) pcall(function()
 game:GetService("ReplicatedStorage").RemoteEvents.BreatheFireRemote:FireServer(false,Vector3.new(nil),CFrame.new(Vector3.new(nil), Vector3.new(nil)),1,Vector3.new(nil))
 end) end end)
+CategoryVariableHere:Label("")
+CategoryVariableHere:Label("")
+CategoryVariableHere:Label("")
 local CategoryVariableHere= Lib:Category("Auto Quests")
 CategoryVariableHere:Toggle("Auto Quest Bandits 10",function(State)
 Ban = State
