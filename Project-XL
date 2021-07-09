@@ -243,7 +243,24 @@ wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
 
 CategoryVariableHere:Dropdown("Select Class",ab7,function(Selected) ab7 = Selected end)
-
+CategoryVariableHere:Toggle("Eyeball Specialization Use",function(State)
+Heart9 = State
+while Heart9 do wait(1)
+game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
+wait(2)
+for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") then 
+v.Parent = game.Players.LocalPlayer.Character wait(1) 
+game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+end
+end 
+for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+if v.ClassName == "Tool" and v:FindFirstChild("Scroll") or v:FindFirstChild("Fruit") then 
+game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+end
+end
+end
+end)
 CategoryVariableHere:Toggle("Auto Specialization",function(State)
 Heart3 = State
 while Heart3 do wait(1) pcall(function()
