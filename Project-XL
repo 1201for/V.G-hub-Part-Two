@@ -71,10 +71,9 @@ if v:IsA("Model") and v.Name == system and v:FindFirstChildOfClass("Humanoid")  
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
 wait(0.3)
 c()
-v.Humanoid:ChangeState(11)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
-v.Humanoid:ChangeState(11)
+
 wait(0.3)
 v.Humanoid.Health = 0
 end
@@ -85,7 +84,7 @@ end)
 end)
 CategoryVariableHere:Dropdown("Select Mob",system,function(Selected) system = Selected end)
 CategoryVariableHere:Toggle("Auto Skills",function(State)
-for i,v in pairs({'E','R','C','X'}) do 
+for i,v in pairs({'E','R','C','X','Y'}) do 
 ee = State
 coroutine.wrap(function() --Credits for help/teaching me coroutine.wrap by nil#0001
 while ee do  wait()
@@ -137,7 +136,7 @@ game.Players.LocalPlayer.Character["Right Arm"]:remove()
 game.Players.LocalPlayer.Character["Right Leg"]:remove() end) end end) end)
 ab1={"Blaze",'Fire Breath','Voice','Sleep-Inducing Gas',"Simon's Dark Magic",'Purple Flare','Blazing Knight','Burning Spear','Shock Fist','Ittoryu; Wado Ichimonji','Ittoryu; Shusui','Black Leg Style','Moku Moku no mi','Pika Pika no mi','Kage Kage no mi','Mera Mera no mi','Cremation','Electrification','Gura Gura no mi','Goro Goro no mi','Yami Yami no mi','Determined Defender Goku',"Yami's Dark Magic",'The Trump Card Goku','Explosive Super Elite Vegeta','Magma Knight','Scorching Spear','Bolt Master','Diable Jambe'
 }
-ab2={'Nagi Nagi no mi v1','Flashstep','Nagi Nagi no mi v2','Suke Suke no mi v1','Sonido','Danger Sense v1','Danger Sense v2','Hirenkyaku'
+ab2={'Nagi Nagi no mi v1','Flashstep','Nagi Nagi no mi v2','Suke Suke no mi v1','Sonido','Danger Sense v1','Danger Sense v2','Hirenkyaku','One Tomoe Sharingan','Two Tomoe Sharingan','Three Tomoe Sharingan',"Izuna's Mangekyo Sharingan v1","Indra's Mangekyo Sharingan v1","Sasuke's Mangekyo Sharingan v2","Obito's Mangekyo Sharingan v1","Itachi's Mangekyou Sharingan v1","Itachi's Mangekyou Sharingan v2","Madara's Mangekyo Sharingan v1","Madara's Mangekyo Sharingan v2","Obito's Mangekyo sharingan v2","Kenbunshoku Haki","Haoshoku Haki"
 }
 ab3={'Ashen Mage','Ash Crow','Berserker','Black Foot','Black Swordsman','Cotton Candy Lover','Cat Burglar','Cyborg','Devils Child','Demon God','Falcon of Light','Fire Fist','Falcon of Darkness','flamingo lord','God of Calamity','God','He Who is Above God','Iron Man','Iron Mace','King of The Sea','Knight of the Sea','Loan Shark','Nobody','One Piecee','Pirate Hunter','Slug Baron','Symbol of Evil','Shiva','Soul King',"Struggler",'Straw Hat','The Beast Tamer','The Forbidden One','Thunder Emperor','The Acrobat','White Falcon','God of Destruction'
 }
@@ -329,9 +328,7 @@ game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end en
 
 
 CategoryVariableHere:Dropdown("Select Accessory",ab8,function(Selected) ab8 = Selected end)
-CategoryVariableHere:Label("")
-CategoryVariableHere:Label("")
-CategoryVariableHere:Label("")
+
 
 local CategoryVariableHere= Lib:Category("Misc")
 CategoryVariableHere:Slider("WalkSpeed",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Val end)
@@ -545,9 +542,6 @@ Hear = State
 while Hear do wait(0.2) pcall(function()
 game:GetService("ReplicatedStorage").RemoteEvents.BreatheFireRemote:FireServer(false,Vector3.new(nil),CFrame.new(Vector3.new(nil), Vector3.new(nil)),1,Vector3.new(nil))
 end) end end)
-CategoryVariableHere:Label("")
-CategoryVariableHere:Label("")
-CategoryVariableHere:Label("")
 local CategoryVariableHere= Lib:Category("Auto Quests")
 CategoryVariableHere:Toggle("Auto Quest Bandits 10",function(State)
 Ban = State
@@ -570,10 +564,8 @@ if v:IsA("Model") and v.Name == 'Bandit'  and v:FindFirstChildOfClass("Humanoid"
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
 wait(0.3)
 c()
-v.Humanoid:ChangeState(11)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
 wait(0.3)
-v.Humanoid:ChangeState(11)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait(0.5)
@@ -605,10 +597,9 @@ if v:IsA("Model") and v.Name == "Agni's Minion"  and v:FindFirstChildOfClass("Hu
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
 wait(0.2)
 c()
-v.Humanoid:ChangeState(11)
+
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
 wait(0.2)
-v.Humanoid:ChangeState(11)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait(0.5)
@@ -637,10 +628,9 @@ if v:IsA("Model") and v.Name == "Lars' Minion" and v:FindFirstChildOfClass("Huma
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
 wait(0.3)
 c()
-v.Humanoid:ChangeState(11)
+
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
 wait(0.3)
-v.Humanoid:ChangeState(11)
 v.Humanoid.Health = 0
 end end 
 end end)  until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait(0.5)
@@ -673,10 +663,9 @@ if v:IsA("Model") and v.Name == "Rahgan's Minion" and v:FindFirstChildOfClass("H
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
 wait(0.3)
 c()
-v.Humanoid:ChangeState(11)
+
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
 wait(0.3)
-v.Humanoid:ChangeState(11)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait(0.5)
@@ -708,10 +697,9 @@ if v:IsA("Model") and v.Name == "Agni's Overseer" and v:FindFirstChildOfClass("H
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
 wait(0.3)
 c()
-v.Humanoid:ChangeState(11)
+
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,v.Head.CFrame,v.Head.CFrame)
 wait(0.3)
-v.Humanoid:ChangeState(11)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait(0.5)
@@ -743,10 +731,9 @@ if v:IsA("Model") and v.Name == "Lars' Overseer" and v:FindFirstChildOfClass("Hu
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
 wait(0.3)
 c()
-v.Humanoid:ChangeState(11)
+
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,v.Head.CFrame,v.Head.CFrame)
 wait(0.3)
-v.Humanoid:ChangeState(11)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait(0.5)
@@ -780,10 +767,9 @@ if v:IsA("Model") and v.Name == "Rahgan's Overseer"  and v:FindFirstChildOfClass
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
 wait(0.3)
 c()
-v.Humanoid:ChangeState(11)
+
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
 wait(0.3)
-v.Humanoid:ChangeState(11)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait(0.5)
