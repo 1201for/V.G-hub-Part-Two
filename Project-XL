@@ -24,6 +24,8 @@ game:GetService('RunService').Stepped:connect(function()
 pcall(function()
 if game.Players.LocalPlayer.Character.Head:FindFirstChild('Overhead') then
 game.Players.LocalPlayer.Character.Head.Overhead:remove()
+game:GetService("ReplicatedStorage").Quests["Talk to the strange man"]:remove()
+game:GetService("ReplicatedStorage").Quests["Find the thing right in front of you"]:remove()
 end end) end)
 function c()
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
