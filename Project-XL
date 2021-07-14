@@ -107,6 +107,7 @@ while ss do wait()
 game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild(quest))
 
 repeat wait()
+pcall(function()
 if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
 for i,v in pairs(game:GetService("Workspace").Live:GetChildren()) do
 if q:find(v.Name) then
@@ -120,7 +121,7 @@ v.Humanoid.Health = 0
 end end end  end
 if not ss then
 game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible = false
-end
+end end)
 until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false 
 end 
 
