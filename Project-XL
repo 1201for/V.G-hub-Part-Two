@@ -211,12 +211,12 @@ game.Players.LocalPlayer.Character["Right Arm"]:remove()
 game.Players.LocalPlayer.Character["Right Leg"]:remove() end) end end) end)
 ab1={"Blaze",'Fire Breath','Voice','Sleep-Inducing Gas',"Simon's Dark Magic",'Purple Flare','Blazing Knight','Burning Spear','Shock Fist','Ittoryu; Wado Ichimonji','Ittoryu; Shusui','Black Leg Style','Moku Moku no mi','Pika Pika no mi','Kage Kage no mi','Mera Mera no mi','Cremation','Electrification','Gura Gura no mi','Goro Goro no mi','Yami Yami no mi','Determined Defender Goku',"Yami's Dark Magic",'The Trump Card Goku','Explosive Super Elite Vegeta','Magma Knight','Scorching Spear','Bolt Master','Diable Jambe'
 }
-ab2={'Nagi Nagi no mi v1','Flashstep','Nagi Nagi no mi v2','Suke Suke no mi v1','Sonido','Danger Sense v1','Danger Sense v2','Hirenkyaku','One Tomoe Sharingan','Two Tomoe Sharingan','Three Tomoe Sharingan',"Izuna's Mangekyo Sharingan v1","Indra's Mangekyo Sharingan v1","Sasuke's Mangekyo Sharingan v2","Obito's Mangekyo Sharingan v1","Itachi's Mangekyou Sharingan v1","Itachi's Mangekyou Sharingan v2","Madara's Mangekyo Sharingan v1","Madara's Mangekyo Sharingan v2","Obito's Mangekyo sharingan v2","Kenbunshoku Haki","Haoshoku Haki"
+ab2={'Nagi Nagi no mi v1','Flashstep','Nagi Nagi no mi v2','Suke Suke no mi v1','Sonido','Danger Sense v1','Danger Sense v2','Hirenkyaku'
 }
 ab3={'Ashen Mage','Ash Crow','Berserker','Black Foot','Black Swordsman','Cotton Candy Lover','Cat Burglar','Cyborg','Devils Child','Demon God','Falcon of Light','Fire Fist','Falcon of Darkness','flamingo lord','God of Calamity','God','He Who is Above God','Iron Man','Iron Mace','King of The Sea','Knight of the Sea','Loan Shark','Nobody','One Piecee','Pirate Hunter','Slug Baron','Symbol of Evil','Shiva','Soul King',"Struggler",'Straw Hat','The Beast Tamer','The Forbidden One','Thunder Emperor','The Acrobat','White Falcon','God of Destruction'
 }
 
-ab4={'Human',"Jiren's Race","Ghoul","Namekian","Majin",'Kumate Tribe','Spypiean','Torino Tribe','Vermin','A Bizarre Human','Human (Hybrid)',"Mink",'Celestial Dragon','Frieza Race','Fanalis','Uzumaki Clan','Saiyan'
+ab4={'Human',"Ghoul","Namekian",'Kumate Tribe','Spypiean','Torino Tribe','Vermin','A Bizarre Human','Human (Hybrid)',"Mink",'Celestial Dragon','Frieza Race','Fanalis','Uzumaki Clan','Saiyan'
 }
 
 ab5={'Hisashi Midoriya','Cain Barzad','Present Mic','Ace','Enel','Whitebeard','Dabi','Gecko Moria'
@@ -232,7 +232,10 @@ ab8={'Hunter Snow Cap','Paper Hat','Du-rag','Ski Cap','Straw Hat','White Du-rag'
 }
 
 ab9={'Black Knight Armor','Blue Knight Armor',"Bounty Hunter's Gambeson",'Carta Assassin Armor',"Disciple's Armor",'Elite Mercenary Coat','Enchanter Robes','Fancy Suit','Griffon Plate','Heavy Adventurer Armor',"Innkeeper's Attire",'Iron Armor','Leather Armor','Mercenary Coat',"Nalthur's Armor","Oathbreaker's Armor","Pirate Hunter's Starter Outfit","Pirate's Outfit","Rice Farmer's Outfit",'Squire Armor','Rugged Adventurer Armor','Steel Armor',"Superior Battlemaster Coat","Superior Battlemaster Armor","Superior Battlemaster Mail","Superior Enchanter Coat",'Superior Vanguard Armor',"Templar Commander Armor",'Titanium Armor',"Vanguard Armor","Wizard Robes","Ancient Empyrean Armor","Ash Trap Mage's Outfit","Usopp's Pre Time-Skip Outfit","Franky's Outfit","Buggy's Outfit","Enel's Outfit","Enel's Outfit 2","Blackbeard's Outfit","Blackbeard's Outfit 2","Kidd's Outfit","UA Student's Outfit","The Almighty's Outfit","Muken Aizen's Outfit","Jiren's Outfit","Overhaul's Outfit","Usopp's Post Time-Skip Outfit","Magellan's Outfit","Black Foot's Outfit","Luffy's Marineford Outfit","Crocodile's Pre Time-Skip Outfit","Prime Whitebeard's Outfit","Sanji's Post Time-Skip Outfit","Kaido's Outfit","Kaido's Outfit 2","Dragon's Outfit"}
-
+CategoryVariableHere:Toggle("Spam Buy Arrows kinda useless",function(State)
+deeznuts33 = State
+while deeznuts33 do wait(0.3)
+game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow") end end)
 CategoryVariableHere:Toggle("Make Npcs Jump ss",function(State)
 deeznuts = State
 while deeznuts do wait(1)
