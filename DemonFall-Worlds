@@ -1,0 +1,11 @@
+---demon falls worlds >-<
+if game.PlaceId == 5094651510 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/DemonFall'))()
+end
+
+if game.PlaceId == 4855457388 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/DemonFall'))()
+end
+if game.PlaceId == 7099028688 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/DemonFall'))()
+end
