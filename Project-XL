@@ -230,7 +230,8 @@ ab7={'Bruiser','Scrapper','Infiltrator','Tactician','Blaster'}
 
 ab8={'Hunter Snow Cap','Paper Hat','Du-rag','Ski Cap','Straw Hat','White Du-rag','Dark Hood','Bamboo Hat','Fancy Black Cowboy Hat','Snake Slate Hood','Socialite Hat','The Eliminator Hood','Ruby Adorned Fencer Helmet','Triple Threat Helmet','Yellow Banded Top Hat','Green Banded Top Hat','Purple Banded Top Hat','Blue Banded Top Hat','Bathysphere','Bluesteel Bathysphere','Bucket',"Bandit's Mask",'Black Ninja Headband','Black Round Glasses','Crimson Winter Scarf','Dust Mask','Eyepatch','Purple Pirate Headband','Rose Colored Glasses','Round Glasses','Shredded Bandit Mask','White Ninja Headband',                                                                 
 }
-
+ab10={'One Tomoe Sharingan','Two Tomoe Sharingan','Three Tomoe Sharingan',"Izuna's Mangekyo Sharingan v1","Indra's Mangekyo Sharingan v1","Sasuke's Mangekyo Sharingan v2","Obito's Mangekyo Sharingan v1","Itachi's Mangekyou Sharingan v1","Itachi's Mangekyo Sharingan v2","Madara's Mangekyo Sharingan v1","Madara's Mangekyo Sharingan v2","Obito's Mangekyo sharingan v2"
+}
 ab9={'Black Knight Armor','Blue Knight Armor',"Bounty Hunter's Gambeson",'Carta Assassin Armor',"Disciple's Armor",'Elite Mercenary Coat','Enchanter Robes','Fancy Suit','Griffon Plate','Heavy Adventurer Armor',"Innkeeper's Attire",'Iron Armor','Leather Armor','Mercenary Coat',"Nalthur's Armor","Oathbreaker's Armor","Pirate Hunter's Starter Outfit","Pirate's Outfit","Rice Farmer's Outfit",'Squire Armor','Rugged Adventurer Armor','Steel Armor',"Superior Battlemaster Coat","Superior Battlemaster Armor","Superior Battlemaster Mail","Superior Enchanter Coat",'Superior Vanguard Armor',"Templar Commander Armor",'Titanium Armor',"Vanguard Armor","Wizard Robes","Ancient Empyrean Armor","Ash Trap Mage's Outfit","Usopp's Pre Time-Skip Outfit","Franky's Outfit","Buggy's Outfit","Enel's Outfit","Enel's Outfit 2","Blackbeard's Outfit","Blackbeard's Outfit 2","Kidd's Outfit","UA Student's Outfit","The Almighty's Outfit","Muken Aizen's Outfit","Jiren's Outfit","Overhaul's Outfit","Usopp's Post Time-Skip Outfit","Magellan's Outfit","Black Foot's Outfit","Luffy's Marineford Outfit","Crocodile's Pre Time-Skip Outfit","Prime Whitebeard's Outfit","Sanji's Post Time-Skip Outfit","Kaido's Outfit","Kaido's Outfit 2","Dragon's Outfit"}
 CategoryVariableHere:Toggle("Spam Buy Arrows kinda useless",function(State)
 deeznuts33 = State
@@ -324,6 +325,7 @@ CategoryVariableHere:Dropdown("Select Class",ab7,function(Selected) ab7 = Select
 CategoryVariableHere:Toggle("Eyeball Specialization Use",function(State)
 Heart9 = State
 while Heart9 do wait(1)
+if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab10 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
 wait(2)
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
@@ -338,7 +340,9 @@ game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServe
 end
 end
 end
+end
 end)
+CategoryVariableHere:Dropdown("Select Specialization Eye",ab10,function(Selected) ab10 = Selected end)
 CategoryVariableHere:Toggle("Auto Specialization",function(State)
 Heart3 = State
 while Heart3 do wait(1) pcall(function()
