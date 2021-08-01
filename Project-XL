@@ -32,7 +32,7 @@ end
 local Lib = loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/IMRETARDED'))()
 local CategoryVariableHere= Lib:Category("Project XL")
 system = {'Bandit',"Agni's Overseer","Agni's Minion","Lars' Minion","Lars' Overseer","Rahgan's Minion","Rahgan's Overseer"}
-game.Players.LocalPlayer.Character.Head.CFrame = game.Players.LocalPlayer.Character.Torso.CFrame
+
 CategoryVariableHere:Toggle("Auto Attack",function(State)
 w2 = State
 while w2 do wait()
@@ -45,12 +45,13 @@ yourdumb = State
 game:GetService('RunService').Stepped:connect(function()
 if yourdumb then
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end)
-while yourdumb do wait()
-pcall(function() repeat wait() until game.Players.LocalPlayer.Character
-c()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+end end)
+while yourdumb do wait()
+pcall(function() wait(0.3)
+c()
+wait(0.3)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(90,0,0)end) end end)
 CategoryVariableHere:Toggle("Auto Mob",function(State)
 system2 =State
@@ -68,7 +69,7 @@ repeat wait()
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == system and v:FindFirstChildOfClass("Humanoid") and v.Humanoid.Health > 0 then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-4,0)
-wait(0.3) repeat wait() until game.Players.LocalPlayer.Character
+wait(0.3) 
 c()
 
 wait(0.3)
@@ -616,7 +617,7 @@ if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == t
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == 'Bandit'  and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-4,0)
-wait(0.3) repeat wait() until game.Players.LocalPlayer.Character
+wait(0.3) 
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
@@ -655,7 +656,7 @@ if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == t
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Agni's Minion"  and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-4,0)
-wait(0.3) repeat wait() until game.Players.LocalPlayer.Character
+wait(0.3) 
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
@@ -691,7 +692,7 @@ if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == t
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Lars' Minion" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-4,0)
-wait(0.3) repeat wait() until game.Players.LocalPlayer.Character
+wait(0.3) 
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
@@ -729,7 +730,7 @@ if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == t
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Rahgan's Minion" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-4,0)
-wait(0.3) repeat wait() until game.Players.LocalPlayer.Character
+wait(0.3) 
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
@@ -768,7 +769,7 @@ if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == t
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Agni's Overseer" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-4,0)
-wait(0.3) repeat wait() until game.Players.LocalPlayer.Character
+wait(0.3) 
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
@@ -808,7 +809,7 @@ if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == t
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Lars' Overseer" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-4,0)
-wait(0.3) repeat wait() until game.Players.LocalPlayer.Character
+wait(0.3) 
 c() 
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
@@ -846,8 +847,11 @@ if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == t
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Rahgan's Overseer"  and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-4,0)
-wait(0.3) repeat wait() until game.Players.LocalPlayer.Character
+wait(0.3) 
 c() 
+wait(0.3)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
 wait(0.3)
 v.Humanoid.Health = 0 wait(0.1)
 end 
