@@ -1,0 +1,261 @@
+local function bodyvel(Part, Speed, Destination, Extra, waittime)
+    local Speed = Speed or 1
+    local Part = Part or nil
+    local Destination = Destination
+    local waittime = waittime or 0
+    local NewBodyVel = Instance.new("BodyVelocity")
+    NewBodyVel.Parent = Part
+    if typeof(Destination) == "Instance" then
+        NewBodyVel.Velocity = (Destination.position - Part.position).Unit * Speed
+        if Extra then
+            NewBodyVel.MaxForce = Vector3.new(Extra, Extra, Extra)
+            NewBodyVel.P = Extra
+        end
+        repeat
+            wait()
+            NewBodyVel.Velocity = (Destination.position - Part.position).Unit * Speed
+        until (Destination.position - Part.position).Magnitude < 5
+        NewBodyVel.Velocity = Vector3.new(0,0,0)
+        wait(waittime)
+        NewBodyVel:Destroy()
+    else
+        NewBodyVel.Velocity = (Destination - Part.position).Unit * Speed
+        if Extra then
+            NewBodyVel.MaxForce = Vector3.new(Extra, Extra, Extra)
+            NewBodyVel.P = Extra
+        end
+        repeat
+            wait()
+            NewBodyVel.Velocity = (Destination - Part.position).Unit * Speed
+        until (Destination - Part.position).Magnitude < 5
+        NewBodyVel.Velocity = Vector3.new(0,0,0)
+        wait(waittime)
+        NewBodyVel:Destroy()
+    end
+end
+local Lib = loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/IMRETARDED'))()
+local CategoryVariableHere= Lib:Category("Horizon")
+CategoryVariableHere:Toggle("Autofarm",function(State)
+cat = State
+while wait() do
+pcall(function()
+if cat then
+game:GetService("Workspace")[game.Players.LocalPlayer.Name.."sCar"]:SetPrimaryPartCFrame(CFrame.new(-5372, 500, -33858))
+bodyvel(game:GetService("Workspace")[game.Players.LocalPlayer.Name.."sCar"].Body:FindFirstChild('#Weight'), 500, Vector3.new(-5372, 5000, -33858),  math.huge,math.huge,math.huge, 0)
+game.workspace.Gravity = 0
+end end) end end)
+CategoryVariableHere:Toggle("Driving autofarm verison",function(State)
+x= State
+while wait(1) do
+if x then
+pcall(function()
+game:GetService("Workspace")[game.Players.LocalPlayer.Name.."sCar"]:SetPrimaryPartCFrame(CFrame.new(-423, 5, 657))
+
+
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"W",false,uwu)
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
+end) end end end)
+CategoryVariableHere:Slider("WalkSpeed",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Val end)
+CategoryVariableHere:Slider("JumpPower",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.JumpPower = Val end)
+CategoryVariableHere:Toggle("InfiniteJump",function(State)
+InfiniteJumpEnabled = State
+game:GetService("UserInputService").JumpRequest:connect(function()
+	if InfiniteJumpEnabled then
+		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+	end
+end) end)
+CategoryVariableHere:Button("BTools",function() 
+game.StarterGui:SetCoreGuiEnabled(2, true)
+a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+a.BinType = 2
+b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+b.BinType = 3
+c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+c.BinType = 4 end)
+CategoryVariableHere:Button("G NoClip",function() 
+noclip = false
+game:GetService('RunService').Stepped:connect(function()
+if noclip then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end
+end)
+plr = game.Players.LocalPlayer
+mouse = plr:GetMouse()
+mouse.KeyDown:connect(function(key)
+
+if key == "g" then
+noclip = not noclip
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end
+end) end)
+CategoryVariableHere:Button("B Fly",function()
+local gogo1000 = 0
+local LP = game:service('Players').LocalPlayer
+local MOUSE = LP:GetMouse()
+MOUSE.KeyDown:connect(function(KEY)
+if KEY:lower() == 'b' then
+local LP = game:service('Players').LocalPlayer
+local MOUSE = LP:GetMouse()
+gogo1000 = gogo1000 + 1
+_G.FLYING = false
+local T = LP.Character.UpperTorso
+local CONTROL = {F = 0, B = 0, L = 0, R = 0}
+local lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+local SPEED = 5
+local function FLY()
+_G.FLYING = true
+local BG = Instance.new('BodyGyro', T)
+local BV = Instance.new('BodyVelocity', T)
+BG.P = 9e4
+BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+BG.cframe = T.CFrame
+BV.velocity = Vector3.new(0, 0.1, 0)
+BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+spawn(function()
+repeat wait()
+LP.Character.Humanoid.PlatformStand = false
+if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 then
+SPEED = 200
+elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0) and SPEED ~= 0 then
+SPEED = 0
+end
+if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 then
+BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
+elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and SPEED ~= 0 then
+BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+else
+BV.velocity = Vector3.new(0, 0.1, 0)
+end
+BG.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+until not _G.FLYING
+CONTROL = {F = 0, B = 0, L = 0, R = 0}
+lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+SPEED = 0
+BG:destroy()
+BV:destroy()
+LP.Character.Humanoid.PlatformStand = false
+end)
+end
+MOUSE.KeyDown:connect(function(KEY)
+if KEY:lower() == 'w' then
+CONTROL.F = 1
+elseif KEY:lower() == 's' then
+CONTROL.B = -1
+elseif KEY:lower() == 'a' then
+CONTROL.L = -1 
+elseif KEY:lower() == 'd' then 
+CONTROL.R = 1
+end
+end)
+MOUSE.KeyUp:connect(function(KEY)
+if KEY:lower() == 'w' then
+CONTROL.F = 0
+elseif KEY:lower() == 's' then
+CONTROL.B = 0
+elseif KEY:lower() == 'a' then
+CONTROL.L = 0
+elseif KEY:lower() == 'd' then
+CONTROL.R = 0
+end
+end)
+FLY()
+if gogo1000 == 2 then
+_G.FLYING = false
+gogo1000 = 0
+end
+end
+end) end)
+
+CategoryVariableHere:Button("teleport to Random Player",function()
+local randomPlayer = game.Players:GetPlayers()
+[math.random(1,#game.Players:GetPlayers())]
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z)) end)
+CategoryVariableHere:Button("Lag Switch F3",function()
+local a = false
+local b = settings()
+
+game:service'UserInputService'.InputEnded:connect(function(i)
+if i.KeyCode == Enum.KeyCode.F3 then
+a = not a
+b.Network.IncomingReplicationLag = a and 10 or 0
+end
+end) end) 
+CategoryVariableHere:Button("ServerHop",function()
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+local File = pcall(function()
+    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+end)
+if not File then
+    table.insert(AllIDs, actualHour)
+    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+end
+function TPReturner()
+    local Site;
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0;
+    for i,v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _,Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile = pcall(function()
+                            delfile("NotSameServers.json")
+                            AllIDs = {}
+                            table.insert(AllIDs, actualHour)
+                        end)
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(function()
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    wait()
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                end)
+                wait(4)
+            end
+        end
+    end
+end
+
+function Teleport()
+    while wait() do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+    end
+end
+
+-- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
+Teleport()
+end)
+local CategoryVariableHere= Lib:Category("Credits")     
+CategoryVariableHere:Label("Credits to a r q for ui liba")
+CategoryVariableHere:Label("Credits to DekuDimz#7960 aka me lol")
+Lib:Reload()
