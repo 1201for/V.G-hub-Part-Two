@@ -75,7 +75,7 @@ c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
-wait(.1)
+wait(0.3)
 v.Humanoid.Health = 0
 end
 end
@@ -621,7 +621,7 @@ c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
-wait(.1)
+wait(0.3)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
@@ -656,7 +656,7 @@ c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
-wait(.1)
+wait(0.3)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
@@ -688,7 +688,7 @@ c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
-wait(.1)
+wait(0.3)
 v.Humanoid.Health = 0
 end end 
 end end)  until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
@@ -724,7 +724,7 @@ c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
-wait(.1)
+wait(0.3)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
@@ -756,9 +756,8 @@ if v:IsA("Model") and v.Name == "Agni's Overseer" and v:FindFirstChildOfClass("H
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame 
 wait(0.3)
 c()
-
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,Vector3.new(0,0,0),CFrame.new(Vector3.new(0,0,0), Vector3.new(-1,0,0)))
-
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
 wait(0.3)
 v.Humanoid.Health = 0
 end end 
@@ -794,7 +793,7 @@ c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
-wait(.1)
+wait(0.3)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
@@ -831,7 +830,7 @@ c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
-wait(.1)
+wait(0.3)
 v.Humanoid.Health = 0
 end end 
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
