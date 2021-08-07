@@ -31,15 +31,14 @@ end
 end
 game:GetService('RunService').Stepped:connect(function()
 pcall(function()
-if game.Players.LocalPlayer.Character.Head:FindFirstChild('Overhead') then
-game.Players.LocalPlayer.Character.Head.Overhead:remove()
-end end) end)
-game:GetService('RunService').Stepped:connect(function()
-pcall(function()
 setsimulationradius(math.huge,math.huge)
 game.Players.LocalPlayer.SimulationRadius = math.huge * math.huge, math.huge * math.huge 
 setscriptable(game.Players.LocalPlayer, "SimulationRadius", true)
 end) end)
+game:GetService("Players").LocalPlayer.SimulationRadiusChanged:Connect(function(r)
+game:GetService("Players").LocalPlayer = 9e9
+return r
+end)
 local Lib = loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/IMRETARDED'))()
 local CategoryVariableHere= Lib:Category("Project XL")
 system = {'Bandit',"Agni's Overseer","Agni's Minion","Lars' Minion","Lars' Overseer","Rahgan's Minion","Rahgan's Overseer"}
@@ -47,9 +46,8 @@ game.Players.LocalPlayer.Character.Head.CFrame = game.Players.LocalPlayer.Charac
 CategoryVariableHere:Toggle("Auto Attack",function(State)
 w2 = State
 while w2 do wait()
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
 end end)
 CategoryVariableHere:Toggle("Auto Dummy",function(State)
 yourdumb = State
@@ -60,8 +58,8 @@ end end)
 while yourdumb do wait()
 pcall(function()
 c()
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true, nil, nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(90,0,0)end) end end)
 CategoryVariableHere:Toggle("Auto Mob",function(State)
 system2 =State
@@ -185,7 +183,7 @@ ab3={'Ashen Mage','Ash Crow','Berserker','Black Foot','Black Swordsman','Cotton 
 ab4={'Human',"Ghoul","Namekian",'Kumate Tribe','Spypiean','Torino Tribe','Vermin','A Bizarre Human','Human (Hybrid)',"Mink",'Celestial Dragon','Frieza Race','Fanalis','Uzumaki Clan','Saiyan'
 }
 
-ab5={'Hisashi Midoriya','Cain Barzad','Present Mic','Ace','Enel','Whitebeard','Dabi','Gecko Moria','Annihilation Beerus'
+ab5={'Hisashi Midoriya','Cain Barzad','Present Mic','Ace','Enel','Whitebeard','Dabi','Gecko Moria'
 }
 
 ab6={'Potency','Resilience','Speed','Angry','Balanced','Brave','Brute','Compassionate','Courageous','Fighter','Fragile','Humble','Hypersonic','Indestructible','Inspiring','Legendary','Light','Mighty','Muscular','Noble','Paranoid','Patient','Perfect','Powerful','Quick','Resilient','Sensitive','Slim','Slow','Slugger','Speedy','Strong','Tank','Tough','Useless','Valiant','Weak'
