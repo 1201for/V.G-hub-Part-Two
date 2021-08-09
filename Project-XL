@@ -85,7 +85,29 @@ while w2 do wait()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
 end end)
+local Toggle1 = Section1:CreateToggle("Auto Skills", nil, function(State)
+for i,v in pairs({'E','R','C','X','Y'}) do 
+ee = State
+coroutine.wrap(function() --Credits for help/teaching me coroutine.wrap by nil#0001
+while ee do  wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,v,false,uwu)
 
+end 
+end)()
+end end)
+local Toggle1 = Section1:CreateToggle("Auto Dummy", nil, function(State)
+yourdumb = State
+game:GetService('RunService').Stepped:connect(function()
+if yourdumb then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end end)
+while yourdumb do wait()
+pcall(function()
+    wait(0.5)
+c()
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(90,0,0)end) end end)
 
 local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
 system2 =State
@@ -119,6 +141,7 @@ if system2 then
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 end end) end)
 end)
+
 local Dropdown1 = Section1:CreateDropdown("Select Mob")
 Dropdown1:AddToolTip("Select Mob")
 for i,v in next, system do
@@ -672,6 +695,30 @@ game:GetService("UserInputService").JumpRequest:connect(function()
 		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
 	end
 end) end)
+local Toggle1 = SectionA:CreateToggle("Be Wired", nil, function(State)
+sy = State
+spawn(function()
+while sy do wait()
+pcall(function()
+game.Players.LocalPlayer.Character["Left Leg"]:remove()
+game.Players.LocalPlayer.Character["Left Arm"]:remove()
+game.Players.LocalPlayer.Character["Right Arm"]:remove()
+game.Players.LocalPlayer.Character["Right Leg"]:remove() end) end end) end)
+
+local Toggle1 = SectionA:CreateToggle("SS Jump Mobs", nil, function(State)
+deeznuts = State
+while deeznuts do wait(1)
+for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+if v:IsA("Humanoid") then
+v.Jump = true
+end end end end)
+local Toggle1 = SectionA:CreateToggle("SS Sit Mobs", nil, function(State)
+deeznuts1 = State
+while deeznuts1 do wait(1)
+for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+if v:IsA("Humanoid") then
+v.Sit = true
+end end end end)
 local Toggle1 = SectionA:CreateToggle("G Noclip", nil, function(State)
 sex = State
 noclip = false
@@ -771,6 +818,15 @@ end
 end
 end
 end) end)
+local Button1 = SectionA:CreateButton("Anti Lag", function()
+for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+v.Material = Enum.Material.SmoothPlastic;
+if v:IsA("Texture") then
+v:Destroy();
+end end;		
+end;
+end)
 
 local Button1 = SectionA:CreateButton("Teleport to RandomPlayer", function()
 local randomPlayer = game.Players:GetPlayers()
