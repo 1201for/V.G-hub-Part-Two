@@ -33,6 +33,9 @@ v.Parent = game.Players.LocalPlayer.Character
 end
 end
 end
+
+--// Arrow
+
 game:GetService('RunService').Stepped:connect(function() 
 pcall(function()
 sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
@@ -65,7 +68,7 @@ ab10={'One Tomoe Sharingan','Two Tomoe Sharingan','Three Tomoe Sharingan',"Izuna
 }
 
 ab9={'Black Knight Armor','Blue Knight Armor',"Bounty Hunter's Gambeson",'Carta Assassin Armor',"Disciple's Armor",'Elite Mercenary Coat','Enchanter Robes','Fancy Suit','Griffon Plate','Heavy Adventurer Armor',"Innkeeper's Attire",'Iron Armor','Leather Armor','Mercenary Coat',"Nalthur's Armor","Oathbreaker's Armor","Pirate Hunter's Starter Outfit","Pirate's Outfit","Rice Farmer's Outfit",'Squire Armor','Rugged Adventurer Armor','Steel Armor',"Superior Battlemaster Coat","Superior Battlemaster Armor","Superior Battlemaster Mail","Superior Enchanter Coat",'Superior Vanguard Armor',"Templar Commander Armor",'Titanium Armor',"Vanguard Armor","Wizard Robes","Ancient Empyrean Armor","Ash Trap Mage's Outfit","Usopp's Pre Time-Skip Outfit","Franky's Outfit","Buggy's Outfit","Enel's Outfit","Enel's Outfit 2","Blackbeard's Outfit","Blackbeard's Outfit 2","Kidd's Outfit","UA Student's Outfit","The Almighty's Outfit","Muken Aizen's Outfit","Jiren's Outfit","Overhaul's Outfit","Usopp's Post Time-Skip Outfit","Magellan's Outfit","Black Foot's Outfit","Luffy's Marineford Outfit","Crocodile's Pre Time-Skip Outfit","Prime Whitebeard's Outfit","Sanji's Post Time-Skip Outfit","Kaido's Outfit","Kaido's Outfit 2","Dragon's Outfit"}
-
+aka={"Requiem Arrow","Lucky Arrow"}
 system = {'Bandit',"Agni's Overseer","Agni's Minion","Lars' Minion","Lars' Overseer","Rahgan's Minion","Rahgan's Overseer"}
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -439,6 +442,38 @@ game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible = false
 until Ban5 == false
 end)
 
+
+
+local Button1 = Section2:CreateButton("Find Lucky or Requiem Arrows", function()
+hunt = true
+game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+wait(0.5)
+while  hunt do  wait()
+if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then 
+
+for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+if not table.find(aka,v.Name) and v.Name:find("Arrow") then 
+v.Parent = game.Players.LocalPlayer.Character
+v:Destroy()
+elseif v.Name:find("Arrow") and table.find(aka,v.Name) then
+game.StarterGui:SetCore("SendNotification", {
+Title = "Found One";
+Text = "Check your inventory plz";
+})
+hunt = false
+end 
+end
+else 
+game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+end 
+
+end
+end)
+
+local Toggle1 = Section2:CreateToggle("Auto Buy Arrows", nil, function(State)
+deeznuts33 = State
+while deeznuts33 do wait(0.3)
+game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow") end end)
 local Toggle1 = Section2:CreateToggle("Auto Ability", nil, function(State)
 Abily = State
 while Abily do wait(1)
