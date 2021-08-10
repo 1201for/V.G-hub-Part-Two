@@ -34,6 +34,8 @@ end
 end
 end
 
+--// Arrow
+
 game:GetService('RunService').Stepped:connect(function() 
 pcall(function()
 sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
