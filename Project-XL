@@ -1,7 +1,7 @@
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
-	Keybind = Enum.KeyCode.RightShift
+	Keybind = Enum.KeyCode.RightControl
 }
 repeat wait() until game:IsLoaded() wait(2)
 game:GetService("Players").LocalPlayer.Idled:connect(function()
