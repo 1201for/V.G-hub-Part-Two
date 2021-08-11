@@ -478,32 +478,6 @@ end
 end
 end)
 
-local Button1 = Section2:CreateButton("Find Lucky or Requiem Arrows", function()
-hdd = true
-game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
-wait(0.5)
-while  hdd do  wait()
-if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then 
-
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-if not v.Name:find("Uchiha Eyeball") and table.find(ab2,v.Name) then 
-v.Parent = game.Players.LocalPlayer.Character
-v:Destroy()
-
-elseif table.find(ab2,v.Name) and v.Name:find("Uchiha Eyeball") then
-game.StarterGui:SetCore("SendNotification", {
-Title = "Found One";
-Text = "Check your inventory plz";
-})
-hdd = false
-end 
-end
-else 
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
-end 
-
-end
-end)
 
 local Toggle1 = Section2:CreateToggle("Auto Buy Arrows", nil, function(State)
 deeznuts33 = State
