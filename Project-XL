@@ -478,7 +478,32 @@ end
 end
 end)
 
-
+local Button1 = Section2:CreateButton("Find Uchiha Eyeball", function()
+hhg = true
+game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+wait(0.5)
+while hhg do wait()
+game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
+if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then 
+for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") then 
+v.Parent = game.Players.LocalPlayer.Character 
+game.StarterGui:SetCore("SendNotification", {
+Title = "Found One";
+Text = "Check your inventory plz";
+})
+hhg = false
+end
+end 
+for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+if v.ClassName == "Tool" and v:FindFirstChild("Scroll") or v:FindFirstChild("Fruit") then 
+v.Parent = game.Players.LocalPlayer.Character
+v:remove()
+end
+end
+end
+end
+end)
 local Toggle1 = Section2:CreateToggle("Auto Buy Arrows", nil, function(State)
 deeznuts33 = State
 while deeznuts33 do wait(0.3)
