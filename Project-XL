@@ -152,7 +152,15 @@ Dropdown1:AddOption(v, function(String)
 system = String
 end)
 end
-
+local Toggle1 = Section1:CreateToggle("Stun All Mobs", nil, function(State)
+stun = State
+while wait(2) do
+pcall(function()
+if stun then
+for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+if v:IsA("Part") and v.Name == "HumanoidRootPart" then
+v.Anchored = true
+end end end end) end end)
 local Toggle1 = Section1:CreateToggle("Auto Bosses", nil, function(State)
 system3 = State
 spawn(function()
@@ -465,6 +473,33 @@ end
 end
 else 
 game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+end 
+
+end
+end)
+
+local Button1 = Section2:CreateButton("Find Lucky or Requiem Arrows", function()
+hdd = true
+game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+wait(0.5)
+while  hdd do  wait()
+if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then 
+
+for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+if not v.Name:find("Uchiha Eyeball") and table.find(ab2,v.Name) then 
+v.Parent = game.Players.LocalPlayer.Character
+v:Destroy()
+
+elseif table.find(ab2,v.Name) and v.Name:find("Uchiha Eyeball") then
+game.StarterGui:SetCore("SendNotification", {
+Title = "Found One";
+Text = "Check your inventory plz";
+})
+hdd = false
+end 
+end
+else 
+game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
 end 
 
 end
