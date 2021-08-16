@@ -3,7 +3,7 @@ local Config = {
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightControl
 }
-repeat wait() until game:IsLoaded() wait(2)
+repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
@@ -33,9 +33,10 @@ v.Parent = game.Players.LocalPlayer.Character
 end
 end
 end
-
---// Arrow
-
+code = {}
+for i,v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
+table.insert(code,v.Name)
+end
 game:GetService('RunService').Stepped:connect(function() 
 pcall(function()
 sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
@@ -152,6 +153,23 @@ Dropdown1:AddOption(v, function(String)
 system = String
 end)
 end
+
+
+local Button1 = Section1:CreateButton("Redeem Selected Code", function()
+game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(code)
+end)
+local Dropdown1 = Section1:CreateDropdown("Select Code")
+Dropdown1:AddToolTip("Select Code")
+for i,v in next, code do
+Dropdown1:AddOption(v, function(String)
+code = String
+end)
+end
+local Button1 = Section1:CreateButton("Redeem All Codes", function()
+for i,v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
+game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(v.Name)
+end
+end)
 local Toggle1 = Section1:CreateToggle("Stun All Mobs", nil, function(State)
 stun = State
 while wait(2) do
