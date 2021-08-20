@@ -19,6 +19,8 @@ Meta.__newindex = newcclosure(function(t, k, ...)
    NewIndex(t, k, ...)
 end)
 setreadonly(Meta, true)
+uu = 4
+aa = 0
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed= 25
 game:GetService('RunService').Stepped:connect(function()
 pcall(function()
@@ -37,10 +39,11 @@ code = {}
 for i,v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
 table.insert(code,v.Name)
 end
+spawn(function()
 game:GetService('RunService').Stepped:connect(function() 
 pcall(function()
 sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-end) end) 
+end) end) end)
 ab1={"Blaze",'Fire Breath','Sound Breathing','Insect Breathing','Voice','Sleep-Inducing Gas',"Simon's Dark Magic",'Purple Flare','Blazing Knight','Burning Spear','Shock Fist','Ittoryu; Wado Ichimonji','Ittoryu; Shusui','Black Leg Style','Moku Moku no mi','Pika Pika no mi','Kage Kage no mi','Mera Mera no mi','Cremation','Electrification','Gura Gura no mi','Goro Goro no mi','Yami Yami no mi','Determined Defender Goku',"Yami's Dark Magic",'The Trump Card Goku','Explosive Super Elite Vegeta','Magma Knight','Scorching Spear','Bolt Master','Diable Jambe'
 }
 
@@ -87,10 +90,9 @@ local Toggle1 = Section1:CreateToggle("Auto Attack", nil, function(State)
 w2 = State
 while w2 do wait()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
 end end)
 local Toggle1 = Section1:CreateToggle("Auto Skills", nil, function(State)
-for i,v in pairs({'E','R','C','X','Y'}) do 
+for i,v in pairs({'E','R','C','X','Y',"V"}) do 
 ee = State
 coroutine.wrap(function() --Credits for help/teaching me coroutine.wrap by nil#0001
 while ee do  wait()
@@ -110,8 +112,7 @@ pcall(function()
     wait(0.5)
 c()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(90,0,0)end) end end)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-uu,0,0) *CFrame.Angles(aa,0,0)end) end end)
 
 local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
 system2 =State
@@ -126,14 +127,13 @@ pcall(function()
 
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == system and v:FindFirstChildOfClass("Humanoid") and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
 wait(0.3)
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
 wait(0.3)
-v.Humanoid.Health = 0
+v.Humanoid.Health = 0 wait(.2)
 end
 end
 end)
@@ -154,7 +154,12 @@ system = String
 end)
 end
 
-
+local Slider2 = Section1:CreateSlider("Attack Distance", 0,7,nil,false, function(Value)
+uu = Value
+end)
+local Slider2 = Section1:CreateSlider("Attack Angle", 0,360,nil,false, function(Value)
+aa = Value
+end)
 local Button1 = Section1:CreateButton("Redeem Selected Code", function()
 game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(code)
 end)
@@ -191,12 +196,12 @@ while system3 do wait()
 pcall(function()
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "KiddStan" or v.Name == "CrimsonMikami" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
 wait(0.3)
 c()
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
-v.CharacterValues.Disabled.Value = true end
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,Vector3.new(0,0,0),CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)))
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,Vector3.new(0,0,0),CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)))
+end
 end
 end)  
 end  end)
@@ -221,14 +226,15 @@ game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(f
 if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == 'Bandit'  and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
 wait(0.3)
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 wait(0.3)
-v.Humanoid.Health = 0
+v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban == false then
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
@@ -262,14 +268,15 @@ game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(f
 if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Agni's Minion"  and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
 wait(0.3)
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 wait(0.3)
-v.Humanoid.Health = 0
+v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban7 == false then
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
@@ -298,18 +305,20 @@ repeat wait()
 pcall(function()
 
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,Vector3.new(0,0,0),CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)))
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,Vector3.new(0,0,0),CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)))
 
 if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Lars' Minion" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
 wait(0.3)
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 wait(0.3)
-v.Humanoid.Health = 0
+v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban1 == false then
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
@@ -341,14 +350,15 @@ game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(f
 if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Rahgan's Minion" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0) 
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
 wait(0.3)
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 wait(0.3)
-v.Humanoid.Health = 0
+v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban2 == false then
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
@@ -379,13 +389,14 @@ game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(f
 if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Agni's Overseer" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0) 
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
 wait(0.3)
 c()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 wait(0.3)
-v.Humanoid.Health = 0
+v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban3 == false then
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
@@ -416,14 +427,15 @@ game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(f
 if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Lars' Overseer" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0) 
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
 wait(0.3)
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 wait(0.3)
-v.Humanoid.Health = 0
+v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban4 == false then
 game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible = false end
@@ -456,14 +468,15 @@ game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(f
 if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
 if v:IsA("Model") and v.Name == "Rahgan's Overseer"  and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame * CFrame.new(0,-7,0) *CFrame.Angles(90,0,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
 wait(0.3)
 c()
 wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(true,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 wait(0.3)
-v.Humanoid.Health = 0
+v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban5 == false then
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
@@ -1040,7 +1053,7 @@ function Teleport()
 end
 
 -- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
-Teleport()
+Teleport() 
 end)
 local Button1 = SectionA:CreateButton("Rejoin", function()
 game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
@@ -1098,3 +1111,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
