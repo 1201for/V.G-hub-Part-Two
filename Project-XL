@@ -160,6 +160,13 @@ end)
 local Slider2 = Section1:CreateSlider("Attack Angle", 0,360,nil,false, function(Value)
 aa = Value
 end)
+local Button1 = Section1:CreateButton("Anti Effects", function()
+pcall(function()
+game.StarterGui:SetCore("SendNotification", {
+Title = "Effects Gone";
+Text = "Try one of your gay ugly weak moves unless you use OFA then u cool";
+})
+game:GetService("Workspace").Effects:remove() end) end)
 local Button1 = Section1:CreateButton("Redeem Selected Code", function()
 game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(code)
 end)
