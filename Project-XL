@@ -113,6 +113,12 @@ pcall(function()
 c() wait(0.5)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(aa,0,0)end) end end)
+local Toggle1 = Section1:CreateToggle("Legit Mode", nil, function(State)
+game.StarterGui:SetCore("SendNotification", {
+Title = "no..";
+Text = "Not done yet";
+})
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
 system2 =State
