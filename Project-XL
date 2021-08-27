@@ -7,18 +7,7 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-local Meta = getrawmetatable(game)
-local NewIndex = Meta.__newindex
-setreadonly(Meta, false)
 
-Meta.__newindex = newcclosure(function(t, k, ...)
-    
-   if not checkcaller() and (k == "WalkSpeed" or k == "JumpPower") then
-       return
-   end
-   NewIndex(t, k, ...)
-end)
-setreadonly(Meta, true)
 uu = 4
 aa = 0
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed= 25
