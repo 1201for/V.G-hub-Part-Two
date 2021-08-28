@@ -118,9 +118,12 @@ Legit = State
 game:GetService('RunService').Stepped:connect(function() pcall(function()
 if Legit then
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end end) end)
+spawn(function()
+while Legit do wait()
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2846, 334, 2919)
 game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
-end end) end)
+end end)
 c()
 game.Players.LocalPlayer.Backpack.ChildAdded:Connect(function()
 if Legit then
@@ -169,22 +172,13 @@ Dropdown1:AddOption(v, function(String)
 system = String
 end)
 end
-local Toggle1 = Section1:CreateToggle("Anti Effect", nil, function(State)
-hoe = State
+local Button1 = Section1:CreateButton("Anti Effects", function()
 pcall(function()
 game.StarterGui:SetCore("SendNotification", {
 Title = "Effects Gone";
 Text = "Try one of your gay ugly weak moves unless you use OFA then u cool";
 })
-for i,v in pairs(game:GetService("Workspace").Effects:GetDescendants()) do
-v:remove()
-v.ChildAdded:Connect(function()
-v:remove()
-if hoe then
-end
-end)
-end
-end)  end)
+game:GetService("Workspace").Effects:remove() end) end)
 local Slider2 = Section1:CreateSlider("Attack Distance", 0,7,nil,false, function(Value)
 uu = Value
 end)
