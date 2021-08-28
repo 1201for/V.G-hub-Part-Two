@@ -121,6 +121,7 @@ game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2846, 334, 2919)
 game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
 end end) end)
+c()
 game.Players.LocalPlayer.Backpack.ChildAdded:Connect(function()
 if Legit then
 wait(3)
