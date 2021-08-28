@@ -7,10 +7,20 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
+local Meta = getrawmetatable(game)
+local NewIndex = Meta.__newindex
+setreadonly(Meta, false)
 
+Meta.__newindex = newcclosure(function(t, k, ...)
+   if not checkcaller() and (k == "WalkSpeed" or k == "JumpPower") then
+       return
+   end
+   NewIndex(t, k, ...)
+end)
+setreadonly(Meta, true)
 uu = 4
 aa = 0
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed= 25
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 30
 game:GetService('RunService').Stepped:connect(function()
 pcall(function()
 if game.Players.LocalPlayer.Character.Head:FindFirstChild('Overhead') then
@@ -102,11 +112,21 @@ pcall(function()
 c() wait(0.5)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(aa,0,0)end) end end)
+
 local Toggle1 = Section1:CreateToggle("Legit Mode", nil, function(State)
-game.StarterGui:SetCore("SendNotification", {
-Title = "no..";
-Text = "Not done yet";
-})
+Legit = State
+game:GetService('RunService').Stepped:connect(function() pcall(function()
+if Legit then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2846, 334, 2919)
+game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
+end end) end)
+game.Players.LocalPlayer.Backpack.ChildAdded:Connect(function()
+if Legit then
+wait(3)
+c()
+end
+end)
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
@@ -148,20 +168,29 @@ Dropdown1:AddOption(v, function(String)
 system = String
 end)
 end
-
+local Toggle1 = Section1:CreateToggle("Anti Effect", nil, function(State)
+hoe = State
+pcall(function()
+game.StarterGui:SetCore("SendNotification", {
+Title = "Effects Gone";
+Text = "Try one of your gay ugly weak moves unless you use OFA then u cool";
+})
+for i,v in pairs(game:GetService("Workspace").Effects:GetDescendants()) do
+v:remove()
+v.ChildAdded:Connect(function()
+v:remove()
+if hoe then
+end
+end)
+end
+end)  end)
 local Slider2 = Section1:CreateSlider("Attack Distance", 0,7,nil,false, function(Value)
 uu = Value
 end)
 local Slider2 = Section1:CreateSlider("Attack Angle", 0,360,nil,false, function(Value)
 aa = Value
 end)
-local Button1 = Section1:CreateButton("Anti Effects", function()
-pcall(function()
-game.StarterGui:SetCore("SendNotification", {
-Title = "Effects Gone";
-Text = "Try one of your gay ugly weak moves unless you use OFA then u cool";
-})
-game:GetService("Workspace").Effects:remove() end) end)
+
 local Button1 = Section1:CreateButton("Redeem Selected Code", function()
 game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(code)
 end)
