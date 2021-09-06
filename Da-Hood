@@ -1,0 +1,204 @@
+local Meta = getrawmetatable(game)
+local NewIndex = Meta.__newindex
+setreadonly(Meta, false)
+
+Meta.__newindex = newcclosure(function(t, k, ...)
+   if not checkcaller() and (k == "WalkSpeed" or k == "JumpPower") then
+       return
+   end
+   NewIndex(t, k, ...)
+end)
+setreadonly(Meta, true)
+if not hookmetamethod or not getrenv then
+    game.Players.LocalPlayer:Kick("You'll get banned if you try to execute this with that executor muchacho")
+end
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(...)
+    local Args = {...}
+    local Self = Args[1]
+    if getnamecallmethod()=="IsStudio"  then
+        return true
+    end
+    if getnamecallmethod()=="FireServer" and tostring(Self)=="MainEvent" then
+        if Args[2] == "CHECKER_1" or Args[2] == "TeleportDetect" or Args[2] == "OneMoreTime"  then
+            return nil
+        end
+    end
+    return OldNameCall(...)
+end)
+for i, v in ipairs(workspace:GetChildren()) do
+if v:IsA("Seat") then
+v:remove()
+end end 
+workspace.DescendantAdded:Connect(function(Descendant)
+    if  Descendant:IsA("Seat") then 
+        Descendant:Destroy()
+    end
+end)
+
+local Lib = loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/IMRETARDED'))()
+local CategoryVariableHere= Lib:Category("Da Hood")
+
+CategoryVariableHere:Toggle("Auto Shoes",function(State)
+AutoShow = State
+game.RunService.Stepped:Connect(function()
+if AutoShow then
+fireclickdetector(game:GetService("Workspace").Ignored["Clean the shoes on the floor and come to me for cash"].ClickDetector)
+for i,v in pairs(workspace.Ignored.Drop:GetChildren()) do
+if  v.Transparency == 0 and v:IsA("MeshPart") then
+game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+wait()
+fireclickdetector(v.ClickDetector)
+end
+end
+end
+end)
+
+end)
+CategoryVariableHere:Toggle("Simple Godmode Cant attack others",function(State)
+sex = State
+while sex do wait()
+game:GetService("Players").LocalPlayer.Character.BodyEffects:WaitForChild("Attacking"):Destroy()
+end
+end)
+CategoryVariableHere:Toggle("Anti Ragdoll KO",function(State)
+hotsex = State    
+while hotsex do wait()
+pcall(function()
+game:GetService("Players").LocalPlayer.Character:WaitForChild("BodyEffects"):WaitForChild("K.O"):remove()
+game:GetService("Players").LocalPlayer.Character:WaitForChild("BodyEffects"):WaitForChild("Dead"):remove(); end)
+end end)
+CategoryVariableHere:Toggle("infinite Stamina",function(State)
+infinite = State
+
+while infinite and wait() do
+game:GetService"Players".LocalPlayer.Character:WaitForChild"BodyEffects":WaitForChild("Defense").Value = math.huge
+game:GetService"Players".LocalPlayer.Character:WaitForChild"BodyEffects":WaitForChild"Reload".Value = false
+
+for _, v in next, game:GetService"Players".LocalPlayer.Character:WaitForChild("BodyEffects"):WaitForChild("Movement"):GetChildren() do
+if v then
+v:Destroy()
+end
+end
+end
+end)
+CategoryVariableHere:Slider("WalkSpeed",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Val end)
+CategoryVariableHere:Slider("JumpPower",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.JumpPower = Val end)
+CategoryVariableHere:Button("BTools",function() 
+game.StarterGui:SetCoreGuiEnabled(2, true)
+a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+a.BinType = 2
+b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+b.BinType = 3
+c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+c.BinType = 4 end)
+CategoryVariableHere:Button("G NoClip",function() 
+noclip = false
+game:GetService('RunService').Stepped:connect(function()
+if noclip then
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end
+end)
+plr = game.Players.LocalPlayer
+mouse = plr:GetMouse()
+mouse.KeyDown:connect(function(key)
+
+if key == "g" then
+noclip = not noclip
+game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end
+end) end)
+
+CategoryVariableHere:Button("teleport to Random Player",function()
+local randomPlayer = game.Players:GetPlayers()
+[math.random(1,#game.Players:GetPlayers())]
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z)) end)
+CategoryVariableHere:Button("Lag Switch F3",function()
+local a = false
+local b = settings()
+
+game:service'UserInputService'.InputEnded:connect(function(i)
+if i.KeyCode == Enum.KeyCode.F3 then
+a = not a
+b.Network.IncomingReplicationLag = a and 10 or 0
+end
+end) end) 
+CategoryVariableHere:Button("ServerHop",function()
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+local File = pcall(function()
+    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+end)
+if not File then
+    table.insert(AllIDs, actualHour)
+    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+end
+function TPReturner()
+    local Site;
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0;
+    for i,v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _,Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile = pcall(function()
+                            delfile("NotSameServers.json")
+                            AllIDs = {}
+                            table.insert(AllIDs, actualHour)
+                        end)
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(function()
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    wait()
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                end)
+                wait(4)
+            end
+        end
+    end
+end
+
+function Teleport()
+    while wait() do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+    end
+end
+
+-- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
+Teleport()
+end)
+local CategoryVariableHere= Lib:Category("Credits")   
+CategoryVariableHere:Label("Credits to e621 for anticheat bypass")
+CategoryVariableHere:Label("Credits to a r q for ui liba")
+CategoryVariableHere:Label("Credits to DekuDimz#7960 aka me lol")
+Lib:Reload()
