@@ -20,6 +20,7 @@ end)
 setreadonly(Meta, true)
 uu = 4
 aa = 0
+delay = 2
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 30
 game:GetService('RunService').Stepped:connect(function()
 pcall(function()
@@ -29,7 +30,7 @@ end end) end)
 
 function c()
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v:FindFirstChild("Combat Script") then 
+if v.ClassName == "Tool" and  v:FindFirstChild("Combat Script") then 
 v.Parent = game.Players.LocalPlayer.Character
 end
 end
@@ -137,7 +138,19 @@ end
 end)
 end)
 end)
-
+local Toggle1 = Section1:CreateToggle("Anti Leveling", nil, function(State)
+yes = State
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(...)
+    local Args = {...}
+    local Self = Args[1]
+    if getnamecallmethod()== "FireServer" and tostring(Self)== "LevelingRemote" and yes then
+            return wait(math.huge)
+    end
+    return OldNameCall(...)
+end)
+end)
+Toggle1:AddToolTip("Makes you not able to level up")
 local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
 system2 =State
 game:GetService('RunService').Stepped:connect(function() pcall(function()
@@ -447,7 +460,7 @@ if Ban4 then
 pcall(function()
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11) end)
 end end)
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer( game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Aito")
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Aito")
 game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 5 of Lars' Overseers"))
 repeat wait()
 pcall(function()
@@ -669,25 +682,26 @@ end
 end)
 end
 end)
+
+local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, function(Value)
+delay = Value
+end)
+Slider2:AddToolTip("Control Delay Time For Auto Applying everything below this")
 local Toggle1 = Section2:CreateToggle("Auto Buy Arrows", nil, function(State)
 deeznuts33 = State
 while deeznuts33 do wait(0.3)
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow") end end)
 local Toggle1 = Section2:CreateToggle("Auto Ability", nil, function(State)
 Abily = State
-while Abily do wait(1)
+while Abily do wait(2)
 pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Ability.Value ~= ab1 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Rokakaka")
-wait(3)
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Rokakaka)
-wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-wait(2)
+wait(delay)
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
-wait(3) 
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Arrow)
-wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
 end
 end)
@@ -705,12 +719,10 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Tile", nil, function(State)
 newpaper = State
-while newpaper do wait(1) pcall(function()
+while newpaper do wait(delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Epithet.Value ~= ab3 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Newspaper")
-wait(2)
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Newspaper)
-wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
 
 
@@ -724,12 +736,10 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Race", nil, function(State)
 Heart = State
-while Heart do wait(1) pcall(function()
+while Heart do wait(delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Race.Value  ~= ab4 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Heart")
-wait(2)
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Heart)
-wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
 
 
@@ -743,12 +753,10 @@ end)
 end
 local Toggle1 = Section2:CreateToggle("Auto Trait", nil, function(State)
 Heart1 = State
-while Heart1 do wait(1) pcall(function()
+while Heart1 do wait(delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Trait.Value ~= ab6 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Eyeball")
-wait(2)
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Eyeball)
-wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
 
 
@@ -762,12 +770,10 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Class", nil, function(State)
 Heart2 = State
-while Heart2 do wait(1) pcall(function()
+while Heart2 do wait(delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Class.Value ~= ab7 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Brain")
-wait(2)
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Brain)
-wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
 
 local Dropdown1 = Section2:CreateDropdown("Select Class")
@@ -778,12 +784,12 @@ ab7 = String
 end)
 end 
 
+
 local Toggle1 = Section2:CreateToggle("Auto Sharingan", nil, function(State)
 Heart9 = State
-while Heart9 do wait(1)
+while Heart9 do wait(delay)
 if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab10 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
-wait(2)
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
 if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") then 
 v.Parent = game.Players.LocalPlayer.Character wait(1) 
@@ -792,7 +798,8 @@ end
 end 
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
 if v.ClassName == "Tool" and v:FindFirstChild("Scroll") or v:FindFirstChild("Fruit") then 
-game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+v.Parent = game.Players.LocalPlayer,Character
+v:remove()
 end
 end
 end
@@ -809,17 +816,14 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Specialization", nil, function(State)
 Heart3 = State
-while Heart3 do wait(1) pcall(function()
+while Heart3 do wait(delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab2 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
-wait(2)
-
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
 if v.ClassName == "Tool" and v:FindFirstChild("Scroll") or v:FindFirstChild("Fruit") then 
 v.Parent = game.Players.LocalPlayer.Character
 end
 end
-wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
 
 local Dropdown1 = Section2:CreateDropdown("Select Specialization")
@@ -832,16 +836,14 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Mentor", nil, function(State)
 Heart4 = State
-while Heart4 do wait(1) pcall(function()
+while Heart4 do wait(delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Mentor.Value ~= ab5 then    
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Mentor")
-wait(3)
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
 if v.ClassName == "Tool" and v:FindFirstChild("MentorEgg")  then 
 v.Parent = game.Players.LocalPlayer.Character
 end
 end
-wait(3)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end  end)
 
 
@@ -866,18 +868,15 @@ game:GetService("ReplicatedStorage").RemoteEvents.EquipAccessoryRemote:FireServe
 end end)
 local Toggle1 = Section2:CreateToggle("Auto Accessory", nil, function(State)
 Heart2 = State
-while Heart2 do wait(2)
+while Heart2 do wait(delay)
 pcall(function()
 if game:GetService("Players").LocalPlayer.PlayerValues.Accessory1.Value and game:GetService("Players").LocalPlayer.PlayerValues.Accessory2.Value ~= ab8  then
-wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
-wait(3)
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
 if v.ClassName == "Tool" and v:FindFirstChild("BagPart")  then 
 v.Parent = game.Players.LocalPlayer.Character
 end
 end
-wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end)  end end)
 
 
@@ -892,18 +891,15 @@ end
 local Toggle1 = Section2:CreateToggle("Auto Armor", nil, function(State)
 Heart5 = State
 
-while Heart5 do wait(2)
+while Heart5 do wait(delay)
 pcall(function()
 if  game:GetService("Players").LocalPlayer.PlayerValues.Armor.Value ~= ab9 then
-wait(2)
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
-wait(3)
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
 if v.ClassName == "Tool" and v:FindFirstChild("Handle")  then 
 v.Parent = game.Players.LocalPlayer.Character
 end
 end
-wait(3)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()end end)  end end)
 
 local Dropdown1 = Section2:CreateDropdown("Select Armor")
