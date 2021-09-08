@@ -20,7 +20,7 @@ end)
 setreadonly(Meta, true)
 uu = 4
 aa = 0
-delay = 2
+getgenv().delay = 2
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 30
 game:GetService('RunService').Stepped:connect(function()
 pcall(function()
@@ -684,7 +684,7 @@ end
 end)
 
 local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, function(Value)
-delay = Value
+getgenv().delay = Value
 end)
 Slider2:AddToolTip("Control Delay Time For Auto Applying everything below this")
 local Toggle1 = Section2:CreateToggle("Auto Buy Arrows", nil, function(State)
@@ -719,7 +719,7 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Tile", nil, function(State)
 newpaper = State
-while newpaper do wait(delay) pcall(function()
+while newpaper do wait(getgenv().delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Epithet.Value ~= ab3 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Newspaper")
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Newspaper)
@@ -736,7 +736,7 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Race", nil, function(State)
 Heart = State
-while Heart do wait(delay) pcall(function()
+while Heart do wait(getgenv().delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Race.Value  ~= ab4 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Heart")
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Heart)
@@ -753,7 +753,7 @@ end)
 end
 local Toggle1 = Section2:CreateToggle("Auto Trait", nil, function(State)
 Heart1 = State
-while Heart1 do wait(delay) pcall(function()
+while Heart1 do wait(getgenv().delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Trait.Value ~= ab6 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Eyeball")
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Eyeball)
@@ -770,7 +770,7 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Class", nil, function(State)
 Heart2 = State
-while Heart2 do wait(delay) pcall(function()
+while Heart2 do wait(getgenv().delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Class.Value ~= ab7 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Brain")
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Brain)
@@ -787,7 +787,7 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Sharingan", nil, function(State)
 Heart9 = State
-while Heart9 do wait(delay)
+while Heart9 do wait(getgenv().delay)
 if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab10 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
@@ -816,7 +816,7 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Specialization", nil, function(State)
 Heart3 = State
-while Heart3 do wait(delay) pcall(function()
+while Heart3 do wait(getgenv().delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab2 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
@@ -836,7 +836,7 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Mentor", nil, function(State)
 Heart4 = State
-while Heart4 do wait(delay) pcall(function()
+while Heart4 do wait(getgenv().delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Mentor.Value ~= ab5 then    
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Mentor")
 for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
@@ -868,7 +868,7 @@ game:GetService("ReplicatedStorage").RemoteEvents.EquipAccessoryRemote:FireServe
 end end)
 local Toggle1 = Section2:CreateToggle("Auto Accessory", nil, function(State)
 Heart2 = State
-while Heart2 do wait(delay)
+while Heart2 do wait(getgenv().delay)
 pcall(function()
 if game:GetService("Players").LocalPlayer.PlayerValues.Accessory1.Value and game:GetService("Players").LocalPlayer.PlayerValues.Accessory2.Value ~= ab8  then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
@@ -891,7 +891,7 @@ end
 local Toggle1 = Section2:CreateToggle("Auto Armor", nil, function(State)
 Heart5 = State
 
-while Heart5 do wait(delay)
+while Heart5 do wait(getgenv().delay)
 pcall(function()
 if  game:GetService("Players").LocalPlayer.PlayerValues.Armor.Value ~= ab9 then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
