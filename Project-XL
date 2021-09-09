@@ -112,7 +112,12 @@ pcall(function()
    
 c() wait(0.5)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(aa,0,0)end) end end)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(aa,0,0)
+if not yourdumb then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame
+end
+
+end) end end)
 
 local Toggle1 = Section1:CreateToggle("Legit Mode", nil, function(State)
 Legit = State
@@ -281,6 +286,7 @@ wait(0.3)
 v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban == false then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
 game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Kaji")
@@ -323,6 +329,7 @@ wait(0.3)
 v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban7 == false then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
 game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Laji")
@@ -365,6 +372,7 @@ wait(0.3)
 v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban1 == false then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
 end end)  until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
 game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"flamingo kaji")
@@ -405,6 +413,7 @@ wait(0.3)
 v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban2 == false then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
 game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"MlgSteakStyle")
@@ -443,6 +452,7 @@ wait(0.3)
 v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban3 == false then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
 game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"pilgrism")
@@ -482,6 +492,7 @@ wait(0.3)
 v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban4 == false then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame
 game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible = false end
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
 game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer( game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Aito")
@@ -523,6 +534,7 @@ wait(0.3)
 v.Humanoid.Health = 0 wait(.2)
 end end 
 if Ban5 == false then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame
 game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
 end end) until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
 game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"KINGKONGKINGGKONGGG")
