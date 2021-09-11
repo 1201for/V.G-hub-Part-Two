@@ -42,7 +42,7 @@ end
 spawn(function()
 game:GetService('RunService').Stepped:connect(function() 
 pcall(function()
-sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
 end) end) end)
 ab1={"Blaze",'Fire Breath','Sound Breathing','Insect Breathing','Voice','Sleep-Inducing Gas',"Simon's Dark Magic",'Purple Flare','Blazing Knight','Burning Spear','Shock Fist','Ittoryu; Wado Ichimonji','Ittoryu; Shusui','Black Leg Style','Moku Moku no mi','Pika Pika no mi','Kage Kage no mi','Mera Mera no mi','Cremation','Electrification','Gura Gura no mi','Goro Goro no mi','Yami Yami no mi','Determined Defender Goku',"Yami's Dark Magic",'The Trump Card Goku','Explosive Super Elite Vegeta','Magma Knight','Scorching Spear','Bolt Master','Diable Jambe'
 }
