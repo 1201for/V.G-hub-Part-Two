@@ -28,7 +28,7 @@ end) end) end)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("AUT")
+local Tab1 = Window:CreateTab("Ninja Legends")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("")
@@ -36,7 +36,16 @@ local Section2 = Tab1:CreateSection("")
 
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
-
+local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
+pcall(function()
+game:GetService("Players").LocalPlayer.Character.Values.Block:Destroy()
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game:GetService("Players").LocalPlayer.Character
+if yup then
+game:GetService("Players").LocalPlayer.Character.Values.Block:Destroy()
+else game.Players.LocalPlayer.Character.Humanoid = 0
+end
+end) end) end)
 local Toggle1 = Section1:CreateToggle("Auto Chests", nil, function(State)
 Chests = State
 spawn(function()
@@ -116,6 +125,23 @@ end)
 local Slider2 = Section1:CreateSlider("Collect Angle", 0,360,nil,false, function(Value)
 aa = Value
 end)
+
+local Toggle1 = Section1:CreateToggle("Crash Server", nil, function(State)
+crash = State
+while wait() and crash do
+game:GetService("ReplicatedStorage").Emotes.run:FireServer("PAC-MAN")
+game:GetService("ReplicatedStorage").Emotes.run:FireServer("FNF")
+end end)
+local Toggle1 = Section1:CreateToggle("Invisibility", nil, function(State)
+Invi = State
+local save = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(212, 2369, -149)
+if Invi then
+wait(1)
+game.Players.LocalPlayer.Character.HumanoidRootPart.RootJoint:Destroy()
+wait(0.5)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = save
+end end)
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Value
    
