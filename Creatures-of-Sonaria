@@ -48,13 +48,14 @@ end
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("Blox Fruits")
+local Tab1 = Window:CreateTab("Creatures of Sonaria")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("")
 local Section2 = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
+
 
 local Toggle1 = Section1:CreateToggle("Auto Eat Plants", nil, function(State)
 eat = State
@@ -72,24 +73,31 @@ eat1 = State
 
 for i=1,math.huge do wait()
 if eat1 then
+pcall(function()
 game.Workspace.Gravity = 0
 Tween(game.Players.LocalPlayer.Character.HumanoidRootPart, GetClosestt().Meat.CFrame.p, 50)
 game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("eat",GetClosestt():FindFirstChild("Meat"))
 game.Workspace.Gravity = 196.2
+end)
 end end end)
 
 local Toggle1 = Section1:CreateToggle("Auto Drink", nil, function(State)
 drink = State
 for i=1,math.huge do wait()
 if drink then
+pcall(function()
 game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("drink",workspace.Water.Model.Part)
+end)
 end end
 end)
+
 local Toggle1 = Section1:CreateToggle("Auto Shelter", nil, function(State)
 Shelter = State
 for i=1,math.huge do wait()
 if Shelter then
+pcall(function()
 game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("UpdateShelter","Total")
+end)
 end end end)
 local Esp = Section1:CreateToggle("Esp", nil, function(State)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
@@ -98,6 +106,7 @@ ESP.Tracers = State
 ESP.Names = State
 ESP.Boxes = State
 end)
+
 local Toggle1 = Section2:CreateToggle("G Noclip", nil, function(State)
 sex = State
 noclip = false
@@ -136,7 +145,7 @@ if i.KeyCode == Enum.KeyCode.F3 then
 a = not a
 b.Network.IncomingReplicationLag = a and 10 or 0
 end
-end) end) 
+end) end)  
 local Button1 = Section2:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
