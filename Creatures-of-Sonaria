@@ -21,8 +21,8 @@ local function GetClosestt()
     local Target
 
     for i, v in ipairs(game:GetService("Workspace").Food:GetChildren()) do
-        if v:FindFirstChild("Mesh") or v:FindFirstChild("Meat") then
-            local TargetHRP = v.Mesh
+        if v:FindFirstChild("Mesh") or v:FindFirstChild("Meat") and v.ClassName == "Model" then
+            local TargetHRP = v:FindFirstChildOfClass("MeshPart") 
             local mag = (HumanoidRootPart.Position - TargetHRP.Position).magnitude
             if mag < TargetDistance then
                 TargetDistance = mag
@@ -62,10 +62,12 @@ eat = State
 
 for i=1,math.huge do wait()
 if eat then
+pcall(function()
 game.Workspace.Gravity = 0
-Tween(game.Players.LocalPlayer.Character.HumanoidRootPart, GetClosestt().Mesh.CFrame.p, 50)
+Tween(game.Players.LocalPlayer.Character.HumanoidRootPart, GetClosestt():FindFirstChild("Mesh").CFrame.p, 50)
 game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("eat",GetClosestt():FindFirstChild("Mesh"))
 game.Workspace.Gravity = 196.2
+end)
 end end end)
 
 local Toggle1 = Section1:CreateToggle("Auto Eat Meat", nil, function(State)
@@ -75,7 +77,7 @@ for i=1,math.huge do wait()
 if eat1 then
 pcall(function()
 game.Workspace.Gravity = 0
-Tween(game.Players.LocalPlayer.Character.HumanoidRootPart, GetClosestt().Meat.CFrame.p, 50)
+Tween(game.Players.LocalPlayer.Character.HumanoidRootPart, GetClosestt():FindFirstChild("Meat").CFrame.p, 50)
 game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("eat",GetClosestt():FindFirstChild("Meat"))
 game.Workspace.Gravity = 196.2
 end)
@@ -87,16 +89,6 @@ for i=1,math.huge do wait()
 if drink then
 pcall(function()
 game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("drink",workspace.Water.Model.Part)
-end)
-end end
-end)
-
-local Toggle1 = Section1:CreateToggle("Infinite Stamina", nil, function(State)
-Stamina = State
-for i=1,math.huge do wait()
-if Stamina then
-pcall(function()
-game:GetService("Players").LocalPlayer.Stamina.Value = 100
 end)
 end end
 end)
@@ -285,3 +277,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
