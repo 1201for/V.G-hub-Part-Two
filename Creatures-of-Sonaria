@@ -101,6 +101,16 @@ pcall(function()
 game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("UpdateShelter","Total")
 end)
 end end end)
+
+local Toggle1 = Section1:CreateToggle("Infinite Stamina", nil, function(State)
+Shelter1 = State
+for i=1,math.huge do wait()
+if Shelter1 then
+pcall(function()
+game:GetService("Players").LocalPlayer.Stamina.Value = 9e9
+end)
+end end end)
+
 local Esp = Section1:CreateToggle("Esp", nil, function(State)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 ESP:Toggle(State)
