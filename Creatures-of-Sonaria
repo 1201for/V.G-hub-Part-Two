@@ -91,6 +91,16 @@ end)
 end end
 end)
 
+local Toggle1 = Section1:CreateToggle("Infinite Stamina", nil, function(State)
+Stamina = State
+for i=1,math.huge do wait()
+if Stamina then
+pcall(function()
+game:GetService("Players").LocalPlayer.Stamina.Value = 100
+end)
+end end
+end)
+
 local Toggle1 = Section1:CreateToggle("Auto Shelter", nil, function(State)
 Shelter = State
 for i=1,math.huge do wait()
@@ -275,4 +285,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
