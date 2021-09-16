@@ -153,6 +153,13 @@ while nocool do wait()
 game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = -9e9
 end end)
 Toggle1:AddToolTip("Makes Abilitys have no anmation Cooldown")
+local Esp = Section1:CreateToggle("Esp", nil, function(State)
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+ESP:Toggle(State)
+ESP.Tracers = State
+ESP.Names = State
+ESP.Boxes = State
+end)
 local Toggle1 = Section1:CreateToggle("Anti Leveling", nil, function(State)
 yes = State
 local OldNameCall = nil
