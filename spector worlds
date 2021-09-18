@@ -1,0 +1,5 @@
+if game.PlaceId == 5921569465 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Specter"))()
+elseif game.PlaceId == 5911084042 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Specter'))()
+end
