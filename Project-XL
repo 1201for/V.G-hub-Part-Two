@@ -152,11 +152,13 @@ god = State
 game:GetService('RunService').Stepped:connect(function()
 if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("DamageDivider") then
 if god then
-game.Players.LocalPlayer.Character.CharacterValues.DamageDivider:remove() end end 
+pcall(function()
+game.Players.LocalPlayer.Character.CharacterValues.DamageDivider:remove() end) end end 
+
+end)
 if not god then
 game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end 
-end) end)
+end end)
 
 local Toggle1 = Section1:CreateToggle("No CooldownReduction", nil, function(State)
 nocool = State
