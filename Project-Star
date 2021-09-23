@@ -113,7 +113,7 @@ if ss then
 
 for i,v in pairs(game:GetService("Workspace").Drops.Active:GetChildren()) do
 if v.ClassName == "Model" and v:FindFirstChild("DropCenter") then
-game.Players.LocalPlayer.Character.HumanoidRootPart = v.DropCenter.CFrame
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.DropCenter.CFrame
 fireproximityprompt(v.ProximityPrompt)
 end end end end) end
 end)
@@ -124,8 +124,8 @@ while wait(1) do
 pcall(function()
 if ss1 then
 for i,v in pairs(game:GetService("Workspace").Drops.Active:GetChildren()) do
-if v.ClassName == "Model" and v.Name == "Rokakaka"  then
-game.Players.LocalPlayer.Character.HumanoidRootPart = v.CFrame
+if v.ClassName == "MeshPart" and v.Name == "Rokakaka"  then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
 fireproximityprompt(v.ProximityPrompt)
 end end end end) end
 end)
