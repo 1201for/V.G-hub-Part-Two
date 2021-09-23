@@ -1,0 +1,31 @@
+if game.PlaceId == 7484047371 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 6729878258 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 7484081882 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 7484097221 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 7485240751 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 7484116464 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 7484165659 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 6730348920 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 7518111366 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 7484179979 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 7484222228 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 7484239533 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 7484251959 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 6718866880 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+elseif game.PlaceId == 6573910231 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Star"))()
+end
