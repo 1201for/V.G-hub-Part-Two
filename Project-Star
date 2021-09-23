@@ -23,7 +23,40 @@ for i,v in pairs(game:GetService("Workspace").NPCs:GetChildren()) do
 if v.ClassName == "Model" and v:FindFirstChild("Torso") then
 table.insert(Npcs,v.Name)
 end end 
+function c()
+for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+if v.ClassName == "MeshPart" then
+v:remove()
+end end 
+local Clone = game:GetService('Players').LocalPlayer.Character["Left Leg"]:Clone()
+game:GetService('Players').LocalPlayer.Character["Left Leg"]:Destroy()
+Clone.Parent = game:GetService('Players').LocalPlayer.Character
+wait(0.1)
+local Clone = game:GetService('Players').LocalPlayer.Character["Left Arm"]:Clone()
+game:GetService('Players').LocalPlayer.Character["Left Arm"]:Destroy()
+Clone.Parent = game:GetService('Players').LocalPlayer.Character
+wait(0.1)
+local Clone = game:GetService('Players').LocalPlayer.Character["Right Arm"]:Clone()
+game:GetService('Players').LocalPlayer.Character["Right Arm"]:Destroy()
+Clone.Parent = game:GetService('Players').LocalPlayer.Character
+wait(0.1)
+local Clone = game:GetService('Players').LocalPlayer.Character["Right Leg"]:Clone()
+game:GetService('Players').LocalPlayer.Character["Right Leg"]:Destroy()
+Clone.Parent = game:GetService('Players').LocalPlayer.Character
+wait(0.1)
+local Clone = game:GetService('Players').LocalPlayer.Character.Torso:Clone()
+game:GetService('Players').LocalPlayer.Character.Torso:Destroy()
+Clone.Parent = game:GetService('Players').LocalPlayer.Character
+wait(0.1)
+local Clone = game:GetService('Players').LocalPlayer.Character.Head:Clone()
+game:GetService('Players').LocalPlayer.Character.Head:Destroy()
+Clone.Parent = game:GetService('Players').LocalPlayer.Character
 
+end
+c()
+game.Players.LocalPlayer.CharacterAdded:connect(function()
+c()
+end)
 function Cloning()
 game.StarterGui:SetCore("SendNotification", {
 Title = "Ok one sec";
@@ -52,8 +85,7 @@ wait(0.1)
 local Clone = game:GetService('Players').LocalPlayer.Character.Head:Clone()
 game:GetService('Players').LocalPlayer.Character.Head:Destroy()
 Clone.Parent = game:GetService('Players').LocalPlayer.Character
-pcall(function()
-game.Players.LocalPlayer.Character.NameOverhead:remove() end)
+
 wait(1)
 game.StarterGui:SetCore("SendNotification", {
 Title = "here";
@@ -74,182 +106,88 @@ local Button1 = Section1:CreateButton("Invis", function()
 Cloning()
 end)
 local Toggle1 = Section1:CreateToggle("Auto Collect Arrows", nil, function(State)
-getgenv().DekuDimz = State
-game:GetService('RunService').Stepped:connect(function()
-pcall(function()
-if getgenv().DekuDimz then
-game.Players.LocalPlayer.Character["Left Leg"]:remove()
-game.Players.LocalPlayer.Character["Left Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Leg"]:remove()
-game.Players.LocalPlayer.Character.Torso:remove()
-game.Players.LocalPlayer.Character.Head:remove()
-game.Players.LocalPlayer.Character.NameOverhead:remove()
-end end) end)
-spawn(function()
+ss = State
 while wait() do
 pcall(function()
-if getgenv().DekuDimz then
-game.Workspace.Gravity = 0
+if ss then
+
 for i,v in pairs(game:GetService("Workspace").Drops.Active:GetChildren()) do
 if v.ClassName == "Model" and v:FindFirstChild("DropCenter") then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.DropCenter.CFrame 
+game.Players.LocalPlayer.Character.HumanoidRootPart = v.DropCenter.CFrame
 fireproximityprompt(v.ProximityPrompt)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.DropCenter.CFrame * CFrame.new(0,999,0)
-end
-end
-
-end end) end end)
-if not getgenv().DekuDimz then
-game.Workspace.Gravity = 196.2
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end
+end end end end) end
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto Collect Rokakakas", nil, function(State)
-getgenv().DekuDimz1 = State
-game:GetService('RunService').Stepped:connect(function()
+ss1 = State
+while wait(1) do
 pcall(function()
-if getgenv().DekuDimz1 then
-game.Players.LocalPlayer.Character["Left Leg"]:remove()
-game.Players.LocalPlayer.Character["Left Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Leg"]:remove()
-game.Players.LocalPlayer.Character.Torso:remove()
-game.Players.LocalPlayer.Character.Head:remove()
-game.Players.LocalPlayer.Character.NameOverhead:remove()
-end end) end)
-spawn(function()
-while wait() do
-pcall(function()
-if getgenv().DekuDimz1 then
-game.Workspace.Gravity = 0
+if ss1 then
 for i,v in pairs(game:GetService("Workspace").Drops.Active:GetChildren()) do
-if v.ClassName == "MeshPart" and v.Name == "Rokakaka" and v:FindFirstChild("DropCenter") then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame 
+if v.ClassName == "Model" and v.Name == "Rokakaka"  then
+game.Players.LocalPlayer.Character.HumanoidRootPart = v.CFrame
 fireproximityprompt(v.ProximityPrompt)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.DropCenter.CFrame * CFrame.new(0,999,0)
-end
-end
-
-end end) end end)
-if not getgenv().DekuDimz1 then
-game.Workspace.Gravity = 196.2
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end
+end end end end) end
 end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto Collect Coins", nil, function(State)
-getgenv().DekuDimz2 = State
-game:GetService('RunService').Stepped:connect(function()
+ss2 = State
+while wait(1) do
 pcall(function()
-if getgenv().DekuDimz2 then
-game.Players.LocalPlayer.Character["Left Leg"]:remove()
-game.Players.LocalPlayer.Character["Left Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Leg"]:remove()
-game.Players.LocalPlayer.Character.Torso:remove()
-game.Players.LocalPlayer.Character.Head:remove()
-game.Players.LocalPlayer.Character.NameOverhead:remove()
-end end) end)
-
-spawn(function()
-while wait() do
-pcall(function()
-if getgenv().DekuDimz2 then
-game.Workspace.Gravity = 0
+if ss2 then
 for i,v in pairs(game:GetService("Workspace").Drops.Active:GetChildren()) do
-if v.ClassName == "MeshPart" and v.Name == "Copper Coin"  then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame 
+if v.ClassName == "Model" and v.Name == "Copper Coin" and v:FindFirstChild("DropCenter") then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
 fireproximityprompt(v.ProximityPrompt)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.DropCenter.CFrame * CFrame.new(0,999,0)
-end
-end
-
-end end) end end)
-if not getgenv().DekuDimz2 then
-game.Workspace.Gravity = 196.2
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end
+end end end end) end
 end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto Bananas", nil, function(State)
-getgenv().DekuDimz3 = State
-game:GetService('RunService').Stepped:connect(function()
+ss3 = State
+while wait(1) do
 pcall(function()
-if getgenv().DekuDimz3 then
-game.Players.LocalPlayer.Character["Left Leg"]:remove()
-game.Players.LocalPlayer.Character["Left Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Leg"]:remove()
-game.Players.LocalPlayer.Character.Torso:remove()
-game.Players.LocalPlayer.Character.Head:remove()
-game.Players.LocalPlayer.Character.NameOverhead:remove()
-end end) end)
-
-spawn(function()
-while wait() do
-pcall(function()
-if getgenv().DekuDimz3 then
-game.Workspace.Gravity = 0
+if ss3 then
 for i,v in pairs(game:GetService("Workspace").Drops.Active:GetChildren()) do
-if v.ClassName == "MeshPart" and v.Name == "Banana"  then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame 
+if v.ClassName == "Model" and v.Name == "Banana"  then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
 fireproximityprompt(v.ProximityPrompt)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.DropCenter.CFrame * CFrame.new(0,999,0)
-end
-end
+end end end end) end
+end)
 
-end end) end end)
-if not getgenv().DekuDimz3 then
-game.Workspace.Gravity = 196.2
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end
+
+local Toggle1 = Section1:CreateToggle("Auto Collect Coins", nil, function(State)
+ss4 = State
+while wait(1) do
+pcall(function()
+if ss4 then
+for i,v in pairs(game:GetService("Workspace").Drops.Active:GetChildren()) do
+if v.ClassName == "Model" and v.Name == "Copper Coin"  then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+fireproximityprompt(v.ProximityPrompt)
+end end end end) end
 end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto Collect Everything", nil, function(State)
-getgenv().DekuDimz4 = State
-game:GetService('RunService').Stepped:connect(function()
-pcall(function()
-if getgenv().DekuDimz4 then
-game.Players.LocalPlayer.Character["Left Leg"]:remove()
-game.Players.LocalPlayer.Character["Left Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Leg"]:remove()
-game.Players.LocalPlayer.Character.Torso:remove()
-game.Players.LocalPlayer.Character.Head:remove()
-game.Players.LocalPlayer.Character.NameOverhead:remove()
-end end) end)
-
-spawn(function()
+ss5 = State
 while wait() do
 pcall(function()
-if getgenv().DekuDimz4 then
-game.Workspace.Gravity = 0
+if ss5 then
 for i,v in pairs(game:GetService("Workspace").Drops.Active:GetChildren()) do
-if v.ClassName == "MeshPart"   then
+if v.ClassName == "Model"  and v:FindFirstChild("DropCenter") then
+game.Players.LocalPlayer.Character:MoveTo(v.DropCenter.CFrame.p)
+fireproximityprompt(v.ProximityPrompt)
+end 
+if v.ClassName == "MeshPart" then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
-fireproximityprompt(v.ProximityPrompt)
-end
-if v.ClassName == 'Model' then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.DropCenter.CFrame 
-fireproximityprompt(v.ProximityPrompt)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.DropCenter.CFrame * CFrame.new(0,999,0)
-end
-end
-end end) end end)
-if not getgenv().DekuDimz4 then
-game.Workspace.Gravity = 196.2
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end
+fireproximityprompt(v.ProximityPrompt) 
+end 
+end end end) end
 end)
 local Button1 = Section1:CreateButton("Goto Selected Npc", function()
-for i=1 ,80 do wait()
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").NPCs[Npcs].Torso.CFrame
-end
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Npc")
 Dropdown1:AddToolTip("Select Npc")
