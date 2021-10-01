@@ -933,13 +933,14 @@ end
 local Label1 = Section2:CreateLabel("")
 local Label1 = Section2:CreateLabel("")
 local Label1 = Section2:CreateLabel("")
-
+if syn then
 local TextBox1 = SectionA:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
     getgenv().Fps = Value
     pcall(function()
 setfpscap(getgenv().Fps)
 end)
 end)
+end
 local TextBox1 = SectionA:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
