@@ -180,6 +180,15 @@ local TextBox1 = Section1:CreateTextBox("MaxBet", "Only numbers", true, function
    MaxBet = Value
 end)
 
+local Toggle1 = Section1:CreateToggle("Auto Collect Drops", nil, function(State)
+cas1e = State
+while cas1e do wait()
+pcall(function()
+for i,v in pairs(game:GetService("Workspace").SupplyDrops:GetChildren()) do
+if v.ClassName == "Model" then
+firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Touch, 0)
+end end  end) end 
+end)
 local Toggle1 = Section1:CreateToggle("AutoCase", nil, function(State)
 case = State
 while case do wait()
