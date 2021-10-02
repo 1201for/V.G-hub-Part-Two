@@ -8,6 +8,11 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
+if game:GetService("Workspace"):FindFirstChild("Pumpkins") then
+for i,v in pairs(game:GetService("Workspace").Pumpkins:GetChildren()) do
+if v.ClassName == "Model" then
+fireclickdetector(v.ClickDetector)
+end end end
 
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
@@ -20,7 +25,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
 end)
 
 
-local Pool = {"1",'2',"3"} -- this part isnt mine look in Credits for scde didnt feel like making one so i used and unpatched his
+local Pool = {"1",'2',"3"}
 local Safe = false 
 local MaxBetEnabled = false 
 local WaitingTime = 0.9
