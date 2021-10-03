@@ -727,6 +727,7 @@ wait(delay)
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Arrow)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+wait(delay)
 end
 end)
 end
@@ -745,7 +746,9 @@ local Toggle1 = Section2:CreateToggle("Auto Tile", nil, function(State)
 newpaper = State
 while newpaper do wait(getgenv().delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Epithet.Value ~= ab3 then
+if not game.Players.LocalPlayer.Backpack:FindFirstChild("Newspaper") then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Newspaper")
+end
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Newspaper)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
 
@@ -762,7 +765,9 @@ local Toggle1 = Section2:CreateToggle("Auto Race", nil, function(State)
 Heart = State
 while Heart do wait(getgenv().delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Race.Value  ~= ab4 then
+if not game.Players.LocalPlayer.Backpack:FindFirstChild("Heart") then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Heart")
+end 
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Heart)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
 
@@ -779,7 +784,9 @@ local Toggle1 = Section2:CreateToggle("Auto Trait", nil, function(State)
 Heart1 = State
 while Heart1 do wait(getgenv().delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Trait.Value ~= ab6 then
+if not game.Players.LocalPlayer.Backpack:FindFirstChild("Eyeball") then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Eyeball")
+end
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Eyeball)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
 
@@ -796,7 +803,10 @@ local Toggle1 = Section2:CreateToggle("Auto Class", nil, function(State)
 Heart2 = State
 while Heart2 do wait(getgenv().delay) pcall(function()
 if game.Players.LocalPlayer.PlayerValues.Class.Value ~= ab7 then
+if not game.Players.LocalPlayer.Backpack:FindFirstChild("Brain") then
 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Brain")
+end 
+
 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Brain)
 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
 
