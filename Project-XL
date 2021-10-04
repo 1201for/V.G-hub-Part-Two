@@ -22,6 +22,17 @@ uu = 4
 aa = 0
 getgenv().delay = 2
 getgenv().delay2 = 0.3
+local LP = game:GetService("Players").LocalPlayer
+local ts = game:GetService("TweenService")
+local function Tween(part, endpos, speed)
+    if part and endpos then
+        local Time = (endpos - part.Position).magnitude/speed
+        local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+        local Tween = ts:Create(part,Info,{CFrame = CFrame.new(endpos.X,endpos.Y,endpos.Z)})
+        Tween:Play()
+        wait(Time)
+    end
+end
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
 wait(3)
@@ -199,7 +210,7 @@ while system2 do wait()
 pcall(function()
 
 for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Model") and v.Name == system and v:FindFirstChildOfClass("Humanoid") and v.Humanoid.Health > 0 then
+if v:IsA("Model")  and v.Name == system and v:FindFirstChildOfClass("Humanoid") and v.Humanoid.Health > 0 then
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,2) *CFrame.Angles(aa,0,0)
 wait(getgenv().delay2)
 c()
@@ -228,6 +239,27 @@ Dropdown1:AddOption(v, function(String)
 system = String
 end)
 end
+getgenv().magss = 100
+local Toggle1 = Section1:CreateToggle("Auto Bring Mob", nil, function(State)
+sexs = State
+while sexs do wait(0.5)
+pcall(function()
+for i,v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
+if v:FindFirstChild("Humanoid") and v.Name ~= "Training dummy" and v.Humanoid.Health > 0  then
+local Root = game.Players.LocalPlayer.Character.HumanoidRootPart
+local RootTwo = v.HumanoidRootPart
+if (Root.Position - RootTwo.Position).Magnitude < getgenv().magss then
+Tween(v.HumanoidRootPart, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.p, 100) 
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
+end
+end
+end
+end)
+end
+end)
+
 local Button1 = Section1:CreateButton("Anti Effects", function()
 pcall(function()
 game.StarterGui:SetCore("SendNotification", {
@@ -238,6 +270,10 @@ game:GetService("Workspace").Effects:remove() end) end)
 local Slider2 = Section1:CreateSlider("Attack Distance", 0,7,nil,false, function(Value)
 uu = Value
 end)
+local Slider2 = Section1:CreateSlider("Bring Radius", 0,1000,nil,false, function(Value)
+getgenv().magss = Value
+end)
+
 local Slider2 = Section1:CreateSlider("Attack Angle", 0,360,nil,false, function(Value)
 aa = Value
 end)
