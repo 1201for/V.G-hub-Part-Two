@@ -18,22 +18,22 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
 end)
 local Map = workspace:FindFirstChild(tostring(game.ReplicatedStorage.CurrentMap.Value))
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
-spawn(function()
-while wait() do
-pcall(function()
-
+ESP:AddObjectListener(Map, {
+    Name = "ComputerTable",
+    CustomName = "Computer",
+    Color = Color3.fromRGB(0,0,255),
+    IsEnabled = "Computer"
+})
+workspace.ChildAdded:Connect(function(v)
+if v.Name == Map then
 ESP:AddObjectListener(Map, {
     Name = "ComputerTable",
     CustomName = "Computer",
     Color = Color3.fromRGB(0,0,255),
     IsEnabled = "Computer"
 }) 
+end end)
 
-
-
-wait(5)
-
-end) end end)
 --some toggle:
 game.StarterGui:SetCore("SendNotification", {
 Title = "Waiting";
