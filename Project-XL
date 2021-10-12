@@ -7,17 +7,13 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-local Meta = getrawmetatable(game)
-local NewIndex = Meta.__newindex
-setreadonly(Meta, false)
-
-Meta.__newindex = newcclosure(function(t, k, ...)
-   if not checkcaller() and (k == "WalkSpeed" or k == "JumpPower") then
-       return
-   end
-   NewIndex(t, k, ...)
+local OldNameCall
+OldNameCall = hookmetamethod(game, "__newindex", function(A, B, C)
+    if (not checkcaller() and A.ClassName == "Humanoid" and (B == "WalkSpeed" or B == "JumpPower")) then
+        return
+    end
+    return OldNameCall(A, B, C)
 end)
-setreadonly(Meta, true)
 uu = 4
 aa = 0
 getgenv().delay = 2
@@ -35,6 +31,7 @@ local function Tween(part, endpos, speed)
 end
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character
 wait(3)
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
 end)
@@ -55,41 +52,33 @@ code = {}
 for i,v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
 table.insert(code,v.Name)
 end
-spawn(function()
-game:GetService('RunService').Stepped:connect(function() 
-pcall(function()
 sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
-end) end) end)
 ab1={"Blaze",'Fire Breath','Sound Breathing','Insect Breathing','Voice','Sleep-Inducing Gas',"Simon's Dark Magic",'Purple Flare','Blazing Knight','Burning Spear','Shock Fist','Ittoryu; Wado Ichimonji','Ittoryu; Shusui','Black Leg Style','Moku Moku no mi','Pika Pika no mi','Kage Kage no mi','Mera Mera no mi','Cremation','Electrification','Gura Gura no mi','Goro Goro no mi','Yami Yami no mi','Determined Defender Goku',"Yami's Dark Magic",'The Trump Card Goku','Explosive Super Elite Vegeta','Magma Knight','Scorching Spear','Bolt Master','Diable Jambe'
 }
-
 ab2={'Nagi Nagi no mi v1','Flashstep','Nagi Nagi no mi v2','Suke Suke no mi v1','Sonido','Danger Sense v1','Danger Sense v2','Hirenkyaku'
 }
-
 ab3={'Ashen Mage','Ash Crow','Berserker','Black Foot','Black Swordsman','Cotton Candy Lover','Cat Burglar','Cyborg','Devils Child','Demon God','Falcon of Light','Fire Fist','Falcon of Darkness','flamingo lord','God of Calamity','God','He Who is Above God','Iron Man','Iron Mace','King of The Sea','Knight of the Sea','Loan Shark','Nobody','One Piecee','Pirate Hunter','Slug Baron','Symbol of Evil','Shiva','Soul King',"Struggler",'Straw Hat','The Beast Tamer','The Forbidden One','Thunder Emperor','The Acrobat','White Falcon','God of Destruction'
 }
-
 ab4={'Human',"Ghoul","Namekian",'Kumate Tribe','Spypiean','Torino Tribe','Vermin','A Bizarre Human','Human (Hybrid)',"Mink",'Celestial Dragon','Frieza Race','Fanalis','Uzumaki Clan','Saiyan'
 }
-
 ab5={'Hisashi Midoriya','Cain Barzad','Present Mic','Ace','Enel','Whitebeard','Dabi','Gecko Moria'
 }
-
 ab6={'Potency','Resilience','Speed','Angry','Balanced','Brave','Brute','Compassionate','Courageous','Fighter','Fragile','Humble','Hypersonic','Indestructible','Inspiring','Legendary','Light','Mighty','Muscular','Noble','Paranoid','Patient','Perfect','Powerful','Quick','Resilient','Sensitive','Slim','Slow','Slugger','Speedy','Strong','Tank','Tough','Useless','Valiant','Weak'
 }
-
 ab7={'Bruiser','Scrapper','Infiltrator','Tactician','Blaster'
 }
-
 ab8={'Hunter Snow Cap','Paper Hat','Du-rag','Ski Cap','Straw Hat','White Du-rag','Dark Hood','Bamboo Hat','Fancy Black Cowboy Hat','Snake Slate Hood','Socialite Hat','The Eliminator Hood','Ruby Adorned Fencer Helmet','Triple Threat Helmet','Yellow Banded Top Hat','Green Banded Top Hat','Purple Banded Top Hat','Blue Banded Top Hat','Bathysphere','Bluesteel Bathysphere','Bucket',"Bandit's Mask",'Black Ninja Headband','Black Round Glasses','Crimson Winter Scarf','Dust Mask','Eyepatch','Purple Pirate Headband','Rose Colored Glasses','Round Glasses','Shredded Bandit Mask','White Ninja Headband',                                                                 
 }
-
 ab10={'One Tomoe Sharingan','Two Tomoe Sharingan','Three Tomoe Sharingan',"Izuna's Mangekyo Sharingan v1","Indra's Mangekyo Sharingan v1","Sasuke's Mangekyo Sharingan v2","Obito's Mangekyo Sharingan v1","Itachi's Mangekyou Sharingan v1","Itachi's Mangekyo Sharingan v2","Madara's Mangekyo Sharingan v1","Madara's Mangekyo Sharingan v2","Obito's Mangekyo sharingan v2"
 }
-
-ab9={'Black Knight Armor','Blue Knight Armor',"Bounty Hunter's Gambeson",'Carta Assassin Armor',"Disciple's Armor",'Elite Mercenary Coat','Enchanter Robes','Fancy Suit','Griffon Plate','Heavy Adventurer Armor',"Innkeeper's Attire",'Iron Armor','Leather Armor','Mercenary Coat',"Nalthur's Armor","Oathbreaker's Armor","Pirate Hunter's Starter Outfit","Pirate's Outfit","Rice Farmer's Outfit",'Squire Armor','Rugged Adventurer Armor','Steel Armor',"Superior Battlemaster Coat","Superior Battlemaster Armor","Superior Battlemaster Mail","Superior Enchanter Coat",'Superior Vanguard Armor',"Templar Commander Armor",'Titanium Armor',"Vanguard Armor","Wizard Robes","Ancient Empyrean Armor","Ash Trap Mage's Outfit","Usopp's Pre Time-Skip Outfit","Franky's Outfit","Buggy's Outfit","Enel's Outfit","Enel's Outfit 2","Blackbeard's Outfit","Blackbeard's Outfit 2","Kidd's Outfit","UA Student's Outfit","The Almighty's Outfit","Muken Aizen's Outfit","Jiren's Outfit","Overhaul's Outfit","Usopp's Post Time-Skip Outfit","Magellan's Outfit","Black Foot's Outfit","Luffy's Marineford Outfit","Crocodile's Pre Time-Skip Outfit","Prime Whitebeard's Outfit","Sanji's Post Time-Skip Outfit","Kaido's Outfit","Kaido's Outfit 2","Dragon's Outfit"}
-aka={"Requiem Arrow","Lucky Arrow"}
-system = {'Bandit',"Agni's Overseer","Agni's Minion","Lars' Minion","Lars' Overseer","Rahgan's Minion","Rahgan's Overseer"}
+ab9={'Black Knight Armor','Blue Knight Armor',"Bounty Hunter's Gambeson",'Carta Assassin Armor',"Disciple's Armor",'Elite Mercenary Coat','Enchanter Robes','Fancy Suit','Griffon Plate','Heavy Adventurer Armor',"Innkeeper's Attire",'Iron Armor','Leather Armor','Mercenary Coat',"Nalthur's Armor","Oathbreaker's Armor","Pirate Hunter's Starter Outfit","Pirate's Outfit","Rice Farmer's Outfit",'Squire Armor','Rugged Adventurer Armor','Steel Armor',"Superior Battlemaster Coat","Superior Battlemaster Armor","Superior Battlemaster Mail","Superior Enchanter Coat",'Superior Vanguard Armor',"Templar Commander Armor",'Titanium Armor',"Vanguard Armor","Wizard Robes","Ancient Empyrean Armor","Ash Trap Mage's Outfit","Usopp's Pre Time-Skip Outfit","Franky's Outfit","Buggy's Outfit","Enel's Outfit","Enel's Outfit 2","Blackbeard's Outfit","Blackbeard's Outfit 2","Kidd's Outfit","UA Student's Outfit","The Almighty's Outfit","Muken Aizen's Outfit","Jiren's Outfit","Overhaul's Outfit","Usopp's Post Time-Skip Outfit","Magellan's Outfit","Black Foot's Outfit","Luffy's Marineford Outfit","Crocodile's Pre Time-Skip Outfit","Prime Whitebeard's Outfit","Sanji's Post Time-Skip Outfit","Kaido's Outfit","Kaido's Outfit 2","Dragon's Outfit"
+}
+aka={"Requiem Arrow","Lucky Arrow"
+}
+system = {'Bandit',"Agni's Overseer","Agni's Minion","Lars' Minion","Lars' Overseer","Rahgan's Minion","Rahgan's Overseer"
+}
+local Players = game.Players
+local LocalPlayer = Players.LocalPlayer
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -121,16 +110,15 @@ local Toggle1 = Section1:CreateToggle("Auto Dummy", nil, function(State)
 yourdumb = State
 game:GetService('RunService').Stepped:connect(function()
 if yourdumb then
-
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
 end end)
 while yourdumb do wait()
 pcall(function()
 c() wait(0.5)
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(aa,0,0)
+LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(aa,0,0)
 if not yourdumb then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame *CFrame.new(0,5,0)
+LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame *CFrame.new(0,5,0)
 end
 
 end) end end)
@@ -150,6 +138,7 @@ end)
 end end)
 c()
 game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until LocalPlayer.Character
 pcall(function()
 if Legit then
 wait(3)
@@ -165,7 +154,7 @@ game:GetService('RunService').Stepped:connect(function()
 if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("DamageDivider") then
 if god then
 pcall(function()
-game.Players.LocalPlayer.Character.CharacterValues.DamageDivider:remove() end) end end 
+game.Players.LocalPlayer.Character.CharacterValues:WaitForChild("DamageDivider"):remove() end) end end 
 
 end)
 if not god then
@@ -192,7 +181,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args = {...}
     local Self = Args[1]
     if getnamecallmethod()== "FireServer" and tostring(Self)== "LevelingRemote" and yes then
-            return wait(math.huge)
+            return nil
     end
     return OldNameCall(...)
 end)
@@ -1047,88 +1036,114 @@ end end
 end) end)
 local Toggle1 = SectionA:CreateToggle("B Fly", nil, function(State)
 sex2 = State
-local gogo1000 = 0
-local LP = game:service('Players').LocalPlayer
-local MOUSE = LP:GetMouse()
-MOUSE.KeyDown:connect(function(KEY)
-if KEY:lower() == 'b' then
+local Max = 0
+local Players = game.Players
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'b' then
+Max = Max + 1
+getgenv().Fly = false
 if sex2 then
-local LP = game:service('Players').LocalPlayer
-local MOUSE = LP:GetMouse()
-gogo1000 = gogo1000 + 1
-_G.FLYING = false
 local T = LP.Character.Torso
-local CONTROL = {F = 0, B = 0, L = 0, R = 0}
-local lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+local S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
 local SPEED = 5
 local function FLY()
-_G.FLYING = true
-local BG = Instance.new('BodyGyro', T)
-local BV = Instance.new('BodyVelocity', T)
-BG.P = 9e4
-BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-BG.cframe = T.CFrame
-BV.velocity = Vector3.new(0, 0.1, 0)
-BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+getgenv().Fly = true
+local BodyGyro = Instance.new('BodyGyro', T)
+local BodyVelocity = Instance.new('BodyVelocity', T)
+BodyGyro.P = 9e4
+BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+BodyGyro.cframe = T.CFrame
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
 spawn(function()
-repeat wait()
+repeat
+wait()
 LP.Character.Humanoid.PlatformStand = true
-if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 then
-SPEED = 50
-elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0) and SPEED ~= 0 then
+if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+SPEED = 200
+elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
 SPEED = 0
 end
-if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 then
-BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
-elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and SPEED ~= 0 then
-BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+S2 = {
+F = S.F,
+B = S.B,
+L = S.L,
+R = S.R
+}
+elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
 else
-BV.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
 end
-BG.cframe = game.Workspace.CurrentCamera.CoordinateFrame
-until not _G.FLYING
-CONTROL = {F = 0, B = 0, L = 0, R = 0}
-lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+until not getgenv().Fly
+S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
 SPEED = 0
-BG:destroy()
-BV:destroy()
+BodyGyro:destroy()
+BodyVelocity:destroy()
 LP.Character.Humanoid.PlatformStand = false
 end)
 end
-MOUSE.KeyDown:connect(function(KEY)
-if KEY:lower() == 'w' then
-CONTROL.F = 1
-elseif KEY:lower() == 's' then
-CONTROL.B = -1
-elseif KEY:lower() == 'a' then
-CONTROL.L = -1 
-elseif KEY:lower() == 'd' then 
-CONTROL.R = 1
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'w' then
+S.F = 1
+elseif k:lower() == 's' then
+S.B = -1
+elseif k:lower() == 'a' then
+S.L = -1
+elseif k:lower() == 'd' then
+S.R = 1
 end
 end)
-MOUSE.KeyUp:connect(function(KEY)
-if KEY:lower() == 'w' then
-CONTROL.F = 0
-elseif KEY:lower() == 's' then
-CONTROL.B = 0
-elseif KEY:lower() == 'a' then
-CONTROL.L = 0
-elseif KEY:lower() == 'd' then
-CONTROL.R = 0
+Mouse.KeyUp:connect(function(k)
+if k:lower() == 'w' then
+S.F = 0
+elseif k:lower() == 's' then
+S.B = 0
+elseif k:lower() == 'a' then
+S.L = 0
+elseif k:lower() == 'd' then
+S.R = 0
 end
 end)
 FLY()
-if gogo1000 == 2 then
-_G.FLYING = false
-gogo1000 = 0
+if Max == 2 then
+getgenv().Fly = false
+Max = 0
 end
 end
 end
-end) end)
+end)
+end)
 local Button1 = SectionA:CreateButton("Anti Lag", function()
 for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then 
 v.Material = Enum.Material.SmoothPlastic;
 if v:IsA("Texture") then
 v:Destroy();
