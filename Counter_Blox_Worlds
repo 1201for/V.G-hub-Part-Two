@@ -1,0 +1,13 @@
+if game.PlaceId == 1069912173 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Counter_Blox"))()
+elseif game.PlaceId == 301549746 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Counter_Blox"))()
+elseif game.PlaceId == 1869597719 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Counter_Blox"))()
+elseif game.PlaceId == 1480424328 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Counter_Blox"))()
+elseif game.PlaceId == 5325113759 then
+loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Counter_Blox"))()
+elseif game.PlaceId == 5937884883 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Counter_Blox"))()
+end
