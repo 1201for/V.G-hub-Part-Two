@@ -52,9 +52,7 @@ code = {}
 for i,v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
 table.insert(code,v.Name)
 end
-game:GetService('RunService').Stepped:connect(function()
 sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
-end)
 ab1={"Blaze",'Fire Breath','Sound Breathing','Insect Breathing','Voice','Sleep-Inducing Gas',"Simon's Dark Magic",'Purple Flare','Blazing Knight','Burning Spear','Shock Fist','Ittoryu; Wado Ichimonji','Ittoryu; Shusui','Black Leg Style','Moku Moku no mi','Pika Pika no mi','Kage Kage no mi','Mera Mera no mi','Cremation','Electrification','Gura Gura no mi','Goro Goro no mi','Yami Yami no mi','Determined Defender Goku',"Yami's Dark Magic",'The Trump Card Goku','Explosive Super Elite Vegeta','Magma Knight','Scorching Spear','Bolt Master','Diable Jambe'
 }
 ab2={'Nagi Nagi no mi v1','Flashstep','Nagi Nagi no mi v2','Suke Suke no mi v1','Sonido','Danger Sense v1','Danger Sense v2','Hirenkyaku'
@@ -994,6 +992,15 @@ game:GetService("UserInputService").JumpRequest:connect(function()
 		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
 	end
 end) end)
+
+local words = {"V.G Hub Best","Autofarming with V.G hub makes this game ten times easier","DekuDimz is so cool fast updates ez",'V.G Hub has the only working godmode','im pround to be using V.G Hub OwO','why are you just standing around get yourself V.G hub its free dude','Honestly if your not using godmode your a dork','Random messging is funny','i have auto chat enabled LOL',
+'V.G Hub Winning','V.G Hub on Top'
+}
+local Toggle1 = SectionA:CreateToggle("Spam Chat", nil, function(State)
+words1 = State
+while words1 do wait(5)
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(words[math.random(#words)],"All")
+end end)
 local Toggle1 = SectionA:CreateToggle("Be Wired", nil, function(State)
 sy = State
 spawn(function()
