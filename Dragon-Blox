@@ -6,16 +6,10 @@ local Config = {
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-boss ={}
-for i,v in pairs(game:GetService("ReplicatedStorage").Aero.Assets.Morphs["Boss Mobs"]:GetDescendants()) do
-if v:FindFirstChildOfClass("Model") then
-table.insert(boss,v.Name)
-end end 
-as = {}
-for i,v in pairs(game:GetService("ReplicatedStorage").Aero.Assets.Morphs.Mobs:GetDescendants()) do
-if v:FindFirstChildOfClass("Model") then
-table.insert(as,v.Name)
-end end
+boss ={"Puriza","Coolest",'Droid 17','Droid 18','Atom','Jinbu','Baby Veggy',"Black Karrot",'Brawly',"Jigray",'Gordo','Calci','Truffle','Nemba','El Mano'}
+
+as = {"Bandit","Mad Bandit","Evil Thug",'Tigreal Tribe','Gorilla Tribe',"Reaper","Gordo Army","Calci Army",'Truffle Army','Nemba Army'}
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -30,29 +24,27 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("AutoMob", nil, function(State)
 sw = State
+
+
 game:GetService('RunService').Stepped:connect(function()
 if sw then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")["World Mobs"].Mobs[as].HumanoidRootPart.CFrame * CFrame.new(0,5.5,0) *CFrame.Angles(80,0,0)
+for i,v in pairs(game:GetService("Workspace")["World Mobs"].Mobs:GetChildren()) do
+if v.ClassName == "Model" and v.Name:match(as)  then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,3) 
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end end 
 end
 end)
+
+
 while sw do wait(0.3)
 pcall(function()
-
-local args = {
-    [1] = "Combat",
-    [2] = true,
-    [3] = CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)),
-    [4] = CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)),
-    [5] = CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)),
-    [7] = workspace:FindFirstChild("World Map").Islands:FindFirstChild("Keman Land").Island:FindFirstChild("Keman Land").Part
-}
-
-game:GetService("ReplicatedStorage").Remotes.SkillRemote:FireServer(unpack(args))
-
+mouse1press(); wait(); mouse1release()
 end)
 end
 end)
+
+
 
 local Dropdown1 = Section1:CreateDropdown("Select Mob")
 Dropdown1:AddToolTip("Select Mob")
@@ -64,30 +56,24 @@ end
 
 local Toggle1 = Section1:CreateToggle("AutoBoss", nil, function(State)
 sw1 = State
+spawn(function()
 game:GetService('RunService').Stepped:connect(function()
 if sw1 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")["World Mobs"]["Boss Mobs"][boss].HumanoidRootPart.CFrame * CFrame.new(0,5.5,0) *CFrame.Angles(80,0,0)
+for i,v in pairs(game:GetService("Workspace")["World Mobs"]["Boss Mobs"]:GetChildren()) do
+if v.ClassName == "Model" and v.Name:lower():match(boss) then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,0,3)
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+end end 
 end
-end)
+end) end)
+spawn(function()
 while sw1 do wait(0.3)
 pcall(function()
-
-local args = {
-    [1] = "Combat",
-    [2] = true,
-    [3] = CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)),
-    [4] = CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)),
-    [5] = CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)),
-    [7] = workspace:FindFirstChild("World Map").Islands:FindFirstChild("Keman Land").Island:FindFirstChild("Keman Land").Part
-}
-
-game:GetService("ReplicatedStorage").Remotes.SkillRemote:FireServer(unpack(args))
-
+mouse1press(); wait(); mouse1release()
 end)
 end
 end)
-
+end)
 local Dropdown1 = Section1:CreateDropdown("Select Boss")
 Dropdown1:AddToolTip("Select Boss")
 for i,v in next, boss do
@@ -101,6 +87,7 @@ uu = State
 while uu do wait(1)
 game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.StatsService.RebirthUp:FireServer()
 end end)
+
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
@@ -135,87 +122,123 @@ noclip = not noclip
 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 end end 
 end) end)
+
 local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
 sex2 = State
-local gogo1000 = 0
-local LP = game:service('Players').LocalPlayer
-local MOUSE = LP:GetMouse()
-MOUSE.KeyDown:connect(function(KEY)
-if KEY:lower() == 'b' then
+local Max = 0
+local Players = game.Players
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'b' then
+Max = Max + 1
+getgenv().Fly = false
 if sex2 then
-local LP = game:service('Players').LocalPlayer
-local MOUSE = LP:GetMouse()
-gogo1000 = gogo1000 + 1
-_G.FLYING = false
 local T = LP.Character.UpperTorso
-local CONTROL = {F = 0, B = 0, L = 0, R = 0}
-local lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+local S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
 local SPEED = 5
 local function FLY()
-_G.FLYING = true
-local BG = Instance.new('BodyGyro', T)
-local BV = Instance.new('BodyVelocity', T)
-BG.P = 9e4
-BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-BG.cframe = T.CFrame
-BV.velocity = Vector3.new(0, 0.1, 0)
-BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+getgenv().Fly = true
+local BodyGyro = Instance.new('BodyGyro', T)
+local BodyVelocity = Instance.new('BodyVelocity', T)
+BodyGyro.P = 9e4
+BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+BodyGyro.cframe = T.CFrame
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
 spawn(function()
-repeat wait()
-LP.Character.Humanoid.PlatformStand = true
-if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 then
-SPEED = 50
-elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0) and SPEED ~= 0 then
+repeat
+wait()
+LP.Character.Humanoid.PlatformStand = false
+if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+SPEED = 200
+elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
 SPEED = 0
 end
-if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 then
-BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
-elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and SPEED ~= 0 then
-BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+S2 = {
+F = S.F,
+B = S.B,
+L = S.L,
+R = S.R
+}
+elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
 else
-BV.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
 end
-BG.cframe = game.Workspace.CurrentCamera.CoordinateFrame
-until not _G.FLYING
-CONTROL = {F = 0, B = 0, L = 0, R = 0}
-lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+until not getgenv().Fly
+S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
 SPEED = 0
-BG:destroy()
-BV:destroy()
+BodyGyro:destroy()
+BodyVelocity:destroy()
 LP.Character.Humanoid.PlatformStand = false
 end)
 end
-MOUSE.KeyDown:connect(function(KEY)
-if KEY:lower() == 'w' then
-CONTROL.F = 1
-elseif KEY:lower() == 's' then
-CONTROL.B = -1
-elseif KEY:lower() == 'a' then
-CONTROL.L = -1 
-elseif KEY:lower() == 'd' then 
-CONTROL.R = 1
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'w' then
+S.F = 1
+elseif k:lower() == 's' then
+S.B = -1
+elseif k:lower() == 'a' then
+S.L = -1
+elseif k:lower() == 'd' then
+S.R = 1
 end
 end)
-MOUSE.KeyUp:connect(function(KEY)
-if KEY:lower() == 'w' then
-CONTROL.F = 0
-elseif KEY:lower() == 's' then
-CONTROL.B = 0
-elseif KEY:lower() == 'a' then
-CONTROL.L = 0
-elseif KEY:lower() == 'd' then
-CONTROL.R = 0
+Mouse.KeyUp:connect(function(k)
+if k:lower() == 'w' then
+S.F = 0
+elseif k:lower() == 's' then
+S.B = 0
+elseif k:lower() == 'a' then
+S.L = 0
+elseif k:lower() == 'd' then
+S.R = 0
 end
 end)
 FLY()
-if gogo1000 == 2 then
-_G.FLYING = false
-gogo1000 = 0
+if Max == 2 then
+getgenv().Fly = false
+Max = 0
 end
 end
 end
-end) end)
+end)
+end)
+local Button1 = Section1:CreateButton("PlatformStand", function()
+game.Players.LocalPlayer.Character.Humanoid.PlatformStand = true 
+end)
+local Button1 = Section1:CreateButton("UnPlatformStand", function()
+game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false
+end)
+local Button1 = Section1:CreateButton("Sit", function()
+game.Players.LocalPlayer.Character.Humanoid.Sit = true 
+end)
 local Button1 = Section2:CreateButton("Anti Lag", function()
 for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
 if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
