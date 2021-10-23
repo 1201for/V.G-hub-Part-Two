@@ -1,5 +1,3 @@
-
-
 if game.PlaceId == 2899434514 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/The-Final-Stand'))()
 elseif game.PlaceId == 2606294912 then
@@ -13,6 +11,8 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-
 elseif game.PlaceId == 1103751913 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/The-Final-Stand'))()
 elseif game.PlaceId == 133815151 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/The-Final-Stand'))()
+elseif game.PlaceId == 1103752974 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/The-Final-Stand'))()
 
 end
