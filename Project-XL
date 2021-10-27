@@ -30,54 +30,317 @@ local function Tween(part, endpos, speed)
     end
 end
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
-game.Players.LocalPlayer.CharacterAdded:Connect(function()
-repeat wait() until game.Players.LocalPlayer.Character
-wait(3)
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
-end)
-game:GetService('RunService').Stepped:connect(function()
-pcall(function()
-if game.Players.LocalPlayer.Character.Head:FindFirstChild('Overhead') then
-game.Players.LocalPlayer.Character.Head.Overhead:remove()
-end end) end)
+game.Players.LocalPlayer.CharacterAdded:Connect(
+    function()
+        repeat
+            wait()
+        until game.Players.LocalPlayer.Character
+        wait(3)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
+    end
+)
+game:GetService("RunService").Stepped:connect(function()
+        pcall(function()
+                if game.Players.LocalPlayer.Character.Head:FindFirstChild("Overhead") then
+                    game.Players.LocalPlayer.Character.Head.Overhead:remove()
+                end
+            end
+        )
+    end
+)
 
 function c()
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and  v:FindFirstChild("Combat Script") then 
-v.Parent = game.Players.LocalPlayer.Character
+    for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+        if v.ClassName == "Tool" and v:FindFirstChild("Combat Script") then
+            v.Parent = game.Players.LocalPlayer.Character
+        end
+    end
 end
-end
-end
+
 code = {}
-for i,v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
-table.insert(code,v.Name)
+for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
+    table.insert(code, v.Name)
 end
-game:GetService('RunService').Stepped:connect(function()
-sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000) end)
-ab1={"Blaze",'Fire Breath','Sound Breathing','Insect Breathing','Voice','Sleep-Inducing Gas',"Simon's Dark Magic",'Purple Flare','Blazing Knight','Burning Spear','Shock Fist','Ittoryu; Wado Ichimonji','Ittoryu; Shusui','Black Leg Style','Moku Moku no mi','Pika Pika no mi','Kage Kage no mi','Mera Mera no mi','Cremation','Electrification','Gura Gura no mi','Goro Goro no mi','Yami Yami no mi','Determined Defender Goku',"Yami's Dark Magic",'The Trump Card Goku','Explosive Super Elite Vegeta','Magma Knight','Scorching Spear','Bolt Master','Diable Jambe'
+game:GetService("RunService").Stepped:connect(function()
+        sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+    end
+)
+
+ab1 = {
+    "Blaze",
+    "Fire Breath",
+    "Sound Breathing",
+    "Insect Breathing",
+    "Voice",
+    "Sleep-Inducing Gas",
+    "Simon's Dark Magic",
+    "Purple Flare",
+    "Blazing Knight",
+    "Burning Spear",
+    "Shock Fist",
+    "Ittoryu; Wado Ichimonji",
+    "Ittoryu; Shusui",
+    "Black Leg Style",
+    "Moku Moku no mi",
+    "Pika Pika no mi",
+    "Kage Kage no mi",
+    "Mera Mera no mi",
+    "Cremation",
+    "Electrification",
+    "Gura Gura no mi",
+    "Goro Goro no mi",
+    "Yami Yami no mi",
+    "Determined Defender Goku",
+    "Yami's Dark Magic",
+    "The Trump Card Goku",
+    "Explosive Super Elite Vegeta",
+    "Magma Knight",
+    "Scorching Spear",
+    "Bolt Master",
+    "Diable Jambe"
 }
-ab2={'Nagi Nagi no mi v1','Flashstep','Nagi Nagi no mi v2','Suke Suke no mi v1','Sonido','Danger Sense v1','Danger Sense v2','Hirenkyaku'
+ab2 = {
+    "Nagi Nagi no mi v1",
+    "Flashstep",
+    "Nagi Nagi no mi v2",
+    "Suke Suke no mi v1",
+    "Sonido",
+    "Danger Sense v1",
+    "Danger Sense v2",
+    "Hirenkyaku"
 }
-ab3={'Ashen Mage','Ash Crow','Berserker','Black Foot','Black Swordsman','Cotton Candy Lover','Cat Burglar','Cyborg','Devils Child','Demon God','Falcon of Light','Fire Fist','Falcon of Darkness','flamingo lord','God of Calamity','God','He Who is Above God','Iron Man','Iron Mace','King of The Sea','Knight of the Sea','Loan Shark','Nobody','One Piecee','Pirate Hunter','Slug Baron','Symbol of Evil','Shiva','Soul King',"Struggler",'Straw Hat','The Beast Tamer','The Forbidden One','Thunder Emperor','The Acrobat','White Falcon','God of Destruction'
+ab3 = {
+    "Ashen Mage",
+    "Ash Crow",
+    "Berserker",
+    "Black Foot",
+    "Black Swordsman",
+    "Cotton Candy Lover",
+    "Cat Burglar",
+    "Cyborg",
+    "Devils Child",
+    "Demon God",
+    "Falcon of Light",
+    "Fire Fist",
+    "Falcon of Darkness",
+    "flamingo lord",
+    "God of Calamity",
+    "God",
+    "He Who is Above God",
+    "Iron Man",
+    "Iron Mace",
+    "King of The Sea",
+    "Knight of the Sea",
+    "Loan Shark",
+    "Nobody",
+    "One Piecee",
+    "Pirate Hunter",
+    "Slug Baron",
+    "Symbol of Evil",
+    "Shiva",
+    "Soul King",
+    "Struggler",
+    "Straw Hat",
+    "The Beast Tamer",
+    "The Forbidden One",
+    "Thunder Emperor",
+    "The Acrobat",
+    "White Falcon",
+    "God of Destruction"
 }
-ab4={'Human',"Ghoul","Namekian",'Kumate Tribe','Spypiean','Torino Tribe','Vermin','A Bizarre Human','Human (Hybrid)',"Mink",'Celestial Dragon','Frieza Race','Fanalis','Uzumaki Clan','Saiyan'
+ab4 = {
+    "Human",
+    "Ghoul",
+    "Namekian",
+    "Kumate Tribe",
+    "Spypiean",
+    "Torino Tribe",
+    "Vermin",
+    "A Bizarre Human",
+    "Human (Hybrid)",
+    "Mink",
+    "Celestial Dragon",
+    "Frieza Race",
+    "Fanalis",
+    "Uzumaki Clan",
+    "Saiyan"
 }
-ab5={'Hisashi Midoriya','Cain Barzad','Present Mic','Ace','Enel','Whitebeard','Dabi','Gecko Moria'
+ab5 = {
+    "Hisashi Midoriya",
+    "Cain Barzad",
+    "Present Mic",
+    "Ace",
+    "Enel",
+    "Whitebeard",
+    "Dabi",
+    "Gecko Moria"
 }
-ab6={'Potency','Resilience','Speed','Angry','Balanced','Brave','Brute','Compassionate','Courageous','Fighter','Fragile','Humble','Hypersonic','Indestructible','Inspiring','Legendary','Light','Mighty','Muscular','Noble','Paranoid','Patient','Perfect','Powerful','Quick','Resilient','Sensitive','Slim','Slow','Slugger','Speedy','Strong','Tank','Tough','Useless','Valiant','Weak'
+ab6 = {
+    "Potency",
+    "Resilience",
+    "Speed",
+    "Angry",
+    "Balanced",
+    "Brave",
+    "Brute",
+    "Compassionate",
+    "Courageous",
+    "Fighter",
+    "Fragile",
+    "Humble",
+    "Hypersonic",
+    "Indestructible",
+    "Inspiring",
+    "Legendary",
+    "Light",
+    "Mighty",
+    "Muscular",
+    "Noble",
+    "Paranoid",
+    "Patient",
+    "Perfect",
+    "Powerful",
+    "Quick",
+    "Resilient",
+    "Sensitive",
+    "Slim",
+    "Slow",
+    "Slugger",
+    "Speedy",
+    "Strong",
+    "Tank",
+    "Tough",
+    "Useless",
+    "Valiant",
+    "Weak"
 }
-ab7={'Bruiser','Scrapper','Infiltrator','Tactician','Blaster'
+ab7 = {
+    "Bruiser",
+    "Scrapper",
+    "Infiltrator",
+    "Tactician",
+    "Blaster"
 }
-ab8={'Hunter Snow Cap','Paper Hat','Du-rag','Ski Cap','Straw Hat','White Du-rag','Dark Hood','Bamboo Hat','Fancy Black Cowboy Hat','Snake Slate Hood','Socialite Hat','The Eliminator Hood','Ruby Adorned Fencer Helmet','Triple Threat Helmet','Yellow Banded Top Hat','Green Banded Top Hat','Purple Banded Top Hat','Blue Banded Top Hat','Bathysphere','Bluesteel Bathysphere','Bucket',"Bandit's Mask",'Black Ninja Headband','Black Round Glasses','Crimson Winter Scarf','Dust Mask','Eyepatch','Purple Pirate Headband','Rose Colored Glasses','Round Glasses','Shredded Bandit Mask','White Ninja Headband',                                                                 
+ab8 = {
+    "Hunter Snow Cap",
+    "Paper Hat",
+    "Du-rag",
+    "Ski Cap",
+    "Straw Hat",
+    "White Du-rag",
+    "Dark Hood",
+    "Bamboo Hat",
+    "Fancy Black Cowboy Hat",
+    "Snake Slate Hood",
+    "Socialite Hat",
+    "The Eliminator Hood",
+    "Ruby Adorned Fencer Helmet",
+    "Triple Threat Helmet",
+    "Yellow Banded Top Hat",
+    "Green Banded Top Hat",
+    "Purple Banded Top Hat",
+    "Blue Banded Top Hat",
+    "Bathysphere",
+    "Bluesteel Bathysphere",
+    "Bucket",
+    "Bandit's Mask",
+    "Black Ninja Headband",
+    "Black Round Glasses",
+    "Crimson Winter Scarf",
+    "Dust Mask",
+    "Eyepatch",
+    "Purple Pirate Headband",
+    "Rose Colored Glasses",
+    "Round Glasses",
+    "Shredded Bandit Mask",
+    "White Ninja Headband"
 }
-ab10={'One Tomoe Sharingan','Two Tomoe Sharingan','Three Tomoe Sharingan',"Izuna's Mangekyo Sharingan v1","Indra's Mangekyo Sharingan v1","Sasuke's Mangekyo Sharingan v2","Obito's Mangekyo Sharingan v1","Itachi's Mangekyou Sharingan v1","Itachi's Mangekyo Sharingan v2","Madara's Mangekyo Sharingan v1","Madara's Mangekyo Sharingan v2","Obito's Mangekyo sharingan v2"
+ab10 = {
+    "One Tomoe Sharingan",
+    "Two Tomoe Sharingan",
+    "Three Tomoe Sharingan",
+    "Izuna's Mangekyo Sharingan v1",
+    "Indra's Mangekyo Sharingan v1",
+    "Sasuke's Mangekyo Sharingan v2",
+    "Obito's Mangekyo Sharingan v1",
+    "Itachi's Mangekyou Sharingan v1",
+    "Itachi's Mangekyo Sharingan v2",
+    "Madara's Mangekyo Sharingan v1",
+    "Madara's Mangekyo Sharingan v2",
+    "Obito's Mangekyo sharingan v2"
 }
-ab9={'Black Knight Armor','Blue Knight Armor',"Bounty Hunter's Gambeson",'Carta Assassin Armor',"Disciple's Armor",'Elite Mercenary Coat','Enchanter Robes','Fancy Suit','Griffon Plate','Heavy Adventurer Armor',"Innkeeper's Attire",'Iron Armor','Leather Armor','Mercenary Coat',"Nalthur's Armor","Oathbreaker's Armor","Pirate Hunter's Starter Outfit","Pirate's Outfit","Rice Farmer's Outfit",'Squire Armor','Rugged Adventurer Armor','Steel Armor',"Superior Battlemaster Coat","Superior Battlemaster Armor","Superior Battlemaster Mail","Superior Enchanter Coat",'Superior Vanguard Armor',"Templar Commander Armor",'Titanium Armor',"Vanguard Armor","Wizard Robes","Ancient Empyrean Armor","Ash Trap Mage's Outfit","Usopp's Pre Time-Skip Outfit","Franky's Outfit","Buggy's Outfit","Enel's Outfit","Enel's Outfit 2","Blackbeard's Outfit","Blackbeard's Outfit 2","Kidd's Outfit","UA Student's Outfit","The Almighty's Outfit","Muken Aizen's Outfit","Jiren's Outfit","Overhaul's Outfit","Usopp's Post Time-Skip Outfit","Magellan's Outfit","Black Foot's Outfit","Luffy's Marineford Outfit","Crocodile's Pre Time-Skip Outfit","Prime Whitebeard's Outfit","Sanji's Post Time-Skip Outfit","Kaido's Outfit","Kaido's Outfit 2","Dragon's Outfit"
+ab9 = {
+    "Black Knight Armor",
+    "Blue Knight Armor",
+    "Bounty Hunter's Gambeson",
+    "Carta Assassin Armor",
+    "Disciple's Armor",
+    "Elite Mercenary Coat",
+    "Enchanter Robes",
+    "Fancy Suit",
+    "Griffon Plate",
+    "Heavy Adventurer Armor",
+    "Innkeeper's Attire",
+    "Iron Armor",
+    "Leather Armor",
+    "Mercenary Coat",
+    "Nalthur's Armor",
+    "Oathbreaker's Armor",
+    "Pirate Hunter's Starter Outfit",
+    "Pirate's Outfit",
+    "Rice Farmer's Outfit",
+    "Squire Armor",
+    "Rugged Adventurer Armor",
+    "Steel Armor",
+    "Superior Battlemaster Coat",
+    "Superior Battlemaster Armor",
+    "Superior Battlemaster Mail",
+    "Superior Enchanter Coat",
+    "Superior Vanguard Armor",
+    "Templar Commander Armor",
+    "Titanium Armor",
+    "Vanguard Armor",
+    "Wizard Robes",
+    "Ancient Empyrean Armor",
+    "Ash Trap Mage's Outfit",
+    "Usopp's Pre Time-Skip Outfit",
+    "Franky's Outfit",
+    "Buggy's Outfit",
+    "Enel's Outfit",
+    "Enel's Outfit 2",
+    "Blackbeard's Outfit",
+    "Blackbeard's Outfit 2",
+    "Kidd's Outfit",
+    "UA Student's Outfit",
+    "The Almighty's Outfit",
+    "Muken Aizen's Outfit",
+    "Jiren's Outfit",
+    "Overhaul's Outfit",
+    "Usopp's Post Time-Skip Outfit",
+    "Magellan's Outfit",
+    "Black Foot's Outfit",
+    "Luffy's Marineford Outfit",
+    "Crocodile's Pre Time-Skip Outfit",
+    "Prime Whitebeard's Outfit",
+    "Sanji's Post Time-Skip Outfit",
+    "Kaido's Outfit",
+    "Kaido's Outfit 2",
+    "Dragon's Outfit"
 }
-aka={"Requiem Arrow","Lucky Arrow"
+aka = {
+    "Requiem Arrow",
+    "Lucky Arrow"
 }
-system = {'Bandit',"Agni's Overseer","Agni's Minion","Lars' Minion","Lars' Overseer","Rahgan's Minion","Rahgan's Overseer"
+system = {
+    "Bandit",
+    "Agni's Overseer",
+    "Agni's Minion",
+    "Lars' Minion",
+    "Lars' Overseer",
+    "Rahgan's Minion",
+    "Rahgan's Overseer"
 }
+local Vet = game:GetService("VirtualInputManager")
 local Players = game.Players
 local LocalPlayer = Players.LocalPlayer
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
@@ -94,79 +357,120 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("Auto Attack", nil, function(State)
 w2 = State
-while w2 do wait()
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-end end)
+while w2 do
+    wait()
+    game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+end
+end)
 local Toggle1 = Section1:CreateToggle("Auto Skills", nil, function(State)
-for i,v in pairs({'E','R','C','X','Y',"V"}) do 
-ee = State
-coroutine.wrap(function() --Credits for help/teaching me coroutine.wrap by nil#0001
-while ee do  wait()
-game:GetService('VirtualInputManager'):SendKeyEvent(true,v,false,uwu)
-
-end 
-end)()
-end end)
+for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
+    ee = State
+    coroutine.wrap(function()--Credits for help/teaching me coroutine.wrap by nil#0001
+            while ee do
+                wait()
+                Vet:SendKeyEvent(true, v, false, uwu)
+            end
+        end
+    )()
+end
+end)
 local Toggle1 = Section1:CreateToggle("Auto Dummy", nil, function(State)
 yourdumb = State
-game:GetService('RunService').Stepped:connect(function()
-if yourdumb then
-LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-end end)
-while yourdumb do wait()
-pcall(function()
-c() wait(0.5)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7,0,0) *CFrame.Angles(aa,0,0)
-if not yourdumb then
-LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame *CFrame.new(0,5,0)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if yourdumb then
+            LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+while yourdumb do
+    wait()
+    pcall(function()
+            c()
+            wait(0.5)
+            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+            LocalPlayer.Character.HumanoidRootPart.CFrame =
+                game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7, 0, 0) * CFrame.Angles(aa, 0, 0)
+            if not yourdumb then
+                LocalPlayer.Character.HumanoidRootPart.CFrame =
+                game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+            end
+        end
+    )
 end
-
-end) end end)
+end)
 
 local Toggle1 =Section1:CreateToggle("Legit Mode", nil, function(State)
 Legit = State
-game:GetService('RunService').Stepped:connect(function() pcall(function()
-if Legit then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end) end)
-spawn(function()
-while Legit do wait()
-pcall(function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2846, 334, 2919)
-game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
-end)
-end end)
+game:GetService("RunService").Stepped:connect(
+    function()
+        pcall(
+            function()
+                if Legit then
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                end
+            end
+        )
+    end
+)
+spawn(
+    function()
+        while Legit do
+            wait()
+            pcall(
+                function()
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2846, 334, 2919)
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                end
+            )
+        end
+    end
+)
 c()
-game.Players.LocalPlayer.CharacterAdded:Connect(function()
-repeat wait() until LocalPlayer.Character
-pcall(function()
-if Legit then
-wait(3)
-c()
-
-end
-end)
-end)
+game.Players.LocalPlayer.CharacterAdded:Connect(
+    function()
+        repeat
+            wait()
+        until LocalPlayer.Character
+        pcall(
+            function()
+                if Legit then
+                    wait(3)
+                    c()
+                end
+            end
+        )
+    end
+)
 end)
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 god = State
-game:GetService('RunService').Stepped:connect(function()
-if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("DamageDivider") then
-if god then
+game:GetService("RunService").Stepped:connect(function()
 pcall(function()
-game.Players.LocalPlayer.Character.CharacterValues:WaitForChild("DamageDivider"):remove() end) end end 
-
-end)
+        if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("DamageDivider") then
+            if god then
+                game.Players.LocalPlayer.Character.CharacterValues:WaitForChild("DamageDivider"):remove()
+            end
+        end
+        end)
+    end
+)
 if not god then
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end end)
+    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("No CooldownReduction", nil, function(State)
 nocool = State
-while nocool do wait()
-game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = -9e9
-end end)
+while wait() do
+    wait()
+    if nocool then
+        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = -1
+    else
+        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = 1
+    end
+end
+end)
 Toggle1:AddToolTip("Makes Abilitys have no anmation Cooldown")
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 local Esp = Section1:CreateToggle("Esp", nil, function(State)
@@ -189,37 +493,71 @@ end)
 end)
 Toggle1:AddToolTip("Makes you not able to level up")
 local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
-system2 =State
-game:GetService('RunService').Stepped:connect(function() pcall(function()
-if system2 then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end) end)
+system2 = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        pcall(
+            function()
+                if system2 then
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                end
+            end
+        )
+    end
+)
 c()
-spawn(function()
-while system2 do wait()
-pcall(function()
-
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Model")  and v.Name == system and v:FindFirstChildOfClass("Humanoid") and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,2) *CFrame.Angles(aa,0,0)
-wait(getgenv().delay2)
-c()
-wait(0.3)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-wait(getgenv().delay2)
-v.Humanoid.Health = 0 wait(getgenv().delay2)
-end
-end
-end)
-end 
-end)
-game:GetService('RunService').Stepped:connect(function()
-pcall(function()
-if system2 then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end) end)
+spawn(
+    function()
+        while system2 do
+            wait()
+            pcall(
+                function()
+                    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                        if
+                            v:IsA("Model") and v.Name == system and v:FindFirstChildOfClass("Humanoid") and
+                                v.Humanoid.Health > 0
+                         then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(aa, 0, 0)
+                            wait(getgenv().delay2)
+                            c()
+                            wait(0.3)
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            wait(getgenv().delay2)
+                            v.Humanoid.Health = 0
+                            wait(getgenv().delay2)
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
+game:GetService("RunService").Stepped:connect(
+    function()
+        pcall(
+            function()
+                if system2 then
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                end
+            end
+        )
+    end
+)
 end)
 
 local Dropdown1 = Section1:CreateDropdown("Select Mob")
@@ -232,31 +570,40 @@ end
 getgenv().magss = 100
 local Toggle1 = Section1:CreateToggle("Auto Bring Mob", nil, function(State)
 sexs = State
-while sexs do wait(0.5)
-pcall(function()
-for i,v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
-if v:FindFirstChild("Humanoid") and v.Name ~= "Training dummy" and v.Humanoid.Health > 0  then
-local Root = game.Players.LocalPlayer.Character.HumanoidRootPart
-local RootTwo = v.HumanoidRootPart
-if (Root.Position - RootTwo.Position).Magnitude < getgenv().magss then
-Tween(v.HumanoidRootPart, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.p, 100) 
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-end
-end
-end
-end)
+while sexs do
+    wait(0.5)
+    pcall(function()
+            for i, v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
+                if v:FindFirstChild("Humanoid") and v.Name ~= "Training dummy" and v.Humanoid.Health > 0 then
+                    local Root = game.Players.LocalPlayer.Character.HumanoidRootPart
+                    local RootTwo = v.HumanoidRootPart
+                    if (Root.Position - RootTwo.Position).Magnitude < getgenv().magss then
+                        Tween(v.HumanoidRootPart, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.p, 100)
+                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                    end
+                end
+            end
+        end
+    )
 end
 end)
 
 local Button1 = Section1:CreateButton("Anti Effects", function()
-pcall(function()
-game.StarterGui:SetCore("SendNotification", {
-Title = "Effects Gone";
-Text = "Try one of your gay ugly weak moves unless you use OFA then u cool";
-})
-game:GetService("Workspace").Effects:remove() end) end)
+pcall(
+    function()
+        game.StarterGui:SetCore(
+            "SendNotification",
+            {
+                Title = "Effects Gone",
+                Text = "Try one of your gay ugly weak moves unless you use OFA then u cool"
+            }
+        )
+        game:GetService("Workspace").Effects:remove()
+    end
+)
+end)
 local Slider2 = Section1:CreateSlider("Attack Distance", 0,7,nil,false, function(Value)
 uu = Value
 end)
@@ -281,41 +628,74 @@ code = String
 end)
 end
 local Button1 = Section1:CreateButton("Redeem All Codes", function()
-for i,v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
-game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(v.Name)
+for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
+    game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(v.Name)
 end
 end)
 local Toggle1 = Section1:CreateToggle("Stun All Mobs", nil, function(State)
 stun = State
 while wait(2) do
-pcall(function()
-if stun then
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:FindFirstChild("Humanoid") then
-v.Humanoid.PlatformStand = true
-end end end end) end end)
+    pcall(
+        function()
+            if stun then
+                for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                    if v:FindFirstChild("Humanoid") then
+                        v.Humanoid.PlatformStand = true
+                    end
+                end
+            end
+        end
+    )
+end
+end)
 local Toggle1 = Section1:CreateToggle("Auto Bosses", nil, function(State)
 system3 = State
-spawn(function()
-game:GetService('RunService').Stepped:connect(function()
-if system3 then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end)
+spawn(
+    function()
+        game:GetService("RunService").Stepped:connect(
+            function()
+                if system3 then
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                end
+            end
+        )
 
-while system3 do wait()
-pcall(function()
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Model") and v.Name == "KiddStan" or v.Name == "CrimsonMikami" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,2) *CFrame.Angles(aa,0,0)
-wait(getgenv().delay2)
-c()
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-end
-end
-end)  
-end  end)
+        while system3 do
+            wait()
+            pcall(
+                function()
+                    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                        if
+                            v:IsA("Model") and v.Name == "KiddStan" or
+                                v.Name == "CrimsonMikami" and v:FindFirstChildOfClass("Humanoid") and
+                                    v.Humanoid.Health > 0
+                         then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(aa, 0, 0)
+                            wait(getgenv().delay2)
+                            c()
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
 end)
 
 
@@ -323,226 +703,456 @@ end)
 local Label1 = Section1:CreateLabel("Auto Quests")
 local Toggle1 = Section1:CreateToggle("Defeat 10 Bandits", nil, function(State)
 Ban = State
-game:GetService('RunService').Stepped:connect(function()
-if Ban then
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-end end)
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Kaji")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 10 Bandits"))
-while Ban do wait()
-pcall(function()
-repeat wait()
-if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Model") and v.Name == 'Bandit'  and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,2) *CFrame.Angles(0,aa,0)
-wait(getgenv().delay2)
-c()
-wait(getgenv().delay2)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-wait(getgenv().delay2)
-v.Humanoid.Health = 0 wait(getgenv().delay2)
-end end 
-if Ban == false then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame *CFrame.new(0,5,0)
-game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
-end 
-until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Kaji")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 10 Bandits"))
-end)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Ban then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+    game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+    "Kaji"
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+    game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 10 Bandits")
+)
+while Ban do
+    wait()
+    pcall(
+        function()
+            repeat
+                wait()
+                if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
+                    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                        if
+                            v:IsA("Model") and v.Name == "Bandit" and v:FindFirstChildOfClass("Humanoid") and
+                                v.Humanoid.Health > 0
+                         then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(0, aa, 0)
+                            wait(getgenv().delay2)
+                            c()
+                            wait(getgenv().delay2)
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            wait(getgenv().delay2)
+                            v.Humanoid.Health = 0
+                            wait(getgenv().delay2)
+                        end
+                    end
+                    if Ban == false then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+                        game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer()
+                    end
+                end
+            until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false
+            wait()
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+                game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+                "Kaji"
+            )
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+                game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 10 Bandits")
+            )
+        end
+    )
 end
+
 end)
 
 
 
 local Toggle1 = Section1:CreateToggle("Defeat 9 of Agni's Minions", nil, function(State)
 Ban7 = State
-game:GetService('RunService').Stepped:connect(function()
-if Ban7 then
-
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11) 
-end end)
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Laji")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 9 of Agni's Minions"))
-while Ban7 do wait()
-pcall(function()
-repeat wait()
-if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Model") and v.Name == "Agni's Minion"  and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,2) *CFrame.Angles(0,aa,0)
-wait(getgenv().delay2)
-c()
-wait(getgenv().delay2)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-wait(getgenv().delay2)
-v.Humanoid.Health = 0 wait(getgenv().delay2)
-end end 
-if Ban7 == false then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame *CFrame.new(0,5,0)
-game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
-end 
-until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Laji")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 9 of Agni's Minions"))
-end)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Ban7 then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+    game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+    "Laji"
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+    game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 9 of Agni's Minions")
+)
+while Ban7 do
+    wait()
+    pcall(
+        function()
+            repeat
+                wait()
+                if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
+                    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                        if
+                            v:IsA("Model") and v.Name == "Agni's Minion" and v:FindFirstChildOfClass("Humanoid") and
+                                v.Humanoid.Health > 0
+                         then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(0, aa, 0)
+                            wait(getgenv().delay2)
+                            c()
+                            wait(getgenv().delay2)
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            wait(getgenv().delay2)
+                            v.Humanoid.Health = 0
+                            wait(getgenv().delay2)
+                        end
+                    end
+                    if Ban7 == false then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+                        game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer()
+                    end
+                end
+            until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false
+            wait()
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+                game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+                "Laji"
+            )
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+                game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 9 of Agni's Minions")
+            )
+        end
+    )
 end
+
 end)
 
 local Toggle1 = Section1:CreateToggle("Defeat 8 of Lars' Minions", nil, function(State)
 Ban1 = State
-game:GetService('RunService').Stepped:connect(function()
-if Ban1 then
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11) 
-end end)
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"flamingo kaji")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 8 of Lars' Minions"))
-while Ban1 do wait()
-pcall(function()
-repeat wait()
-if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Model") and v.Name == "Lars' Minion" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,2) *CFrame.Angles(0,aa,0)
-wait(getgenv().delay2)
-c()
-wait(getgenv().delay2)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-wait(getgenv().delay2)
-v.Humanoid.Health = 0 wait(getgenv().delay2)
-end end 
-if Ban1 == false then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame *CFrame.new(0,5,0)
-game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Ban1 then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+    game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+    "flamingo kaji"
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+    game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 8 of Lars' Minions")
+)
+while Ban1 do
+    wait()
+    pcall(
+        function()
+            repeat
+                wait()
+                if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
+                    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                        if
+                            v:IsA("Model") and v.Name == "Lars' Minion" and v:FindFirstChildOfClass("Humanoid") and
+                                v.Humanoid.Health > 0
+                         then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(0, aa, 0)
+                            wait(getgenv().delay2)
+                            c()
+                            wait(getgenv().delay2)
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            wait(getgenv().delay2)
+                            v.Humanoid.Health = 0
+                            wait(getgenv().delay2)
+                        end
+                    end
+                    if Ban1 == false then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+                        game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer()
+                    end
+                end
+            until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false
+            wait()
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+                game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+                "flamingo kaji"
+            )
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+                game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 8 of Lars' Minions")
+            )
+        end
+    )
 end
-until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"flamingo kaji")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 8 of Lars' Minions"))
-end) 
 
-end
 end)
 
 
 local Toggle1 = Section1:CreateToggle("Defeat 7 of Rahgan's Minions", nil, function(State)
 Ban2 = State
-game:GetService('RunService').Stepped:connect(function()
-if Ban2 then
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Ban2 then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+    game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+    "MlgSteakStyle"
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+    game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 7 of Rahgan's Minions")
+)
+while Ban2 do
+    wait()
+    pcall(
+        function()
+            repeat
+                wait()
 
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11) 
-end end)
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"MlgSteakStyle")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 7 of Rahgan's Minions"))
-while Ban2 do wait()
-pcall(function()
-repeat wait()
-
-if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Model") and v.Name == "Rahgan's Minion" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,2) *CFrame.Angles(0,aa,0)
-wait(getgenv().delay2)
-c()
-wait(getgenv().delay2)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-wait(getgenv().delay2)
-v.Humanoid.Health = 0 wait(getgenv().delay2)
-end end 
-if Ban2 == false then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame *CFrame.new(0,5,0)
-game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
+                if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
+                    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                        if
+                            v:IsA("Model") and v.Name == "Rahgan's Minion" and v:FindFirstChildOfClass("Humanoid") and
+                                v.Humanoid.Health > 0
+                         then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(0, aa, 0)
+                            wait(getgenv().delay2)
+                            c()
+                            wait(getgenv().delay2)
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            wait(getgenv().delay2)
+                            v.Humanoid.Health = 0
+                            wait(getgenv().delay2)
+                        end
+                    end
+                    if Ban2 == false then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+                        game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer()
+                    end
+                end
+            until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false
+            wait()
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+                game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+                "MlgSteakStyle"
+            )
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+                game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 7 of Rahgan's Minions")
+            )
+        end
+    )
 end
-until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"MlgSteakStyle")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 7 of Rahgan's Minions"))
-end) 
 
-end
 end)
 
 
 local Toggle1 = Section1:CreateToggle("Defeat 6 of Agni's Overseers", nil, function(State)
 Ban3 = State
-game:GetService('RunService').Stepped:connect(function()
-if Ban3 then
-
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-end end)
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"pilgrism")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 6 of Agni's Overseers"))
-while Ban3 do wait()
-pcall(function()
-repeat wait()
-if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Model") and v.Name == "Agni's Overseer" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,2) *CFrame.Angles(0,aa,0)
-wait(getgenv().delay2)
-c()
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-wait(getgenv().delay2)
-v.Humanoid.Health = 0 wait(getgenv().delay2)
-end end 
-if Ban3 == false then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame *CFrame.new(0,5,0)
-game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
-end 
-until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"pilgrism")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 6 of Agni's Overseers"))
-end) 
-
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Ban3 then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+    game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+    "pilgrism"
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+    game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 6 of Agni's Overseers")
+)
+while Ban3 do
+    wait()
+    pcall(
+        function()
+            repeat
+                wait()
+                if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
+                    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                        if
+                            v:IsA("Model") and v.Name == "Agni's Overseer" and v:FindFirstChildOfClass("Humanoid") and
+                                v.Humanoid.Health > 0
+                         then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(0, aa, 0)
+                            wait(getgenv().delay2)
+                            c()
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            wait(getgenv().delay2)
+                            v.Humanoid.Health = 0
+                            wait(getgenv().delay2)
+                        end
+                    end
+                    if Ban3 == false then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+                        game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer()
+                    end
+                end
+            until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false
+            wait()
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+                game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+                "pilgrism"
+            )
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+                game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 6 of Agni's Overseers")
+            )
+        end
+    )
 end
+
 end)
 
 
 local Toggle1 = Section1:CreateToggle("Defeat 5 of Lars's Overseers", nil, function(State)
 Ban4 = State
-game:GetService('RunService').Stepped:connect(function()
-if Ban4 then
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Ban4 then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+    game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+    "Aito"
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+    game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 5 of Lars' Overseers")
+)
+while Ban4 do
+    wait()
+    pcall(
+        function()
+            repeat
+                wait()
 
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11) 
-end end)
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Aito")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 5 of Lars' Overseers"))
-while Ban4 do wait()
-pcall(function()
-repeat wait()
+                game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                    false,
+                    Vector3.new(0, 0, 0),
+                    CFrame.new(Vector3.new(0, 0, 0), Vector3.new(0, 0, 0))
+                )
 
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,Vector3.new(0,0,0),CFrame.new(Vector3.new(0,0,0), Vector3.new(0,0,0)))
-
-if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Model") and v.Name == "Lars' Overseer" and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,2) *CFrame.Angles(0,aa,0)
-wait(getgenv().delay2)
-c()
-wait(getgenv().delay2)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-wait(getgenv().delay2)
-v.Humanoid.Health = 0 wait(getgenv().delay2)
-end end 
-if Ban4 == false then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame *CFrame.new(0,5,0)
-game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible = false end
-end 
-until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer( game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"Aito")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 5 of Lars' Overseers"))
-end) 
+                if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
+                    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                        if
+                            v:IsA("Model") and v.Name == "Lars' Overseer" and v:FindFirstChildOfClass("Humanoid") and
+                                v.Humanoid.Health > 0
+                         then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(0, aa, 0)
+                            wait(getgenv().delay2)
+                            c()
+                            wait(getgenv().delay2)
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            wait(getgenv().delay2)
+                            v.Humanoid.Health = 0
+                            wait(getgenv().delay2)
+                        end
+                    end
+                    if Ban4 == false then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+                        game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible = false
+                    end
+                end
+            until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false
+            wait()
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+                game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+                "Aito"
+            )
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+                game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 5 of Lars' Overseers")
+            )
+        end
+    )
 end
 end)
 
@@ -550,37 +1160,76 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Defeat 4 of Rahgan's Overseers", nil, function(State)
 Ban5 = State
-game:GetService('RunService').Stepped:connect(function()
-if Ban5 then
-game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11) 
-end end)
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"KINGKONGKINGGKONGGG")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 4 of Rahgan's Overseers"))
-while Ban5 do wait()
-pcall(function()
-repeat wait()
-if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Model") and v.Name == "Rahgan's Overseer"  and v:FindFirstChildOfClass("Humanoid")  and v.Humanoid.Health > 0 then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Torso.CFrame  * CFrame.new(0,-uu,2) *CFrame.Angles(0,aa,0)
-wait(getgenv().delay2)
-c()
-wait(getgenv().delay2)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false,nil,nil)
-wait(getgenv().delay2)
-v.Humanoid.Health = 0 wait(getgenv().delay2)
-end end 
-if Ban5 == false then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").SafeZoneIndicator.CFrame *CFrame.new(0,5,0)
-game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer() end
-end 
-until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false wait()
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,"KINGKONGKINGGKONGGG")
-game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 4 of Rahgan's Overseers"))
-end)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Ban5 then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+    game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+    "KINGKONGKINGGKONGGG"
+)
+game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+    game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 4 of Rahgan's Overseers")
+)
+while Ban5 do
+    wait()
+    pcall(
+        function()
+            repeat
+                wait()
+                if game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == true then
+                    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                        if
+                            v:IsA("Model") and v.Name == "Rahgan's Overseer" and v:FindFirstChildOfClass("Humanoid") and
+                                v.Humanoid.Health > 0
+                         then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(0, aa, 0)
+                            wait(getgenv().delay2)
+                            c()
+                            wait(getgenv().delay2)
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                                false,
+                                nil,
+                                nil
+                            )
+                            wait(getgenv().delay2)
+                            v.Humanoid.Health = 0
+                            wait(getgenv().delay2)
+                        end
+                    end
+                    if Ban5 == false then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+                        game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer()
+                    end
+                end
+            until game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame.Visible == false
+            wait()
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeNpcValueRemote:FireServer(
+                game:GetService("Players").LocalPlayer.PlayerValues.DialogNpc,
+                "KINGKONGKINGGKONGGG"
+            )
+            game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+                game:GetService("ReplicatedStorage").Quests:FindFirstChild("Defeat 4 of Rahgan's Overseers")
+            )
+        end
+    )
 end
+
 end)
 
 
@@ -588,25 +1237,27 @@ local Button1 = Section2:CreateButton("Find Lucky or Requiem Arrows", function()
 hunt = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while  hunt do  wait()
-if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then 
-
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-if not table.find(aka,v.Name) and v.Name:find("Arrow") then 
-v.Parent = game.Players.LocalPlayer.Character
-v:Destroy()
-elseif v.Name:find("Arrow") and table.find(aka,v.Name) then
-game.StarterGui:SetCore("SendNotification", {
-Title = "Found One";
-Text = "Check your inventory plz";
-})
-hunt = false
-end 
-end
-else 
-game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
-end 
-
+while hunt do
+    wait()
+    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if not table.find(aka, v.Name) and v.Name:find("Arrow") then
+                v.Parent = game.Players.LocalPlayer.Character
+                v:Destroy()
+            elseif v.Name:find("Arrow") and table.find(aka, v.Name) then
+                game.StarterGui:SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Found One",
+                        Text = "Check your inventory plz"
+                    }
+                )
+                hunt = false
+            end
+        end
+    else
+        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+    end
 end
 end)
 
@@ -614,148 +1265,163 @@ local Button1 = Section2:CreateButton("Find Uchiha Eyeball", function()
 hhg = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hhg do wait()
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
-if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then 
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") then 
-v.Parent = game.Players.LocalPlayer.Character 
-game.StarterGui:SetCore("SendNotification", {
-Title = "Found One";
-Text = "Check your inventory plz";
-})
-hhg = false
-end
-end 
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v:FindFirstChild("Scroll") or v:FindFirstChild("Fruit") then 
-v.Parent = game.Players.LocalPlayer.Character
-v:remove()
-end
-end
-end
+while hhg do
+    wait()
+    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
+    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") then
+                v.Parent = game.Players.LocalPlayer.Character
+                game.StarterGui:SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Found One",
+                        Text = "Check your inventory plz"
+                    }
+                )
+                hhg = false
+            else
+                v.Parent = game.Players.LocalPlayer.Character
+                v:remove()
+            end
+        end
+    end
 end
 end)
+
 local Button1 = Section2:CreateButton("Find Legendary Armor", function()
 hhfg = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hhfg do wait()
-pcall(function()
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
-if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then 
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then 
-if v.BagPart.Overhead.Rarity.Text == "Legendary" then
-v.Parent = game.Players.LocalPlayer.Character 
-game.StarterGui:SetCore("SendNotification", {
-Title = "Found One";
-Text = "Check your inventory plz";
-})
-hhfg = false
+while hhfg do
+    wait()
+    pcall(
+        function()
+            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
+            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            game.StarterGui:SetCore(
+                                "SendNotification",
+                                {
+                                    Title = "Found One",
+                                    Text = "Check your inventory plz"
+                                }
+                            )
+                            hhfg = false
+                        elseif v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Rarity.Text == "Rare" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            v:remove()
+                        end
+                    end
+                end
+            end
+        end
+    )
 end
-end 
-end
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then 
-if v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Rarity.Text == "Rare" then
-v.Parent = game.Players.LocalPlayer.Character
-v:remove()
-end
-end
-end
-end
-end)
-end
+
 end)
 local Button1 = Section2:CreateButton("Find Rare Armor", function()
 hhfg = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hhfg do wait()
-pcall(function()
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
-if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then 
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then 
-if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" then
-v.Parent = game.Players.LocalPlayer.Character 
-game.StarterGui:SetCore("SendNotification", {
-Title = "Found One";
-Text = "Check your inventory plz";
-})
-hhfg = false
+while hhfg do
+    wait()
+    pcall(
+        function()
+            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
+            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            game.StarterGui:SetCore(
+                                "SendNotification",
+                                {
+                                    Title = "Found One",
+                                    Text = "Check your inventory plz"
+                                }
+                            )
+                            hhfg = false
+                        elseif v.BagPart.Overhead.Rarity.Text == "Common" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            v:remove()
+                        end
+                    end
+                end
+            end
+        end
+    )
 end
-end 
-end
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then 
-if v.BagPart.Overhead.Rarity.Text == "Common"  then
-v.Parent = game.Players.LocalPlayer.Character
-v:remove()
-end
-end
-end
-end
-end)
-end
+
 end)
 local Button1 = Section2:CreateButton("Find Rare Accessory", function()
 hh1fg = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hh1fg do wait()
-pcall(function()
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
-if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then 
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then 
-if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" then
-v.Parent = game.Players.LocalPlayer.Character 
-game.StarterGui:SetCore("SendNotification", {
-Title = "Found One";
-Text = "Check your inventory plz";
-})
-hh1fg = false
-end
-end 
-end
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then 
-if v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Rarity.Text == "Uncommon" then
-v.Parent = game.Players.LocalPlayer.Character
-v:remove()
-end
-end
-end
-end
-end)
+while hh1fg do
+    wait()
+    pcall(
+        function()
+            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
+            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            game.StarterGui:SetCore(
+                                "SendNotification",
+                                {
+                                    Title = "Found One",
+                                    Text = "Check your inventory plz"
+                                }
+                            )
+                            hh1fg = false
+                        elseif
+                            v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Rarity.Text == "Uncommon"
+                         then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            v:remove()
+                        end
+                    end
+                end
+            end
+        end
+    )
 end
 end)
 
 local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, function(Value)
-getgenv().delay = Value
+   getgenv().delay = Value
 end)
 Slider2:AddToolTip("Control Delay Time For Auto Applying everything below this")
 local Toggle1 = Section2:CreateToggle("Auto Buy Arrows", nil, function(State)
 deeznuts33 = State
-while deeznuts33 do wait(0.3)
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow") end end)
-local Toggle1 = Section2:CreateToggle("Auto Ability", nil, function(State)
-Abily = State
-while Abily do wait(2)
-pcall(function()
-if game.Players.LocalPlayer.PlayerValues.Ability.Value ~= ab1 then
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Rokakaka")
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Rokakaka)
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-wait(delay)
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Arrow)
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-wait(delay)
+while deeznuts33 do
+    wait(0.3)
+    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
 end
 end)
+local Toggle1 = Section2:CreateToggle("Auto Ability", nil, function(State)
+Abily = State
+while Abily do
+    wait(2)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Ability.Value ~= ab1 then
+                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Rokakaka")
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Rokakaka)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                wait(delay)
+                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Arrow)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                wait(delay)
+            end
+        end
+    )
 end
 end)
 
@@ -770,13 +1436,21 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Tile", nil, function(State)
 newpaper = State
-while newpaper do wait(getgenv().delay) pcall(function()
-if game.Players.LocalPlayer.PlayerValues.Epithet.Value ~= ab3 then
-if not game.Players.LocalPlayer.Backpack:FindFirstChild("Newspaper") then
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Newspaper")
+while newpaper do
+    wait(getgenv().delay)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Epithet.Value ~= ab3 then
+                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Newspaper") then
+                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Newspaper")
+                end
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Newspaper)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            end
+        end
+    )
 end
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Newspaper)
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
+end)
 
 
 local Dropdown1 = Section2:CreateDropdown("Select Tile")
@@ -789,15 +1463,21 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Race", nil, function(State)
 Heart = State
-while Heart do wait(getgenv().delay) pcall(function()
-if game.Players.LocalPlayer.PlayerValues.Race.Value  ~= ab4 then
-if not game.Players.LocalPlayer.Backpack:FindFirstChild("Heart") then
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Heart")
-end 
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Heart)
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
-
-
+while Heart do
+    wait(getgenv().delay)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Race.Value ~= ab4 then
+                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Heart") then
+                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Heart")
+                end
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Heart)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            end
+        end
+    )
+end
+end)
 
 local Dropdown1 = Section2:CreateDropdown("Select Race")
 Dropdown1:AddToolTip("Select Race")
@@ -806,15 +1486,24 @@ Dropdown1:AddOption(v, function(String)
 ab4 = String
 end)
 end
+
 local Toggle1 = Section2:CreateToggle("Auto Trait", nil, function(State)
 Heart1 = State
-while Heart1 do wait(getgenv().delay) pcall(function()
-if game.Players.LocalPlayer.PlayerValues.Trait.Value ~= ab6 then
-if not game.Players.LocalPlayer.Backpack:FindFirstChild("Eyeball") then
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Eyeball")
+while Heart1 do
+    wait(getgenv().delay)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Trait.Value ~= ab6 then
+                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Eyeball") then
+                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Eyeball")
+                end
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Eyeball)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            end
+        end
+    )
 end
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Eyeball)
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
+end)
 
 
 local Dropdown1 = Section2:CreateDropdown("Select Trait")
@@ -827,14 +1516,22 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Class", nil, function(State)
 Heart2 = State
-while Heart2 do wait(getgenv().delay) pcall(function()
-if game.Players.LocalPlayer.PlayerValues.Class.Value ~= ab7 then
-if not game.Players.LocalPlayer.Backpack:FindFirstChild("Brain") then
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Brain")
-end 
+while Heart2 do
+    wait(getgenv().delay)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Class.Value ~= ab7 then
+                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Brain") then
+                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Brain")
+                end
 
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Brain)
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Brain)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            end
+        end
+    )
+end
+end)
 
 local Dropdown1 = Section2:CreateDropdown("Select Class")
 Dropdown1:AddToolTip("Select Class")
@@ -847,22 +1544,21 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Sharingan", nil, function(State)
 Heart9 = State
-while Heart9 do wait(getgenv().delay)
-if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab10 then
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") then 
-v.Parent = game.Players.LocalPlayer.Character wait(1) 
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-end
-end 
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v:FindFirstChild("Scroll") or v:FindFirstChild("Fruit") then 
-v.Parent = game.Players.LocalPlayer,Character
-v:remove()
-end
-end
-end
+while Heart9 do
+    wait(getgenv().delay)
+    if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab10 then
+        game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") then
+                v.Parent = game.Players.LocalPlayer.Character
+                wait(1)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            else
+                v.Parent = game.Players.LocalPlayer, Character
+                v:remove()
+            end
+        end
+    end
 end
 end)
 
@@ -876,15 +1572,23 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Specialization", nil, function(State)
 Heart3 = State
-while Heart3 do wait(getgenv().delay) pcall(function()
-if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab2 then
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v:FindFirstChild("Scroll") or v:FindFirstChild("Fruit") then 
-v.Parent = game.Players.LocalPlayer.Character
+while Heart3 do
+    wait(getgenv().delay)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab2 then
+                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v:FindFirstChild("Scroll") or v:FindFirstChild("Fruit") then
+                        v.Parent = game.Players.LocalPlayer.Character
+                    end
+                end
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            end
+        end
+    )
 end
-end
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end end)
+end)
 
 local Dropdown1 = Section2:CreateDropdown("Select Specialization")
 Dropdown1:AddToolTip("Select Specialization")
@@ -896,15 +1600,23 @@ end
 
 local Toggle1 = Section2:CreateToggle("Auto Mentor", nil, function(State)
 Heart4 = State
-while Heart4 do wait(getgenv().delay) pcall(function()
-if game.Players.LocalPlayer.PlayerValues.Mentor.Value ~= ab5 then    
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Mentor")
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v:FindFirstChild("MentorEgg")  then 
-v.Parent = game.Players.LocalPlayer.Character
+while Heart4 do
+    wait(getgenv().delay)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Mentor.Value ~= ab5 then
+                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Mentor")
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v:FindFirstChild("MentorEgg") then
+                        v.Parent = game.Players.LocalPlayer.Character
+                    end
+                end
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            end
+        end
+    )
 end
-end
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end) end  end)
+end)
 
 
 local Dropdown1 = Section2:CreateDropdown("Select Mentor")
@@ -918,26 +1630,40 @@ end
 
 local Toggle1 = Section2:CreateToggle("Select Accessory1", nil, function(State)
 Accessory1 = State
-while Accessory1 do wait()
-game:GetService("ReplicatedStorage").RemoteEvents.EquipAccessoryRemote:FireServer("Accessory1")
-end end)
+while Accessory1 do
+    wait()
+    game:GetService("ReplicatedStorage").RemoteEvents.EquipAccessoryRemote:FireServer("Accessory1")
+end
+end)
 local Toggle1 = Section2:CreateToggle("Select Accessory2", nil, function(State)
 Accessory2 = State
-while Accessory2 do wait()
-game:GetService("ReplicatedStorage").RemoteEvents.EquipAccessoryRemote:FireServer("Accessory2")
-end end)
+while Accessory2 do
+    wait()
+    game:GetService("ReplicatedStorage").RemoteEvents.EquipAccessoryRemote:FireServer("Accessory2")
+end
+end)
 local Toggle1 = Section2:CreateToggle("Auto Accessory", nil, function(State)
 Heart2 = State
-while Heart2 do wait(getgenv().delay)
-pcall(function()
-if game:GetService("Players").LocalPlayer.PlayerValues.Accessory1.Value and game:GetService("Players").LocalPlayer.PlayerValues.Accessory2.Value ~= ab8  then
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v:FindFirstChild("BagPart")  then 
-v.Parent = game.Players.LocalPlayer.Character
+while Heart2 do
+    wait(getgenv().delay)
+    pcall(
+        function()
+            if
+                game:GetService("Players").LocalPlayer.PlayerValues.Accessory1.Value and
+                    game:GetService("Players").LocalPlayer.PlayerValues.Accessory2.Value ~= ab8
+             then
+                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v:FindFirstChild("BagPart") then
+                        v.Parent = game.Players.LocalPlayer.Character
+                    end
+                end
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            end
+        end
+    )
 end
-end
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer() end end)  end end)
+end)
 
 
 local Dropdown1 = Section2:CreateDropdown("Select Accessory")
@@ -951,16 +1677,23 @@ end
 local Toggle1 = Section2:CreateToggle("Auto Armor", nil, function(State)
 Heart5 = State
 
-while Heart5 do wait(getgenv().delay)
-pcall(function()
-if  game:GetService("Players").LocalPlayer.PlayerValues.Armor.Value ~= ab9 then
-game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
-for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-if v.ClassName == "Tool" and v:FindFirstChild("Handle")  then 
-v.Parent = game.Players.LocalPlayer.Character
+while Heart5 do
+    wait(getgenv().delay)
+    pcall(
+        function()
+            if game:GetService("Players").LocalPlayer.PlayerValues.Armor.Value ~= ab9 then
+                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v:FindFirstChild("Handle") then
+                        v.Parent = game.Players.LocalPlayer.Character
+                    end
+                end
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            end
+        end
+    )
 end
-end
-game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()end end)  end end)
+end)
 
 local Dropdown1 = Section2:CreateDropdown("Select Armor")
 Dropdown1:AddToolTip("Select Armor")
@@ -1014,168 +1747,209 @@ game.Players.LocalPlayer.Character["Right Leg"]:remove() end) end end) end)
 
 local Toggle1 = SectionA:CreateToggle("SS Jump Mobs", nil, function(State)
 deeznuts = State
-while deeznuts do wait(1)
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Humanoid") then
-v.Jump = true
-end end end end)
+while deeznuts do
+    wait(1)
+    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+        if v:IsA("Humanoid") then
+            v.Jump = true
+        end
+    end
+end
+end)
 local Toggle1 = SectionA:CreateToggle("SS Sit Mobs", nil, function(State)
 deeznuts1 = State
-while deeznuts1 do wait(1)
-for i,v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
-if v:IsA("Humanoid") then
-v.Sit = true
-end end end end)
+while deeznuts1 do
+    wait(1)
+    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+        if v:IsA("Humanoid") then
+            v.Sit = true
+        end
+    end
+end
+end)
 local Toggle1 = SectionA:CreateToggle("G Noclip", nil, function(State)
 sex = State
 noclip = false
-game:GetService('RunService').Stepped:connect(function()
-if noclip then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclip then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+mouse = game.Players.LocalPlayer:GetMouse()
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "g" then
+            if sex then
+                noclip = not noclip
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            end
+        end
+    end
+)
 end)
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyDown:connect(function(key)
-
-if key == "g" then
-if sex then
-noclip = not noclip
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end 
-end) end)
 local Toggle1 = SectionA:CreateToggle("B Fly", nil, function(State)
 sex2 = State
 local Max = 0
 local Players = game.Players
 local LP = Players.LocalPlayer
 local Mouse = LP:GetMouse()
-Mouse.KeyDown:connect(function(k)
-if k:lower() == 'b' then
-Max = Max + 1
-getgenv().Fly = false
-if sex2 then
-local T = LP.Character.Torso
-local S = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-local S2 = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-local SPEED = 5
-local function FLY()
-getgenv().Fly = true
-local BodyGyro = Instance.new('BodyGyro', T)
-local BodyVelocity = Instance.new('BodyVelocity', T)
-BodyGyro.P = 9e4
-BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-BodyGyro.cframe = T.CFrame
-BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
-BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
-spawn(function()
-repeat
-wait()
-LP.Character.Humanoid.PlatformStand = false
-if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
-SPEED = 200
-elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
-SPEED = 0
-end
-if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
-BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-S2 = {
-F = S.F,
-B = S.B,
-L = S.L,
-R = S.R
-}
-elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
-BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-else
-BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
-end
-BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
-until not getgenv().Fly
-S = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-S2 = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-SPEED = 0
-BodyGyro:destroy()
-BodyVelocity:destroy()
-LP.Character.Humanoid.PlatformStand = false
-end)
-end
-Mouse.KeyDown:connect(function(k)
-if k:lower() == 'w' then
-S.F = 1
-elseif k:lower() == 's' then
-S.B = -1
-elseif k:lower() == 'a' then
-S.L = -1
-elseif k:lower() == 'd' then
-S.R = 1
-end
-end)
-Mouse.KeyUp:connect(function(k)
-if k:lower() == 'w' then
-S.F = 0
-elseif k:lower() == 's' then
-S.B = 0
-elseif k:lower() == 'a' then
-S.L = 0
-elseif k:lower() == 'd' then
-S.R = 0
-end
-end)
-FLY()
-if Max == 2 then
-getgenv().Fly = false
-Max = 0
-end
-end
-end
-end)
+Mouse.KeyDown:connect(
+    function(k)
+        if k:lower() == "b" then
+            Max = Max + 1
+            getgenv().Fly = false
+            if sex2 then
+                local T = LP.Character.Torso
+                local S = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local S2 = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local SPEED = 5
+                local function FLY()
+                    getgenv().Fly = true
+                    local BodyGyro = Instance.new("BodyGyro", T)
+                    local BodyVelocity = Instance.new("BodyVelocity", T)
+                    BodyGyro.P = 9e4
+                    BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    BodyGyro.cframe = T.CFrame
+                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                    BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                    spawn(
+                        function()
+                            repeat
+                                wait()
+                                LP.Character.Humanoid.PlatformStand = false
+                                if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+                                    SPEED = 200
+                                elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+                                    SPEED = 0
+                                end
+                                if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) -
+                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                    S2 = {
+                                        F = S.F,
+                                        B = S.B,
+                                        L = S.L,
+                                        R = S.R
+                                    }
+                                elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) -
+                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                else
+                                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                                end
+                                BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+                            until not getgenv().Fly
+                            S = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            S2 = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            SPEED = 0
+                            BodyGyro:destroy()
+                            BodyVelocity:destroy()
+                            LP.Character.Humanoid.PlatformStand = false
+                        end
+                    )
+                end
+                Mouse.KeyDown:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 1
+                        elseif k:lower() == "s" then
+                            S.B = -1
+                        elseif k:lower() == "a" then
+                            S.L = -1
+                        elseif k:lower() == "d" then
+                            S.R = 1
+                        end
+                    end
+                )
+                Mouse.KeyUp:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 0
+                        elseif k:lower() == "s" then
+                            S.B = 0
+                        elseif k:lower() == "a" then
+                            S.L = 0
+                        elseif k:lower() == "d" then
+                            S.R = 0
+                        end
+                    end
+                )
+                FLY()
+                if Max == 2 then
+                    getgenv().Fly = false
+                    Max = 0
+                end
+            end
+        end
+    end
+)
 end)
 local Button1 = SectionA:CreateButton("Anti Lag", function()
-for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then 
-v.Material = Enum.Material.SmoothPlastic;
-if v:IsA("Texture") then
-v:Destroy();
-end end;		
-end;
+for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
+        v.Material = Enum.Material.SmoothPlastic
+        if v:IsA("Texture") then
+            v:Destroy()
+        end
+    end
+end
 end)
 
 local Button1 = SectionA:CreateButton("Teleport to RandomPlayer", function()
-local randomPlayer = game.Players:GetPlayers()
-[math.random(1,#game.Players:GetPlayers())]
+local randomPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z)) end)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+    CFrame.new(
+    Vector3.new(
+        randomPlayer.Character.Head.Position.X,
+        randomPlayer.Character.Head.Position.Y,
+        randomPlayer.Character.Head.Position.Z
+    )
+)
+end)
 local Button1 = SectionA:CreateButton("Lag Switch F3", function()
-local a = false
-local b = settings()
+local ass = false
+local bitch = settings()
 
-game:service'UserInputService'.InputEnded:connect(function(i)
-if i.KeyCode == Enum.KeyCode.F3 then
-a = not a
-b.Network.IncomingReplicationLag = a and 10 or 0
-end
-end) end) 
+game:service "UserInputService".InputEnded:connect(
+    function(i)
+        if i.KeyCode == Enum.KeyCode.F3 then
+            ass = not ass
+            bitch.Network.IncomingReplicationLag = ass and 10 or 0
+        end
+    end
+)
+ end) 
 local Button1 = SectionA:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
