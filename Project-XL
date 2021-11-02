@@ -460,12 +460,30 @@ if not god then
 end
 end)
 
+
+local Toggle1 = Section1:CreateToggle("StatusImmune", nil, function(State)
+gods = State
+game:GetService("RunService").Stepped:connect(function()
+pcall(function()
+        if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("StatusImmune") then
+            if gods then
+                game.Players.LocalPlayer.Character.CharacterValues.StatusImmune:remove()
+            end
+        end
+        end)
+    end
+)
+if not gods then
+    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end
+end)
+Toggle1:AddToolTip("Makes your StatusImmune to any stun attack such as fire etc")
 local Toggle1 = Section1:CreateToggle("No CooldownReduction", nil, function(State)
 nocool = State
 while wait() do
     wait()
     if nocool then
-        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = -1
+        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = 0
     else
         game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = 1
     end
