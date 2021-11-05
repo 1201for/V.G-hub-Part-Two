@@ -1756,9 +1756,61 @@ Dropdown1:AddOption(v, function(String)
 ab9 = String
 end)
 end 
-local Label1 = Section2:CreateLabel("")
-local Label1 = Section2:CreateLabel("")
-local Label1 = Section2:CreateLabel("")
+local Toggle1 = Section2:CreateToggle("AutoKeyPress E", nil, function(State)
+getgenv().E = State
+while getgenv().E do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress R", nil, function(State)
+getgenv().R = State
+while getgenv().R do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"R",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress X", nil, function(State)
+getgenv().X = State
+while getgenv().X do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"X",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress C", nil, function(State)
+getgenv().C = State
+while getgenv().C do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"C",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress Y", nil, function(State)
+getgenv().Y = State
+while getgenv().Y do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"Y",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress V", nil, function(State)
+getgenv().V = State
+while getgenv().V do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"V",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress T", nil, function(State)
+getgenv().T = State
+while getgenv().T do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"T",false,uwu)
+end 
+end)
 if syn then
 local TextBox1 = SectionA:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
     getgenv().Fps = Value
@@ -1774,53 +1826,7 @@ local TextBox1 = SectionA:CreateTextBox("JumpPower", "Only numbers", true, funct
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
 end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress E", nil, function(State)
-getgenv().E = State
-while getgenv().E do 
-    wait()
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
-end 
-end)
 
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress R", nil, function(State)
-getgenv().R = State
-while getgenv().R do 
-    wait()
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"R",false,uwu)
-end 
-end)
-
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress X", nil, function(State)
-getgenv().X = State
-while getgenv().X do 
-    wait()
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"X",false,uwu)
-end 
-end)
-
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress C", nil, function(State)
-getgenv().C = State
-while getgenv().C do 
-    wait()
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"C",false,uwu)
-end 
-end)
-
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress Y", nil, function(State)
-getgenv().Y = State
-while getgenv().Y do 
-    wait()
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"Y",false,uwu)
-end 
-end)
-
-local Toggle1 = SectionA:CreateToggle("AutoKeyPress T", nil, function(State)
-getgenv().T = State
-while getgenv().T do 
-    wait()
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"T",false,uwu)
-end 
-end)
 
 local Toggle1 = SectionA:CreateToggle("Infinite Jump", nil, function(State)
 Infinite = State
