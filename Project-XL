@@ -1411,6 +1411,42 @@ while hh1fg do
 end
 end)
 
+local Button1 = Section2:CreateButton("Find Uncommon Accessory", function()
+hh1fg1 = true
+game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+wait(0.5)
+while hh1fg1 do
+    wait()
+    pcall(
+        function()
+            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
+            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" or v.BagPart.Overhead.Rarity.Text == "Uncommon" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            game.StarterGui:SetCore(
+                                "SendNotification",
+                                {
+                                    Title = "Found One",
+                                    Text = "Check your inventory plz"
+                                }
+                            )
+                            hh1fg1 = false
+                        elseif
+                            v.BagPart.Overhead.Rarity.Text == "Common" 
+                         then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            v:remove()
+                        end
+                    end
+                end
+            end
+        end
+    )
+end
+end)
+
 local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, function(Value)
    getgenv().delay = Value
 end)
