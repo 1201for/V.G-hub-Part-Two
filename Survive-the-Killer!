@@ -6,7 +6,13 @@ local Config = {
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-
+local OldNameCall
+OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
+    if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
+        return
+    end
+    return OldNameCall(A, B, ...)
+end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
