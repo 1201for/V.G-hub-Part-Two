@@ -39,6 +39,12 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
     end
 )
+for i, v in pairs(game.Workspace:GetChildren()) do
+    if v.ClassName == "Part" or v.ClassName == "Script" and  v.Parent == game.Workspace  then
+        v:remove()
+    end
+end
+
 game:GetService("RunService").Stepped:connect(function()
         pcall(function()
                 if game.Players.LocalPlayer.Character.Head:FindFirstChild("Overhead") then
