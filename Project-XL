@@ -63,6 +63,12 @@ function c()
     end
 end
 
+for i, v in pairs(game:GetService("Workspace").NPCS:GetChildren()) do
+    if v.ClassName == "Model" then
+        v.Chat.QuestText1.Value = "V.G Hub Took Over Project XL"
+    end
+end
+
 code = {}
 for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
     table.insert(code, v.Name)
