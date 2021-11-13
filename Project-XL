@@ -63,12 +63,6 @@ function c()
     end
 end
 
-for i, v in pairs(game:GetService("Workspace").NPCS:GetChildren()) do
-    if v.ClassName == "Model" then
-        v.Chat.QuestText1.Value = "V.G Hub Took Over Project XL"
-    end
-end
-
 code = {}
 for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
     table.insert(code, v.Name)
@@ -1300,7 +1294,7 @@ while hhg do
     game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
     if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
         for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-            if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") then
+            if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") and not v:FindFirstChild("Combat Script") then
                 v.Parent = game.Players.LocalPlayer.Character
                 game.StarterGui:SetCore(
                     "SendNotification",
@@ -1310,7 +1304,7 @@ while hhg do
                     }
                 )
                 hhg = false
-            else
+            elseif 
                 v.Parent = game.Players.LocalPlayer.Character
                 v:remove()
             end
@@ -1480,11 +1474,11 @@ while Abily do
                 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Rokakaka")
                 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Rokakaka)
                 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-                wait(delay)
+                wait(getgenv().delay)
                 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
                 game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Arrow)
                 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-                wait(delay)
+                wait(getgenv().delay)
             end
         end
     )
