@@ -1304,7 +1304,7 @@ while hhg do
                     }
                 )
                 hhg = false
-            elseif 
+            elseif  v.ClassName == "Tool" and not v:FindFirstChild("Meshes/Sphere_009") and not v:FindFirstChild("Combat Script") then 
                 v.Parent = game.Players.LocalPlayer.Character
                 v:remove()
             end
