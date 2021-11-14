@@ -30,7 +30,7 @@ end end
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("Vehicle Simulator")
+local Tab1 = Window:CreateTab("True peice")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("AutoFarms")
