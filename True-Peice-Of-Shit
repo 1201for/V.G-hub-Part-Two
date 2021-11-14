@@ -30,7 +30,7 @@ end end
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("True peice")
+local Tab1 = Window:CreateTab("True Piece")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("AutoFarms")
@@ -40,9 +40,9 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", nil, function(State)
 mobs = State
-Clone = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart:Clone()
-game:GetService("Players").LocalPlayer.Character.HumanoidRootPart:Destroy()
-Clone.Parent = game:GetService("Players").LocalPlayer.Character
+Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
+game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
+Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
 
 game.Players.LocalPlayer.CharacterAdded:Connect(
     function()
@@ -50,9 +50,9 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
             pcall(
                 function()
                     wait(4)
-                    Clone = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart:Clone()
-                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart:Destroy()
-                    Clone.Parent = game:GetService("Players").LocalPlayer.Character
+                    Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
+                    game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
+                    Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
                 end
             )
         end
