@@ -27,6 +27,12 @@ table.insert(MOBS,v.Name)
 table.sort(MOBS)
 end end 
 
+ISLANDS = {}
+for i,v in pairs(game:GetService("Workspace").MapSpawn:GetChildren()) do
+if v.ClassName == "Model" and v:FindFirstChild("Spawn") then
+table.insert(ISLANDS,v.Name)
+table.sort(ISLANDS)
+end end 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -71,7 +77,7 @@ end
 
 end)
 
-local Dropdown1 = Section2:CreateDropdown("Select Mob")
+local Dropdown1 = Section1:CreateDropdown("Select Mob")
 Dropdown1:AddToolTip("Select Mob")
 for i,v in next, MOBS do
 Dropdown1:AddOption(v, function(String)
@@ -117,11 +123,11 @@ while pp4 do
 end
 end)
 
-local Button1 = Section2:CreateButton("Spin Perk", function()
+local Button1 = Section1:CreateButton("Spin Perk", function()
     game:GetService("ReplicatedStorage").Remotes.Spins:InvokeServer('PerkSpin')
 end)
 
-local Button1 = Section2:CreateButton("Spin Perk2", function()
+local Button1 = Section1:CreateButton("Spin Perk2", function()
     game:GetService("ReplicatedStorage").Remotes.Spins:InvokeServer('Perk2Spin')
 end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
@@ -138,6 +144,28 @@ end)
 local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
     ESP.Boxes = State
 end)
+
+local Button1 = Section1:CreateButton("Teleport To Seleted Island Number", function()
+game.StarterGui:SetCore("SendNotification", {
+Title = "Okay";
+Text = "Give me a second..";
+})
+tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(2, Enum.EasingStyle.Linear)
+
+tween = tweenService:Create(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(game:GetService("Workspace").MapSpawn[ISLANDS]:FindFirstChildOfClass("Part").Position)})
+tween:Play() 
+game.StarterGui:SetCore("SendNotification", {
+Title = "Done";
+Text = "Sorry for the wait..";
+})
+end)
+local Dropdown1 = Section1:CreateDropdown("Select Island Number")
+Dropdown1:AddToolTip("Select Island Number")
+for i,v in next, ISLANDS do
+Dropdown1:AddOption(v, function(String)
+ISLANDS = String
+end)
+end 
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
