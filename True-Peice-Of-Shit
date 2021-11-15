@@ -55,6 +55,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
         if mobs then
             pcall(
                 function()
+                    repeat wait() until game.Players.LocalPlayer.Character
                     wait(4)
                     Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
                     game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
@@ -71,7 +72,7 @@ while mobs do
             
             if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health == 0 then
             repeat wait() until game.Players.LocalPlayer.Character
-            wait(10)
+            wait(20)
             print("IM ALIVE NOW")
             end 
             game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame =
