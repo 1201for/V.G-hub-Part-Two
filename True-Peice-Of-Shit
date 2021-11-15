@@ -88,7 +88,50 @@ Dropdown1:AddOption(v, function(String)
 MOBS = String
 end)
 end 
+local Toggle1 = Section1:CreateToggle("Auto Fruit", nil, function(State)
+dickfartbitchslut = State
+while dickfartbitchslut do
+    wait()
+    for i, v in pairs(game.Workspace.Map.Trees:GetChildren()) do
+        if v.Classname == "Model" and v:FindFirstChild("Leaf") and v:FindFirstChild("MeshPart1") then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Leaf.CFrame
+            wait(2)
+            fireproximityprompt(v.Leaf.ProximityPromptDF)
+            wait(0.1)
+        end
+    end
 
+    for i, v in pairs(game.Workspace:GetChildren()) do
+        if v.ClassName == "Model" and v:FindFirstChild("Leaf") then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Leaf.CFrame
+            wait(.5)
+            fireproximityprompt(v.Leaf.ProximityPromptDF)
+            wait(0.1)
+        end
+    end
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("Auto Invis", nil, function(State)
+migger = State
+Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
+game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
+Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
+
+game.Players.LocalPlayer.CharacterAdded:Connect(
+    function()
+        if migger then
+            pcall(
+                function()
+                    wait(4)
+                    Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
+                    game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
+                    Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
+                end
+            )
+        end
+    end
+) end)
 local Toggle1 = Section1:CreateToggle("Auto PowerIncrease", nil, function(State)
 pp = State
 while pp do
@@ -466,7 +509,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits The3Bakers")
+Section3:CreateLabel("Credits Sensei Joshy#1060")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
