@@ -44,6 +44,11 @@ end
 end)
 end
 end)
+local Toggle1 = Section1:CreateToggle("Auto Orbs", nil, function(State)
+tree = State
+while tree do wait()
+game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.GameService.RebirthRequest:InvokeServer()
+end end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto Open Pets", nil, function(State)
