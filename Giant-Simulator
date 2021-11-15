@@ -14,7 +14,11 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     end
     return OldNameCall(A, B, ...)
 end)
-
+game:GetService('RunService').Stepped:connect(function()
+pcall(function()
+if game.Players.LocalPlayer.Character.Head:FindFirstChild("PlayerNameplate") then
+game.Players.LocalPlayer.Character.Head.PlayerNameplate:remove()
+end end) end)
 TIE = {1,2,3,4,5,6,7,8,9,10}
 GOGO = {1,2,3,4,5,6,7,8,9,10}
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
