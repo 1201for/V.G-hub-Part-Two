@@ -68,6 +68,10 @@ while mobs do
     wait()
     pcall(
         function()
+            
+            if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health == 0 then wait(10)
+            print("IM ALIVE NOW")
+            end 
             game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame =
                 game:GetService("Workspace").Mobs[MOBS].UpperTorso.CFrame * CFrame.new(0, 0, 3)
             game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
@@ -153,7 +157,7 @@ Text = "Give me a second..";
 tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(2, Enum.EasingStyle.Linear)
 
 tween = tweenService:Create(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(game:GetService("Workspace").MapSpawn[ISLANDS]:FindFirstChildOfClass("Part").Position)})
-tween:Play() 
+tween:Play() wait(2)
 game.StarterGui:SetCore("SendNotification", {
 Title = "Done";
 Text = "Sorry for the wait..";
