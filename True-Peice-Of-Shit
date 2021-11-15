@@ -69,7 +69,9 @@ while mobs do
     pcall(
         function()
             
-            if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health == 0 then wait(10)
+            if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health == 0 then
+            repeat wait() until game.Players.LocalPlayer.Character
+            wait(10)
             print("IM ALIVE NOW")
             end 
             game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame =
