@@ -7,32 +7,41 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-for i,v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
-if v.ClassName == "RemoteEvent" and v.Parent.Name == "ReplicatedStorage" then
-local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(...)
-    local Args = {...}
-    local Self = Args[1]
-    if getnamecallmethod()=="FireServer" and tostring(Self)==v.Name then
-            return wait(math.huge)
+for i, v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
+    if v.ClassName == "RemoteEvent" and v.Parent.Name == "ReplicatedStorage" then
+        local OldNameCall = nil
+        OldNameCall =
+            hookmetamethod(
+            game,
+            "__namecall",
+            function(...)
+                local Args = {...}
+                local Self = Args[1]
+                if getnamecallmethod() == "FireServer" and tostring(Self) == v.Name then
+                    return wait(math.huge)
+                end
+                return OldNameCall(...)
+            end
+        )
     end
-    return OldNameCall(...)
-end)
-end end 
+end
 
 MOBS = {}
-for i,v in pairs(game:GetService("Workspace").Mobs:GetChildren()) do
-if v.ClassName == "Model" and v:FindFirstChild("Humanoid") then
-table.insert(MOBS,v.Name)
-table.sort(MOBS)
-end end 
+for i, v in pairs(game:GetService("Workspace").Mobs:GetChildren()) do
+    if v.ClassName == "Model" and v:FindFirstChild("Humanoid") then
+        table.insert(MOBS, v.Name)
+        table.sort(MOBS)
+    end
+end
 
 ISLANDS = {}
-for i,v in pairs(game:GetService("Workspace").MapSpawn:GetChildren()) do
-if v.ClassName == "Model" and v:FindFirstChild("Spawn") then
-table.insert(ISLANDS,v.Name)
-table.sort(ISLANDS)
-end end 
+for i, v in pairs(game:GetService("Workspace").MapSpawn:GetChildren()) do
+    if v.ClassName == "Model" and v:FindFirstChild("Spawn") then
+        table.insert(ISLANDS, v.Name)
+        table.sort(ISLANDS)
+    end
+end
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -55,7 +64,9 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
         if mobs then
             pcall(
                 function()
-                    repeat wait() until game.Players.LocalPlayer.Character
+                    repeat
+                        wait()
+                    until game.Players.LocalPlayer.Character
                     wait(4)
                     Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
                     game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
@@ -69,19 +80,25 @@ while mobs do
     wait()
     pcall(
         function()
-            
-            if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health == 0 then
-            repeat wait() until game.Players.LocalPlayer.Character
-            wait(20)
-            print("IM ALIVE NOW")
-            end 
-            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame =
-                game:GetService("Workspace").Mobs[MOBS].UpperTorso.CFrame * CFrame.new(0, 0, 3)
+            repeat
+                wait()
+            until game.Players.LocalPlayer.Character.Humanoid
+            tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+            tween =
+                tweenService:Create(
+                game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart,
+                tweenInfo,
+                {
+                    CFrame = CFrame.new(
+                        game:GetService("Workspace").Mobs[MOBS].UpperTorso.CFrame.p + Vector3.new(0, 0, 3)
+                    )
+                }
+            )
+            tween:Play()
             game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
         end
     )
 end
-
 end)
 
 local Dropdown1 = Section1:CreateDropdown("Select Mob")
@@ -129,6 +146,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
         if migger then
             pcall(
                 function()
+                    repeat wait() until game.Players.LocalPlayer.Character
                     wait(4)
                     Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
                     game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
@@ -203,10 +221,10 @@ game.StarterGui:SetCore("SendNotification", {
 Title = "Okay";
 Text = "Give me a second..";
 })
-tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(2, Enum.EasingStyle.Linear)
+tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
 
 tween = tweenService:Create(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(game:GetService("Workspace").MapSpawn[ISLANDS]:FindFirstChildOfClass("Part").Position)})
-tween:Play() wait(2)
+tween:Play() wait(5)
 game.StarterGui:SetCore("SendNotification", {
 Title = "Done";
 Text = "Sorry for the wait..";
