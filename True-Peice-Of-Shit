@@ -95,8 +95,10 @@ local Toggle1 = Section1:CreateToggle("Auto Fruit", nil, function(State)
 dickfartbitchslut = State
 while dickfartbitchslut do
     wait()
+       pcall(
+        function()
     for i, v in pairs(game.Workspace.Map.Trees:GetChildren()) do
-        if v.Classname == "Model" and v:FindFirstChild("Leaf") and v:FindFirstChild("MeshPart1") then
+        if v.ClassName == "Model" and v:FindFirstChild("Leaf") and v:FindFirstChild("MeshPart1") then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Leaf.CFrame
             wait(2)
             fireproximityprompt(v.Leaf.ProximityPromptDF)
@@ -112,6 +114,7 @@ while dickfartbitchslut do
             wait(0.1)
         end
     end
+    end)
 end
 end)
 
