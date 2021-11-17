@@ -58,22 +58,18 @@ local Section4 = Tab2:CreateSection("Background")
 local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", nil, function(State)
 mobs = State
 
-game:GetService("RunService").Stepped:connect(
-    function()
-        if mobs then
-            for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-                pcall(
-                    function()
-                        if v.ClassName == "Part" or v.ClassName == "MeshPart" then
-                            v.CanCollide = false
-                        end
-                    end
-                )
-            end
-        end
-    end
-)
+game:GetService('RunService').Stepped:connect(function()
+if mobs then
+for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
 
+if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+pcall(function()
+v.CanCollide = false
+end)
+end
+end
+end
+end)
 Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
 game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
 Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
@@ -97,10 +93,21 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
 )
 while mobs do
     wait()
+    if mobs then
+        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+            pcall(
+                function()
+                    if v.ClassName == "MeshPart" or v.ClassName == "Part" then
+                        v.CanCollide = false
+                    end
+                end
+            )
+        end
+    end
     pcall(
         function()
             repeat
-                wait()
+                wait(0.5)
             until game.Players.LocalPlayer.Character.Humanoid
             game.Workspace.Gravity = 0
             local Time =
@@ -113,7 +120,7 @@ while mobs do
                 Info,
                 {
                     CFrame = CFrame.new(
-                        game:GetService("Workspace").Mobs[MOBS].HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3) 
+                        game:GetService("Workspace").Mobs[MOBS].HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3)
                     )
                 }
             )
@@ -122,9 +129,10 @@ while mobs do
         end
     )
     if not mobs then
-    game.Workspace.Gravity = 196.25
-    end 
+        game.Workspace.Gravity = 196.25
+    end
 end
+
 end)
 
 local Dropdown1 = Section1:CreateDropdown("Select Mob")
@@ -271,8 +279,12 @@ end)
 local Button1 = Section1:CreateButton("Teleport To Seleted Island Number", function()
 game.Players.LocalPlayer.Character.Humanoid.Health = 0
 game:GetService("ReplicatedStorage").Remotes.SetSpawn:InvokeServer(ISLANDS)
-
+repeat wait() until game.Players.LocalPlayer.Character
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
 end)
+
+
+
 local Dropdown1 = Section1:CreateDropdown("Select Island Number")
 Dropdown1:AddToolTip("Select Island Number")
 for i,v in next, ISLANDS do
