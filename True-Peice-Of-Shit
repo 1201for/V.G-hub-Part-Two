@@ -217,19 +217,9 @@ local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
 end)
 
 local Button1 = Section1:CreateButton("Teleport To Seleted Island Number", function()
-game.StarterGui:SetCore("SendNotification", {
-Title = "Okay";
-Text = "Give me a second..";
-})
-tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum.EasingStyle.Linear)
-
-tween = tweenService:Create(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(game:GetService("Workspace").MapSpawn[ISLANDS]:FindFirstChildOfClass("Part").Position)})
-tween:Play() wait(5)
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
 game:GetService("ReplicatedStorage").Remotes.SetSpawn:InvokeServer(ISLANDS)
-game.StarterGui:SetCore("SendNotification", {
-Title = "Done";
-Text = "Sorry for the wait..";
-})
+
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Island Number")
 Dropdown1:AddToolTip("Select Island Number")
@@ -578,3 +568,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
