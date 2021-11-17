@@ -219,7 +219,8 @@ end)
 local Button1 = Section1:CreateButton("Teleport To Seleted Island Number", function()
 game.Players.LocalPlayer.Character.Humanoid.Health = 0
 game:GetService("ReplicatedStorage").Remotes.SetSpawn:InvokeServer(ISLANDS)
-
+repeat wait() until game.Players.LocalPlayer.Character wait(1)
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
 end)
 local Dropdown1 = Section1:CreateDropdown("Select Island Number")
 Dropdown1:AddToolTip("Select Island Number")
