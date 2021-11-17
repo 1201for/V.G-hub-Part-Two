@@ -225,6 +225,7 @@ tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(5, Enum
 
 tween = tweenService:Create(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart, tweenInfo, {CFrame = CFrame.new(game:GetService("Workspace").MapSpawn[ISLANDS]:FindFirstChildOfClass("Part").Position)})
 tween:Play() wait(5)
+game:GetService("ReplicatedStorage").Remotes.SetSpawn:InvokeServer(ISLANDS)
 game.StarterGui:SetCore("SendNotification", {
 Title = "Done";
 Text = "Sorry for the wait..";
@@ -577,4 +578,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
