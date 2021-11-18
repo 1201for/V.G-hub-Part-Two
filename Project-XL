@@ -449,6 +449,8 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
     end
 )
 end)
+
+
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 god = State
 game:GetService("RunService").Stepped:connect(function()
@@ -613,7 +615,17 @@ while sexs do
     )
 end
 end)
-
+local Button1 = Section1:CreateButton("No Seats", function()
+pcall(
+    function()
+        for i, v in pairs(game.Workspace:GetChildren()) do
+            if ClassName == "Seat" then
+                v:remove()
+            end
+        end
+    end
+)
+end)
 local Button1 = Section1:CreateButton("Anti Effects", function()
 pcall(
     function()
