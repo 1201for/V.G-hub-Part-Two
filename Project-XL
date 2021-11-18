@@ -615,16 +615,15 @@ while sexs do
     )
 end
 end)
-local Button1 = Section1:CreateButton("No Seats", function()
-pcall(
-    function()
-        for i, v in pairs(game.Workspace:GetChildren()) do
-            if ClassName == "Seat" then
-                v:remove()
-            end
-        end
-    end
-)
+local Toggle1 = Section1:CreateToggle("Anti Sit", nil, function(State)
+yo = State
+game.Players.LocalPlayer:WaitForChild('Character'):WaitForChild('Humanoid').Seated:Connect(function()
+        if yo then
+     pcall(function()
+     game.Players.LocalPlayer:WaitForChild('Character'):WaitForChild('Humanoid'):ChangeState(Enum.HumanoidStateType.Running)
+     end)
+     end
+end)
 end)
 local Button1 = Section1:CreateButton("Anti Effects", function()
 pcall(
