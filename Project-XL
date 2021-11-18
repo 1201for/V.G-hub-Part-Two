@@ -489,7 +489,7 @@ nocool = State
 while wait() do
     wait()
     if nocool then
-        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = 0
+        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = -9e9
     else
         game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = 1
     end
