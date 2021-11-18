@@ -18,6 +18,10 @@ uu = 4
 aa = 0
 getgenv().delay = 2
 getgenv().delay2 = 0.3
+for i, v in pairs(game:GetService("Workspace").Map2:GetDescendants()) do
+if v.Name == "Beach Chairs" then
+v:remove()
+end end
 local LP = game:GetService("Players").LocalPlayer
 local ts = game:GetService("TweenService")
 local function Tween(part, endpos, speed)
@@ -615,16 +619,7 @@ while sexs do
     )
 end
 end)
-local Toggle1 = Section1:CreateToggle("Anti Sit", nil, function(State)
-yo = State
-game.Players.LocalPlayer.Character:WaitForChild('Humanoid').Seated:Connect(function()
-        if yo then
-     pcall(function()
-     game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass('Humanoid'):ChangeState("Jumping")
-     end)
-     end
-end)
-end)
+
 local Button1 = Section1:CreateButton("Anti Effects", function()
 pcall(
     function()
