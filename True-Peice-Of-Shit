@@ -41,9 +41,9 @@ for i, v in pairs(game:GetService("Workspace").MapSpawn:GetChildren()) do
         table.sort(ISLANDS)
     end
 end
-local speed = 300
+getgenv().speed = 3000
 
-
+getgenv().Height = -2
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -93,17 +93,6 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
 )
 while mobs do
     wait()
-    if mobs then
-        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-            pcall(
-                function()
-                    if v.ClassName == "MeshPart" or v.ClassName == "Part" then
-                        v.CanCollide = false
-                    end
-                end
-            )
-        end
-    end
     pcall(
         function()
             repeat
@@ -111,8 +100,8 @@ while mobs do
             until game.Players.LocalPlayer.Character.Humanoid
             game.Workspace.Gravity = 0
             local Time =
-                (game:GetService("Workspace").Mobs[MOBS].UpperTorso.CFrame.p + Vector3.new(0, -5, 3) -
-                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+                (game:GetService("Workspace").Mobs[MOBS].UpperTorso.CFrame.p + Vector3.new(0, -getgenv().Height, 3) -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
             local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
             local Tween =
                 game:GetService("TweenService"):Create(
@@ -120,7 +109,7 @@ while mobs do
                 Info,
                 {
                     CFrame = CFrame.new(
-                        game:GetService("Workspace").Mobs[MOBS].HumanoidRootPart.CFrame.p + Vector3.new(0, -5, 3)
+                        game:GetService("Workspace").Mobs[MOBS].HumanoidRootPart.CFrame.p + Vector3.new(0,  -getgenv().Height, 3)
                     )
                 }
             )
@@ -134,6 +123,13 @@ while mobs do
 end
 
 end)
+local Slider2 = Section1:CreateSlider("AutoFarm Distance", 0, 5, nil,false, function(Value)
+getgenv().Height = Value
+end)
+local Slider2 = Section1:CreateSlider("Tween Speed", 0, 10000, nil,false, function(Value)
+getgenv().speed = Value
+end)
+
 
 local Dropdown1 = Section1:CreateDropdown("Select Mob")
 Dropdown1:AddToolTip("Select Mob")
@@ -152,7 +148,7 @@ while dickfartbitchslut do
                 if v.ClassName == "Model" and v:FindFirstChild("Leaf") and v:FindFirstChild("MeshPart1") then
                     local Time =
                         (v.Leaf.CFrame.p - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
-                        speed
+                         getgenv().speed
                     local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
                     local Tween =
                         game:GetService("TweenService"):Create(
@@ -174,7 +170,7 @@ while dickfartbitchslut do
                 if v.ClassName == "Model" and v:FindFirstChild("Leaf") then
                     local Time =
                         (v.Leaf.CFrame.p - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
-                        speed
+                         getgenv().speed
                     local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
                     local Tween =
                         game:GetService("TweenService"):Create(
