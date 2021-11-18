@@ -723,6 +723,49 @@ spawn(
 end)
 
 
+local Toggle1 = Section1:CreateToggle("Auto use DragonBalls", nil, function(State)
+Dragoon = State
+local K = game:GetService("Players").LocalPlayer.PlayerValues
+local A = game.Players.LocalPlayer
+while Dragoon do
+    wait()
+    if K.DragonBall1.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["One Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall2.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Two Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall3.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Three Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall4.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Four Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall5.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Five Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall6.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Six Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall7.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Seven Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+end
+end)
 
 local Label1 = Section1:CreateLabel("Auto Quests")
 local Toggle1 = Section1:CreateToggle("Defeat 10 Bandits", nil, function(State)
