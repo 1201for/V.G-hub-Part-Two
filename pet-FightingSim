@@ -79,7 +79,7 @@ game:GetService("ReplicatedStorage").Communication.Events.ClickAttack:FireServer
 end end) end)
 local Toggle1 = Section1:CreateToggle("Auto Collect Milestones", nil, function(State)
 mile = State
-while mile do wait()
+while mile do wait(2)
 game:GetService("ReplicatedStorage").Communication.Events.UpgradeMilestone:FireServer("Time Played")
 
 game:GetService("ReplicatedStorage").Communication.Events.UpgradeMilestone:FireServer("Damage Done")
@@ -104,7 +104,7 @@ end)
 local Toggle1 = Section1:CreateToggle("Auto Attack Selected Mob", nil, function(State)
 attack = State
 while attack do
-    wait()
+    wait(2)
     pcall(
         function()
             repeat
