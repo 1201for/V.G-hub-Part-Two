@@ -564,7 +564,7 @@ writefile("V.G Hub\\"..Name,game:service'HttpService':JSONEncode(Settings))
 end
 
 spawn(function()
-while wait() do
+while wait(3) do
 Save()
 end
 end)
