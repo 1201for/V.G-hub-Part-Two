@@ -52,6 +52,7 @@ for i, v in pairs(game:GetService("Workspace").GameAssets.Capsules:GetChildren()
         table.sort(Caps)
     end
 end
+game:GetService("ReplicatedStorage").Communication.Events.EquipBest:FireServer()
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -63,6 +64,19 @@ local Section1 = Tab1:CreateSection("AutoFarms")
 local Section2 = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
+local Toggle1 = Section1:CreateToggle("Auto EquipBest", nil, function(State)
+best = State
+while best do wait(2)
+
+game:GetService("ReplicatedStorage").Communication.Events.EquipBest:FireServer()
+end end)
+
+local Toggle1 = Section1:CreateToggle("Fast Attacks", nil, function(State)
+fast = State
+game:GetService("RunService").Stepped:connect(function()
+if fast then
+game:GetService("ReplicatedStorage").Communication.Events.ClickAttack:FireServer()
+end end) end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto Collect", nil, function(State)
