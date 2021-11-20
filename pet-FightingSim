@@ -53,7 +53,7 @@ for i, v in pairs(game:GetService("Workspace").GameAssets.Capsules:GetChildren()
     end
 end
 game:GetService("ReplicatedStorage").Communication.Events.EquipBest:FireServer()
-
+getgenv().Delay = 2
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -66,10 +66,13 @@ local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 local Toggle1 = Section1:CreateToggle("Auto EquipBest", nil, function(State)
 best = State
-while best do wait(1)
+while best do wait(getgenv().Delay)
 
 game:GetService("ReplicatedStorage").Communication.Events.EquipBest:FireServer()
 end end)
+local Slider1 = Section1:CreateSlider("Equip Speed",0,5,nil,false, function(Value)
+	getgenv().Delay = Value
+end)
 
 local Toggle1 = Section1:CreateToggle("Fast Attacks", nil, function(State)
 fast = State
