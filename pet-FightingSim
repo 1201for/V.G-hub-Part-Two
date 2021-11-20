@@ -7,6 +7,43 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
+
+
+local DefaultSettings = {
+best = false,
+fast = false,
+mile = false,
+attack = false,
+coins = false,
+dodo=false,
+
+Infinite = false,
+Fly1=false,
+NoClip1=false ,
+NoClip2=false ,
+}
+
+Settings ={
+best = false,
+fast = false,
+mile = false,
+attack = false,
+coins = false,
+dodo=false,
+
+Infinite = false,
+Fly1=false,
+NoClip1=false ,
+NoClip2=false ,
+
+}
+
+ESP = {
+Tracers = false,
+Names = false,
+Boxes = false,
+}
+
 for i,v in pairs(getgc(true)) do
     if type(v)=="table" and rawget(v,"Remote") then
         if type(v.Remote)=="userdata" then
@@ -64,9 +101,9 @@ local Section1 = Tab1:CreateSection("AutoFarms")
 local Section2 = Tab1:CreateSection("Misc")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
-local Toggle1 = Section1:CreateToggle("Auto EquipBest", nil, function(State)
-best = State
-while best do wait(getgenv().Delay)
+local Toggle1 = Section1:CreateToggle("Auto EquipBest", Settings.best, function(State)
+Settings.best = State
+while Settings.best do wait(getgenv().Delay)
 
 game:GetService("ReplicatedStorage").Communication.Events.EquipBest:FireServer()
 end end)
@@ -74,15 +111,15 @@ local Slider1 = Section1:CreateSlider("Equip Speed",0,5,nil,false, function(Valu
 	getgenv().Delay = Value
 end)
 
-local Toggle1 = Section1:CreateToggle("Fast Attacks", nil, function(State)
-fast = State
+local Toggle1 = Section1:CreateToggle("Fast Attacks", Settings.fast, function(State)
+Settings.fast = State
 game:GetService("RunService").Stepped:connect(function()
-if fast then
+if Settings.fast then
 game:GetService("ReplicatedStorage").Communication.Events.ClickAttack:FireServer()
 end end) end)
-local Toggle1 = Section1:CreateToggle("Auto Collect Milestones", nil, function(State)
-mile = State
-while mile do wait(2)
+local Toggle1 = Section1:CreateToggle("Auto Collect Milestones", Settings.mile, function(State)
+Settings.mile = State
+while Settings.mile do wait(2)
 game:GetService("ReplicatedStorage").Communication.Events.UpgradeMilestone:FireServer("Time Played")
 
 game:GetService("ReplicatedStorage").Communication.Events.UpgradeMilestone:FireServer("Damage Done")
@@ -94,19 +131,19 @@ game:GetService("ReplicatedStorage").Communication.Events.UpgradeMilestone:FireS
 end end)
 
 
-local Toggle1 = Section1:CreateToggle("Auto Collect", nil, function(State)
-coins = State
+local Toggle1 = Section1:CreateToggle("Auto Collect", Settings.coins, function(State)
+Settings.coins = State
 workspace:WaitForChild("GameAssets"):WaitForChild("Coins").ChildAdded:Connect(
     function(c)
-        if coins then
+        if Settings.coins then
             game:GetService("ReplicatedStorage").Communication.Events.CollectCoin:FireServer(c)
         end
     end
 )
 end)
-local Toggle1 = Section1:CreateToggle("Auto Attack Selected Mob", nil, function(State)
-attack = State
-while attack do
+local Toggle1 = Section1:CreateToggle("Auto Attack Selected Mob", Settings.attack, function(State)
+Settings.attack = State
+while Settings.attack do
     wait(2)
     pcall(
         function()
@@ -135,9 +172,9 @@ Mobs = String
 end)
 end 
 
-local Toggle1 = Section1:CreateToggle("Auto Egg", nil, function(State)
-dodo = State
-while dodo do
+local Toggle1 = Section1:CreateToggle("Auto Egg", Settings.dodo, function(State)
+Settings.dodo = State
+while Settings.dodo do
     wait()
     remote(
         game:GetService("ReplicatedStorage").Communication.Functions.OpenCapsules,
@@ -156,19 +193,19 @@ Caps = String
 end)
 end 
 
-local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+Settings.ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
 local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
     ESP:Toggle(State)
 end)
-local Toggle1 = Section1:CreateToggle("Tracers Esp", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Tracers Esp", ESP.Tracers, function(State)
     ESP.Tracers = State
 end)
-local Toggle1 = Section1:CreateToggle("Name Esp", nil, function(State)
-    ESP.Names = State
+local Toggle1 = Section1:CreateToggle("Name Esp", ESP.Names, function(State)
+   ESP.Names = State
 end)
-local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
-    ESP.Boxes = State
+local Toggle1 = Section1:CreateToggle("Boxes Esp", ESP.Boxes, function(State)
+   ESP.Boxes = State
 end)
 
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
@@ -178,16 +215,16 @@ local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, funct
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
 end)
 local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
-Infinite = State
+Settings.Infinite = State
 game:GetService("UserInputService").JumpRequest:connect(function()
-	if Infinite then
+	if Settings.Infinite then
 		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
 	end
 end) end)
 
 
-local Toggle1 = Section2:CreateToggle("G PlatFormNoclip", nil, function(State)
-yes44 = State
+local Toggle1 = Section2:CreateToggle("G PlatFormNoclip", Settings.NoClip1, function(State)
+Settings.NoClip1 = State
 noclip = false
 game:GetService("RunService").Stepped:connect(
     function()
@@ -199,7 +236,7 @@ game:GetService("RunService").Stepped:connect(
 game.Players.LocalPlayer:GetMouse().KeyDown:connect(
     function(key)
         if key == "g" then
-            if yes44 then
+            if Settings.NoClip1 then
                 noclip = not noclip
                 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
             end
@@ -208,7 +245,7 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
 )
 end)
 local Toggle1 = Section2:CreateToggle("N NonePlatFormNoclip", nil, function(State)
-hoe = State
+Settings.NoClip2 = State
 game.Players.LocalPlayer:GetMouse().KeyDown:connect(
     function(v)
         if v == "n" then
@@ -216,7 +253,7 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
             game:GetService("RunService").Stepped:connect(
                 function()
                     if NoClip then
-                     if hoe then
+                     if Settings.NoClip2 then
                         for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                             pcall(
                                 function()
@@ -236,8 +273,8 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
 end)
 
 
-local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
-sex2 = State
+local Toggle1 = Section2:CreateToggle("B Fly", Settings.Fly1, function(State)
+Settings.Fly1 = State
 local Max = 0
 local Players = game.Players
 local LP = Players.LocalPlayer
@@ -246,7 +283,7 @@ Mouse.KeyDown:connect(function(k)
 if k:lower() == 'b' then
 Max = Max + 1
 getgenv().Fly = false
-if sex2 then
+if Settings.Fly1 then
 local T = LP.Character.UpperTorso
 local S = {
 F = 0,
@@ -511,4 +548,24 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 end)
 Slider4:SetValue(0.5)
 
+
+local Name = game.PlaceId ..".txt"
+
+makefolder("V.G Hub")
+
+local Settings
+
+if not pcall(function() readfile("V.G Hub\\"..Name) end) then writefile("V.G Hub\\"..Name,game:service'HttpService':JSONEncode(DefaultSettings)) end
+
+Settings = game:service'HttpService':JSONDecode(readfile("V.G Hub\\"..Name))
+
+local function Save()
+writefile("V.G Hub\\"..Name,game:service'HttpService':JSONEncode(Settings))
+end
+
+spawn(function()
+while wait() do
+Save()
+end
+end)
 
