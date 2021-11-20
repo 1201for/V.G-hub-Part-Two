@@ -77,6 +77,18 @@ game:GetService("RunService").Stepped:connect(function()
 if fast then
 game:GetService("ReplicatedStorage").Communication.Events.ClickAttack:FireServer()
 end end) end)
+local Toggle1 = Section1:CreateToggle("Auto Collect Milestones", nil, function(State)
+mile = State
+while mile do wait()
+game:GetService("ReplicatedStorage").Communication.Events.UpgradeMilestone:FireServer("Time Played")
+
+game:GetService("ReplicatedStorage").Communication.Events.UpgradeMilestone:FireServer("Damage Done")
+
+game:GetService("ReplicatedStorage").Communication.Events.UpgradeMilestone:FireServer("Capsules Opened")
+
+
+game:GetService("ReplicatedStorage").Communication.Events.UpgradeMilestone:FireServer("Pets Discovered")
+end end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto Collect", nil, function(State)
