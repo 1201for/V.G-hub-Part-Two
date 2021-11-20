@@ -97,11 +97,9 @@ while attack do
         function()
             repeat
                 wait()
-                for i = 1, 5 do
+                for i = 1, 50 do
                     wait()
                     game:GetService("ReplicatedStorage").Communication.Events.ClickAttack:FireServer()
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        workspace.GameAssets.Mobs[Mobs].Core.CFrame
                     game:GetService("ReplicatedStorage").Communication.Events.Attack:FireServer(
                         workspace.GameAssets.Mobs[Mobs],
                         false
