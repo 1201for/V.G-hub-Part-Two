@@ -66,7 +66,7 @@ local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 local Toggle1 = Section1:CreateToggle("Auto EquipBest", nil, function(State)
 best = State
-while best do wait(2)
+while best do wait(1)
 
 game:GetService("ReplicatedStorage").Communication.Events.EquipBest:FireServer()
 end end)
