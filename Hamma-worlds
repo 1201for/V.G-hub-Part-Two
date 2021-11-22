@@ -1,0 +1,15 @@
+if game.PlaceId == 7892819450 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Hamma'))()
+elseif game.PlaceId == 7782609878 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Hamma'))()
+elseif game.PlaceId == 7903810087 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Hamma'))()
+elseif game.PlaceId == 7815863490 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Hamma'))()
+elseif game.PlaceId == 7685833965 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Hamma'))()
+elseif game.PlaceId == 7667192229 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Hamma'))()
+elseif game.PlaceId == 6362390145 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Hamma'))()
+end 
