@@ -11,5 +11,5 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-
 elseif game.PlaceId == 7667192229 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Untitled'))()
 elseif game.PlaceId == 6362390145 then
-loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Hamma'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Untitled'))()
 end 
