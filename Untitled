@@ -52,7 +52,7 @@ for i, v in pairs(game:GetService("Workspace").NPCs:GetChildren()) do
 end
 item = {}
 for i, v in pairs(game:GetService("Workspace").bin.ShopButtons:GetChildren()) do
-    if v.ClassName == "Model" and v:FindFirstChild("NPCData") and not table.find(item, v.Name) then
+    if v.ClassName == "Model"  and not table.find(item, v.Name) then
         table.insert(item, v.Name)
     end
 end
