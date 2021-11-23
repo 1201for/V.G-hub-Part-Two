@@ -12,14 +12,8 @@ game:GetService("RunService").Stepped:connect(
         if game.Players.LocalPlayer.Character:FindFirstChild("RAGARAGA") then
             game.Players.LocalPlayer.Character:WaitForChild("RAGARAGA"):remove()
         end
-        if game.Players.LocalPlayer.Character:FindFirstChild("Ragdoll") then
-            game.Players.LocalPlayer.Character:WaitForChild("Ragdoll"):remove()
-        end
         if game.Players.LocalPlayer.Character:FindFirstChild("Stun") then
             game.Players.LocalPlayer.Character:WaitForChild("Stun"):remove()
-        end
-        if game.Players.LocalPlayer.Character:FindFirstChild("Health") then
-            game.Players.LocalPlayer.Character:WaitForChild("Health"):remove()
         end
         if game.Players.LocalPlayer.Character:WaitForChild("Head"):FindFirstChild('HeadDisplay') then
             game.Players.LocalPlayer.Character:WaitForChild("Head"):WaitForChild('HeadDisplay'):remove()
@@ -35,7 +29,7 @@ function Invis()
 pcall(function()
 local Save = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =CFrame.new(-816, 3, 855)
-wait(1)
+wait(0.5)
 local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
 game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
 Clone.Parent = game:GetService("Players").LocalPlayer.Character
@@ -45,15 +39,21 @@ Clone.Parent = game:GetService("Players").LocalPlayer.Character
 local Clone = game:GetService("Players").LocalPlayer.Character.Head.Neck:Clone()
 game:GetService("Players").LocalPlayer.Character.Head.Neck:Destroy()
 Clone.Parent = game:GetService("Players").LocalPlayer.Character
-wait(1)
+wait(0.5)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Save
 end)
 end
 pcall(function()
 NPCS = {}
 for i, v in pairs(game:GetService("Workspace").NPCs:GetChildren()) do
-    if v.ClassName == "Model" and v:FindFirstChild("NPCData") then
+    if v.ClassName == "Model" and v:FindFirstChild("NPCData") and not table.find(NPCS, v.Name) then
         table.insert(NPCS, v.Name)
+    end
+end
+item = {}
+for i, v in pairs(game:GetService("Workspace").bin.ShopButtons:GetChildren()) do
+    if v.ClassName == "Model" and v:FindFirstChild("NPCData") and not table.find(item, v.Name) then
+        table.insert(item, v.Name)
     end
 end
 end)
@@ -109,6 +109,34 @@ if ST then
 game:GetService("Players").LocalPlayer.Character.Head:remove()
 end end)
 if not ST then
+game.Players.LocalPlayer.Character.Humanoid:remove()
+end 
+end
+end)
+
+
+local Toggle1 = Section1:CreateToggle("Anti Ragdoll", nil, function(State)
+ST1 = State
+while wait() do
+pcall(function()
+if ST1 then
+game.Players.LocalPlayer.Character:WaitForChild("Ragdoll"):remove()
+end end)
+if not ST1 then
+game.Players.LocalPlayer.Character.Humanoid:remove()
+end 
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
+ST2 = State
+while wait() do
+pcall(function()
+if ST2 then
+game.Players.LocalPlayer.Character:WaitForChild("Health"):remove()
+game:GetService("Players").LocalPlayer.Character.Head:remove()
+end end)
+if not ST2 then
 game.Players.LocalPlayer.Character.Humanoid:remove()
 end 
 end
@@ -173,14 +201,23 @@ NPCS = String
 end)
 end 
 
-local Button1 = Section1:CreateButton("Pizza", function()
+local Button1 = Section1:CreateButton("Auto Buy Selected Item", function()
 local Save = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
 wait(0.5)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").bin.ShopButtons["Pepperoni Pizza"].Click.CFrame wait(0.5)
-fireclickdetector(game:GetService("Workspace").bin.ShopButtons["Pepperoni Pizza"].Click.ClickDetector)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").bin.ShopButtons[item].Click.CFrame wait(0.5)
+fireclickdetector(game:GetService("Workspace").bin.ShopButtons[item].Click.ClickDetector)
 wait(0.5)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Save
 end)
+
+local Dropdown1 = Section1:CreateDropdown("Select Item")
+Dropdown1:AddToolTip("Select Item")
+for i,v in next, item do
+Dropdown1:AddOption(v, function(String)
+item = String
+end)
+end 
+
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
