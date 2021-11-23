@@ -59,7 +59,7 @@ while Chests do wait()
 pcall(function()
 for i,v in pairs(game:GetService("Workspace").ItemSpawns.Chests:GetDescendants()) do
 if v:IsA("Model")   then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.RootPart.CFrame * CFrame.new(0,-uu,0)*CFrame.Angles(aa,0,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Base.CFrame * CFrame.new(0,-uu,0)*CFrame.Angles(aa,0,0)
 fireproximityprompt(v.RootPart:WaitForChild("ProximityAttachment").Interaction)
 end
 end 
