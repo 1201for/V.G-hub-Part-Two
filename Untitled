@@ -32,7 +32,10 @@ v:remove()
 end 
 end)
 function Invis()
-
+pcall(function()
+local Save = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =CFrame.new(-816, 3, 855)
+wait(1)
 local Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
 game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
 Clone.Parent = game:GetService("Players").LocalPlayer.Character
@@ -42,7 +45,9 @@ Clone.Parent = game:GetService("Players").LocalPlayer.Character
 local Clone = game:GetService("Players").LocalPlayer.Character.Head.Neck:Clone()
 game:GetService("Players").LocalPlayer.Character.Head.Neck:Destroy()
 Clone.Parent = game:GetService("Players").LocalPlayer.Character
-
+wait(1)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Save
+end)
 end
 pcall(function()
 NPCS = {}
