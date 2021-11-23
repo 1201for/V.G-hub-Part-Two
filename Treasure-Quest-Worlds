@@ -1,0 +1,7 @@
+if game.PlaceId == 2978518061 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Treasure-quest'))()
+elseif game.PlaceId == 7681237385 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Treasure-quest'))()
+elseif game.PlaceId == 2960777560 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Treasure-quest'))()
+end
