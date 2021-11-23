@@ -81,7 +81,7 @@ while Mentor do wait()
 pcall(function()
 for i,v in pairs(game:GetService("Workspace").ItemSpawns.Meteors:GetDescendants()) do
 if v:IsA("MeshPart")   then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.RootPart.CFrame * CFrame.new(0,-uu,0)*CFrame.Angles(aa,0,0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0,-uu,0)*CFrame.Angles(aa,0,0)
 fireproximityprompt(v:WaitForChild("ProximityAttachment").Interaction)
 end
 end 
@@ -102,8 +102,8 @@ spawn(function()
 while Mentor do wait()
 pcall(function()
 for i,v in pairs(game:GetService("Workspace").ItemSpawns.StandardItems:GetDescendants()) do
-if v:IsA("MeshPart")   then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.RootPart.CFrame * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
+if v:IsA("MeshPart") and v:FindFirstChild("ProximityAttachment")   then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame * CFrame.new(0,-uu,0) *CFrame.Angles(aa,0,0)
 fireproximityprompt(v:WaitForChild("ProximityAttachment").Interaction)
 end
 end 
