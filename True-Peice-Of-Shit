@@ -41,6 +41,16 @@ for i, v in pairs(game:GetService("Workspace").MapSpawn:GetChildren()) do
         table.sort(ISLANDS)
     end
 end
+pcall(function()
+game.Players.LocalPlayer.Character.PositionEnabled:remove()
+game.Players.LocalPlayer.Character.PositionCharacter:remove()
+local Clone = game.Players.LocalPlayer.Character.Animate:Clone()
+game.Players.LocalPlayer.Character.Animate:remove()
+Clone.Parent = game.Players.LocalPlayer.Character wait(2)
+end)
+for i=1,10 do wait(1)
+game.Players.LocalPlayer.Character:MoveTo(game:GetService("Workspace").MapSpawn[i].Spawn.CFrame.p)
+end
 getgenv().speed = 3000
 
 getgenv().Height = -2
@@ -99,21 +109,7 @@ while mobs do
                 wait(0.5)
             until game.Players.LocalPlayer.Character.Humanoid
             game.Workspace.Gravity = 0
-            local Time =
-                (game:GetService("Workspace").Mobs[MOBS].UpperTorso.CFrame.p + Vector3.new(0, -getgenv().Height, 3) -
-                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
-            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-            local Tween =
-                game:GetService("TweenService"):Create(
-                game.Players.LocalPlayer.Character.HumanoidRootPart,
-                Info,
-                {
-                    CFrame = CFrame.new(
-                        game:GetService("Workspace").Mobs[MOBS].HumanoidRootPart.CFrame.p + Vector3.new(0,  -getgenv().Height, 3)
-                    )
-                }
-            )
-            Tween:Play()
+             game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Mobs[MOBS].HumanoidRootPart.CFrame + Vector3.new(0,  -getgenv().Height, 3)
             game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
         end
     )
@@ -144,46 +140,41 @@ while dickfartbitchslut do
     wait()
     pcall(
         function()
-            for i, v in pairs(game.Workspace.Map.Trees:GetChildren()) do
+            for i, v in pairs(game:GetService("Workspace").PlayerEffects.Trees:GetChildren()) do
                 if v.ClassName == "Model" and v:FindFirstChild("Leaf") and v:FindFirstChild("MeshPart1") then
-                    local Time =
-                        (v.Leaf.CFrame.p - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
-                         getgenv().speed
-                    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-                    local Tween =
-                        game:GetService("TweenService"):Create(
-                        game.Players.LocalPlayer.Character.HumanoidRootPart,
-                        Info,
-                        {
-                            CFrame = CFrame.new(v.Leaf.CFrame.p)
-                        }
-                    )
-                    Tween:Play()
-
-                    wait(0.2)
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Leaf.CFrame
+                    wait(3)
                     fireproximityprompt(v.Leaf.ProximityPromptDF)
-                    wait(0.1)
+                    wait(6)
                 end
             end
 
             for i, v in pairs(game.Workspace:GetChildren()) do
                 if v.ClassName == "Model" and v:FindFirstChild("Leaf") then
-                    local Time =
-                        (v.Leaf.CFrame.p - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
-                         getgenv().speed
-                    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-                    local Tween =
-                        game:GetService("TweenService"):Create(
-                        game.Players.LocalPlayer.Character.HumanoidRootPart,
-                        Info,
-                        {
-                            CFrame = CFrame.new(v.Leaf.CFrame.p)
-                        }
-                    )
-                    Tween:Play()
-                    wait(.5)
+               game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Leaf.CFrame
+                    wait(3)
                     fireproximityprompt(v.Leaf.ProximityPromptDF)
-                    wait(0.1)
+                    wait(5)
+                end
+            end
+        end
+    )
+end
+end)
+
+
+local Toggle1 = Section1:CreateToggle("Auto Chests", nil, function(State)
+dickfartbitchslut = State
+while dickfartbitchslut do
+    wait()
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").PlayerEffects.Trees:GetChildren()) do
+                if v.ClassName == "Model" and v:FindFirstChild("Base") and v:FindFirstChild("Lid") then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Base.CFrame
+                    wait(3)
+                    fireproximityprompt(v.Base.ProximityPromptChest)
+                    wait(6)
                 end
             end
         end
