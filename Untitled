@@ -12,6 +12,9 @@ game:GetService("RunService").Stepped:connect(
         if game.Players.LocalPlayer.Character:FindFirstChild("RAGARAGA") then
             game.Players.LocalPlayer.Character:WaitForChild("RAGARAGA"):remove()
         end
+        if game:GetService("Players").LocalPlayer.CharacterValues:FindFirstChild('Running') then
+            game:GetService("Players").LocalPlayer.CharacterValues.Running.Value = false
+        end 
         if game.Players.LocalPlayer.Character:FindFirstChild("Stun") then
             game.Players.LocalPlayer.Character:WaitForChild("Stun"):remove()
         end
@@ -100,6 +103,21 @@ fireproximityprompt(v.Spawn.BedPrompt)
 end 
 end 
 end)
+local Toggle1 = Section1:CreateToggle("Anti ComboCounter", nil, function(State)
+EnabledW = State
+game:GetService("RunService").Stepped:connect(function()
+if EnabledW then
+game:GetService("Players")LocalPlayer.CharacterValues.ComboCounter.Value = 0
+end end) end)
+
+local Toggle1 = Section1:CreateToggle("Anti CombatTag", nil, function(State)
+gg = State
+game:GetService("RunService").Stepped:connect(function()
+if gg then
+game:GetService("Players").LocalPlayer.CharacterValues.CombatTagTimer.Value = -9e9
+end end) end)
+
+
 
 local Toggle1 = Section1:CreateToggle("Infinite Stamina", nil, function(State)
 ST = State
