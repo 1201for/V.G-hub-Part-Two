@@ -193,6 +193,10 @@ if getgenv().invis then
 Invis()
 end end)
 end)
+local Button1 = Section2:CreateButton("Fuck you", function()
+game:GetService("TeleportService"):Teleport(7782609878, game:GetService("Players").LocalPlayer) end)
+
+
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
 local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
@@ -228,6 +232,7 @@ wait(0.5)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Save
 end)
 
+pcall(function()
 local Dropdown1 = Section1:CreateDropdown("Select Item")
 Dropdown1:AddToolTip("Select Item")
 for i,v in next, item do
@@ -235,7 +240,7 @@ Dropdown1:AddOption(v, function(String)
 item = String
 end)
 end 
-
+end)
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
