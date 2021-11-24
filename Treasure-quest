@@ -139,14 +139,14 @@ while H do
                 wait()
 
                 local Time =
-                    (GetClosestt().HumanoidRootPart.Position -
+                    (GetClosestt().HumanoidRootPart.Position + Vector3.new(0,0,-2) -
                     game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
                 local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
                 local Tween =
                     game:GetService("TweenService"):Create(
                     game.Players.LocalPlayer.Character.HumanoidRootPart,
                     Info,
-                    {CFrame = CFrame.new(GetClosestt().HumanoidRootPart.Position)}
+                    {CFrame = CFrame.new(GetClosestt().HumanoidRootPart.Position + Vector3.new(0,0,-2))}
                 )
                 Tween:Play()
             until GetClosestt():FindFirstChildOfClass("Humanoid").Health == 0
