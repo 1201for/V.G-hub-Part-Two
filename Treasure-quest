@@ -1,7 +1,3 @@
-repeat wait() until game:IsLoaded() 
-for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
-   v:Disable()
-end
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
@@ -12,6 +8,20 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
+local h = require(game:GetService("ReplicatedStorage").Shared.Modules.DungeonLibrary)
+
+local Dungeons = {}
+for i, v in pairs(h.Dungeons) do
+    table.insert(Dungeons, i)
+end
+GameModes = {}
+for i, v in pairs(h.GameModes) do
+    table.insert(GameModes, i)
+end
+Difficulties = {}
+for i, v in pairs(h.Difficulties) do
+    table.insert(Difficulties, i)
+end
 
 local function GetClosestt()
     local TargetDistance = math.huge
@@ -44,7 +54,7 @@ end
  local Script = require(game.Players.LocalPlayer.PlayerScripts.Shared.Client.CombatController)
 Attack = Script.BasicAttack
 Ability = Script.UseAbility
-speed = 50
+getgenv().speed = 50
 
 print(GetClosestt())
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
@@ -59,6 +69,41 @@ local SectionA = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
+
+if game.PlaceId == 2960777560 then
+
+
+local Button1 = Section2:CreateButton("Start Selected Dungeon", function()
+
+game:GetService("ReplicatedStorage").Lobby.Remotes.CreateSquad:FireServer(Dungeons,Difficulties,GameModes,"Public")
+game:GetService("ReplicatedStorage").Lobby.Remotes.StartGame:FireServer()
+
+end)
+
+local Dropdown1 = Section1:CreateDropdown("Select Dungeon")
+Dropdown1:AddToolTip("Select Dungeon")
+for i,v in next, Dungeons do
+Dropdown1:AddOption(v, function(String)
+Dungeons = String
+end)
+end 
+
+local Dropdown1 = Section1:CreateDropdown("Select GameMode")
+Dropdown1:AddToolTip("Select GameMode")
+for i,v in next, GameModes do
+Dropdown1:AddOption(v, function(String)
+GameModes = String
+end)
+end 
+
+local Dropdown1 = Section1:CreateDropdown("Select Difficultie")
+Dropdown1:AddToolTip("Select Difficultie")
+for i,v in next, Difficulties do
+Dropdown1:AddOption(v, function(String)
+Difficulties = String
+end)
+end 
+end
 local Toggle1 = Section1:CreateToggle("Auto Mobs", nil, function(State)
 H = State
 
@@ -95,7 +140,7 @@ while H do
 
                 local Time =
                     (GetClosestt().HumanoidRootPart.Position -
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
                 local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
                 local Tween =
                     game:GetService("TweenService"):Create(
@@ -135,6 +180,10 @@ Workspace:WaitForChild("Ignore").ChildAdded:Connect(
 )
 
 end)
+local Slider3 = Section1:CreateSlider("Tween Speed",0,100,nil,false, function(Value)
+	getgenv().speed = Value
+end)
+
 local Toggle1 = Section1:CreateToggle("Collect Treasure", nil, function(State)
 Treasure = State
 while Treasure do
