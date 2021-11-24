@@ -73,7 +73,7 @@ local Section4 = Tab2:CreateSection("Background")
 if game.PlaceId == 2960777560 then
 
 
-local Button1 = Section2:CreateButton("Start Selected Dungeon", function()
+local Button1 = Section1:CreateButton("Start Selected Dungeon", function()
 
 game:GetService("ReplicatedStorage").Lobby.Remotes.CreateSquad:FireServer(Dungeons,Difficulties,GameModes,"Public")
 game:GetService("ReplicatedStorage").Lobby.Remotes.StartGame:FireServer()
