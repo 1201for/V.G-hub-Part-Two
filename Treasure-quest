@@ -128,7 +128,6 @@ while H do
     wait()
     pcall(
         function()
-            game:GetService("Players").LocalPlayer.PlayerGui.MainGui.MainFrame.PrizeClaim:remove()
                 game:GetService("ReplicatedStorage").Dungeon.Remotes.StartDungeon:FireServer()
                 game:GetService("ReplicatedStorage").Dungeon.Remotes.StartDungeon:FireServer()
                 game:GetService("ReplicatedStorage").Shared.Remotes.Data.ClaimPrizes:FireServer()
