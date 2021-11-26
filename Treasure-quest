@@ -71,7 +71,10 @@ local Section4 = Tab2:CreateSection("Background")
 
 
 if game.PlaceId == 2960777560 then
-
+pcall(function()
+game:GetService("ReplicatedStorage").Lobby.Remotes.ClaimDailyReward:FireServer()
+game:GetService("ReplicatedStorage").Lobby.Remotes.ClaimTreasureReward:FireServer()
+end)
 
 local Button1 = Section1:CreateButton("Start Selected Dungeon", function()
 
