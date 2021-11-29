@@ -1,0 +1,9 @@
+if game.PlaceId == 6596144663 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/King-Gays"))()
+elseif game.PlaceId == 5931540094 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/King-Gays"))()
+elseif game.PlaceId == 6381829480 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/King-Gays"))()
+elseif game.PlaceId == 4520749081 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/King-Gays"))()
+end
