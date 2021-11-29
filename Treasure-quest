@@ -75,37 +75,6 @@ pcall(function()
 game:GetService("ReplicatedStorage").Lobby.Remotes.ClaimDailyReward:FireServer()
 game:GetService("ReplicatedStorage").Lobby.Remotes.ClaimTreasureReward:FireServer()
 end)
-
-local Button1 = Section1:CreateButton("Start Selected Dungeon", function()
-
-game:GetService("ReplicatedStorage").Lobby.Remotes.CreateSquad:FireServer(Dungeons,Difficulties,GameModes,"Public")
-game:GetService("ReplicatedStorage").Lobby.Remotes.StartGame:FireServer()
-
-end)
-
-local Dropdown1 = Section1:CreateDropdown("Select Dungeon")
-Dropdown1:AddToolTip("Select Dungeon")
-for i,v in next, Dungeons do
-Dropdown1:AddOption(v, function(String)
-Dungeons = String
-end)
-end 
-
-local Dropdown1 = Section1:CreateDropdown("Select GameMode")
-Dropdown1:AddToolTip("Select GameMode")
-for i,v in next, GameModes do
-Dropdown1:AddOption(v, function(String)
-GameModes = String
-end)
-end 
-
-local Dropdown1 = Section1:CreateDropdown("Select Difficultie")
-Dropdown1:AddToolTip("Select Difficultie")
-for i,v in next, Difficulties do
-Dropdown1:AddOption(v, function(String)
-Difficulties = String
-end)
-end 
 end
 local Toggle1 = Section1:CreateToggle("Auto Mobs", nil, function(State)
 H = State
