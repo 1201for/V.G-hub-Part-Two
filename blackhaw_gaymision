@@ -1,0 +1,33 @@
+if game.PlaceId == 3028602840 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 2916899287 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 4747446334 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 3701546109 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 5321709389 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 4843465225 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 5518833349 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 5480112241 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 3774307372 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 5468388011 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 4482712909 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 3826587512 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 5289429734 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 5899968224 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 4524359706 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+elseif game.PlaceId == 4798700600 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/BlackHaw-Gay_Mission"))()
+end
