@@ -84,7 +84,6 @@ while chests do
                 )
             end
             wait(0.5)
-            for i=1,10 do wait(0.1)
             for _, v in pairs(game:GetService("Workspace").Drops:GetDescendants()) do
                 if v:IsA("TouchTransmitter") then
                     wait()
@@ -94,7 +93,6 @@ while chests do
                 end
             end
         end
-    end
     )
 end
 end)
