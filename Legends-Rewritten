@@ -84,15 +84,17 @@ while chests do
                 )
             end
             wait(0.5)
+            for i=1,10 do wait(0.1)
             for _, v in pairs(game:GetService("Workspace").Drops:GetDescendants()) do
                 if v:IsA("TouchTransmitter") then
-                    wait(0.1)
+                    wait()
                     firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0) --0 is touch
                     wait()
                     firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1) -- 1 is untouch
                 end
             end
         end
+    end
     )
 end
 end)
@@ -113,23 +115,6 @@ game:GetService("RunService").Stepped:connect(
 )
 end)
 Toggle1:AddToolTip("Infinite Amount of Health/Nodmg effects")
-local Toggle1 = Section1:CreateToggle("Anti Stun", nil, function(State)
-Stun = State
-game:GetService("RunService").Stepped:connect(
-    function()
-        pcall(
-            function()
-                if Stun then
-                    game.Players.LocalPlayer.Character.Stunned:remove()
-                else
-                    game.Players.LocalPlayer.Character.Huamnoid.Health = 0
-                end
-            end
-        )
-    end
-)
-end)
-Toggle1:AddToolTip("Removes and curses all Stunning effects")
 
 local Toggle1 = Section1:CreateToggle("Anti Burn", nil, function(State)
 Burned = State
@@ -520,3 +505,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
