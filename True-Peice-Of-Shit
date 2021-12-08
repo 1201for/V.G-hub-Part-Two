@@ -28,7 +28,7 @@ end
 
 MOBS = {}
 for i, v in pairs(game:GetService("Workspace").Mobs:GetChildren()) do
-    if v.ClassName == "Model" and v:FindFirstChild("Humanoid") then
+    if v.ClassName == "Model" and v:FindFirstChild("Humanoid") and not table.find(MOBS, v.Name) then
         table.insert(MOBS, v.Name)
         table.sort(MOBS)
     end
@@ -42,15 +42,11 @@ for i, v in pairs(game:GetService("Workspace").MapSpawn:GetChildren()) do
     end
 end
 pcall(function()
-game.Players.LocalPlayer.Character.PositionEnabled:remove()
-game.Players.LocalPlayer.Character.PositionCharacter:remove()
 local Clone = game.Players.LocalPlayer.Character.Animate:Clone()
 game.Players.LocalPlayer.Character.Animate:remove()
-Clone.Parent = game.Players.LocalPlayer.Character wait(2)
+Clone.Parent = game.Players.LocalPlayer.Character 
 end)
-for i=1,10 do wait(1)
-game.Players.LocalPlayer.Character:MoveTo(game:GetService("Workspace").MapSpawn[i].Spawn.CFrame.p)
-end
+
 getgenv().speed = 3000
 
 getgenv().Height = -2
@@ -105,11 +101,8 @@ while mobs do
     wait()
     pcall(
         function()
-            repeat
-                wait(0.5)
-            until game.Players.LocalPlayer.Character.Humanoid
             game.Workspace.Gravity = 0
-             game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Mobs[MOBS].HumanoidRootPart.CFrame + Vector3.new(0,  -getgenv().Height, 3)
+             game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Mobs[MOBS].HumanoidRootPart.CFrame * CFrame.new(0, -getgenv().Height, 3)
             game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
         end
     )
