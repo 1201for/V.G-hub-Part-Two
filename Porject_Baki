@@ -15,12 +15,41 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     end
     return OldNameCall(A, B, ...)
 end)
+Quests = {}
+for i, v in pairs(game:GetService("Workspace").Game.Quests:GetDescendants()) do
+    if v.ClassName == "Model" and v:FindFirstChild("ClickDetector") and v:FindFirstChild('Humanoid') then
+        table.insert(Quests, v:WaitForChild("Quest"):WaitForChild("Name").Value)
+    end
+end
 
-game:GetService('RunService').Stepped:connect(function()
-pcall(function()
-if Player.Character.Head:FindFirstChild("PlayerName") then
-Player.Character.Head.PlayerName:remove()
-end end) end)
+Foods = {}
+for i, v in pairs(game:GetService("Workspace").Game.Shop:GetDescendants()) do
+    if v.ClassName == "Part" and v:FindFirstChild("ClickDetector") and not table.find(Foods, v.Name) then
+        table.insert(Foods, v.Name)
+    end
+end
+
+Mobs = {}
+for i, v in pairs(game:GetService("Workspace").Game.Players:GetChildren()) do
+    if v.ClassName == "Model" and v:FindFirstChild("Respawn") and not table.find(Mobs, v.Name) then
+        table.insert(Mobs, v.Name)
+        print(v)
+    end
+end
+
+
+game:GetService("RunService").Stepped:connect(
+    function()
+        pcall(
+            function()
+                if Player.Character.Head:FindFirstChild("PlayerName") then
+                    Player.Character.Head.PlayerName:remove()
+                end
+            end
+        )
+    end
+)
+
 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
@@ -37,27 +66,115 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("Auto Train", nil, function(State)
 Train = State
-while Train do wait()
-game:GetService("ReplicatedStorage").Remotes.ClientToServer.Train:InvokeServer(workspace.Game.Training:FindFirstChild("Pullup Bar"))
-end end)
+while Train do
+    wait()
+    game:GetService("ReplicatedStorage").Remotes.ClientToServer.Train:InvokeServer(
+        workspace.Game.Training:FindFirstChild("Pullup Bar")
+    )
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Work", nil, function(State)
 click = State
-while click do wait()
-game:GetService("ReplicatedStorage").Remotes.ClientToServer.Job:InvokeServer(workspace.Game.Jobs:FindFirstChild("Restaurant Cashier"))
+while click do
+    wait()
+    game:GetService("ReplicatedStorage").Remotes.ClientToServer.Job:InvokeServer(
+        workspace.Game.Jobs:FindFirstChild("Restaurant Cashier")
+    )
+end
+end)
 
-end end)
+
 local Toggle1 = Section1:CreateToggle("Auto Eat", nil, function(State)
 Hotdog = State
-while Hotdog do wait(60)
-pcall(function()
-game:GetService("ReplicatedStorage").Remotes.ClientToServer.Shop:InvokeServer(workspace.Game.Shop.Other.Hotdog)
-Player.Character.Humanoid:EquipTool(Player.Backpack.Hotdog)
-for i=1,50 do wait()
-game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
-end 
+while Hotdog do
+    wait()
+    pcall(
+        function()
+            repeat
+                wait()
+                if not Player.Backpack:FindFirstChild("Hotdog") or not Player.Character:FindFirstChild("Hotdog") then
+                    game:GetService("ReplicatedStorage").Remotes.ClientToServer.Shop:InvokeServer(
+                        workspace.Game.Shop.Other.Hotdog
+                    )
+                    wait(1)
+                end
+                Player.Character.Humanoid:EquipTool(Player.Backpack.Hotdog)
+                for i = 1, 50 do
+                    wait()
+                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                end
+            until game:GetService("Players").LocalPlayer.Data.Calories.Value <
+                game:GetService("Players").LocalPlayer.Data.Calories.MaxCalories.Value
+        end
+    )
+    wait(60)
+end
 end)
-end end)
+
+
+local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
+mobs = State
+while mobs do
+    wait()
+    for i, v in pairs(game:GetService("Workspace").Game.Players:GetChildren()) do
+        if
+            v.ClassName == "Model" and v:FindFirstChild("Respawn") and v.Name == Mobs and v:FindFirstChild("Humanoid") and
+                v.Humanoid.Health ~= 0
+         then
+            game:GetService("ReplicatedStorage").Remotes.ClientToServer.BasicCombat:FireServer("SwingSound", 1, "Right")
+            wait(1)
+            game:GetService("ReplicatedStorage").Remotes.ClientToServer.BasicCombat:FireServer("SwingSound", 2, "Left")
+
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+        end
+    end
+end
+
+end)
+
+local Dropdown1 = Section1:CreateDropdown("Select Mob")
+Dropdown1:AddToolTip("Select Mob")
+for i,v in next, Mobs do
+Dropdown1:AddOption(v, function(String)
+Mobs = String
+end)
+end 
+
+
+local Button1 = Section1:CreateButton("Start Selected Quest", function()
+for i, v in pairs(game:GetService("Workspace").Game.Quests:GetDescendants()) do
+    if v.ClassName == "Model" and v:FindFirstChild("ClickDetector") and v.Quest:WaitForChild("Name").Value == Quests then
+    fireclickdetector(v.ClickDetector)
+    end
+end
+end)
+
+local Dropdown1 = Section1:CreateDropdown("Select Quest")
+Dropdown1:AddToolTip("Select Quest")
+for i,v in next, Quests do
+Dropdown1:AddOption(v, function(String)
+Quests = String
+end)
+end 
+
+
+local Button1 = Section1:CreateButton("Purechase Selected Item", function()
+for i, v in pairs(game:GetService("Workspace").Game.Shop:GetDescendants()) do
+    if v.ClassName == "Part" and v:FindFirstChild("ClickDetector") and v.Name == Foods  then
+        game:GetService("ReplicatedStorage").Remotes.ClientToServer.Shop:InvokeServer(v)
+    end
+end
+end)
+
+local Dropdown1 = Section1:CreateDropdown("Select Item")
+Dropdown1:AddToolTip("Select Item")
+for i,v in next, Foods do
+Dropdown1:AddOption(v, function(String)
+Foods = String
+end)
+end 
+
 local Button1 = Section1:CreateButton("Use Gym Pass", function()
 if not Player.Backpack:FindFirstChild("Membership Ticket") then
 
@@ -364,4 +481,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
