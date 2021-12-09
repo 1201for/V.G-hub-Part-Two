@@ -8,6 +8,13 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
+
+Ores = {}
+for i,v in pairs(game.Workspace:GetChildren()) do
+if v.ClassName == 'Model'and v:FindFirstChild("DataName") then
+table.insert(Ores, v.DataName.Value)
+end end 
+
 local function getNearestChests()
     local TargetDistance = math.huge
     local Target
@@ -22,6 +29,22 @@ local function getNearestChests()
     end
     return Target
 end;
+
+local function getNearestOre()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
+        if v.ClassName == "Model" and v:FindFirstChild("Main") and v.Name == Ores and v.Interact.Value == true then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
+
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -41,7 +64,67 @@ while yes do
     game:GetService("Players").LocalPlayer.PlayerGui.Parkour.Script.Dash:FireServer()
 end
 end)
-speed = 300
+getgenv().speed = 300
+
+
+local Toggle1 = Section1:CreateToggle("Auto Mine", nil, function(State)
+chests1 = State
+
+game:GetService("RunService").Stepped:connect(
+    function()
+        pcall(
+            function()
+                if chests1 then
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                end
+            end
+        )
+    end
+)
+while chests1 do
+    pcall(
+        function() wait(1)
+            if game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                local Time =
+                    (getNearestOre().Main.CFrame.p + Vector3.new(0, 0, 3) -
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
+                local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+                local Tween =
+                    game:GetService("TweenService"):Create(
+                    game.Players.LocalPlayer.Character.HumanoidRootPart,
+                    Info,
+                    {CFrame = CFrame.new(getNearestOre().Main.CFrame.p + Vector3.new(0, 0, 3))}
+                )
+                Tween:Play()
+                if getNearestOre().Interact.Value == true then
+                    game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").SwordScript.Activate:FireServer(
+
+                    )
+                end
+            elseif not game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                game.StarterGui:SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Yo",
+                        Text = "You need to equip your pickaxe for this to work like really???"
+                    }
+                )
+            end
+        end
+    )
+end
+
+end)
+local Slider2 = Section1:CreateSlider("Tween Speed", 0, 10000, nil,false, function(Value)
+getgenv().speed = Value
+end)
+local Dropdown1 = Section1:CreateDropdown("Select Ore")
+Dropdown1:AddToolTip("Select Ore")
+for i,v in next, Ores do
+Dropdown1:AddOption(v, function(String)
+Ores = String
+end)
+end 
 
 local Toggle1 = Section1:CreateToggle("Auto Collect Chests", nil, function(State)
 chests = State
@@ -63,7 +146,7 @@ while chests do
         function()
             local Time =
                 (getNearestChests().Main.CFrame.p + Vector3.new(0, 0, 3) -
-                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / speed
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
             local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
             local Tween =
                 game:GetService("TweenService"):Create(
@@ -84,6 +167,7 @@ while chests do
                 )
             end
             wait(0.5)
+            for i=1,10 do wait(0.1)
             for _, v in pairs(game:GetService("Workspace").Drops:GetDescendants()) do
                 if v:IsA("TouchTransmitter") then
                     wait()
@@ -93,6 +177,7 @@ while chests do
                 end
             end
         end
+    end
     )
 end
 end)
@@ -114,6 +199,27 @@ game:GetService("RunService").Stepped:connect(
 end)
 Toggle1:AddToolTip("Infinite Amount of Health/Nodmg effects")
 
+local Toggle1 = Section1:CreateToggle("infinite Mana", nil, function(State)
+Mana = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Mana then
+            game:GetService("Players").LocalPlayer.Data.Mana.Value = 9e9
+        end
+    end
+)
+end)
+
+local Toggle1 = Section1:CreateToggle("infinite Stamina", nil, function(State)
+Mana1 = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Mana1 then
+            game:GetService("Players").LocalPlayer.Data.Stamina.Value = 9e9
+        end
+    end
+)
+end)
 local Toggle1 = Section1:CreateToggle("Anti Burn", nil, function(State)
 Burned = State
 game:GetService("RunService").Stepped:connect(
