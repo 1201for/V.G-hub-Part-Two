@@ -7,6 +7,15 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
+
+local Utils = require(game:GetService("ReplicatedStorage").Modules.Utils.Utils)
+function FreeForAll(v)
+    if getgenv().FreeForAll == false then
+        if game.Players.LocalPlayer.Team == v.Team then return false
+        else return true end
+    else return true end
+end
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -20,6 +29,61 @@ local Section4 = Tab2:CreateSection("Background")
 
 
 
+local Toggle1 = Section1:CreateToggle("Player Silent Aim", nil, function(State)
+getgenv().SilentAim = State
+local Ignore = {}
+local function ClosestPlayerToCurser()
+    local Closest = nil
+    local MaxDistance = math.huge
+    for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+        if
+            v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Head") and
+                v.Character.Head.PlayerInfo.Screen.HealthContainer.HealthBar.HealthProgressFrame.Size.X.Scale ~= 0 and FreeForAll(v)
+         then
+            local AimPoint, Part =
+                game:GetService("Workspace").CurrentCamera:WorldToScreenPoint(v.Character.Head.Position)
+            if Part then
+                local Ignore = {game.Players.LocalPlayer.Character}
+                local RayCastPoints = {v.Character.Head.Position}
+                local Point = game:GetService("Workspace").CurrentCamera:GetPartsObscuringTarget(RayCastPoints, Ignore)
+                local Hitting = false
+                for i, x in pairs(Point) do
+                    if not x:IsDescendantOf(v.Character) then
+                        Hitting = true
+                    end
+                end
+                if Hitting == false then
+                    local M =
+                        (Vector2.new(AimPoint.X, AimPoint.Y) -
+                        Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
+                    if M < MaxDistance then
+                        MaxDistance = M
+                        Closest = v
+                    end
+                end
+            end
+        end
+    end
+    return Closest
+end
+
+local OldIndex = Utils.GetMouseHit
+Utils.GetMouseHit = function(...)
+    local ClosestPlayerToCurser = ClosestPlayerToCurser()
+    wait()
+    if ClosestPlayerToCurser and ClosestPlayerToCurser.Character and getgenv().SilentAim then
+        if ClosestPlayerToCurser.Character:FindFirstChild("Head") then
+            return ClosestPlayerToCurser.Character.Head.Position
+        end
+    end
+
+    return OldIndex(...)
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("Player Silent Aim TeamCheck", nil, function(State)
+getgenv().FreeForAll = State
+end)
 local Toggle1 = Section1:CreateToggle("Ore Esp", nil, function(State)
 getgenv().esp = State
 local function esp(v)
