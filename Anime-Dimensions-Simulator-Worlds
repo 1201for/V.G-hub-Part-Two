@@ -1,0 +1,25 @@
+if game.PlaceId == 6990131029 then
+    loadstring(
+        game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Anime-Dimensions-Simulator")
+    )()
+elseif game.PlaceId == 6990129309 then
+    loadstring(
+        game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Anime-Dimensions-Simulator")
+    )()
+elseif game.PlaceId == 6990133340 then
+    loadstring(
+        game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Anime-Dimensions-Simulator")
+    )()
+elseif game.PlaceId == 7274690025 then
+    loadstring(
+        game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Anime-Dimensions-Simulator")
+    )()
+elseif game.PlaceId == 7338881230 then
+    loadstring(
+        game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Anime-Dimensions-Simulator")
+    )()
+elseif game.PlaceId == 6938803436 then
+    loadstring(
+        game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Anime-Dimensions-Simulator")
+    )()
+end
