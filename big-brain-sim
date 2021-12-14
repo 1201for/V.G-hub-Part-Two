@@ -35,7 +35,7 @@ while auto do
                 end
             end
             game:GetService("ReplicatedStorage").Remotes.BookClicked:FireServer(
-                game:GetService("Players").LocalPlayer.Settings.EquippedBook
+                game:GetService("Players").LocalPlayer.Settings.EquippedBook.Value
             )
         end
     )
