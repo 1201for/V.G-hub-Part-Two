@@ -84,6 +84,69 @@ end)
 local Toggle1 = Section1:CreateToggle("Player Silent Aim TeamCheck", nil, function(State)
 getgenv().FreeForAll = State
 end)
+local Toggle1 = Section1:CreateToggle("Animal Silent Aim", nil, function(State)
+getgenv().SilentAnimalAim = State
+local Utils = require(game:GetService("ReplicatedStorage").Modules.Utils.Utils)
+local Ignore = {}
+local function ClosestAnimalToCurser()
+    local Closest = nil
+    local MaxDistance = math.huge
+    for i, v in pairs(game.Workspace.WORKSPACE_Entities.Animals:GetChildren()) do
+        if v:FindFirstChild("Body") then
+            local AimPoint, Part =
+                game:GetService("Workspace").CurrentCamera:WorldToScreenPoint(v.Body.Position)
+            if Part then
+                local Ignore = {game.Players.LocalPlayer.Character}
+                local RayCastPoints = {v.Body.Position}
+                local Point = game:GetService("Workspace").CurrentCamera:GetPartsObscuringTarget(RayCastPoints, Ignore)
+                local Hitting = false
+                for i, x in pairs(Point) do
+                    if not x:IsDescendantOf(v) then
+                        Hitting = true
+                    end
+                end
+                if Hitting == false then
+                    local M =
+                        (Vector2.new(AimPoint.X, AimPoint.Y) -
+                        Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
+                    if M < MaxDistance then
+                        MaxDistance = M
+                        Closest = v
+                    end
+                end
+            end
+        end
+    end
+    return Closest
+end
+
+local OldIndex = Utils.GetMouseHit
+Utils.GetMouseHit = function(...)
+    local ClosestAnimalToCurser = ClosestAnimalToCurser()
+    if ClosestAnimalToCurser and ClosestAnimalToCurser.Body and getgenv().SilentAnimalAim  then
+        if ClosestAnimalToCurser:FindFirstChild("Body") then
+            return ClosestAnimalToCurser.Body.Position
+        end
+    end
+    return OldIndex(...)
+end
+end)
+
+
+local Toggle1 = Section1:CreateToggle("Anti Rain", nil, function(State)
+rain = State
+local save = game:GetService("ReplicatedStorage").GlobalWeather.RainPercent.Value
+game:GetService("RunService").Stepped:Connect(
+    function()
+        if rain then
+            game:GetService("ReplicatedStorage").GlobalWeather.RainPercent.Value = 0
+        else
+            game:GetService("ReplicatedStorage").GlobalWeather.RainPercent.Value = save
+        end
+    end
+)
+end)
+
 local Toggle1 = Section1:CreateToggle("Ore Esp", nil, function(State)
 getgenv().esp = State
 local function esp(v)
@@ -132,6 +195,54 @@ game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits.Desce
 )
 end)
 
+local Toggle1 = Section1:CreateToggle("Animal Esp", nil, function(State)
+getgenv().esp3 = State
+local function esp(v)
+    local T = Drawing.new("Text")
+    T.Visible = false
+    T.Center = true
+    T.Outline = true
+    T.Font = 2
+    T.Text = "Ore"
+    T.Size = 14
+    T.Color = Color3.fromRGB(203, 0, 0)
+    local function update()
+        local Re
+        Re =
+            game:GetService('RunService').Stepped:Connect(
+            function()
+                if v and v:FindFirstChildOfClass("MeshPart") then
+                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v:FindFirstChildOfClass("MeshPart").Position)
+                    if getgenv().esp3 and Screen then
+                        T.Position = Vector2.new(Vector.X, Vector.Y)
+                        T.Visible = true
+                        T.Text = v.Name
+                    else
+                        T.Visible = false
+                    end
+                elseif v:FindFirstChildOfClass("MeshPart") == nil then
+                    T:Remove()
+                    Re:disconnect()
+                end
+            end
+        )
+    end
+    update()
+end
+for i,v in pairs(game.Workspace.WORKSPACE_Entities.Animals:GetDescendants()) do
+    if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") then
+        esp(v)
+    end
+end
+game.Workspace.WORKSPACE_Entities.Animals.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("MeshPart") then
+            esp(v.Parent)
+        end
+    end
+)
+
+end)
 local Toggle1 = Section1:CreateToggle("Tree Esp", nil, function(State)
 getgenv().esp2 = State
 local function esp(v)
