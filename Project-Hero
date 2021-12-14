@@ -7,7 +7,7 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-
+pcall(function()
 Mobs = {}
 for i,v in pairs(game:GetService("Workspace").Mobs:GetDescendants()) do
 if v.ClassName == 'Model' and v:FindFirstChild("Humanoid")  and not table.find(Mobs, v.Name) then
@@ -56,7 +56,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 27
     end
 )
-
+end)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -659,3 +659,5 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
+
