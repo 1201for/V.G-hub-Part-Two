@@ -168,12 +168,37 @@ game:GetService("RunService").Stepped:Connect(
 )
 
 end)
+local Toggle1 = Section1:CreateToggle("FullBright", nil, function(State)
+FullBright = State
+        if FullBright then
+            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
+        else
+            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
+        end
+game.Lighting.Changed:connect(
+    function()
+        if FullBright then
+            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
+        else
+            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
+        end
+    end
+)
+end)
 
 local Toggle1 = Section1:CreateToggle("Aimbot", nil, function(State)
     getgenv().AimBot.Enabled = State
 end)
 
-local Toggle1 = Section1:CreateToggle("TeamCheck", nil, function(State)
+local Toggle1 = Section1:CreateToggle("FreeForAll", nil, function(State)
     getgenv().AimBot.FreeForAll = State
 end)
 
@@ -317,7 +342,7 @@ end
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Anti Ragdoll Animal", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Anti Ragdoll", nil, function(State)
 AntiRagdoll = State
 Keys["Ragdoll"] = hookfunction(Player.Ragdoll, function(...)
     if AntiRagdoll then
@@ -327,7 +352,7 @@ Keys["Ragdoll"] = hookfunction(Player.Ragdoll, function(...)
 end)
 end) 
 
-local Toggle1 = Section1:CreateToggle("Anti Ragdoll", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Infinite animal Boosts", nil, function(State)
 InfiniteBoosts = State
 Keys["Animal-Mount"] =
     hookfunction(
@@ -375,7 +400,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args = {...}
     local Self = Args[1]
     if getnamecallmethod()=="FireServer" and tostring(Self)=="DamageSelf" and NoFall then
-            return wait(math.huge)
+            return nil
     end
     return OldNameCall(...)
 end) 
