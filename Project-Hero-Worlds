@@ -1,0 +1,7 @@
+if game.PlaceId == 6085586197 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Hero"))()
+elseif game.PlaceId == 8242567981 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Hero"))()
+elseif game.PlaceId == 6085581583 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Project-Hero"))()
+end
