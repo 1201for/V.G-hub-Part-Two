@@ -206,7 +206,7 @@ local Toggle1 = Section1:CreateToggle("WallCheck", nil, function(State)
     getgenv().AimBot.WallCheck = State
 end)
 
-local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,10,nil,false, function(Value)
+local Slider2 = Section1:CreateSlider("Aimbot Smoothness", 0,10,nil,false, function(Value)
     getgenv().AimBot.Smoothness = Value
 end)
 local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,nil,false, function(Value)
