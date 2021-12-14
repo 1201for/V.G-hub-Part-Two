@@ -8,13 +8,140 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-local Utils = require(game:GetService("ReplicatedStorage").Modules.Utils.Utils)
 function FreeForAll(v)
     if getgenv().FreeForAll == false then
         if game.Players.LocalPlayer.Team == v.Team then return false
         else return true end
     else return true end
 end
+
+local Utils = require(game:GetService("ReplicatedStorage").Modules.Utils.Utils)
+local Player = require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter)
+local R =  require(game:GetService("ReplicatedStorage").Modules.Load)("Ragdolls")
+local Animal = require(game:GetService("ReplicatedStorage").Modules.Load)("Animal")
+local AnimalRiding = require(game:GetService("ReplicatedStorage").Modules.Load)("AnimalRiding")
+Keys = {}
+
+
+local Circle = Drawing.new("Circle")
+Circle.Color =  Color3.fromRGB(22, 13, 56)
+Circle.Thickness = 1
+Circle.Radius = 250
+Circle.Visible = false
+Circle.NumSides = 1000
+Circle.Filled = false
+Circle.Transparency = 1
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    local Mouse = game:GetService("UserInputService"):GetMouseLocation()
+    Circle.Position = Vector2.new(Mouse.X, Mouse.Y)
+end)
+getgenv().AimBot = {
+FreeForAll= false,
+WallCheck = false,
+Enabled = false,
+FOV = 250,
+Smoothness = 0.25
+}
+
+
+
+local Shoot = false
+
+function FreeForAll(v)
+    if getgenv().AimBot.FreeForAll == false then
+        if game.Players.LocalPlayer.Team == v.Team then return false
+        else return true end
+    else return true end
+end
+
+function NotObstructing(i, v)
+    if getgenv().AimBot.WallCheck then
+        c = workspace.CurrentCamera.CFrame.p
+        a = Ray.new(c, i- c)
+        f = workspace:FindPartOnRayWithIgnoreList(a, v)
+        return f == nil
+    else
+        return true
+    end
+end
+game:GetService("UserInputService").InputBegan:Connect(function(v)
+    if v.UserInputType == Enum.UserInputType.MouseButton2 then
+        Shoot = true
+    end
+end)
+
+game:GetService("UserInputService").InputEnded:Connect(function(v)
+    if v.UserInputType == Enum.UserInputType.MouseButton2 then
+        Shoot = false
+    end
+end)
+
+function GetMouse()
+    return Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)
+end
+function GetClosestToCuror()
+    MousePos = GetMouse()
+    Closest = math.huge
+    Target = nil
+    for _,v in pairs(game:GetService("Players"):GetPlayers()) do
+        if FreeForAll(v) then
+            if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0  then
+                Point,OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                if OnScreen and NotObstructing(v.Character.HumanoidRootPart.Position,{game.Players.LocalPlayer.Character,v.Character}) then
+                    Distance = (Vector2.new(Point.X,Point.Y) - MousePos).magnitude
+                      if Distance <= getgenv().AimBot.FOV then
+                          Closest = Distance
+                       Target = v
+                     end
+                  end
+               end
+            end
+         end
+    return Target
+end 
+
+game:GetService("RunService").RenderStepped:Connect(
+    function()
+        if getgenv().AimBot.Enabled == false or Shoot == false then
+            return
+        end
+        ClosestPlayer = GetClosestToCuror()
+        if ClosestPlayer then
+            local Mouse = game:GetService("UserInputService"):GetMouseLocation()
+            local TargetPos = game.workspace.Camera:WorldToViewportPoint(ClosestPlayer.Character.HumanoidRootPart.Position)
+            mousemoverel(
+                (TargetPos.X - Mouse.X) * getgenv().AimBot.Smoothness,
+                (TargetPos.Y - Mouse.Y) * getgenv().AimBot.Smoothness
+            )
+        end
+    end
+)
+
+
+Keys["EnterRagdoll"] = hookfunction(R.EnterRagdoll, function(...)
+    if getgenv().AutoGetUp then
+        coroutine.resume(coroutine.create(function()
+            local Start = tick()
+            repeat
+                wait(0)
+            until require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):CanGetUp() or Start - tick() > 2
+            if require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).IsRagdolledSelf then
+                require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):GetUp()
+            end
+        end))
+    end
+    if getgenv().InstantBreakFree then
+        coroutine.resume(coroutine.create(function()
+            local Start = tick()
+            repeat
+                wait(0)
+            until require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):CanBreakFree() or Start - tick() > 4
+            require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).BreakFreePerc = 5
+        end))
+    end
+    return Keys["EnterRagdoll"](...)
+end)
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -27,7 +154,47 @@ local Section2 = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
+local Toggle1 = Section1:CreateToggle("Auto Sprint", nil, function(State)
+sex = State
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = save
+game:GetService("RunService").Stepped:Connect(
+    function()
+        if sex then
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
+        else
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = save
+        end
+    end
+)
 
+end)
+
+local Toggle1 = Section1:CreateToggle("Aimbot", nil, function(State)
+    getgenv().AimBot.Enabled = State
+end)
+
+local Toggle1 = Section1:CreateToggle("TeamCheck", nil, function(State)
+    getgenv().AimBot.FreeForAll = State
+end)
+
+local Toggle1 = Section1:CreateToggle("WallCheck", nil, function(State)
+    getgenv().AimBot.WallCheck = State
+end)
+
+local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,10,nil,false, function(Value)
+    getgenv().AimBot.Smoothness = Value
+end)
+local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,nil,false, function(Value)
+    getgenv().AimBot.FOV = Value
+    Circle.Radius = Value
+end)
+local Toggle1 = Section1:CreateToggle("Circle Visible", nil, function(State)
+   Circle.Visible = State
+end)
+
+local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
+    Circle.Color = Color
+end)
 
 local Toggle1 = Section1:CreateToggle("Player Silent Aim", nil, function(State)
 getgenv().SilentAim = State
@@ -81,7 +248,7 @@ Utils.GetMouseHit = function(...)
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Player Silent Aim TeamCheck", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Player Silent FreeForAll", nil, function(State)
 getgenv().FreeForAll = State
 end)
 local Toggle1 = Section1:CreateToggle("Animal Silent Aim", nil, function(State)
@@ -132,6 +299,135 @@ Utils.GetMouseHit = function(...)
 end
 end)
 
+Key = {["Weapons"] = {}}
+local Toggle1 = Section1:CreateToggle("NoJumpCooldown", nil, function(State)
+Cooldown = State
+for i,v in next, getprotos(require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).OnCharacterAdded) do
+if table.find(getconstants(v), "Jumping") then
+    if Cooldown ~= true then
+        v = Keys["OnCharacterAdded-JumpCooldown"]
+    else
+        function Jump()
+             require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):LowerStamina(25)
+            return 0
+        end
+        setconstant(v, 4, Jump)
+    end
+end
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("Anti Ragdoll Animal", nil, function(State)
+AntiRagdoll = State
+Keys["Ragdoll"] = hookfunction(Player.Ragdoll, function(...)
+    if AntiRagdoll then
+        return;
+    end
+    return Keys["Ragdoll"](...)
+end)
+end) 
+
+local Toggle1 = Section1:CreateToggle("Anti Ragdoll", nil, function(State)
+InfiniteBoosts = State
+Keys["Animal-Mount"] =
+    hookfunction(
+    Animal.Mount,
+    function(...)
+        if InfiniteBoosts then
+            Keys["Animal-Mount"](...)
+            local RidingAnimal = AnimalRiding.GetRidingAnimal()
+            RidingAnimal.MaxBoosts = math.huge
+            RidingAnimal.Boosts = math.huge
+
+            return
+        end
+        return Keys["Animal-Mount"](...)
+    end
+)
+end)
+
+local Toggle1 = Section1:CreateToggle("InstantBreakFree", nil, function(State)
+getgenv().InstantBreakFree = State
+end) 
+
+local Toggle1 = Section1:CreateToggle("AutoGetUp", nil, function(State)
+getgenv().AutoGetUp = State
+end)
+
+local Toggle1 = Section1:CreateToggle("infinite Stamina", nil, function(State)
+Infinite = State
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(...)
+    local Args = {...}
+    local Self = Args[1]
+    if getnamecallmethod()=="FireServer" and tostring(Self)=="LowerStamina" and Infinite then
+            return wait(math.huge)
+    end
+    return OldNameCall(...)
+end) 
+end)
+
+
+local Toggle1 = Section1:CreateToggle("NoFall Damage", nil, function(State)
+NoFall = State
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(...)
+    local Args = {...}
+    local Self = Args[1]
+    if getnamecallmethod()=="FireServer" and tostring(Self)=="DamageSelf" and NoFall then
+            return wait(math.huge)
+    end
+    return OldNameCall(...)
+end) 
+end)
+local Toggle1 = Section1:CreateToggle("Animal AntiRagdoll", nil, function(State)
+AntiAnimalRagdoll = State
+Animal.Ragdoll = function(...)
+    if AntiAnimalRagdoll then
+        return;
+    end
+    return Core["Animal-Ragdoll"](...)
+end
+end)
+
+local Toggle1 = Section2:CreateToggle("NoRecoil", nil, function(State)
+NoRecoil = State
+for i, v in pairs(getgc(true)) do
+    if type(v) == "table" and rawget(v, "BaseRecoil") then
+        v.BaseRecoil = NoRecoil == false and Key["Weapons"][i].BaseRecoil or 0
+    end
+end
+end)
+
+local Toggle1 = Section2:CreateToggle("NoSpread", nil, function(State)
+NoSpread = State
+for i, v in pairs(getgc(true)) do
+    if type(v) == "table" and rawget(v, "BaseRecoil") then
+        v.FanAccuracy = NoSpread == false and Key["Weapons"][i].FanAccuracy or 1
+        v.ProjectileAccuracy = NoSpread == false and Key["Weapons"][i].ProjectileAccuracy or 1
+    end
+end
+end)
+
+
+local Toggle1 = Section2:CreateToggle("Wallbang", nil, function(State)
+Wallbang = State
+for i, v in pairs(getgc(true)) do
+    if type(v) == "table" and rawget(v, "BaseRecoil") then
+        v.ProjectilePenetration = Wallbang == false and Key["Weapons"][i].ProjectilePenetration or 9e9
+    end
+end
+end)
+local Toggle1 = Section2:CreateToggle("InstantReload", nil, function(State)
+InstantReload = State
+for i, v in pairs(getgc(true)) do
+    if type(v) == "table" and rawget(v, "BaseRecoil") then
+        v.ReloadSpeed = InstantReload == false and Key["Weapons"][i].ReloadSpeed or 1000
+        v.LoadSpeed = InstantReload == false and Key["Weapons"][i].LoadSpeed or 1000
+        v.LoadEndSpeed = InstantReload == false and Key["Weapons"][i].LoadEndSpeed or 1000
+    end
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("Anti Rain", nil, function(State)
 rain = State
@@ -147,7 +443,7 @@ game:GetService("RunService").Stepped:Connect(
 )
 end)
 
-local Toggle1 = Section1:CreateToggle("Ore Esp", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Ore Esp", nil, function(State)
 getgenv().esp = State
 local function esp(v)
     local T = Drawing.new("Text")
@@ -195,7 +491,7 @@ game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits.Desce
 )
 end)
 
-local Toggle1 = Section1:CreateToggle("Animal Esp", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Animal Esp", nil, function(State)
 getgenv().esp3 = State
 local function esp(v)
     local T = Drawing.new("Text")
@@ -243,7 +539,7 @@ game.Workspace.WORKSPACE_Entities.Animals.DescendantAdded:Connect(
 )
 
 end)
-local Toggle1 = Section1:CreateToggle("Tree Esp", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Tree Esp", nil, function(State)
 getgenv().esp2 = State
 local function esp(v)
     local T = Drawing.new("Text")
@@ -293,25 +589,19 @@ game:GetService("Workspace")["WORKSPACE_Geometry"].DescendantAdded:Connect(
 end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
-local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Player Esp", nil, function(State)
     ESP:Toggle(State)
 end)
-local Toggle1 = Section1:CreateToggle("Tracers Esp", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Tracers Esp", nil, function(State)
     ESP.Tracers = State
 end)
-local Toggle1 = Section1:CreateToggle("Name Esp", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Name Esp", nil, function(State)
     ESP.Names = State
 end)
-local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Boxes Esp", nil, function(State)
     ESP.Boxes = State
 end)
 
-local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
-end)
-local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-end)
 
 
 local Button1 = Section2:CreateButton("Anti Lag", function()
@@ -437,7 +727,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits Sensei Joshy#1060")
+Section3:CreateLabel("Credits FruitBux")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
