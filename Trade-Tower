@@ -25,7 +25,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
 end)
 
 
-local Pool = {"1",'2',"3"}
+local Pool = {"1",'2',"3","4"}
 local Safe = false 
 local MaxBetEnabled = false 
 local WaitingTime = 0.9
@@ -41,7 +41,7 @@ end
 local function getTotal()
   local total = 0
  
-  for i,v in next, game.Players.LocalPlayer.PlayerGui.Gui.Frames.Inventory.SubInventory.Holder.List:GetChildren() do
+  for i,v in next, game:GetService("Players").LocalPlayer.PlayerGui.Gui.Frames.Inventory.Body.Holder:GetChildren() do
       if v:IsA("Frame") and v:FindFirstChild("ItemValue") ~= nil then
           local s = string.split(v.ItemValue.Text, "$")
           local n = tonumber(s[2])
@@ -94,7 +94,7 @@ end
 
 local function Attempt()
   local placed = 0
-  local Total = getRap(game.Players.LocalPlayer.PlayerGui.Gui.Frames.Jackpot.SubJackpot.Pools[Pool].List)
+  local Total = getRap(game.Players.LocalPlayer.PlayerGui.Gui.Frames.Games.Jackpot.Pools[Pool].List)
   local RapTotal = getTotal()
  
   if Total ~= 0 and tonumber(Total) + SafetyAmount < tonumber(RapTotal) then
@@ -103,9 +103,9 @@ local function Attempt()
           Text = "You have joined the pool "..Pool.." jackpot!"
       });
  
-      for i,v in next, game.Players.LocalPlayer.PlayerGui.Gui.Frames.Inventory.SubInventory.Holder.List:GetChildren() do
+      for i,v in next, game:GetService("Players").LocalPlayer.PlayerGui.Gui.Frames.Inventory.Body.Holder:GetChildren() do
           if v:IsA("Frame") and v:FindFirstChild("ItemValue") then
-              local Total2 = getRap(game.Players.LocalPlayer.PlayerGui.Gui.Frames.Jackpot.SubJackpot.Pools[Pool].List) 
+              local Total2 = getRap(game.Players.LocalPlayer.PlayerGui.Gui.Frames.Games.Jackpot.Pools[Pool].List) 
               local RapTotal2 = getTotal()
               if MaxBetEnabled == true then
                   local s = string.split(v.ItemValue.Text, "$")
@@ -157,8 +157,8 @@ end)
 local Toggle1 = Section1:CreateToggle("AutoJackPot", nil, function(State)
 Bet = State
 while Bet do wait()
-if string.find(string.lower(game.Players.LocalPlayer.PlayerGui.Gui.Frames.Jackpot.SubJackpot.Countdown.Text), "left") then
-local s = string.split(game.Players.LocalPlayer.PlayerGui.Gui.Frames.Jackpot.SubJackpot.Countdown.Text, ": ")
+if string.find(string.lower(game:GetService("Players").LocalPlayer.PlayerGui.Gui.Frames.Games.Jackpot.Timer.Countdown.Text), "Time left to put in items: ") then
+local s = string.split(game:GetService("Players").LocalPlayer.PlayerGui.Gui.Frames.Games.Jackpot.Timer.Countdown.Text, "Time left to put in items: ")
 local currentTimer = tonumber(s[2])
 if currentTimer == 1 then
 wait(WaitingTime)
