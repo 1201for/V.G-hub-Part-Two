@@ -132,7 +132,7 @@ Mobs = String
 end)
 end 
 
-local Toggle1 = Section1:CreateToggle("Auto Money", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Auto Invis all", nil, function(State)
 gogogo = State
 while wait(1) and gogogo do
     for i, v in pairs(game.Players:GetPlayers()) do
@@ -199,6 +199,38 @@ Quest = String
 end)
 end 
 ]]--
+
+
+local Toggle1 = Section1:CreateToggle("Auto Kill Players/Annoy", nil, function(State)
+sen = State
+while wait() and sen do
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if v ~= game.Players.LocalPlayer then
+            game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S:FireServer(
+                "Invisibility_Self",
+                game.Players.LocalPlayer.Character,
+                true
+            )
+            for i = 1, 20 do
+                wait(0.1)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+                game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S:FireServer(
+                    "Handle_Combat",
+                    game:GetService("Players").LocalPlayer.Character,
+                    3
+                )
+
+                game:GetService("ReplicatedStorage").Remotes.To_Server.Handle_Initiate_S_:InvokeServer(
+                    "Grip",
+                    game:GetService("Players").LocalPlayer.Character,
+                    v.Character
+                )
+            end
+            wait(1)
+        end
+    end
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto Money", nil, function(State)
 stuff = State
@@ -615,7 +647,6 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits Sensei Joshy#1060")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
