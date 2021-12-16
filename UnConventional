@@ -85,7 +85,6 @@ while mobs do
     pcall(function()
     if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestMob():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss then
     game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
-    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
     getNearestMob().HumanoidRootPart.Anchored = true
     end
     game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0,0,1))
@@ -122,7 +121,6 @@ while mobs1 do
                 (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
                     getNearestMob():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss
              then
-                game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
                 game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
             end
             local Time =
