@@ -8,19 +8,29 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 A = require(game:GetService("Workspace").EnemyStats)
-local Mobs = {}
+local Mobs1 = {}
 for i, v in pairs(A) do
-    table.insert(Mobs, i)
+    table.insert(Mobs1, i)
 end
 
-A = require(game:GetService("Workspace").EnemyStats)
+
+local Mobs2 = {}
+for i, v in pairs(A) do
+    table.insert(Mobs2, i)
+end
+
+local Mobs3 = {}
+for i, v in pairs(A) do
+    table.insert(Mobs3, i)
+end
+
 local HitBoxs = {}
 for i, v in pairs(A) do
     table.insert(HitBoxs, i)
 end
 game:GetService("RunService").Stepped:connect(
     function()
-        if game.Players.LocalPlayer.Character.Head:FindFirstChild("name") then
+        if game.Players.LocalPlayer.Character:WaitForChild("Head"):FindFirstChild("name") then
             game.Players.LocalPlayer.Character:WaitForChild("Head"):WaitForChild("name"):remove()
         end
     end
@@ -39,18 +49,24 @@ local function getNearestMob()
     local TargetDistance = math.huge
     local Target
     for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
-        if v.ClassName == "Model" and v.Name == Mobs and v:FindFirstChildOfClass("Humanoid").Health ~= 0 then
-            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
-            if Mag < TargetDistance then
-                TargetDistance = Mag
-                Target = v
+        if v.ClassName == "Model" and v.Name == Mobs1 or v.Name == Mobs2 or v.Name == Mobs3 then
+            if v:FindFirstChildOfClass("Humanoid").Health ~= 0 then
+                local Mag =
+                    (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
+                    v:FindFirstChildOfClass("Part").Position).Magnitude
+                if Mag < TargetDistance then
+                    TargetDistance = Mag
+                    Target = v
+                end
             end
         end
     end
     return Target
-end;
+end
+
+
 getgenv().Mobss = 5
- getgenv().speed = 16
+getgenv().speed = 16
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -87,7 +103,7 @@ while mobs do
     game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
     getNearestMob().HumanoidRootPart.Anchored = true
     end
-    game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0,0,1))
+    game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0,0,2))
     
     end)
 end
@@ -142,14 +158,43 @@ end)
 local Slider2 = Section1:CreateSlider("Auto Mob Hit Distance", 0,50,nil,false, function(Value)
 getgenv().Mobss = Value
 end)
-local Dropdown1 = Section1:CreateDropdown("Select Mob")
+
+
+local Toggle1 = Section1:CreateToggle("Auto Heavy Hit", nil, function(State)
+heavy = State
+while heavy do
+    wait(0.5)
+    if
+        (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
+            getNearestMob():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss
+     then
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+    end
+end
+end)
+local Dropdown1 = Section1:CreateDropdown("Select Mob 1")
 Dropdown1:AddToolTip("Select Mob")
-for i,v in next, Mobs do
+for i,v in next, Mobs1 do
 Dropdown1:AddOption(v, function(String)
-Mobs = String
+Mobs1 = String
 end)
 end 
 
+local Dropdown1 = Section1:CreateDropdown("Select Mob 3")
+Dropdown1:AddToolTip("Select Mob")
+for i,v in next, Mobs2 do
+Dropdown1:AddOption(v, function(String)
+Mobs2 = String
+end)
+end 
+
+local Dropdown1 = Section1:CreateDropdown("Select Mob 3")
+Dropdown1:AddToolTip("Select Mob")
+for i,v in next, Mobs3 do
+Dropdown1:AddOption(v, function(String)
+Mobs3 = String
+end)
+end 
 local Toggle1 = Section1:CreateToggle("AntiAFK", nil, function(State)
 ban = State
 while ban do
@@ -159,13 +204,14 @@ while ban do
             local text = game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.AntiAFK.question.Text
             local text = string.split(text, "What's ")[2]
             local text = string.split(text, "?")[1]
-
-            game:GetService("ReplicatedStorage").UnAFK:InvokeServer(loadstring("return " .. text)(), 59)
+            local solve = tostring(loadstring("return " .. tostring(text))())
+            game:GetService("ReplicatedStorage").UnAFK:InvokeServer(solve, 59)
+            game:GetService("ReplicatedStorage").UnAFK:InvokeServer(tostring(loadstring("return " .. tostring(text))()), 59)
         end
     )
 end
-
 end)
+
 local Toggle1 = Section1:CreateToggle("Auto Buy Ticket", nil, function(State)
 buy = State
 while buy do
