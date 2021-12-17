@@ -35,6 +35,33 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
+local OldNameCall
+OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
+    if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
+        return
+    end
+    return OldNameCall(A, B, ...)
+end)
+game:GetService("RunService").Stepped:connect(
+    function()
+        pcall(
+            function()
+                if game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.AntiAFK.Visible == true then
+                    game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.AntiAFK.TextBox2:CaptureFocus()
+                    local text = game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.AntiAFK.question.Text
+                    local text = string.split(text, "What's ")[2]
+                    local text = string.split(text, "?")[1]
+                    local solve = tostring(loadstring("return " .. tostring(text))())
+                    game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.AntiAFK.TextBox2.Text =
+                        loadstring("return " .. tostring(text))()
+
+                    game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.AntiAFK.TextBox2:ReleaseFocus()
+                end
+            end
+        )
+    end
+)
+
 Ticket = {}
 for i, v in pairs(
     game:GetService("Players").LocalPlayer.PlayerGui.Trading.Trading.TradeFrame.ReceivingTickets.items:GetDescendants()
@@ -65,8 +92,30 @@ local function getNearestMob()
 end
 
 
+
+local function getNearestMobs()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
+        if v.ClassName == "Model" then
+            if v:FindFirstChildOfClass("Humanoid").Health ~= 0 then
+                local Mag =
+                    (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
+                    v:FindFirstChildOfClass("Part").Position).Magnitude
+                if Mag < TargetDistance then
+                    TargetDistance = Mag
+                    Target = v
+                end
+            end
+        end
+    end
+    return Target
+end
+
+
 getgenv().Mobss = 5
 getgenv().speed = 16
+getgenv().Distance = 3
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -103,7 +152,7 @@ while mobs do
     game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
     getNearestMob().HumanoidRootPart.Anchored = true
     end
-    game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0,0,2))
+    game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0,0,getgenv().Distance))
     
     end)
 end
@@ -140,14 +189,14 @@ while mobs1 do
                 game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
             end
             local Time =
-                (getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, 3) -
+                (getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, getgenv().Distance) -
                 game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
             local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
             local Tween =
                 game:GetService("TweenService"):Create(
                 game.Players.LocalPlayer.Character.HumanoidRootPart,
                 Info,
-                {CFrame = CFrame.new(getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, 3))}
+                {CFrame = CFrame.new(getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, getgenv().Distance))}
             )
             Tween:Play()
             getNearestMob().HumanoidRootPart.Anchored = true
@@ -158,8 +207,9 @@ end)
 local Slider2 = Section1:CreateSlider("Auto Mob Hit Distance", 0,50,nil,false, function(Value)
 getgenv().Mobss = Value
 end)
-
-
+local Slider2 = Section1:CreateSlider("Auto Mob Attack Distance", 0,50,nil,false, function(Value)
+getgenv().Distance = Value
+end)
 local Toggle1 = Section1:CreateToggle("Auto Heavy Hit", nil, function(State)
 heavy = State
 while heavy do
@@ -195,21 +245,115 @@ Dropdown1:AddOption(v, function(String)
 Mobs3 = String
 end)
 end 
-local Toggle1 = Section1:CreateToggle("AntiAFK", nil, function(State)
-ban = State
-while ban do
-    wait(2)
+
+
+local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
+mobs4 = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if mobs4 then
+            for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                pcall(
+                    function()
+                        if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                            v.CanCollide = false
+                        end
+                    end
+                )
+            end
+        end
+    end
+)
+
+while mobs4 do
+    wait()
+    pcall(function()
+    if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestMobs():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss then
+    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
+    getNearestMob().HumanoidRootPart.Anchored = true
+    end
+    game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestMobs().HumanoidRootPart.CFrame.p + Vector3.new(0,0,getgenv().Distance))
+    
+    end)
+end
+end)
+
+
+
+local Toggle1 = Section1:CreateToggle("Auto Mob Tweening", nil, function(State)
+mobs3 = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if mobs3 then
+            for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                pcall(
+                    function()
+                        if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                            v.CanCollide = false
+                        end
+                    end
+                )
+            end
+        end
+    end
+)
+
+while mobs3 do
+    wait()
     pcall(
         function()
-            local text = game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.AntiAFK.question.Text
-            local text = string.split(text, "What's ")[2]
-            local text = string.split(text, "?")[1]
-            local solve = tostring(loadstring("return " .. tostring(text))())
-            game:GetService("ReplicatedStorage").UnAFK:InvokeServer(solve, 59)
-            game:GetService("ReplicatedStorage").UnAFK:InvokeServer(tostring(loadstring("return " .. tostring(text))()), 59)
+            if
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
+                    getNearestMobs():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss
+             then
+                game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+            end
+            local Time =
+                (getNearestMobs().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, getgenv().Distance) -
+                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
+            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+            local Tween =
+                game:GetService("TweenService"):Create(
+                game.Players.LocalPlayer.Character.HumanoidRootPart,
+                Info,
+                {CFrame = CFrame.new(getNearestMobs().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, 3))}
+            )
+            Tween:Play()
+            getNearestMob().HumanoidRootPart.Anchored = true
         end
     )
 end
+end)
+
+local Toggle1 = Section1:CreateToggle("AntiAFK", nil, function(State)
+local blur = Instance.new("BlurEffect", game.Lighting)
+blur.Size = 0
+local ScreenGui = Instance.new("ScreenGui")
+local ImageLabel = Instance.new("ImageLabel")
+ScreenGui.Parent = game.CoreGui
+ImageLabel.Parent = ScreenGui
+ImageLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+ImageLabel.BackgroundTransparency = 1
+ImageLabel.Position = UDim2.new(0.5, -(303 / 2), 0.5, -(263 / 2))
+ImageLabel.Rotation = 0
+ImageLabel.Size = UDim2.new(0, 303,0, 263)
+ImageLabel.Image = "rbxassetid://8269416401"
+ImageLabel.ImageTransparency = 1
+ 
+for i = 1, 50, 2 do
+    blur.Size = i
+    ImageLabel.ImageTransparency = ImageLabel.ImageTransparency - 0.1
+    wait()
+end
+wait(5)
+ 
+for i = 1, 50, 2 do
+    blur.Size = 50 - i
+    ImageLabel.ImageTransparency = ImageLabel.ImageTransparency + 0.1
+    wait()
+end
+blur:Destroy()
+ScreenGui:Destroy()
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto Buy Ticket", nil, function(State)
