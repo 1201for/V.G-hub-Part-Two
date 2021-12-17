@@ -71,6 +71,28 @@ for i, v in pairs(
     end
 end
 
+local Hell = {}
+for i, v in pairs(A) do
+    table.insert(Hell, i)
+end
+local function getNearestMobs()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
+        if v.ClassName == "Model" and table.find(Hell, v.Name) then
+            if v:FindFirstChildOfClass("Humanoid").Health ~= 0 then
+                local Mag =
+                    (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
+                    v:FindFirstChildOfClass("Part").Position).Magnitude
+                if Mag < TargetDistance then
+                    TargetDistance = Mag
+                    Target = v
+                end
+            end
+        end
+    end
+    return Target
+end
 
 local function getNearestMob()
     local TargetDistance = math.huge
@@ -92,25 +114,12 @@ local function getNearestMob()
 end
 
 
+game:GetService("ReplicatedStorage").ToggleAbility:InvokeServer(true)
+game.Players.LocalPlayer.CharacterAdded:connect(function()
+repeat wait() until game.Players.LocalPlayer.Character wait(3)
+game:GetService("ReplicatedStorage").ToggleAbility:InvokeServer(true)
+end)
 
-local function getNearestMobs()
-    local TargetDistance = math.huge
-    local Target
-    for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
-        if v.ClassName == "Model" then
-            if v:FindFirstChildOfClass("Humanoid").Health ~= 0 then
-                local Mag =
-                    (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
-                    v:FindFirstChildOfClass("Part").Position).Magnitude
-                if Mag < TargetDistance then
-                    TargetDistance = Mag
-                    Target = v
-                end
-            end
-        end
-    end
-    return Target
-end
 
 
 getgenv().Mobss = 5
@@ -135,7 +144,7 @@ game:GetService("RunService").Stepped:connect(
             for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 pcall(
                     function()
-                        if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                        if v.ClassName == "BasePart" then
                             v.CanCollide = false
                         end
                     end
@@ -247,7 +256,7 @@ end)
 end 
 
 
-local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Auto Closest Mob", nil, function(State)
 mobs4 = State
 game:GetService("RunService").Stepped:connect(
     function()
@@ -270,7 +279,7 @@ while mobs4 do
     pcall(function()
     if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestMobs():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss then
     game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
-    getNearestMob().HumanoidRootPart.Anchored = true
+    getNearestMobs().HumanoidRootPart.Anchored = true
     end
     game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestMobs().HumanoidRootPart.CFrame.p + Vector3.new(0,0,getgenv().Distance))
     
@@ -280,7 +289,7 @@ end)
 
 
 
-local Toggle1 = Section1:CreateToggle("Auto Mob Tweening", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Auto Mob Closest Tweening", nil, function(State)
 mobs3 = State
 game:GetService("RunService").Stepped:connect(
     function()
@@ -288,7 +297,7 @@ game:GetService("RunService").Stepped:connect(
             for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 pcall(
                     function()
-                        if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                        if v.ClassName == "BasePart"  then
                             v.CanCollide = false
                         end
                     end
@@ -319,7 +328,7 @@ while mobs3 do
                 {CFrame = CFrame.new(getNearestMobs().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, 3))}
             )
             Tween:Play()
-            getNearestMob().HumanoidRootPart.Anchored = true
+            getNearestMobs().HumanoidRootPart.Anchored = true
         end
     )
 end
@@ -419,7 +428,7 @@ game:GetService("RunService").Stepped:connect(
             for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                 pcall(
                     function()
-                        if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                        if v.ClassName == "BasePart"  then
                             v.CanCollide = false
                         end
                     end
