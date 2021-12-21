@@ -78,6 +78,7 @@ Dropdown1:AddOption(v, function(String)
 a1 = String
 end)
 end 
+if game:GetService("Workspace").EvilPumpkins:FindFirstChildOfClass("MeshPart") then
 local Toggle1 = Section1:CreateToggle("Auto EvilPumpkins", nil, function(State)
 autod2 = State
 game:GetService("RunService").Stepped:connect(
@@ -102,6 +103,7 @@ while autod2 do
     )
 end
 end)
+end
 local Toggle1 = Section1:CreateToggle("Auto Mini Chests", nil, function(State)
 autod = State
 game:GetService("RunService").Stepped:connect(
