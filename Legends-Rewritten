@@ -181,6 +181,107 @@ while chests do
     )
 end
 end)
+
+
+local Toggle1 = Section2:CreateToggle("Ore Esp", nil, function(State)
+getgenv().esp = State
+local function esp(v)
+    local T = Drawing.new("Text")
+    T.Visible = false
+    T.Center = true
+    T.Outline = true
+    T.Font = 2
+    T.Text = "Ore"
+    T.Size = 14
+    T.Color = Color3.fromRGB(0, 255, 0)
+    local function update()
+        local Re
+        Re =
+            game:GetService('RunService').Stepped:Connect(
+            function()
+                if v and v:FindFirstChild("Main") then
+                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.Main.Position)
+                    if getgenv().esp and Screen then
+                        T.Position = Vector2.new(Vector.X, Vector.Y)
+                        T.Visible = true
+                        T.Text = v.Name
+                    else
+                        T.Visible = false
+                    end
+                elseif v:FindFirstChild("Main") == nil then
+                    T:Remove()
+                    Re:disconnect()
+                end
+            end
+        )
+    end
+    update()
+end
+for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
+        if v.ClassName == "Model" and v:FindFirstChild("Main")  and v.Interact.Value == true then
+        esp(v)
+    end
+end
+game:GetService("Workspace").DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "Main") and v.Parent.Interact.Value == true then
+            esp(v.Parent)
+        end
+    end
+)
+
+end)
+
+
+local Toggle1 = Section2:CreateToggle("Chest Esp", nil, function(State)
+getgenv().esp2 = State
+local function esp(v)
+    local T = Drawing.new("Text")
+    T.Visible = false
+    T.Center = true
+    T.Outline = true
+    T.Font = 2
+    T.Text = "Chests"
+    T.Size = 14
+    T.Color = Color3.fromRGB(0, 255, 0)
+    local function update()
+        local Re
+        Re =
+            game:GetService('RunService').Stepped:Connect(
+            function()
+                if v and v:FindFirstChild("Main") then
+                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.Main.Position)
+                    if getgenv().esp2 and Screen then
+                        T.Position = Vector2.new(Vector.X, Vector.Y)
+                        T.Visible = true
+                        T.Text = "Chest"
+                    else
+                        T.Visible = false
+                    end
+                elseif v:FindFirstChild("Main") == nil then
+                    T:Remove()
+                    Re:disconnect()
+                end
+            end
+        )
+    end
+    update()
+end
+for i, v in ipairs(game:GetService("Workspace").Chests:GetChildren()) do
+        if v.ClassName == "Model" and v:FindFirstChild("Main") then
+        esp(v)
+    end
+end
+game:GetService("Workspace").Chests.DescendantAdded:Connect(
+    function(v)
+        if v:IsA("Part") and string.match(v.Name, "Main") then
+            esp(v.Parent)
+        end
+    end
+)
+
+end)
+
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 God = State
 game:GetService("RunService").Stepped:connect(
