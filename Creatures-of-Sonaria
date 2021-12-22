@@ -7,44 +7,78 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
---Credits to https://devforum.roblox.com/t/finding-the-closest-player/442618/4
-local function GetClosestt()
-    local Character = LocalPlayer.Character
-    local HumanoidRootPart = Character and Character:FindFirstChild("HumanoidRootPart")
-    if not (Character or HumanoidRootPart) then
-        return
+local function bodyvel(Part, Speed, Destination, Extra, waittime)
+    local Speed = Speed or 1
+    local Part = Part or nil
+    local Destination = Destination
+    local waittime = waittime or 0
+    local NewBodyVel = Instance.new("BodyVelocity")
+    NewBodyVel.Parent = Part
+    if typeof(Destination) == "Instance" then
+        NewBodyVel.Velocity = (Destination.position - Part.position).Unit * Speed
+        if Extra then
+            NewBodyVel.MaxForce = Vector3.new(Extra, Extra, Extra)
+            NewBodyVel.P = Extra
+        end
+        repeat
+            wait()
+            NewBodyVel.Velocity = (Destination.position - Part.position).Unit * Speed
+        until (Destination.position - Part.position).Magnitude < 5
+        NewBodyVel.Velocity = Vector3.new(0,0,0)
+        wait(waittime)
+        NewBodyVel:Destroy()
+    else
+        NewBodyVel.Velocity = (Destination - Part.position).Unit * Speed
+        if Extra then
+            NewBodyVel.MaxForce = Vector3.new(Extra, Extra, Extra)
+            NewBodyVel.P = Extra
+        end
+        repeat
+            wait()
+            NewBodyVel.Velocity = (Destination - Part.position).Unit * Speed
+        until (Destination - Part.position).Magnitude < 5
+        NewBodyVel.Velocity = Vector3.new(0,0,0)
+        wait(waittime)
+        NewBodyVel:Destroy()
     end
+end
 
+local function getNearestMeat()
     local TargetDistance = math.huge
     local Target
-
-    for i, v in ipairs(game:GetService("Workspace").Food:GetChildren()) do
-        if v:FindFirstChild("Mesh") or v:FindFirstChild("Meat") and v.ClassName == "Model" then
-            local TargetHRP = v:FindFirstChildOfClass("MeshPart") 
-            local mag = (HumanoidRootPart.Position - TargetHRP.Position).magnitude
-            if mag < TargetDistance then
-                TargetDistance = mag
+    for i, v in ipairs(game:GetService("Workspace").Food:GetDescendants()) do
+        if v.ClassName == "Model" and v:FindFirstChild("Meat") then
+            local Mag =
+                (game:GetService("Workspace").Terrain[game.Players.LocalPlayer.Name].Position -
+                v:FindFirstChild("Meat").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
                 Target = v
             end
         end
     end
     return Target
 end
-
-local LP = game:GetService("Players").LocalPlayer
-local ts = game:GetService("TweenService")
-local function Tween(part, endpos, speed)
-    if part and endpos then
-        local Time = (endpos - part.Position).magnitude/speed
-        local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-        local Tween = ts:Create(part,Info,{CFrame = CFrame.new(endpos.X,endpos.Y,endpos.Z)})
-        Tween:Play()
-        wait(Time)
+local function getNearestGreens()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").Food:GetDescendants()) do
+        if v.ClassName == "Model" and v:FindFirstChild("EdibleParts") then
+            local Mag =
+                (game:GetService("Workspace").Terrain[game.Players.LocalPlayer.Name].Position -
+                v.EdibleParts:FindFirstChildOfClass("MeshPart").Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
     end
+    return Target
 end
-
+spawn(function()
+game.Players.LocalPlayer.Character.ChildAdded:Connect(function(v)
+v:remove()
+end) end)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -59,65 +93,139 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("Auto Eat Plants", nil, function(State)
 eat = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if eat then
+            for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                pcall(
+                    function()
+                        if v.ClassName == "MeshPart" or v.ClassName == "Part" then
+                            v.CanCollide = false
+                        end
+                    end
+                )
+            end
+        end
+    end
+)
+while eat do
+    wait()
+    pcall(
+        function()
+            game.Workspace.Gravity = 0
+            bodyvel(
+                game.Players.LocalPlayer.Character.Head,
+                50,
+                getNearestGreens().EdibleParts:FindFirstChildOfClass("MeshPart").CFrame.p,
+                math.huge,
+                math.huge,
+                math.huge,
+                2
+            )
 
-for i=1,math.huge do wait()
-if eat then
-pcall(function()
-game.Workspace.Gravity = 0
-Tween(game.Players.LocalPlayer.Character.HumanoidRootPart, GetClosestt():FindFirstChild("Mesh").CFrame.p, 50)
-game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("eat",GetClosestt():FindFirstChild("Mesh"))
-game.Workspace.Gravity = 196.2
+            game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("eat", getNearestGreens())
+            game.Workspace.Gravity = 196.2
+        end
+    )
+end
+
 end)
-end end end)
 
 local Toggle1 = Section1:CreateToggle("Auto Eat Meat", nil, function(State)
 eat1 = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if eat1 then
+            for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                pcall(
+                    function()
+                        if v.ClassName == "MeshPart" or v.ClassName == "Part" then
+                            v.CanCollide = false
+                        end
+                    end
+                )
+            end
+        end
+    end
+)
+while eat1 do
+    wait()
+    pcall(
+        function()
+            game.Workspace.Gravity = 0
+            bodyvel(
+                game.Players.LocalPlayer.Character.Head,
+                50,
+                getNearestMeat():FindFirstChildOfClass("MeshPart").CFrame.p,
+                math.huge,
+                math.huge,
+                math.huge,
+                2
+            )
 
-for i=1,math.huge do wait()
-if eat1 then
-pcall(function()
-game.Workspace.Gravity = 0
-Tween(game.Players.LocalPlayer.Character.HumanoidRootPart, GetClosestt():FindFirstChild("Meat").CFrame.p, 50)
-game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("eat",GetClosestt():FindFirstChild("Meat"))
-game.Workspace.Gravity = 196.2
+            game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("eat", getNearestMeat())
+            game.Workspace.Gravity = 196.2
+        end
+    )
+end
 end)
-end end end)
 
 local Toggle1 = Section1:CreateToggle("Auto Drink", nil, function(State)
 drink = State
-for i=1,math.huge do wait()
-if drink then
+while drink do wait()
 pcall(function()
-game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("drink",workspace.Water.Model.Part)
+game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("drink",workspace.Water)
 end)
-end end
+end 
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto Shelter", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Not working", nil, function(State)
 Shelter = State
-for i=1,math.huge do wait()
-if Shelter then
+while Shelter do wait()
+
 pcall(function()
-game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("UpdateShelter","Total")
+
+game:GetService("Players").LocalPlayer.RemoteEvent:FireServer("UpdateShelter")
+
 end)
-end end end)
+end  end)
 
 local Toggle1 = Section1:CreateToggle("Infinite Stamina", nil, function(State)
 Shelter1 = State
-for i=1,math.huge do wait()
-if Shelter1 then
+while Shelter1 do wait()
+
 pcall(function()
 game:GetService("Players").LocalPlayer.Stamina.Value = 9e9
 end)
-end end end)
-
-local Esp = Section1:CreateToggle("Esp", nil, function(State)
+end  end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
 ESP:Toggle(State)
+end)
+local Toggle1 = Section1:CreateToggle("Tracers Esp", nil, function(State)
 ESP.Tracers = State
+end)
+local Toggle1 = Section1:CreateToggle("Name Esp", nil, function(State)
 ESP.Names = State
+end)
+local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
 ESP.Boxes = State
 end)
+
+local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+end)
+local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+end)
+local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
+Infinite = State
+game:GetService("UserInputService").JumpRequest:connect(function()
+	if Infinite then
+		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+	end
+end) end)
+
 
 local Toggle1 = Section2:CreateToggle("G Noclip", nil, function(State)
 sex = State
@@ -138,6 +246,113 @@ game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 end end 
 end) end)
 
+local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
+sex2 = State
+local Max = 0
+local Players = game.Players
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'b' then
+Max = Max + 1
+getgenv().Fly = false
+if sex2 then
+local T = LP.Character.HumanoidRootPart
+local S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local SPEED = 5
+local function FLY()
+getgenv().Fly = true
+local BodyGyro = Instance.new('BodyGyro', T)
+local BodyVelocity = Instance.new('BodyVelocity', T)
+BodyGyro.P = 9e4
+BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+BodyGyro.cframe = T.CFrame
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+spawn(function()
+repeat
+wait()
+LP.Character.Humanoid.PlatformStand = false
+if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+SPEED = 200
+elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+SPEED = 0
+end
+if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+S2 = {
+F = S.F,
+B = S.B,
+L = S.L,
+R = S.R
+}
+elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+else
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+end
+BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+until not getgenv().Fly
+S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+SPEED = 0
+BodyGyro:destroy()
+BodyVelocity:destroy()
+LP.Character.Humanoid.PlatformStand = false
+end)
+end
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'w' then
+S.F = 1
+elseif k:lower() == 's' then
+S.B = -1
+elseif k:lower() == 'a' then
+S.L = -1
+elseif k:lower() == 'd' then
+S.R = 1
+end
+end)
+Mouse.KeyUp:connect(function(k)
+if k:lower() == 'w' then
+S.F = 0
+elseif k:lower() == 's' then
+S.B = 0
+elseif k:lower() == 'a' then
+S.L = 0
+elseif k:lower() == 'd' then
+S.R = 0
+end
+end)
+FLY()
+if Max == 2 then
+getgenv().Fly = false
+Max = 0
+end
+end
+end
+end)
+end)
 local Button1 = Section2:CreateButton("Anti Lag", function()
 for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
 if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
@@ -148,6 +363,11 @@ end end;
 end;
 end)
 
+local Button1 = Section2:CreateButton("Teleport to RandomPlayer", function()
+local randomPlayer = game.Players:GetPlayers()
+[math.random(1,#game.Players:GetPlayers())]
+
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z)) end)
 local Button1 = Section2:CreateButton("Lag Switch F3", function()
 local a = false
 local b = settings()
@@ -157,7 +377,7 @@ if i.KeyCode == Enum.KeyCode.F3 then
 a = not a
 b.Network.IncomingReplicationLag = a and 10 or 0
 end
-end) end)  
+end) end) 
 local Button1 = Section2:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
@@ -229,7 +449,7 @@ function Teleport()
 end
 
 -- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
-Teleport()
+Teleport() 
 end)
 local Button1 = Section2:CreateButton("Rejoin", function()
 game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
@@ -243,7 +463,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits The3Bakers")
+Section3:CreateLabel("Credits Hazed")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
@@ -287,4 +507,5 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
 
