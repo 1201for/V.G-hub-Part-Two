@@ -1,0 +1,43 @@
+if game.PlaceId == 737272595 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 5047931246 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 5005563372 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 2827790634 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 701576909 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 6144637080 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 2659143505 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 540240728 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 2724077776 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 542351431 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 555980327 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 572487908 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 580239979 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 582198062 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 548878321 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 573267292 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 911546117 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 548231754 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 600890168 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 5287433115 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+elseif game.PlaceId == 659222129 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Swordburst-2"))()
+end
