@@ -1,0 +1,5 @@
+if game.PlaceId == 7071444234 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Pet-Story'))()
+elseif game.PlaceId == 7126404880 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Pet-Story'))()
+end
