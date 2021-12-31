@@ -25,11 +25,11 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
     if (getnamecallmethod() == "FireServer" and Args[1] == game:GetService("ReplicatedStorage").MainEvent and table.find(NoNos, Args[2])) then
         return
     end
-     if getnamecallmethod()=="IsStudio"  then
+     if getnamecallmethod()=="IsStudio"  then --e621 <3
         return true
     end
     if (not checkcaller() and getfenv(2).crash) then
-        hookfunction(getfenv(2).crash, function()
+        hookfunction(getfenv(2).crash, function() -- Stefanuk12 <3
             return nil
         end)
     end
