@@ -1,0 +1,9 @@
+if game.PlaceId == 7428564189 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/SAITAMANIA'))()
+elseif game.PlaceId == 6862946592 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/SAITAMANIA'))()
+elseif game.PlaceId == 7174145521 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/SAITAMANIA'))()
+elseif game.PlaceId == 6802248248 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/SAITAMANIA'))()
+end
