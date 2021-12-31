@@ -8,7 +8,7 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 if not hookmetamethod or not getrenv then
-   while true do end
+    game.Players.LocalPlayer:Kick("You'll get banned if you try to execute this with that executor muchacho")
 end
 local NoNos = {
     "CHECKER_1",
@@ -46,6 +46,11 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, C)
 end)
 
 local HospitalJob = game:GetService("Workspace").Ignored.HospitalJob
+shop = {}
+for i,v in pairs(game:GetService("Workspace").Ignored.Shop:GetChildren()) do
+if v.ClassName == "Model" and v:FindFirstChild("ClickDetector") then
+table.insert(shop, v.Name)
+end end 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -124,6 +129,47 @@ game.RunService.Stepped:Connect(
 
 end)
 
+
+local Slider2 = Section2:CreateSlider("Gravity", 0,50,nil,false, function(Value)
+head = Value
+end)
+
+
+local Toggle1 = Section1:CreateToggle("Hitbox Extender Players", nil, function(State)
+HEAD = State
+game.RunService.Stepped:Connect(
+    function()
+        for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+            pcall(
+                function()
+                    if HEAD then
+                    if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                        v.CanCollide = false
+                    end
+                    end
+                end
+            )
+        end
+    end
+)
+while HEAD do
+    wait()
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if v.Name ~= game.Players.LocalPlayer.Name then
+            pcall(
+                function()
+                    v.Character.LowerTorso.CanCollide = false
+                    v.Character.LowerTorso.Material = "Neon"
+                    v.Character.LowerTorso.Transparency = 0.5
+                    v.Character.LowerTorso.Size = Vector3.new(head, head, head)
+                    v.Character.HumanoidRootPart.Size = Vector3.new(head, head, head)
+                end
+            )
+        end
+    end
+end
+end)
+
 local Toggle1 = Section1:CreateToggle("infinite Stamina", nil, function(State)
 getgenv().infinite = State
 
@@ -148,11 +194,45 @@ while sex do
     game:GetService("Players").LocalPlayer.Character.BodyEffects:WaitForChild("Attacking"):Destroy()
 end
 end)
+
+local Button1 = Section1:CreateButton("Buy Selected Item", function()
+local Save = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame 
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Ignored.Shop[shop].Head.CFrame wait(0.5)
+fireclickdetector(game:GetService("Workspace").Ignored.Shop[shop].ClickDetector) wait(0.5)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Save
+end)
+local Dropdown1 = Section1:CreateDropdown("Select Item To Buy")
+Dropdown1:AddToolTip("Select Item To Buy")
+for i,v in next, shop do
+Dropdown1:AddOption(v, function(String)
+shop = String
+end)
+end 
+
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+
+local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
+    ESP:Toggle(State)
+end)
+local Toggle1 = Section1:CreateToggle("Tracers Esp", nil, function(State)
+    ESP.Tracers = State
+end)
+local Toggle1 = Section1:CreateToggle("Name Esp", nil, function(State)
+    ESP.Names = State
+end)
+local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
+    ESP.Boxes = State
+end)
+
+
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
 local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+end)
+local Slider2 = Section2:CreateSlider("Gravity", 0,196.2,nil,false, function(Value)
+game.Workspace.Gravity = Value
 end)
 local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
 Infinite = State
@@ -163,24 +243,71 @@ game:GetService("UserInputService").JumpRequest:connect(function()
 end) end)
 
 
-local Toggle1 = Section2:CreateToggle("G Noclip", nil, function(State)
-sex = State
-noclip = false
-game:GetService('RunService').Stepped:connect(function()
-if noclip then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end
-end)
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyDown:connect(function(key)
 
-if key == "g" then
-if sex then
-noclip = not noclip
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end end 
-end) end)
+
+local Toggle1 = Section2:CreateToggle("FullBright", nil, function(State)
+FullBright = State
+game.Lighting.Changed:connect(function()
+if FullBright then
+game.Lighting.TimeOfDay = "14:00:00"
+game.Lighting.FogEnd = 9999
+game.Lighting.Brightness = 2
+game.Lighting.ColorCorrection.Brightness = 0.1
+game.Lighting.ColorCorrection.Saturation = 0.1
+game.Lighting.Bloom.Intensity = 0.1
+end end) end)
+
+
+local Toggle1 = Section2:CreateToggle("G PlatFormNoclip", nil, function(State)
+yes44 = State
+noclip = false
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclip then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(key)
+        if key == "g" then
+            if yes44 then
+                noclip = not noclip
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            end
+        end
+    end
+)
+end)
+local Toggle1 = Section2:CreateToggle("N NonePlatFormNoclip", nil, function(State)
+hoe = State
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "n" then
+            NoClip = not NoClip
+            game:GetService("RunService").Stepped:connect(
+                function()
+                    if NoClip then
+                     if hoe then
+                        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                            pcall(
+                                function()
+                                    if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                                        v.CanCollide = false
+                                    end
+                                end
+                            )
+                        end
+                    end
+                end
+            end
+            )
+        end
+    end
+)
+end)
+
+
 
 local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
 sex2 = State
