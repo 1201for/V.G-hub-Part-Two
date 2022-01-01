@@ -14,6 +14,12 @@ if v.ClassName == "Model" then
 fireclickdetector(v.ClickDetector)
 end end end
 
+pcall(function()
+for i,v in pairs(game:GetService("Workspace").SupplyDrops:GetChildren()) do
+if v.ClassName == "Model" then
+v:remove()
+end end end)
+
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args = {...}
@@ -150,7 +156,7 @@ end end)
 
 local Toggle1 = Section1:CreateToggle("Anti Afk", nil, function(State)
 anti = State
-while anti do wait()
+while anti do wait(3)
 game:GetService("ReplicatedStorage").Events.AFK:FireServer(false)
 end 
 end)
@@ -186,7 +192,7 @@ while cas1e do wait()
 pcall(function()
 for i,v in pairs(game:GetService("Workspace").SupplyDrops:GetChildren()) do
 if v.ClassName == "Model" then
-firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Touch, 0)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Touch.CFrame
 end end  end) end 
 end)
 local Toggle1 = Section1:CreateToggle("AutoCase", nil, function(State)
