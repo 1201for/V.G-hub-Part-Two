@@ -197,7 +197,7 @@ end end  end) end
 end)
 local Toggle1 = Section1:CreateToggle("AutoCase", nil, function(State)
 case = State
-while case do wait()
+while case do wait(3)
 game:GetService("ReplicatedStorage").Events.OpenCase:InvokeServer(Cases)
 end end)
 
