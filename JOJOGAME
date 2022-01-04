@@ -30,10 +30,20 @@ Table = {
     "Unusual Arrow",
     "Spoofy Arrow"
 }
+pcall(function()
 NewTable = {}
-for i,v in pairs(Table) do
-table.insert(NewTable, v)
+for i, v in pairs(Table) do
+    table.insert(NewTable, v)
 end
+Npc = {}
+for i, v in pairs(game.workspace:GetChildren()) do
+    if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("circle") then
+        table.insert(Npc, v.Name)
+    end
+end
+
+
+
 local function Invis()
 local Clone = game:GetService('Players').LocalPlayer.Character.LowerTorso:Clone()
 game:GetService('Players').LocalPlayer.Character.LowerTorso:Destroy()
@@ -49,7 +59,7 @@ Part.Size = Vector3.new(9e9,0,9e9)
 Part.Anchored = true
 Part.Transparency = 0
 Part.CFrame =  CFrame.new(-96, -116, 153) 
-
+end)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -71,20 +81,38 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 
-while wait(1) and n do pcall(function()
+while wait(1) and n do 
     for i, v in pairs(game.Workspace:GetChildren()) do
-        if table.find(Table, v.Name) and v.Handle.Transparency ~= 1 then
+        if table.find(Table, v.Name) and v.Handle.Transparency ~= 1 and v:FindFirstChildOfClass("MeshPart") then
+            print(v)
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("MeshPart").CFrame * CFrame.new(0,3,0)
             wait(0.5)
             fireproximityprompt(v.ProximityPrompt, 1)
             wait(0.5)
-            print(v)
+            elseif table.find(Table, v.Name) and v.Handle.Transparency ~= 1 and v:FindFirstChildOfClass("Part") then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("Part").CFrame * CFrame.new(0,3,0)
+            wait(0.5)
+            fireproximityprompt(v.ProximityPrompt, 1)
+            wait(0.5)
         elseif not table.find(Table, v.Name) then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-96, -115, 153)
         end
-    end end)
+    end 
 end
 end)
+local Button1 = Section1:CreateButton("GoTo Selected NPC", function()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace[Npc].HumanoidRootPart.CFrame * CFrame.new(0,5,0)
+end)
+
+local Dropdown1 = Section1:CreateDropdown("Select NPC")
+Dropdown1:AddToolTip("Select NPC")
+for i,v in next, Npc do
+Dropdown1:AddOption(v, function(String)
+Npc = String
+end)
+end 
+
+
 
 local Toggle1 = Section1:CreateToggle("Auto Invis", nil, function(State)
 f = State
@@ -501,4 +529,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
