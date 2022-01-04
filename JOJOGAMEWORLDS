@@ -1,0 +1,15 @@
+if game.PlaceId == 7521919666 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/JOJOGAME"))()
+elseif game.PlaceId == 7276078611 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/JOJOGAME"))()
+elseif game.PlaceId == 7522693894 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/JOJOGAME"))()
+elseif game.PlaceId == 7522515796 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/JOJOGAME"))()
+elseif game.PlaceId == 7523065517 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/JOJOGAME"))()
+elseif game.PlaceId == 8412714424 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/JOJOGAME"))()
+elseif game.PlaceId == 6706152946 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/JOJOGAME"))()
+end
