@@ -7,6 +7,11 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
+local function Invis()
+pcall(function()
+game:GetService('Players').LocalPlayer.Character.LowerTorso:Destroy()
+end)
+end
 
 Table = {
     "Shiny Mushroom",
@@ -44,11 +49,6 @@ end
 
 
 
-local function Invis()
-local Clone = game:GetService('Players').LocalPlayer.Character.LowerTorso:Clone()
-game:GetService('Players').LocalPlayer.Character.LowerTorso:Destroy()
-Clone.Parent = game:GetService('Players').LocalPlayer.Character
-end
 
 game:GetService("RunService").Stepped:connect(function()
 game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"):WaitForChild("Nametag"):remove()
@@ -115,25 +115,29 @@ end
 
 
 local Toggle1 = Section1:CreateToggle("Auto Invis", nil, function(State)
-f = State
+fssss = State
+
 local Save = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
+if fssss then
 game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(-468, -17, -220)
 wait(0.5)
 Invis() wait(0.5)
 game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = Save
+end
 game.Players.LocalPlayer.CharacterAdded:Connect(
-    function()
-        local Save = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
+    function() pcall(function()
+        local Save = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
         repeat
             wait()
         until game.Players.LocalPlayer.Character
-        if f then
-            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(-468, -17, -220)
+        if fssss then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-468, -17, -220)
             wait(0.5)
             Invis()
             wait(0.5)
-            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = Save
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Save
         end
+        end)
     end
 )
 end)
@@ -529,3 +533,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
