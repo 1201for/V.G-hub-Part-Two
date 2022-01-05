@@ -82,6 +82,7 @@ game:GetService("RunService").Stepped:connect(
 )
 
 while wait(1) and n do 
+    pcall(function()
     for i, v in pairs(game.Workspace:GetChildren()) do
         if table.find(Table, v.Name) and v.Handle.Transparency ~= 1 and v:FindFirstChildOfClass("MeshPart") then
             print(v)
@@ -98,6 +99,7 @@ while wait(1) and n do
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-96, -115, 153)
         end
     end 
+    end)
 end
 end)
 local Button1 = Section1:CreateButton("GoTo Selected NPC", function()
