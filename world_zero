@@ -25,6 +25,8 @@ local Classes = {
     ["Paladin"]         = {"Paladin1", "Paladin2", "Paladin3", "Paladin4", "LightThrust1", "LightThrust2", "LightPaladin1", "LightPaladin2"};
     ["MageOfLight"]     = {"MageOfLight", "MageOfLightBlast"};
     ["Demon"]           = {"Demon1", "Demon4", "Demon7", "Demon10", "Demon13", "Demon16", "Demon19", "Demon22", "Demon25", "DemonDPS1", "DemonDPS2", "DemonDPS3", "DemonDPS4", "DemonDPS5", "DemonDPS6", "DemonDPS7", "DemonDPS8", "DemonDPS9", "ScytheThrowDPS1", "ScytheThrowDPS2", "ScytheThrowDPS3", "DemonLifeStealDPS", "DemonSoulDPS1", "DemonSoulDPS2", "DemonSoulDPS3"};
+    ["Archer"]          = {"SpiritBomb","MortarStrike1","MortarStrike2","MortarStrike3","MortarStrike4","MortarStrike5","PiercingArrow1"};
+    ["Dragoon"]         = {"Dragoon1","Dragoon2","Dragoon3","Dragoon4","Dragoon5","DragoonCross1","DragoonCross2","DragoonCross3","DragoonCross4","DragoonCross5","DragoonCross6","DragoonCross7","DragoonUltimate"};
 };
 
 local function getNearestMob()
