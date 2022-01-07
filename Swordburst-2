@@ -50,15 +50,6 @@ local Section2 = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
-local Toggle1 = Section1:CreateToggle("Kill Aura", nil, function(State)
-getgenv().Y = State
-
-while getgenv().Y do wait(0.3)
-game:GetService("ReplicatedStorage").Event:FireServer("Combat",key,{"Attack",nil,"1",getNearestMob()})
-end
-end)
-
-
 local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
 getgenv().B = State
 game:GetService("RunService").Stepped:connect(
