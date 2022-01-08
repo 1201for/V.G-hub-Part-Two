@@ -1,0 +1,15 @@
+if game.PlaceId == 7040546583 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Dragon-Blox"))()
+elseif game.PlaceId == 7888441249 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Dragon-Blox"))()
+elseif game.PlaceId == 7040546583 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Dragon-Blox"))()
+elseif game.PlaceId == 7379325123 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Dragon-Blox"))()
+elseif game.PlaceId == 7064977275 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Dragon-Blox"))()
+elseif game.PlaceId == 7112788538 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Dragon-Blox"))()
+elseif game.PlaceId == 3177438863 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Dragon-Blox"))()
+end
