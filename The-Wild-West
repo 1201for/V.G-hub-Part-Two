@@ -1,3 +1,5 @@
+
+
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
@@ -7,6 +9,7 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
+
 
 for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
     v:Disable()
@@ -138,29 +141,6 @@ game:GetService("RunService").RenderStepped:Connect(
 )
 
 
-Keys["EnterRagdoll"] = hookfunction(R.EnterRagdoll, function(...)
-    if getgenv().AutoGetUp then
-        coroutine.resume(coroutine.create(function()
-            local Start = tick()
-            repeat
-                wait(0)
-            until require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):CanGetUp() or Start - tick() > 2
-            if require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).IsRagdolledSelf then
-                require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):GetUp()
-            end
-        end))
-    end
-    if getgenv().InstantBreakFree then
-        coroutine.resume(coroutine.create(function()
-            local Start = tick()
-            repeat
-                wait(0)
-            until require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):CanBreakFree() or Start - tick() > 4
-            require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).BreakFreePerc = 5
-        end))
-    end
-    return Keys["EnterRagdoll"](...)
-end)
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -175,13 +155,10 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("Auto Sprint", nil, function(State)
 sex = State
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = save
 game:GetService("RunService").Stepped:Connect(
     function()
         if sex then
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
-        else
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = save
         end
     end
 )
@@ -364,7 +341,7 @@ end)
 local Toggle1 = Section1:CreateToggle("Anti Ragdoll", nil, function(State)
 AntiRagdoll = State
 Keys["Ragdoll"] = hookfunction(Player.Ragdoll, function(...)
-    if AntiRagdoll then
+    if AntiRagdoll and game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 then
         return;
     end
     return Keys["Ragdoll"](...)
@@ -390,12 +367,38 @@ Keys["Animal-Mount"] =
 )
 end)
 
+
 local Toggle1 = Section1:CreateToggle("InstantBreakFree", nil, function(State)
 getgenv().InstantBreakFree = State
+    Keys["EnterRagdoll"] = hookfunction(R.EnterRagdoll, function(...)
+    if getgenv().InstantBreakFree then
+        coroutine.resume(coroutine.create(function()
+            local Start = tick()
+            repeat
+                wait()
+            until require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):CanBreakFree() or Start - tick() > 4
+            require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).BreakFreePerc = 5
+        end))
+    end
+    return Keys["EnterRagdoll"](...)
+end)
 end) 
 
 local Toggle1 = Section1:CreateToggle("AutoGetUp", nil, function(State)
 getgenv().AutoGetUp = State
+Keys["EnterRagdoll"] = hookfunction(R.EnterRagdoll, function(...)
+    if getgenv().AutoGetUp then
+        coroutine.resume(coroutine.create(function()
+            local Start = tick()
+            repeat
+                wait()
+            until require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):CanGetUp() or Start - tick() > 2
+            if require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).IsRagdolledSelf then
+                require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):GetUp()
+            end
+        end))
+    end
+end)
 end)
 
 local Toggle1 = Section1:CreateToggle("infinite Stamina", nil, function(State)
