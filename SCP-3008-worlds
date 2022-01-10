@@ -1,0 +1,7 @@
+if game.PlaceId == 2768379856 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/SCP-3008"))()
+elseif game.PlaceId == 3824662112 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/SCP-3008"))()
+elseif game.PlaceId == 3824662112 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/SCP-3008"))()
+end
