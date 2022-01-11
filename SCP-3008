@@ -7,12 +7,44 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-
-
+pcall(function()
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(A,...)
+    local Args = {...}
+    local Self = Args[1]
+    
+    if getnamecallmethod()=="BreakJoints"    then
+            return true
+    end
+    return OldNameCall(A, ...)
+end)
+for i,v in next, getconnections(game.Players.LocalPlayer.Character.DescendantAdded) do
+   v:Disable()
+end
+for i,v in next, getconnections(game.Players.LocalPlayer.Character.DescendantRemoving) do
+   v:Disable()
+end
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
+    local Args = {...}
+    local Self = Args[1]
+    if getnamecallmethod() == "InvokeServer" and tostring(self) == "MainEvent" and Args[1] == nil then
+            return 
+    end
+    return OldNameCall(self, table.unpack(Args))
+end)
+local OldNameCall
+OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
+    if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
+        return
+    end
+    return OldNameCall(A, B, ...)
+end)
+end)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("The Wild West")
+local Tab1 = Window:CreateTab("3008 [2.7]")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("")
@@ -171,6 +203,12 @@ local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
     ESP.Boxes = State
 end)
 
+local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+end)
+local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+end)
 local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
 Infinite = State
 game:GetService("UserInputService").JumpRequest:connect(function()
@@ -180,8 +218,8 @@ game:GetService("UserInputService").JumpRequest:connect(function()
 end) end)
 
 
-local Toggle1 = Section2:CreateToggle("R Noclip", nil, function(State)
-sex = State
+local Toggle1 = Section2:CreateToggle("R PlatFormNoclip", nil, function(State)
+yes44 = State
 noclip = false
 game:GetService("RunService").Stepped:connect(
     function()
@@ -190,18 +228,152 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-
-mouse = game.Players.LocalPlayer:GetMouse()
 game.Players.LocalPlayer:GetMouse().KeyDown:connect(
-    function(v)
-        if v == "r" then
-            if sex then
+    function(key)
+        if key == "r" then
+            if yes44 then
                 noclip = not noclip
                 game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
             end
         end
     end
 )
+end)
+local Toggle1 = Section2:CreateToggle("N NonePlatFormNoclip", nil, function(State)
+hoe = State
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "n" then
+            NoClip = not NoClip
+            game:GetService("RunService").Stepped:connect(
+                function()
+                    if NoClip then
+                     if hoe then
+                        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                            pcall(
+                                function()
+                                    if v.ClassName == "BasePart" or v.ClassName == "MeshPart" then
+                                        v.CanCollide = false
+                                    end
+                                end
+                            )
+                        end
+                    end
+                end
+            end
+            )
+        end
+    end
+)
+end)
+
+
+local Toggle1 = Section2:CreateToggle("K Fly", nil, function(State)
+sex2 = State
+local Max = 0
+local Players = game.Players
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'k' then
+Max = Max + 1
+getgenv().Fly = false
+if sex2 then
+local T = LP.Character.Torso
+local S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local SPEED = 5
+local function FLY()
+getgenv().Fly = true
+local BodyGyro = Instance.new('BodyGyro', T)
+local BodyVelocity = Instance.new('BodyVelocity', T)
+BodyGyro.P = 9e4
+BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+BodyGyro.cframe = T.CFrame
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+spawn(function()
+repeat
+wait()
+LP.Character.Humanoid.PlatformStand = false
+if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+SPEED = 200
+elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+SPEED = 0
+end
+if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+S2 = {
+F = S.F,
+B = S.B,
+L = S.L,
+R = S.R
+}
+elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+else
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+end
+BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+until not getgenv().Fly
+S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+SPEED = 0
+BodyGyro:destroy()
+BodyVelocity:destroy()
+LP.Character.Humanoid.PlatformStand = false
+end)
+end
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'w' then
+S.F = 1
+elseif k:lower() == 's' then
+S.B = -1
+elseif k:lower() == 'a' then
+S.L = -1
+elseif k:lower() == 'd' then
+S.R = 1
+end
+end)
+Mouse.KeyUp:connect(function(k)
+if k:lower() == 'w' then
+S.F = 0
+elseif k:lower() == 's' then
+S.B = 0
+elseif k:lower() == 'a' then
+S.L = 0
+elseif k:lower() == 'd' then
+S.R = 0
+end
+end)
+FLY()
+if Max == 2 then
+getgenv().Fly = false
+Max = 0
+end
+end
+end
+end)
 end)
 
 local Button1 = Section2:CreateButton("Anti Lag", function()
@@ -327,7 +499,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits FruitBux")
+Section3:CreateLabel("Credits Sensei Joshy#1060")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
@@ -371,6 +543,7 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
 
 
 
