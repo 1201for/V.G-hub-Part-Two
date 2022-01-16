@@ -12,16 +12,17 @@ for i = 1, 100 do
     table.insert(Numbers, i)
 end
 mobs = {}
-for i, v in ipairs(game:GetService("Workspace").NPCS:GetDescendants()) do
+for i, v in ipairs(game:GetService("ReplicatedStorage").Assets.NPCS.Humanoids:GetDescendants()) do
     if
         v.ClassName == "Model" and v:FindFirstChild("HumanoidRootPart") and
-            v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
             not table.find(mobs, v.Name)
      then
         table.insert(mobs, v.Name)
         table.sort(mobs)
     end
 end
+
+
 Class = {}
 for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.CLSTAFFMENU.MainFrame.InfoFrames.Class:GetChildren()) do
     if v.ClassName == "TextButton" and v:FindFirstChild("ItemSelect") and not table.find(Class, v.Name) then
