@@ -209,7 +209,7 @@ local Toggle1 = Section1:CreateToggle("Auto Spin Class", nil, function(State)
 getgenv().Do = State
 while getgenv().Do do wait()
 if game:GetService("Players").LocalPlayer.PlayerGui.Frames.Spin.Class.Text ~= Class or game:GetService("Players").LocalPlayer.PlayerGui.Frames.Spin.Pity.Text ~= "LEGENDARY PITY 2000/2000" then
-game:GetService("ReplicatedStorage").REMOTE_EVENT:FireServer("Spin")
+game:GetService("ReplicatedStorage").Remotes.REMOTE_EVENT:FireServer("Spin")
 wait(3)
 end 
 end 
@@ -248,7 +248,7 @@ local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
 Infinite = State
 game:GetService("UserInputService").JumpRequest:connect(function()
 	if Infinite then
-		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass('Humanoid'):ChangeState("Jumping")
 	end
 end) end)
 
