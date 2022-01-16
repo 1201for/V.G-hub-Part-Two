@@ -97,7 +97,7 @@ while getgenv().Farmming do
     pcall(
         function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestMob().HumanoidRootPart.CFrame * CFrame.new(0,-getgenv().Distance,3)
-            game:GetService("ReplicatedStorage").SKILL_EVENT:FireServer("NonePunch")
+            game:GetService("ReplicatedStorage").Remotes.SKILL_EVENT:FireServer("NonePunch")
         end
     )
 end
@@ -151,7 +151,7 @@ while que do
                 wait(0.5)
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                     game:GetService("Workspace").QUEST[Numbers].HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
-                game:GetService("ReplicatedStorage").QUEST_EVENT:FireServer(tostring(Numbers))
+                game:GetService("ReplicatedStorage").Remotes.QUEST_EVENT:FireServer(tostring(Numbers))
             until game:GetService("Players").LocalPlayer.PlayerGui.Frames.Quests.Visible == true or que == false
             repeat
                 wait()
@@ -166,12 +166,23 @@ while que do
                      then
                         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                             v:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, -getgenv().Distance, 3)
-
-                        game:GetService("ReplicatedStorage").SKILL_EVENT:FireServer("NonePunch")
+                        game:GetService("ReplicatedStorage").Remotes.SKILL_EVENT:FireServer("NonePunch")
                     elseif v.Name == "Gigant" then
                         v.Name = "Giant"
                     elseif v.Name == "Praieiro" then
                         v.Name = "BeachBoy"
+                    elseif v.Name == "RiverKing" then
+                        v.Name = "RiverLord"
+                    elseif v.Name == "G4" then
+                        v.Name = "Gojiujitsu"
+                    elseif v.Name == "LakeKing" then
+                        v.Name = "Lordsofthelake"
+                    elseif v.Name == "SeaKing" then
+                        v.Name = "OceanKing"
+                    elseif v.Name == "Sonic" then
+                        v.Name = "Cinos"
+                    elseif v.Name == "Garou" then
+                        v.Name = "Gabou"
                     end
                 end
             until game:GetService("Players").LocalPlayer.PlayerGui.Frames.Quests.Visible == false or que == false
