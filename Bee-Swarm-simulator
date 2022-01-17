@@ -29,37 +29,18 @@ end
 
 Tools = {}
 for i, v in pairs(game:GetService("ReplicatedStorage").CollectorModels:GetChildren()) do
-    if v.ClassName == 'Tool' and v.Name ~= "Debug-Bag" or v.Name ~= "Elite Scythe" or v.Name ~= "Honey Hammer" then
+    if v.ClassName == 'Tool' and not v.Name ~= "Debug-Bag" or not v.Name ~= "Elite Scythe" or v.Name ~= "Honey Hammer" then
         table.insert(Tools, v.Name)
     end
 end
 
 Backpacks = {}
 for i, v in pairs(game:GetService("ReplicatedStorage").BackpackModels:GetChildren()) do
-    if v.ClassName == 'Accessory' and v.Name ~= "Debug-Bag" or v.Name ~= "Elite Scythe" or v.Name ~= "Honey Hammer" then
+    if v.ClassName == 'Accessory' and not v.Name == "Debug-Bag" or not v.Name ~= "Elite Scythe" or v.Name ~= "Honey Hammer" then
         table.insert(Backpacks, v.Name)
     end
 end
 
-local function GetOwner()
-    local Target
-    for i, v in ipairs(game:GetService("Workspace").Honeycombs:GetChildren()) do
-        if v.ClassName == "Model" and v:FindFirstChild("Owner") and v.Owner.Value == game.Players.LocalPlayer then
-            Target = v
-        end
-    end
-    return Target
-end
-
-local function GetPlayer()
-    local Target
-    for i, v in ipairs(game.Players:GetPlayers()) do
-        if v ~= game.Players.LocalPlayer  and v.Character:FindFirstChildOfClass("Tool") and v.Character:FindFirstChildOfClass("Tool").ClickEvent then
-            Target = v
-        end
-    end
-    return Target
-end
 
 function Hoe()
 local Cam, Player = game.workspace.Camera.CFrame, game.Players.LocalPlayer
@@ -86,15 +67,7 @@ getsenv(game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").ClientS
 )
 end
 
-function GetRandomPointInCircle(v)
-	local radius = v.Size.Z / 2
-	local cf = v.CFrame
-
-	local theta = 2 * math.pi * math.random()
-	local r = radius * math.sqrt( math.random() )
-
-	return cf.Position + cf.LookVector * math.cos(theta) * r + cf.UpVector * math.sin(theta) * r
-end
+local Player = game.Players.LocalPlayer
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -109,80 +82,38 @@ local Section4 = Tab2:CreateSection("Background")
 
 
 local Toggle1 = Section1:CreateToggle("Basic Autofarm", nil, function(State)
-getgenv().Sence = State
-
-game:GetService("RunService").Stepped:connect(
-    function()
-        pcall(
-            function()
-                if getgenv().Sence then
-                    game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").ClickEvent:FireServer(
-
-                    )
-                end
+t = State
+while wait(0.1) do
+    if t then
+             for i, v in pairs(game:GetService("Workspace").FlowerZones:GetChildren()) do
+                if v.ShortName.Value == Zones and  v.ClassName == "Part" and 
+                    Player.CoreStats.Capacity.Value ~= Player.CoreStats.Pollen.Value
+             then
+                if Player.Backpack:FindFirstChildOfClass("Tool") then
+                    Player.Backpack:FindFirstChildOfClass("Tool").Parent = Player.Character
+                end 
+                Player.Character.HumanoidRootPart.CFrame =
+                    v.CFrame * CFrame.new(math.random(20), 4, math.random(20))
+                Player.Character:FindFirstChildOfClass("Tool").ClickEvent:FireServer()
             end
-        )
-    end
-)
-
-
-while getgenv().Sence do
-    wait()
-    if
-        game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value ==
-            game:GetService("Players").LocalPlayer.CoreStats.Capacity.Value and
-            game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value ~= 0
-     then
+             end
+         
         for i, v in ipairs(game:GetService("Workspace").HivePlatforms:GetChildren()) do
             if
                 v.ClassName == "Model" and v:FindFirstChild("Circle") and
-                    v.Circle:WaitForChild("SurfaceGui"):WaitForChild("TextLabel").Text == game.Players.LocalPlayer.Name
+                    v.Circle:WaitForChild("SurfaceGui"):WaitForChild("TextLabel").Text == Player.Name and
+                    Player.CoreStats.Capacity.Value  <= Player.CoreStats.Pollen.Value
              then
-                game.Players.LocalPlayer.Character:MoveTo(v.Circle.CFrame.p)
-                wait(0.5)
-                if
-                    game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.ActivateButton.TextBox.Text ==
-                        "Make Honey"
-                 then
+                Player.Character:MoveTo(v.Circle.CFrame.p)
+                wait(2)
+                if Player.PlayerGui.ScreenGui.ActivateButton.TextBox.Text == "Make Honey" then
                     game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
                 end
-            end
-        end
-    end
-    if
-        game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value ~=
-            game:GetService("Players").LocalPlayer.CoreStats.Capacity.Value and
-            game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value == 0
-     then
-        wait(10)
-     
-        for i, v in pairs(game:GetService("Workspace").FlowerZones:GetChildren()) do
-            if v.ShortName.Value == Zones and v.ClassName == "Part" then
-                game.Players.LocalPlayer.Character:MoveTo(v.CFrame.p)
-                repeat
-                    wait()
-
-                    if game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool") then
-                        game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool").Parent =
-                            game.Players.LocalPlayer.Character
-                    end
-
-                    newPoint = GetRandomPointInCircle(v)
-                    print(newPoint)
-                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(newPoint)
-                    print("moving")
-                    game.Players.LocalPlayer.Character.Humanoid.MoveToFinished:Wait()
-                    print("moved")
-                    wait()
-                until game:GetService("Players").LocalPlayer.CoreStats.Pollen.Value ==
-                    game:GetService("Players").LocalPlayer.CoreStats.Capacity.Value  or
-                    getgenv().Sence == false
-        end
+                repeat wait() until Player.CoreStats.Pollen.Value ==  0 wait(3)
+             end
         end
     end
 end
-
-
 
 end)
 
@@ -193,6 +124,18 @@ Dropdown1:AddOption(v, function(String)
 Zones = String
 end)
 end 
+
+local Toggle1 = Section1:CreateToggle("Get Tokens", nil, function(State)
+patch = State
+while patch do
+    wait()
+    for i, v in pairs(game.Workspace.Collectibles:GetChildren()) do 
+        if v.Transparency == 0 then wait(1)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+        end
+    end
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 god = State
