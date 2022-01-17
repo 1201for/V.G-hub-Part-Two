@@ -7,6 +7,7 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
+pcall(function()
 Numbers = {}
 for i = 1, 100 do
     table.insert(Numbers, i)
@@ -22,13 +23,18 @@ for i, v in ipairs(game:GetService("ReplicatedStorage").Assets.NPCS.Humanoids:Ge
     end
 end
 
+for i,v in pairs(game:GetService("ReplicatedStorage").SharedModules.ClassModules:GetChildren()) do
+if v.ClassName == "ModuleScript" then
+v.Name = string.gsub(v.Name, "Module", "")
+end end 
 
 Class = {}
-for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.CLSTAFFMENU.MainFrame.InfoFrames.Class:GetChildren()) do
-    if v.ClassName == "TextButton" and v:FindFirstChild("ItemSelect") and not table.find(Class, v.Name) then
+for i, v in pairs(game:GetService("ReplicatedStorage").SharedModules.ClassModules:GetChildren()) do
+    if  not table.find(Class, v.Name) then
         table.insert(Class, v.Name)
     end
 end
+end)
 
 local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Frames.Quests.Title
 local function getNearestMob()
