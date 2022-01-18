@@ -67,6 +67,19 @@ getsenv(game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").ClientS
 )
 end
 
+function GetRandomPointInCircle(v)
+	local radius = v.Size.X / 2
+	local randomAngle = math.rad(math.random(1,360))
+
+	local randomNum = math.random()
+	
+	local sine = math.sin(randomAngle) * randomNum * radius
+	local cosine = math.cos(randomAngle) * randomNum * radius
+	
+	local finalPoint = Vector3.new(cosine, 0, sine) + v.Position
+	return finalPoint
+end
+
 local Player = game.Players.LocalPlayer
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
@@ -83,40 +96,70 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("Basic Autofarm", nil, function(State)
 t = State
+spawn(
+    function()
+        while wait() and t do
+            Player.Character:FindFirstChildOfClass("Tool").ClickEvent:FireServer()
+        end
+    end
+)
 while wait(0.1) do
     if t then
-             for i, v in pairs(game:GetService("Workspace").FlowerZones:GetChildren()) do
-                if v.ShortName.Value == Zones and  v.ClassName == "Part" and 
-                    Player.CoreStats.Capacity.Value ~= Player.CoreStats.Pollen.Value
-             then
-                if Player.Backpack:FindFirstChildOfClass("Tool") then
-                    Player.Backpack:FindFirstChildOfClass("Tool").Parent = Player.Character
-                end 
-                Player.Character.HumanoidRootPart.CFrame =
-                    v.CFrame * CFrame.new(math.random(20), 4, math.random(20))
-                Player.Character:FindFirstChildOfClass("Tool").ClickEvent:FireServer()
-            end
-             end
-         
-        for i, v in ipairs(game:GetService("Workspace").HivePlatforms:GetChildren()) do
-            if
-                v.ClassName == "Model" and v:FindFirstChild("Circle") and
-                    v.Circle:WaitForChild("SurfaceGui"):WaitForChild("TextLabel").Text == Player.Name and
-                    Player.CoreStats.Capacity.Value  <= Player.CoreStats.Pollen.Value
-             then
-                Player.Character:MoveTo(v.Circle.CFrame.p)
-                wait(2)
-                if Player.PlayerGui.ScreenGui.ActivateButton.TextBox.Text == "Make Honey" then
-                    game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer("ToggleHoneyMaking")
+        pcall(
+            function()
+                for i, v in pairs(game:GetService("Workspace").FlowerZones:GetChildren()) do
+                    if
+                        v.ShortName.Value == Zones and v.ClassName == "Part" and
+                            Player.CoreStats.Capacity.Value ~= Player.CoreStats.Pollen.Value
+                     then
+                        if Player.Backpack:FindFirstChildOfClass("Tool") then
+                            Player.Backpack:FindFirstChildOfClass("Tool").Parent = Player.Character
+                        end
+
+                        Player.Character.HumanoidRootPart.CFrame = v.CFrame
+                        if not getgenv().WalkMode == true then
+                            Player.Character.HumanoidRootPart.CFrame =
+                                v.CFrame * CFrame.new(math.random(10), 4, math.random(20))
+                        end
+
+                        wait()
+                        if getgenv().WalkMode == true then
+                            newPoint = GetRandomPointInCircle(v)
+                            game.Players.LocalPlayer.Character.Humanoid:MoveTo(newPoint)
+                            game.Players.LocalPlayer.Character.Humanoid.MoveToFinished:Wait()
+                        end
+                    end
                 end
-                repeat wait() until Player.CoreStats.Pollen.Value ==  0 wait(3)
-             end
-        end
+
+                for i, v in ipairs(game:GetService("Workspace").HivePlatforms:GetChildren()) do
+                    if
+                        v.ClassName == "Model" and v:FindFirstChild("Circle") and
+                            v.Circle:WaitForChild("SurfaceGui"):WaitForChild("TextLabel").Text == Player.Name and
+                            Player.CoreStats.Capacity.Value <= Player.CoreStats.Pollen.Value
+                     then
+                        Player.Character:MoveTo(v.Circle.CFrame.p + Vector3.new(0, 5, 0))
+                        wait(2)
+                        if Player.PlayerGui.ScreenGui.ActivateButton.TextBox.Text == "Make Honey" then
+                            game:GetService("ReplicatedStorage").Events.PlayerHiveCommand:FireServer(
+                                "ToggleHoneyMaking"
+                            )
+                        end
+                        repeat
+                            wait()
+                        until Player.CoreStats.Pollen.Value == 0
+                        wait(3)
+                    end
+                end
+            end
+        )
     end
 end
 
 end)
 
+local Toggle1 = Section1:CreateToggle("WalkMode", nil, function(State)
+getgenv().WalkMode = State
+end)
 local Dropdown1 = Section1:CreateDropdown("Select Zone")
 Dropdown1:AddToolTip("Select Zone")
 for i,v in next, Zones do
