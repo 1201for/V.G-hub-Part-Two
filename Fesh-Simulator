@@ -1,0 +1,283 @@
+local Config = {
+    WindowName = "V.G Hub",
+	Color = Color3.fromRGB(255,128,64),
+	Keybind = Enum.KeyCode.RightControl
+}
+repeat wait() until game:IsLoaded() wait()
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+end)
+
+
+local function GetFish()
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").Players:GetChildren()) do
+        if v.ClassName == "Model"and v.Name == game.Players.LocalPlayer.Name then
+            Target = v
+        end
+    end
+    return Target
+end
+
+
+
+eggs = {}
+for i, v in pairs(game:GetService("Workspace").Worlds:GetDescendants()) do
+    if
+        v.ClassName == "TextLabel" and v.Parent.Name == "SurfaceGui" and
+            v.Parent.Parent.Parent.Parent.Name == "EggDispenser"
+     then
+        table.insert(eggs, v.Text)
+    end
+end
+local Size = {"Large","Medium","Small"}
+worlds = {}
+for i, v in pairs(game:GetService("Workspace").Worlds:GetChildren()) do
+    if v.ClassName == "Folder" and v:FindFirstChildOfClass("Model") then
+        table.insert(worlds, v.Name)
+    end
+end
+local function GetClosestt()
+    local TargetDistance = math.huge
+    local Target
+   for i, v in pairs(game:GetService("Workspace").Worlds[worlds].Bubbles:GetChildren()) do
+        if v.Name:match(Size) and v:FindFirstChild("InteractHitbox") and v:FindFirstChildOfClass("Model")  then
+      
+            local Mag = (GetFish().Root.Position - v.InteractHitbox.Position).magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end
+
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
+local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
+
+local Tab1 = Window:CreateTab("Arsenal")
+local Tab2 = Window:CreateTab("UI Settings")
+
+local Section1 = Tab1:CreateSection("")
+local Section2 = Tab1:CreateSection("")
+local Section5 = Tab1:CreateSection("")
+local Section3 = Tab2:CreateSection("Menu")
+local Section4 = Tab2:CreateSection("Background")
+
+local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
+t = State
+game:GetService("ReplicatedStorage").Events.Player.Portal:FireServer(worlds)
+
+while wait(1) and t do pcall(function()
+    tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+    tween =
+        tweenService:Create(
+        GetFish().Root,
+        tweenInfo,
+        {CFrame = CFrame.new(GetClosestt().InteractHitbox.CFrame.p + Vector3.new(0, 7, 0))}
+    )
+    tween:Play()
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+end)
+end
+
+end)
+
+
+local Dropdown1 = Section1:CreateDropdown("Select Size")
+Dropdown1:AddToolTip("Select Size")
+for i,v in next, Size do
+Dropdown1:AddOption(v, function(String)
+Size = String
+end)
+end 
+
+local Dropdown1 = Section1:CreateDropdown("Select World")
+Dropdown1:AddToolTip("Select World")
+for i,v in next, worlds do
+Dropdown1:AddOption(v, function(String)
+worlds = String
+end)
+end 
+local Toggle1 = Section1:CreateToggle("Auto Egg", nil, function(State)
+egg = State
+while egg do wait(1)
+    
+for i,v in pairs(game:GetService("Workspace").Worlds:GetDescendants()) do
+if v.ClassName == "TextLabel" and v.Text == eggs and v.Parent.Name == "SurfaceGui" and v.Parent.Parent.Parent.Parent.Name == "EggDispenser" then
+game:GetService("ReplicatedStorage").Events.Game.Egg:FireServer(v.Parent.Parent.Parent.Parent,false)
+GetFish().Root:MoveTo(v.Parent)
+end end end end)
+
+
+local Dropdown1 = Section1:CreateDropdown("Select Egg")
+Dropdown1:AddToolTip("Select Egg")
+for i,v in next, eggs do
+Dropdown1:AddOption(v, function(String)
+eggs = String
+end)
+end 
+
+
+
+local Button1 = Section2:CreateButton("Anti Lag", function()
+for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+        v.Material = Enum.Material.SmoothPlastic
+        if v:IsA("Texture") then
+            v:Destroy()
+        end
+    end
+end
+
+end)
+
+
+
+local Button1 = Section2:CreateButton("Lag Switch F3", function()
+local X = false
+local C = settings()
+
+game:service "UserInputService".InputEnded:connect(
+    function(V)
+        if V.KeyCode == Enum.KeyCode.F3 then
+            X = not X
+            C.Network.IncomingReplicationLag = X and 10 or 0
+        end
+    end
+)
+end) 
+local Button1 = Section2:CreateButton("ServerHop", function()
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+local File = pcall(function()
+    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
+end)
+if not File then
+    table.insert(AllIDs, actualHour)
+    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+end
+function TPReturner()
+    local Site;
+    if foundAnything == "" then
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
+    else
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0;
+    for i,v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _,Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile = pcall(function()
+                            delfile("NotSameServers.json")
+                            AllIDs = {}
+                            table.insert(AllIDs, actualHour)
+                        end)
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(function()
+                    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+                    wait()
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                end)
+                wait(4)
+            end
+        end
+    end
+end
+
+function Teleport()
+    while wait() do
+        pcall(function()
+            TPReturner()
+            if foundAnything ~= "" then
+                TPReturner()
+            end
+        end)
+    end
+end
+
+-- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
+Teleport() 
+end)
+local Button1 = Section2:CreateButton("Rejoin", function()
+game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
+
+local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
+	Window:Toggle(State)
+end)
+Toggle3:CreateKeybind(tostring(Config.Keybind):gsub("Enum.KeyCode.", ""), function(Key)
+	Config.Keybind = Enum.KeyCode[Key]
+end)
+Toggle3:SetState(true)
+Section3:CreateLabel("Credits DekuDimz#7960")
+Section3:CreateLabel("Credits AlexR32#3232 Ui")
+Section3:CreateLabel("Credits your mom")
+local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
+	Window:ChangeColor(Color)
+end)
+Colorpicker3:UpdateColor(Config.Color)
+-- credits to jan for patterns
+local Dropdown3 = Section4:CreateDropdown("Image")
+local Option7 = Dropdown3:AddOption("Default", function(String)
+	Window:SetBackground("2151741365")
+end)
+local Option8 = Dropdown3:AddOption("Hearts", function(String)
+	Window:SetBackground("6073763717")
+end)
+local Option9 = Dropdown3:AddOption("Abstract", function(String)
+	Window:SetBackground("6073743871")
+end)
+local Option10 = Dropdown3:AddOption("Hexagon", function(String)
+	Window:SetBackground("6073628839")
+end)
+local Option11 = Dropdown3:AddOption("Circles", function(String)
+	Window:SetBackground("6071579801")
+end)
+local Option12 = Dropdown3:AddOption("Lace With Flowers", function(String)
+	Window:SetBackground("6071575925")
+end)
+local Option13 = Dropdown3:AddOption("Floral", function(String)
+	Window:SetBackground("5553946656")
+end)
+Option7:SetOption()
+
+local Colorpicker4 = Section4:CreateColorpicker("Color", function(Color)
+	Window:SetBackgroundColor(Color)
+end)
+Colorpicker4:UpdateColor(Color3.new(1,1,1))
+
+local Slider3 = Section4:CreateSlider("Transparency",0,1,nil,false, function(Value)
+	Window:SetBackgroundTransparency(Value)
+end)
+Slider3:SetValue(0)
+
+local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value)
+	Window:SetTileScale(Value)
+end)
+Slider4:SetValue(0.5)
+
+
+
