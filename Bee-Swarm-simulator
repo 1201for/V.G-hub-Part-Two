@@ -172,12 +172,17 @@ local Toggle1 = Section1:CreateToggle("Get Tokens", nil, function(State)
 patch = State
 while patch do
     wait()
-    for i, v in pairs(game.Workspace.Collectibles:GetChildren()) do 
-        if v.Transparency == 0 then wait(1)
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
-        end
-    end
+pcall(function()
+for i, v in pairs(game.Workspace.Collectibles:GetChildren()) do 
+if v.Transparency == 0 then
+
+if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude < 50 then
+game.Players.LocalPlayer.Character:MoveTo(v.CFrame + Vector3.new(0,2,0))
 end
+end
+end 
+end)
+end 
 end)
 
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
