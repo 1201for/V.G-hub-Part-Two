@@ -41,7 +41,7 @@ local function GetClosestt()
     local TargetDistance = math.huge
     local Target
    for i, v in pairs(game:GetService("Workspace").Worlds[worlds].Bubbles:GetChildren()) do
-        if v.Name:match(Size) and v:FindFirstChild("InteractHitbox") and v:FindFirstChildOfClass("Model")  then
+        if v.Name:match(Size) and v:FindFirstChild("InteractHitbox") and v:FindFirstChildOfClass("Model") or getgenv().Pearl and v:FindFirstChildOfClass("Model").Pearl  then
       
             local Mag = (GetFish().Root.Position - v.InteractHitbox.Position).magnitude
             if Mag < TargetDistance then
@@ -49,10 +49,27 @@ local function GetClosestt()
                 Target = v
             end
         end
+    
     end
     return Target
 end
 
+local function GetClosesttPearl()
+    local TargetDistance = math.huge
+    local Target
+   for i, v in pairs(game:GetService("Workspace").Worlds[worlds].Bubbles:GetChildren()) do
+        if  v:FindFirstChild("InteractHitbox") and v:FindFirstChildOfClass("Model") and v:FindFirstChildOfClass("Model"):FindFirstChild("Pearl")  then
+      
+            local Mag = (GetFish().Root.Position - v.InteractHitbox.Position).magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    
+    end
+    return Target
+end
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -80,7 +97,28 @@ while wait(1) and t do pcall(function()
     )
     tween:Play()
     game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+    end)
+end
+
 end)
+
+local Toggle1 = Section1:CreateToggle("AutoFarm Pearls", nil, function(State)
+getgenv().Pearl = State
+
+to = State
+game:GetService("ReplicatedStorage").Events.Player.Portal:FireServer(worlds)
+
+while wait(1) and to do pcall(function()
+    tweenService, tweenInfo = game:GetService("TweenService"), TweenInfo.new(1, Enum.EasingStyle.Linear)
+    tween =
+        tweenService:Create(
+        GetFish().Root,
+        tweenInfo,
+        {CFrame = CFrame.new(GetClosesttPearl().InteractHitbox.CFrame.p + Vector3.new(0, 7, 0))}
+    )
+    tween:Play()
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+    end)
 end
 
 end)
