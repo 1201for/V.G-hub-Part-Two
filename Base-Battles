@@ -15,7 +15,7 @@ getgenv().Head = 5
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("Arsenal")
+local Tab1 = Window:CreateTab("Base Battles")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("")
@@ -51,13 +51,7 @@ function ClosestPlayerToCurser()
 end
 loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G_Hub_Extras/main/RayCast_Method"))()
 end)
-        for i, v in next, getgc(true) do
-            if type(v) == "table" and rawget(v, "damage") then
-                v.bloomFactor = 0
-                v.noYawRecoil = "true"
-                v.recoilCoefficient = 1
-            end
-        end
+
 local Toggle1 = Section1:CreateToggle("HitBox Extender", nil, function(State)
 getgenv().On = State
 
