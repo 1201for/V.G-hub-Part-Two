@@ -146,7 +146,7 @@ while egg do wait(1)
 for i,v in pairs(game:GetService("Workspace").Worlds:GetDescendants()) do
 if v.ClassName == "TextLabel" and v.Text == eggs and v.Parent.Name == "SurfaceGui" and v.Parent.Parent.Parent.Parent.Name == "EggDispenser" then
 game:GetService("ReplicatedStorage").Events.Game.Egg:FireServer(v.Parent.Parent.Parent.Parent,false)
-GetFish().Root:MoveTo(v.Parent)
+GetFish():MoveTo(v.Parent.Parent.CFrame.p)
 end end end end)
 
 
