@@ -1,5 +1,3 @@
-
-
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
@@ -9,7 +7,15 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
+    local Args = {...}
+    local Self = Args[1]
+    if getnamecallmethod()=="FireServer" and tostring(Self)=="ErrorLoggerRemote" then
+            return nil
+    end
+    return OldNameCall(self, ...)
+end)
 
 for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
     v:Disable()
@@ -818,4 +824,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
