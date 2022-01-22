@@ -42,7 +42,7 @@ local function getNearestOrbs()
 end
 
 
-
+repeat wait() until game:GetService("Workspace")["__MAP"]
 quest = {}
 for i,v in pairs(game:GetService("Workspace")["__MAP"].Areas:GetDescendants()) do
 if v:IsA("Folder") then
