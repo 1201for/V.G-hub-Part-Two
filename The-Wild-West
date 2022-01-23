@@ -496,6 +496,29 @@ game:GetService("RunService").Stepped:Connect(
 )
 end)
 
+local Toggle1 = Section2:CreateToggle("Instant Cook meat", nil, function(State)
+dumbass = State
+while wait() and dumbass do
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Placeables:GetChildren()) do
+                if v:IsA("Model") and v:FindFirstChild("Center") then
+                    wait(0.5)
+                    game:GetService("ReplicatedStorage").Communication.Events.CookFood:FireServer(v.Center)
+                elseif not v:FindFirstChild("Center") then
+                    game.StarterGui:SetCore(
+                        "SendNotification",
+                        {
+                            Title = "Noitce",
+                            Text = "Hey Dumbass maybe put down a fireplace???"
+                        }
+                    )
+                end
+            end
+        end
+    )
+end
+end)
 local Toggle1 = Section2:CreateToggle("Ore Esp", nil, function(State)
 getgenv().esp = State
 local function esp(v)
