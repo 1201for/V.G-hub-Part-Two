@@ -1,11 +1,8 @@
-repeat wait() until game.Players.LocalPlayer.Character
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightControl
 }
-
-
 
 local function getNearestCoin()
     local TargetDistance = math.huge
@@ -41,7 +38,7 @@ local function getNearestOrbs()
     return Target
 end
 
-
+repeat wait() until game.Players.LocalPlayer.Character
 repeat wait() until game:GetService("Workspace")["__MAP"]
 quest = {}
 for i,v in pairs(game:GetService("Workspace")["__MAP"].Areas:GetDescendants()) do
@@ -74,11 +71,8 @@ while game.RunService.Heartbeat:wait() do
     if coin then
         for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Inventory.Frame.Main.Pets:GetChildren()) do
             if v:FindFirstChild("Equipped") and v.Equipped.Visible == true then
-                lol = getNearestCoin().Name
-                workspace.__THINGS.__REMOTES:FindFirstChild("join coin"):InvokeServer({lol, {v.Name}})
-                for i = 1, 100 do
-                    workspace.__THINGS.__REMOTES:FindFirstChild("farm coin"):FireServer({lol, v.Name})
-                end
+                workspace.__THINGS.__REMOTES:FindFirstChild("join coin"):InvokeServer({getNearestCoin().Name, {v.Name}})
+                game.workspace['__THINGS']['__REMOTES']["farm coin"]:FireServer({getNearestCoin().Name, v.Name})
             end
         end
         for i, v in pairs(game:GetService("Workspace")["__THINGS"].Orbs:GetChildren()) do
@@ -92,6 +86,75 @@ end
 end)
 
 
+local Toggle1 = Section1:CreateToggle("Stats Tracker", nil, function(State)
+getgenv().Do = State
+local Save = require(game:GetService("ReplicatedStorage").Framework.Library).Save.Get
+local Commas = require(game:GetService("ReplicatedStorage").Framework.Library).Functions.Commas
+local Tables = {}
+
+for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main.Right:GetChildren()) do
+    if v.ClassName == 'Frame' and v.Name ~= 'Rank' and not string.find(v.Name, "2") then
+        table.insert(Tables, v.Name)
+    end
+end
+
+function get(v)
+    return Save()[v]
+end
+
+game:GetService("Players").LocalPlayer.PlayerGui.Main.Right.Diamonds.LayoutOrder = 99988
+game:GetService("Players").LocalPlayer.PlayerGui.Main.Right['Tech Coins'].LayoutOrder = 99992
+game:GetService("Players").LocalPlayer.PlayerGui.Main.Right['Fantasy Coins'].LayoutOrder = 99994
+game:GetService("Players").LocalPlayer.PlayerGui.Main.Right.Coins.LayoutOrder = 99996
+game:GetService("Players").LocalPlayer.PlayerGui.Main.Right.UIListLayout.HorizontalAlignment = 2
+
+getgenv().MyTables = {}
+for i,v in pairs(Tables) do
+    if game:GetService("Players").LocalPlayer.PlayerGui.Main.Right:FindFirstChild(v.."2") then
+        game:GetService("Players").LocalPlayer.PlayerGui.Main.Right:FindFirstChild(v.."2"):Destroy()
+    end
+end
+for i,v in pairs(Tables) do
+    if not game:GetService("Players").LocalPlayer.PlayerGui.Main.Right:FindFirstChild(v.."2") then
+        local TP = game:GetService("Players").LocalPlayer.PlayerGui.Main.Right:FindFirstChild(v):Clone()
+        TP.Name = tostring(TP.Name .. "2")
+        TP.Parent = game:GetService("Players").LocalPlayer.PlayerGui.Main.Right
+        TP.Size = UDim2.new(0, 175, 0, 30)
+        TP.LayoutOrder = TP.LayoutOrder + 1
+        getgenv().MyTables[v] = TP
+        if not getgenv().Do then
+        TP:remove()
+        end
+    end
+end
+game:GetService("Players").LocalPlayer.PlayerGui.Main.Right.Diamonds2.Add.Visible = false
+
+for i,v in pairs(Tables) do
+    spawn(function()
+        local MT = {}
+        local S1 = 1
+        local Times = 0
+        local LastTime = tick()
+        local Rn = LastTime
+        local TICK_TIME = 0.5
+        while getgenv().Do do wait()
+            if Times >= TICK_TIME then
+                while Times >= TICK_TIME do Times = Times - TICK_TIME end
+                local Current = get(v)
+                MT[S1] = Current
+                local S2 = Current - (MT[S1-120] or MT[1])
+                S1 = S1 + 1
+                getgenv().MyTables[v].Amount.Text = tostring(Commas(S2).." in 60s")
+                getgenv().MyTables[v]["Amount_odometerGUIFX"].Text = tostring(Commas(S2).." in 60s")
+            end
+            task.wait(0.001)
+            Rn = tick()
+            Times = Times + (Rn - LastTime)
+            LastTime = Rn
+        end
+    end)
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("AutoBuy Egg", nil, function(State)
 texus = State
@@ -112,6 +175,8 @@ end
 local Button1 = Section1:CreateButton("Teleport Location", function()
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")["__MAP"].Areas[quest]:FindFirstChildOfClass("Part").CFrame * CFrame.new(0,10,0)
 end)
+
+
 local Dropdown1 = Section1:CreateDropdown("Select Location")
 Dropdown1:AddToolTip("Select Location")
 for i,v in next, quest do
@@ -119,6 +184,8 @@ Dropdown1:AddOption(v, function(String)
 quest = String
 end)
 end
+
+
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
@@ -371,6 +438,7 @@ Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
 Section3:CreateLabel("Credits e621")
+Section3:CreateLabel("Credits Gerard#0001")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
@@ -414,3 +482,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
