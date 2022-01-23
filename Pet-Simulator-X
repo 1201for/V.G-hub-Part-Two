@@ -1,8 +1,11 @@
+
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightControl
 }
+
+
 
 local function getNearestCoin()
     local TargetDistance = math.huge
@@ -40,17 +43,20 @@ end
 
 repeat wait() until game.Players.LocalPlayer.Character
 repeat wait() until game:GetService("Workspace")["__MAP"]
+
+
 quest = {}
 for i,v in pairs(game:GetService("Workspace")["__MAP"].Areas:GetDescendants()) do
 if v:IsA("Folder") then
 table.insert(quest,v.Name)
 end end 
-yes = {}
-for i,v in pairs(game:GetService("ReplicatedStorage").Game.Eggs:GetDescendants()) do
-if v:IsA("Folder") then
-table.insert(yes,v.Name)
-table.sort(yes)
-end end 
+local eggs = require(game:GetService("ReplicatedStorage"):WaitForChild("Framework"):WaitForChild("Library")).Directory.Eggs
+local yes = {}
+for i,v in pairs(eggs) do
+    table.insert(yes, i)
+end
+
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -67,7 +73,7 @@ coin = State
 repeat
     wait()
 until workspace.__THINGS.__REMOTES:FindFirstChild("join coin")
-while game.RunService.Heartbeat:wait() do
+while game.RunService.Heartbeat:wait() do pcall(function()
     if coin then
         for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Inventory.Frame.Main.Pets:GetChildren()) do
             if v:FindFirstChild("Equipped") and v.Equipped.Visible == true then
@@ -82,6 +88,7 @@ while game.RunService.Heartbeat:wait() do
             v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
         end
     end
+    end)
 end
 end)
 
@@ -155,6 +162,17 @@ for i,v in pairs(Tables) do
     end)
 end
 end)
+local Toggle1 = Section1:CreateToggle("Skip Hatch Egg Anamtion", nil, function(State)
+getgenv().Egg = State
+for Index, Value in pairs(getgc(true)) do
+    if (typeof(Value) == "table" and rawget(Value, "OpenEgg")) and getgenv().Egg then
+        Value.OpenEgg = function()
+            return
+        end
+    end
+    end
+end)
+
 
 local Toggle1 = Section1:CreateToggle("AutoBuy Egg", nil, function(State)
 texus = State
@@ -482,4 +500,6 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
+
 
