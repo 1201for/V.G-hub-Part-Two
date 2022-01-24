@@ -49,7 +49,12 @@ local R =  require(game:GetService("ReplicatedStorage").Modules.Load)("Ragdolls"
 local Animal = require(game:GetService("ReplicatedStorage").Modules.Load)("Animal")
 local AnimalRiding = require(game:GetService("ReplicatedStorage").Modules.Load)("AnimalRiding")
 Keys = {}
-
+OreDeposits = {}
+for i,v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits:GetChildren()) do
+     if v.ClassName == "Folder" and v:FindFirstChildOfClass("Model") then
+        table.insert(OreDeposits, v.Name)
+    end
+end
 
 local Circle = Drawing.new("Circle")
 Circle.Color =  Color3.fromRGB(22, 13, 56)
@@ -535,7 +540,7 @@ local function esp(v)
         Re =
             game:GetService('RunService').Stepped:Connect(
             function()
-                if v and v:FindFirstChildOfClass("MeshPart") then
+                if v and v:FindFirstChildOfClass("MeshPart")  then wait()
                     local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v:FindFirstChildOfClass("MeshPart").Position)
                     if getgenv().esp and Screen then
                         T.Position = Vector2.new(Vector.X, Vector.Y)
@@ -553,18 +558,18 @@ local function esp(v)
     end
     update()
 end
-for i,v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits:GetDescendants()) do
-    if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") then
-        esp(v)
-    end
-end
-game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits.DescendantAdded:Connect(
-    function(v)
-        if v:IsA("MeshPart") then
-            esp(v.Parent)
+
+
+
+for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits:GetChildren()) do
+    if table.find(OreDeposits, v.Name) then
+        for i, v in pairs(v:GetChildren()) do
+            if v:FindFirstChildOfClass("MeshPart").Name:match("Ore") then
+                esp(v)
+            end
         end
     end
-)
+end
 end)
 
 local Toggle1 = Section2:CreateToggle("Animal Esp", nil, function(State)
@@ -583,7 +588,7 @@ local function esp(v)
         Re =
             game:GetService('RunService').Stepped:Connect(
             function()
-                if v and v:FindFirstChildOfClass("MeshPart") then
+                if v and v:FindFirstChildOfClass("MeshPart") then wait()
                     local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v:FindFirstChildOfClass("MeshPart").Position)
                     if getgenv().esp3 and Screen then
                         T.Position = Vector2.new(Vector.X, Vector.Y)
@@ -601,12 +606,12 @@ local function esp(v)
     end
     update()
 end
-for i,v in pairs(game.Workspace.WORKSPACE_Entities.Animals:GetDescendants()) do
+for i,v in pairs(game.Workspace.WORKSPACE_Entities.Animals:GetChildren()) do
     if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") then
         esp(v)
     end
 end
-game.Workspace.WORKSPACE_Entities.Animals.DescendantAdded:Connect(
+game.Workspace.WORKSPACE_Entities.Animals.ChildAdded:Connect(
     function(v)
         if v:IsA("MeshPart") then
             esp(v.Parent)
@@ -615,54 +620,7 @@ game.Workspace.WORKSPACE_Entities.Animals.DescendantAdded:Connect(
 )
 
 end)
-local Toggle1 = Section2:CreateToggle("Tree Esp", nil, function(State)
-getgenv().esp2 = State
-local function esp(v)
-    local T = Drawing.new("Text")
-    T.Visible = false
-    T.Center = true
-    T.Outline = true
-    T.Font = 2
-    T.Text = "Tree"
-    T.Size = 14
-    T.Color = Color3.fromRGB(0, 255, 0)
-    local function update()
-        local Re
-        Re =
-            game:GetService('RunService').Stepped:Connect(
-            function()
-                if v and v:FindFirstChild("Trunk") then
-                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.Trunk.Position)
-                    if getgenv().esp2 and Screen then
-                        T.Position = Vector2.new(Vector.X, Vector.Y)
-                        T.Visible = true
-                        T.Text = v.Name
-                    else
-                        T.Visible = false
-                    end
-                elseif v:FindFirstChild("Trunk") == nil then
-                    T:Remove()
-                    Re:disconnect()
-                end
-            end
-        )
-    end
-    update()
-end
-for i,v in pairs(game:GetService("Workspace")["WORKSPACE_Geometry"]:GetDescendants()) do
-    if v.ClassName == "Model" and v:FindFirstChild("Trunk") then
-        esp(v)
-    end
-end
-game:GetService("Workspace")["WORKSPACE_Geometry"].DescendantAdded:Connect(
-    function(v)
-        if v:IsA("MeshPart") and string.match(v.Name, "Trunk") then
-            esp(v.Parent)
-        end
-    end
-)
 
-end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
 local Toggle1 = Section2:CreateToggle("Player Esp", nil, function(State)
