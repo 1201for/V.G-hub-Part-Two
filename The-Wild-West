@@ -16,7 +16,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     end
     return OldNameCall(self, ...)
 end)
-
+pcall(function()
 for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
     v:Disable()
     game:GetService("ScriptContext").Error:Connect(
@@ -35,7 +35,7 @@ for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
         end
     )
 end
-
+end)
 function FreeForAll(v)
     if getgenv().FreeForAll == false then
         if game.Players.LocalPlayer.Team == v.Team then return false
@@ -332,22 +332,7 @@ end
 end)
 
 Key = {["Weapons"] = {}}
-local Toggle1 = Section1:CreateToggle("NoJumpCooldown", nil, function(State)
-Cooldown = State
-for i,v in next, getprotos(require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).OnCharacterAdded) do
-if table.find(getconstants(v), "Jumping") then
-    if Cooldown ~= true then
-        v = Keys["OnCharacterAdded-JumpCooldown"]
-    else
-        function Jump()
-             require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):LowerStamina(25)
-            return 0
-        end
-        setconstant(v, 4, Jump)
-    end
-end
-end
-end)
+
 
 local Toggle1 = Section1:CreateToggle("Anti Ragdoll", nil, function(State)
 AntiRagdoll = State
@@ -517,8 +502,7 @@ while wait() and dumbass do
         function()
             for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Placeables:GetChildren()) do
                 if
-                    v:IsA("Model") and v.Name:match("Fire") and v:FindFirstChild("Center") and
-                        v.Owner.Value == game.Players.LocalPlayer.Name
+                    v:IsA("Model") and v.Name:match("Fire") and v:FindFirstChild("Center")
                  then
                     wait(0.5)
                     game:GetService("ReplicatedStorage").Communication.Events.CookFood:FireServer(v.Center)
@@ -591,35 +575,43 @@ local function esp(v)
     local function update()
         local Re
         Re =
-            game:GetService('RunService').Stepped:Connect(
+            game:GetService("RunService").Stepped:Connect(
             function()
-                if v and v:FindFirstChildOfClass("MeshPart") then wait()
-                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v:FindFirstChildOfClass("MeshPart").Position)
-                    if getgenv().esp3 and Screen then
-                        T.Position = Vector2.new(Vector.X, Vector.Y)
-                        T.Visible = true
-                        T.Text = v.Name
-                    else
-                        T.Visible = false
+                pcall(
+                    function()
+                        if v and v:FindFirstChildOfClass("MeshPart") then
+                            wait()
+                            local Vector, Screen =
+                                workspace.CurrentCamera:WorldToViewportPoint(
+                                v:FindFirstChildOfClass("MeshPart").Position
+                            )
+                            if getgenv().esp3 and Screen then
+                                T.Position = Vector2.new(Vector.X, Vector.Y)
+                                T.Visible = true
+                                T.Text = v.Name
+                            else
+                                T.Visible = false
+                            end
+                        elseif v:FindFirstChildOfClass("MeshPart") == nil then
+                            T:Remove()
+                            Re:disconnect()
+                        end
                     end
-                elseif v:FindFirstChildOfClass("MeshPart") == nil then
-                    T:Remove()
-                    Re:disconnect()
-                end
+                )
             end
         )
     end
     update()
 end
-for i,v in pairs(game.Workspace.WORKSPACE_Entities.Animals:GetChildren()) do
-    if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") then
+for i, v in pairs(game.Workspace.WORKSPACE_Entities.Animals:GetChildren()) do
+    if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") and not v.Name:match("Horse") then
         esp(v)
     end
 end
 game.Workspace.WORKSPACE_Entities.Animals.ChildAdded:Connect(
     function(v)
-        if v:IsA("MeshPart") then
-            esp(v.Parent)
+        if v:IsA("Model") and not v.Name:match("Horse") then
+            esp(v)
         end
     end
 )
@@ -798,4 +790,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
