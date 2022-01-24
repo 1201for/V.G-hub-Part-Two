@@ -11,7 +11,7 @@ local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     local Args = {...}
     local Self = Args[1]
-    if getnamecallmethod()=="FireServer" and tostring(Self)=="ErrorLoggerRemote" then
+    if getnamecallmethod()=="FireServer" and tostring(Self)=="ErrorLoggerRemote"or tostring(Self) == 'ACDTResponse' then
             return nil
     end
     return OldNameCall(self, ...)
@@ -55,9 +55,35 @@ for i,v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.
         table.insert(OreDeposits, v.Name)
     end
 end
-
-
-
+spawn(function()
+while wait(1) do 
+for i,v in pairs(game:GetService("Workspace")["WORKSPACE_Geometry"]:GetChildren()) do
+if v:FindFirstChild("Trees") then
+for i,v in pairs(v.Trees:GetChildren()) do
+if v.ClassName == "Model" and v:FindFirstChild("Leaves") then
+if getgenv().Simp then
+v.Leaves.Transparency = 1
+v.Trunk.Transparency = 1 
+else
+v.Leaves.Transparency = 0 
+v.Trunk.Transparency = 0 
+end
+end
+end
+elseif v:FindFirstChild("Vegetation") then
+for i,v in pairs(v.Vegetation:GetChildren()) do
+if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") then
+if getgenv().Simp2 then
+v:FindFirstChildOfClass("MeshPart").Transparency = 1 
+else 
+v:FindFirstChildOfClass("MeshPart").Transparency = 0 
+end 
+end
+end 
+end
+end 
+end 
+end)
 local Circle = Drawing.new("Circle")
 Circle.Color =  Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
@@ -230,6 +256,17 @@ local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
     Circle.Color = Color
 end)
 
+local Toggle1 = Section1:CreateToggle("Spam DuelRequests", nil, function(State)
+getgenv().Hentai = State
+while wait() and getgenv().Hentai do
+    for i, v in pairs(game.Players:GetPlayers()) do wait(0.2)
+        if v ~= game.Players.LocalPlayer then
+            game:GetService("ReplicatedStorage").Communication.Events.DuelRequest:FireServer(v)
+        end
+    end
+end
+end)
+
 local Toggle1 = Section1:CreateToggle("Player Silent Aim", nil, function(State)
 getgenv().SilentAim = State
 local Ignore = {}
@@ -338,11 +375,11 @@ Key = {["Weapons"] = {}}
 
 local Toggle1 = Section1:CreateToggle("Anti Ragdoll", nil, function(State)
 AntiRagdoll = State
-Keys["Ragdoll"] = hookfunction(Player.Ragdoll, function(...)
+A = hookfunction(Player.Ragdoll, function(...)
     if AntiRagdoll and game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 then
         return;
     end
-    return Keys["Ragdoll"](...)
+    return A(...)
 end)
 end) 
 
@@ -368,7 +405,7 @@ end)
 
 local Toggle1 = Section1:CreateToggle("InstantBreakFree", nil, function(State)
 getgenv().InstantBreakFree = State
-    Keys["EnterRagdoll"] = hookfunction(R.EnterRagdoll, function(...)
+    System = hookfunction(R.EnterRagdoll, function(...)
     if getgenv().InstantBreakFree then
         coroutine.resume(coroutine.create(function()
             local Start = tick()
@@ -378,13 +415,13 @@ getgenv().InstantBreakFree = State
             require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).BreakFreePerc = 5
         end))
     end
-    return Keys["EnterRagdoll"](...)
+    return System(...)
 end)
 end) 
 
 local Toggle1 = Section1:CreateToggle("AutoGetUp", nil, function(State)
 getgenv().AutoGetUp = State
-Keys["EnterRagdoll"] = hookfunction(R.EnterRagdoll, function(...)
+Y = hookfunction(R.EnterRagdoll, function(...)
     if getgenv().AutoGetUp then
         coroutine.resume(coroutine.create(function()
             local Start = tick()
@@ -396,6 +433,7 @@ Keys["EnterRagdoll"] = hookfunction(R.EnterRagdoll, function(...)
             end
         end))
     end
+    return Y(...)
 end)
 end)
 
@@ -459,22 +497,56 @@ local Toggle1 = Section2:CreateToggle("Wallbang", nil, function(State)
 Wallbang = State
 for i, v in pairs(getgc(true)) do
     if type(v) == "table" and rawget(v, "BaseRecoil") then
-        v.ProjectilePenetration = Wallbang == false and Key["Weapons"][i].ProjectilePenetration or 9e9
+        v.ProjectilePenetration = Wallbang == false and Key["Weapons"][i].ProjectilePenetration or 1000
     end
 end
 end)
 local Toggle1 = Section2:CreateToggle("InstantReload", nil, function(State)
-InstantReload = State
+getgenv().InstantReload = State
 for i, v in pairs(getgc(true)) do
-    if type(v) == "table" and rawget(v, "BaseRecoil") then
-        v.ReloadSpeed = InstantReload == false and Key["Weapons"][i].ReloadSpeed or 1000
-        v.LoadSpeed = InstantReload == false and Key["Weapons"][i].LoadSpeed or 1000
-        v.LoadEndSpeed = InstantReload == false and Key["Weapons"][i].LoadEndSpeed or 1000
+    if type(v) == "table" and rawget(v, "BaseRecoil") and getgenv().InstantReload then
+        v.ReloadSpeed = InstantReload == false and Key["Weapons"][i].ReloadSpeed or 1
+        v.LoadSpeed = InstantReload == false and Key["Weapons"][i].LoadSpeed or 1
+        v.LoadEndSpeed = InstantReload == false and Key["Weapons"][i].LoadEndSpeed or 1
+    end
+end
+end)
+local Toggle1 = Section2:CreateToggle("Anti Grass", nil, function(State)
+getgenv().Grass = State
+if getgenv().Grass then
+    sethiddenproperty(workspace.Terrain, "Decoration", false)
+else
+    sethiddenproperty(workspace.Terrain, "Decoration", true)
+end
+end)
+
+local Toggle1 = Section2:CreateToggle("Anti Trees", nil, function(State)
+    getgenv().Simp = State
+end)
+
+local Toggle1 = Section2:CreateToggle("Anti Vegetation", nil, function(State)
+    getgenv().Simp2 = State
+end)
+
+local Toggle1 = Section2:CreateToggle("Instant Cook Meat", nil, function(State)
+getgenv().Cook = State
+while wait(1) and getgenv().Cook do
+    for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Placeables:GetChildren()) do
+        if v.ClassName == "Model" and v.Owner.Value == game.Players.LocalPlayer then
+            wait(0.5)
+            repeat
+                wait()
+            until v.Center or getgenv().Cook
+            game:GetService("ReplicatedStorage").Communication.Events.StartCookingAtCampFire:FireServer(v.Center)
+            game:GetService("ReplicatedStorage").Communication.Events.CookFood:FireServer(v.Center)
+            game:GetService("ReplicatedStorage").Communication.Events.StopCookingAtCampFire:FireServer(v.Center)
+        end
     end
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Anti Rain", nil, function(State)
+
+local Toggle1 = Section2:CreateToggle("Anti Rain", nil, function(State)
 rain = State
 local save = game:GetService("ReplicatedStorage").GlobalWeather.RainPercent.Value
 game:GetService("RunService").Stepped:Connect(
