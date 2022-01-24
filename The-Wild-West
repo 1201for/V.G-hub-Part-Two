@@ -56,6 +56,8 @@ for i,v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.
     end
 end
 
+
+
 local Circle = Drawing.new("Circle")
 Circle.Color =  Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
@@ -486,33 +488,7 @@ game:GetService("RunService").Stepped:Connect(
 )
 end)
 
-local Toggle1 = Section2:CreateToggle("Instant Cook meat", nil, function(State)
-dumbass = State
 
-game.StarterGui:SetCore(
-    "SendNotification",
-    {
-        Title = "Noitce",
-        Text = "Make Sure to put down a fireplace"
-    }
-)
-
-while wait() and dumbass do
-    pcall(
-        function()
-            for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Placeables:GetChildren()) do
-                if
-                    v:IsA("Model") and v.Name:match("Fire") and v:FindFirstChild("Center")
-                 then
-                    wait(0.5)
-                    game:GetService("ReplicatedStorage").Communication.Events.CookFood:FireServer(v.Center)
-                end
-            end
-        end
-    )
-end
-
-end)
 local Toggle1 = Section2:CreateToggle("Ore Esp", nil, function(State)
 getgenv().esp = State
 local function esp(v)
