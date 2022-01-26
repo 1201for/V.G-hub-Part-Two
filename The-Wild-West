@@ -266,6 +266,18 @@ while wait() and getgenv().Hentai do
     end
 end
 end)
+local Toggle1 = Section1:CreateToggle("Invis Character CS", nil, function(State)
+getgenv().Invis = State
+for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+    if v:IsA("BasePart") then
+        if getgenv().Invis then
+            v.Transparency = 1
+        else
+            v.Transparency = 0
+        end
+    end
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("Player Silent Aim", nil, function(State)
 getgenv().SilentAim = State
