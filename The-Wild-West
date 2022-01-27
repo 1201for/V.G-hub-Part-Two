@@ -16,7 +16,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     end
     return OldNameCall(self, ...)
 end)
-pcall(function()
+
 for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
     v:Disable()
     game:GetService("ScriptContext").Error:Connect(
@@ -35,7 +35,7 @@ for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
         end
     )
 end
-end)
+
 function FreeForAll(v)
     if getgenv().FreeForAll == false then
         if game.Players.LocalPlayer.Team == v.Team then return false
@@ -50,40 +50,54 @@ local Animal = require(game:GetService("ReplicatedStorage").Modules.Load)("Anima
 local AnimalRiding = require(game:GetService("ReplicatedStorage").Modules.Load)("AnimalRiding")
 Keys = {}
 OreDeposits = {}
-for i,v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits:GetChildren()) do
-     if v.ClassName == "Folder" and v:FindFirstChildOfClass("Model") then
+for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits:GetChildren()) do
+    if v.ClassName == "Folder" and v:FindFirstChildOfClass("Model") then
         table.insert(OreDeposits, v.Name)
     end
 end
-spawn(function()
-while wait(1) do 
-for i,v in pairs(game:GetService("Workspace")["WORKSPACE_Geometry"]:GetChildren()) do
-if v:FindFirstChild("Trees") then
-for i,v in pairs(v.Trees:GetChildren()) do
-if v.ClassName == "Model" and v:FindFirstChild("Leaves") then
-if getgenv().Simp then
-v.Leaves.Transparency = 1
-v.Trunk.Transparency = 1 
-else
-v.Leaves.Transparency = 0 
-v.Trunk.Transparency = 0 
+
+spawn(
+    function()
+        while wait(1) do
+            for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Geometry"]:GetChildren()) do
+                if v:FindFirstChild("Trees") then
+                    for i, v in pairs(v.Trees:GetChildren()) do
+                        if v.ClassName == "Model" and v:FindFirstChild("Leaves") then
+                            if getgenv().Simp then
+                                v.Leaves.Transparency = 1
+                                v.Trunk.Transparency = 1
+                            else
+                                v.Leaves.Transparency = 0
+                                v.Trunk.Transparency = 0
+                            end
+                        end
+                    end
+                elseif v:FindFirstChild("Vegetation") then
+                    for i, v in pairs(v.Vegetation:GetChildren()) do
+                        if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") then
+                            if getgenv().Simp2 then
+                                v:FindFirstChildOfClass("MeshPart").Transparency = 1
+                            else
+                                v:FindFirstChildOfClass("MeshPart").Transparency = 0
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+)
+
+local function GetOwner()
+    local Target
+    for i, v in ipairs(game:GetService("Workspace")["WORKSPACE_Entities"].Animals:GetChildren()) do
+        if v.ClassName == "Model" and v:FindFirstChild("Owner") and v.Owner.Value == game.Players.LocalPlayer then
+            Target = v
+        end
+    end
+    return Target
 end
-end
-end
-elseif v:FindFirstChild("Vegetation") then
-for i,v in pairs(v.Vegetation:GetChildren()) do
-if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") then
-if getgenv().Simp2 then
-v:FindFirstChildOfClass("MeshPart").Transparency = 1 
-else 
-v:FindFirstChildOfClass("MeshPart").Transparency = 0 
-end 
-end
-end 
-end
-end 
-end 
-end)
+
 local Circle = Drawing.new("Circle")
 Circle.Color =  Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
@@ -104,8 +118,6 @@ Enabled = false,
 FOV = 250,
 Smoothness = 0.25
 }
-
-
 
 local Shoot = false
 
@@ -277,6 +289,18 @@ for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
         end
     end
 end
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character.Humanoid
+for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+    if v:IsA("BasePart") then
+        if getgenv().Invis then
+            v.Transparency = 1
+        else
+            v.Transparency = 0
+        end
+    end
+end
+end)
 end)
 
 local Toggle1 = Section1:CreateToggle("Player Silent Aim", nil, function(State)
@@ -382,7 +406,6 @@ Utils.GetMouseHit = function(...)
 end
 end)
 
-Key = {["Weapons"] = {}}
 
 
 local Toggle1 = Section1:CreateToggle("Anti Ragdoll", nil, function(State)
@@ -397,36 +420,54 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Infinite animal Boosts", nil, function(State)
 InfiniteBoosts = State
-Keys["Animal-Mount"] =
+Fuck =
     hookfunction(
     Animal.Mount,
     function(...)
         if InfiniteBoosts then
-            Keys["Animal-Mount"](...)
+            Fuck(...)
             local RidingAnimal = AnimalRiding.GetRidingAnimal()
             RidingAnimal.MaxBoosts = math.huge
             RidingAnimal.Boosts = math.huge
-
             return
         end
-        return Keys["Animal-Mount"](...)
+        return Fuck(...)
     end
 )
 end)
 
+local Toggle1 = Section1:CreateToggle("Anti Hosile Animals", nil, function(State)
+getgenv().Kok = State
+for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Entities"].Animals:GetChildren()) do
+    if v:IsA("Model") then pcall(function()
+        if getgenv().Kok then
+            v.Target:remove()
+            v.Anger:remove()
+        end end)
+    end
+end
+game:GetService("Workspace")["WORKSPACE_Entities"].Animal.ChildAdded:Connect(
+    function(v)
+        if v:IsA("Model") then pcall(function()
+            if getgenv().Kok then
+                v.Target:remove()
+                v.Anger:remove() 
+            end end)
+        end
+    end
+)
+end)
 
 local Toggle1 = Section1:CreateToggle("InstantBreakFree", nil, function(State)
 getgenv().InstantBreakFree = State
     System = hookfunction(R.EnterRagdoll, function(...)
     if getgenv().InstantBreakFree then
-        coroutine.resume(coroutine.create(function()
             local Start = tick()
             repeat
                 wait()
-            until require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):CanBreakFree() or Start - tick() > 4
-            require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).BreakFreePerc = 5
-        end))
-    end
+            until Player:CanBreakFree() or Start - tick() > 4
+            Player.BreakFreePerc = 5
+        end
     return System(...)
 end)
 end) 
@@ -439,9 +480,9 @@ Y = hookfunction(R.EnterRagdoll, function(...)
             local Start = tick()
             repeat
                 wait()
-            until require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):CanGetUp() or Start - tick() > 2
-            if require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter).IsRagdolledSelf then
-                require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter):GetUp()
+            until Player:CanGetUp() or Start - tick() > 2
+            if Player.IsRagdolledSelf then
+                Player:GetUp()
             end
         end))
     end
@@ -489,7 +530,11 @@ local Toggle1 = Section2:CreateToggle("NoRecoil", nil, function(State)
 NoRecoil = State
 for i, v in pairs(getgc(true)) do
     if type(v) == "table" and rawget(v, "BaseRecoil") then
-        v.BaseRecoil = NoRecoil == false and Key["Weapons"][i].BaseRecoil or 0
+        if getgenv().NoRecoil then
+        v.BaseRecoil = 0
+        else
+        v.BaseRecoil = 1
+        end 
     end
 end
 end)
@@ -498,8 +543,13 @@ local Toggle1 = Section2:CreateToggle("NoSpread", nil, function(State)
 NoSpread = State
 for i, v in pairs(getgc(true)) do
     if type(v) == "table" and rawget(v, "BaseRecoil") then
-        v.FanAccuracy = NoSpread == false and Key["Weapons"][i].FanAccuracy or 1
-        v.ProjectileAccuracy = NoSpread == false and Key["Weapons"][i].ProjectileAccuracy or 1
+        if getgenv().NoSpread then
+        v.FanAccuracy = 1
+        v.ProjectileAccuracy = 1
+        else
+        v.ProjectileAccuracy = 0 
+        v.FanAccuracy = 0
+        end
     end
 end
 end)
@@ -516,10 +566,10 @@ end)
 local Toggle1 = Section2:CreateToggle("InstantReload", nil, function(State)
 getgenv().InstantReload = State
 for i, v in pairs(getgc(true)) do
-    if type(v) == "table" and rawget(v, "BaseRecoil") and getgenv().InstantReload then
-        v.ReloadSpeed = InstantReload == false and Key["Weapons"][i].ReloadSpeed or 1
-        v.LoadSpeed = InstantReload == false and Key["Weapons"][i].LoadSpeed or 1
-        v.LoadEndSpeed = InstantReload == false and Key["Weapons"][i].LoadEndSpeed or 1
+    if type(v) == "table" and rawget(v, "BaseRecoil")  then
+        v.ReloadSpeed = InstantReload == false and Key["Weapons"][i].ReloadSpeed or 1000
+        v.LoadSpeed = InstantReload == false and Key["Weapons"][i].LoadSpeed or 1000
+        v.LoadEndSpeed = InstantReload == false and Key["Weapons"][i].LoadEndSpeed or 1000
     end
 end
 end)
