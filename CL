@@ -159,6 +159,14 @@ end)
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 getgenv().Loops = State
 end)
+
+local Button1 = Section1:CreateButton("Find Black Market Dealer", function()
+for i,v in pairs(game:GetService("Workspace").Stalls["Black Market"]:GetChildren()) do
+if v:FindFirstChild("ScriptsandParts") then 
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.ScriptsandParts.Grani.CFrame
+end end 
+end)
+
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
@@ -498,3 +506,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
