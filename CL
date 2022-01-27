@@ -62,7 +62,7 @@ game:GetService("RunService").Stepped:connect(
 )
 
 while getgenv().Hentai do
-    wait()
+    wait(1)
     pcall(
         function()
             for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
@@ -73,7 +73,7 @@ while getgenv().Hentai do
                         wait()
                         for i, v in pairs(
                             game:GetService("Workspace").CombatFolder[game.Players.LocalPlayer.Name]:GetChildren()
-                        ) do
+                        ) do wait(1)
                             if v.ClassName == "Model" then
                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Base.CFrame
                             end
@@ -498,4 +498,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
