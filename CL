@@ -14,6 +14,21 @@ if v:FindFirstChildOfClass("Model") then
 table.insert(Fuck, tostring(v.Enemy.Model.Value))
 table.sort(Fuck)
 end end 
+
+for i, v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
+    if string.match(v.Name, "EnemyDefeat") or string.match(v.Name, "PlayerDamage") then
+        v:Destroy()
+    end
+end
+
+game:GetService("Workspace").Enemies.DescendantAdded:Connect(function(v)
+        if string.match(v.Name, "EnemyDefeat") or string.match(v.Name, "PlayerDamage") then
+            v:Destroy()
+        end
+    end
+)
+
+
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     local Args = {...}
@@ -143,13 +158,6 @@ end)
 
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 getgenv().Loops = State
-end)
-
-local Button1 = Section1:CreateButton("Find Black Market Dealer", function()
-for i,v in pairs(game:GetService("Workspace").Stalls["Black Market"]:GetChildren()) do
-if v:FindFirstChild("ScriptsandParts") then 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.ScriptsandParts.Grani.CFrame
-end end 
 end)
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
@@ -446,7 +454,7 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits Sensei Joshy#1060")
+Section3:CreateLabel("Credits popvipi")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
