@@ -8,6 +8,9 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
+pcall(function()
+game:GetService("ReplicatedStorage").Events.Game.WorldChest:FireServer("Rank")
+end)
 
 local function GetFish()
     local Target
@@ -58,7 +61,7 @@ local function GetClosesttPearl()
     local TargetDistance = math.huge
     local Target
    for i, v in pairs(game:GetService("Workspace").Worlds[worlds].Bubbles:GetChildren()) do
-        if v.Name:match(Size)  and  v:FindFirstChild("InteractHitbox") and v:FindFirstChildOfClass("Model") and v:FindFirstChildOfClass("Model"):FindFirstChild("Pearl")  then
+        if  v:FindFirstChild("InteractHitbox") and v:FindFirstChildOfClass("Model") and v:FindFirstChildOfClass("Model"):FindFirstChild("Pearl")  then
       
             local Mag = (GetFish().Root.Position - v.InteractHitbox.Position).magnitude
             if Mag < TargetDistance then
@@ -316,3 +319,6 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
+
+
