@@ -9,11 +9,13 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 Fuck = {}
-for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-if  v:IsA("Folder") and v:FindFirstChildOfClass("Model")  then
-table.insert(Fuck, tostring(v.Enemy.Model.Value))
-table.sort(Fuck)
-end end 
+for i, v in pairs(game:GetService("ReplicatedStorage").Enemy:GetChildren()) do
+    for i, v in pairs(v:GetChildren()) do
+        if v:IsA("Model") then
+            table.insert(Fuck, v.Name)
+        end
+    end
+end
 
 for i, v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
     if string.match(v.Name, "EnemyDefeat") or string.match(v.Name, "PlayerDamage") then
@@ -65,9 +67,8 @@ game:GetService("RunService").Stepped:connect(
 )
 
 while getgenv().Hentai do
-    wait(1)
-    pcall(
-        function()
+    wait()
+        pcall(function()
             for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                 if v.Enemy:FindFirstChild("Model") and tostring(v.Enemy.Model.Value) == Fuck then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
@@ -77,15 +78,14 @@ while getgenv().Hentai do
                         for i, v in pairs(
                             game:GetService("Workspace").CombatFolder[game.Players.LocalPlayer.Name]:GetChildren()
                         ) do
-                            if v.ClassName == "Model" then wait(1)
+                            if v.ClassName == "Model" then
                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Base.CFrame
                             end
                         end
                     until v.Enemy.Health.value == 0 or v.Enemy[Fuck] == nil
                 end
             end
-        end
-    )
+      end)
 end
 end)
 
@@ -488,4 +488,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
