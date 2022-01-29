@@ -53,7 +53,6 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
     end
 )
 
-local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame
 
 local Part = Instance.new('Part',workspace)
 Part.Name = "poopy"
@@ -107,15 +106,16 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 while getgenv().System do
-    pcall(
-        function()
+    pcall(function()
+   local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame
+
             wait()
             repeat
                 wait(getgenv().delay2)
                 c()
                 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
                     if
-                        v:FindFirstChild("HumanoidRootPart") and v.Quest.Value == Quest.QuestName.Text and
+                        v:FindFirstChild("HumanoidRootPart") and v.Quest.Value == Quest:WaitForChild("QuestName").Text and
                             v:FindFirstChildOfClass("Humanoid") and
                             v:FindFirstChildOfClass("Humanoid").Health ~= 0
                      then
@@ -136,8 +136,7 @@ while getgenv().System do
                     )
                 end
             until Quest.Visible == true or getgenv().System == false
-        end
-    )
+    end)
 end
 
 
@@ -168,6 +167,13 @@ huh = String
 end)
 end
 
+local Toggle1 = Section1:CreateToggle("Auto Buy Spins", nil, function(State)
+get = State
+while get do
+    wait()
+    game:GetService("ReplicatedStorage").RemoteEvents.BuySpinRemote:FireServer()
+end
+end)
 
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 god = State
