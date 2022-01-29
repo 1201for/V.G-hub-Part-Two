@@ -109,6 +109,7 @@ game:GetService("RunService").Stepped:connect(
     function()
         pcall(
             function()
+                if getgenv().System then
                 c()
                 local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame
 
@@ -136,6 +137,7 @@ game:GetService("RunService").Stepped:connect(
                         game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
                     )
                 end
+                end 
             end
         )
     end
