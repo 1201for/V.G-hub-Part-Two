@@ -105,40 +105,41 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-while getgenv().System do
-    pcall(function()
-   local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame
-
-            wait()
-            repeat
-                wait(getgenv().delay2)
+game:GetService("RunService").Stepped:connect(
+    function()
+        pcall(
+            function()
                 c()
+                local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame
+
+                wait()
+
                 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
                     if
                         v:FindFirstChild("HumanoidRootPart") and v.Quest.Value == Quest:WaitForChild("QuestName").Text and
                             v:FindFirstChildOfClass("Humanoid") and
                             v:FindFirstChildOfClass("Humanoid").Health ~= 0
                      then
+                        print(v)
                         v.HumanoidRootPart.CFrame =
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -2)
                         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                            game:GetService("Workspace").QuestMarkers[Quest.QuestName.Text].CFrame * CFrame.new(0, -uu, 0)
+                            game:GetService("Workspace").QuestMarkers[Quest.QuestName.Text].CFrame *
+                            CFrame.new(0, -uu, 0)
                         Part.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
                         game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
                     end
                 end
-            until Quest.Visible == false or getgenv().System == false
-            repeat
-                wait()
+
                 if Quest.Visible == false then
                     game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
                         game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
                     )
                 end
-            until Quest.Visible == true or getgenv().System == false
-    end)
-end
-
+            end
+        )
+    end
+)
 
 end)
 
