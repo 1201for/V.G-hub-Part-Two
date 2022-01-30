@@ -24,6 +24,35 @@ Shop = {}
 for i,v in pairs(game:GetService("Workspace").Shop:GetChildren()) do
     table.insert(Shop, v.Name)
 end
+Mobs = {}
+for i,v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+    table.insert(Mobs, v.Name)
+end
+
+local Table = {
+    "Technician of Time Guldo",
+    "Never Ending Battle Vegeta",
+    "Preparations Made Before the Final Battle Krillin",
+    "Strategy to Defeat the Emperor Vegeta",
+    "Honest Admiration Super Saiyan Cabba",
+    "Indomitable Sense of Justice Super Saiyan Gohan",
+    "Indomitable Sense of Justice Super Saiyan Gohan",
+    "Martial Mettle Goku",
+    "The Trump Card Goku",
+    "The Nightmare Returns Frieza",
+    "Strike of Full Anger Super Saiyan Goku"
+}
+Table2 = {}
+for i,v in pairs(Table) do
+    table.insert(Table2, v)
+end 
+
+Hentai = {}
+for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+    if v:FindFirstChild("Humanoid") and v.Quest.Value == "Defeat 10 Thugs" and v.Name ~= "Thug (lvl. 5)" then
+        table.insert(Hentai, v.Name)
+    end
+end
 
 function c()
     for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
@@ -32,7 +61,6 @@ function c()
         end
     end
 end
-
 
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__newindex", function(A, B, C)
@@ -95,6 +123,7 @@ for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
     )()
 end
 end)
+
 
 local Toggle1 = Section1:CreateToggle("Auto Quest", nil, function(State)
 getgenv().System = State
@@ -161,6 +190,38 @@ end)
 end
 
 
+local Toggle1 = Section1:CreateToggle("Auto Bosses", nil, function(State)
+okdidntask = State
+
+game:GetService("RunService").Stepped:connect(
+    function()
+        if okdidntask then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+
+while okdidntask do
+    wait()
+    c()
+    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+        if v.Name == Hentai then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
+            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+        end
+    end
+end
+end)
+
+local Dropdown1 = Section1:CreateDropdown("Select Boss")
+Dropdown1:AddToolTip("Select Boss")
+for i,v in next, Hentai do
+Dropdown1:AddOption(v, function(String)
+Hentai = String
+end)
+end
+
 local Toggle1 = Section1:CreateToggle("Auto Upgrade Stats", nil, function(State)
 getgenv().Huh = State
 while getgenv().Huh do
@@ -176,13 +237,48 @@ huh = String
 end)
 end
 
-local Toggle1 = Section1:CreateToggle("Auto Buy Spins", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Auto Buy Spins", nil, function(State)
 get = State
 while get do
     wait()
     game:GetService("ReplicatedStorage").RemoteEvents.BuySpinRemote:FireServer()
 end
 end)
+local Toggle1 = Section2:CreateToggle("Auto Spin Slot 1", nil, function(State)
+spin = State
+while spin do
+    wait(0.5)
+    if game:GetService("Players").LocalPlayer.PlayerValues.Ability.Value ~= Table then
+        game:GetService("ReplicatedStorage").RemoteEvents.SpinRemote:FireServer(1)
+    end
+end
+end)
+
+local Dropdown1 = Section2:CreateDropdown("Select Spin Slot 1")
+Dropdown1:AddToolTip("Select Spin Slot 1")
+for i,v in next, Table do
+Dropdown1:AddOption(v, function(String)
+Table = String
+end)
+end
+
+local Toggle1 = Section2:CreateToggle("Auto Spin Slot 2", nil, function(State)
+spin2 = State
+while spin2 do
+    wait(0.5)
+    if game:GetService("Players").LocalPlayer.PlayerValues.Ability.Value == Table2 then
+        game:GetService("ReplicatedStorage").RemoteEvents.SpinRemote:FireServer(2)
+    end
+end
+end)
+
+local Dropdown1 = Section2:CreateDropdown("Select Spin Slot 2")
+Dropdown1:AddToolTip("Select Spin Slot 2")
+for i,v in next, Table2 do
+Dropdown1:AddOption(v, function(String)
+Table2 = String
+end)
+end
 
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 god = State
