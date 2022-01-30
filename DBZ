@@ -90,6 +90,13 @@ Part.Transparency = 1
 
 uu = 50
 getgenv().delay2 = 0.2
+
+getgenv().name = "MagicMan1240"
+
+
+
+
+
 local Vet = game:GetService("VirtualInputManager")
 local huh = {"Strength","Magic","Endurance"}
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
@@ -248,7 +255,7 @@ local Toggle1 = Section2:CreateToggle("Auto Spin Slot 1", nil, function(State)
 spin = State
 while spin do
     wait(0.5)
-    if game:GetService("Players").LocalPlayer.PlayerValues.Ability.Value ~= Table then
+    if game:GetService("Players").LocalPlayer.PlayerValues.Ability.Value ~= tostring(Table) then
         game:GetService("ReplicatedStorage").RemoteEvents.SpinRemote:FireServer(1)
     end
 end
@@ -266,11 +273,13 @@ local Toggle1 = Section2:CreateToggle("Auto Spin Slot 2", nil, function(State)
 spin2 = State
 while spin2 do
     wait(0.5)
-    if game:GetService("Players").LocalPlayer.PlayerValues.Ability.Value == Table2 then
+    if game:GetService("Players").LocalPlayer.PlayerValues.Ability2.Value ~= tostring(Table2) then
         game:GetService("ReplicatedStorage").RemoteEvents.SpinRemote:FireServer(2)
     end
 end
 end)
+
+
 
 local Dropdown1 = Section2:CreateDropdown("Select Spin Slot 2")
 Dropdown1:AddToolTip("Select Spin Slot 2")
@@ -280,6 +289,38 @@ Table2 = String
 end)
 end
 
+local Toggle1 = Section2:CreateToggle("Streamer Mode", nil, function(State)
+getgenv().R = State
+getgenv().d = "ImNumNums"
+for i, v in next, game:GetDescendants() do
+    if v.ClassName == "TextLabel" and getgenv().R then
+        if string.find(v.Text, game.Players.LocalPlayer.Name) then
+            v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, d)
+        end
+        v:GetPropertyChangedSignal("Text"):Connect(
+            function()
+                v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, d)
+            end
+        )
+    end
+end
+
+game.DescendantAdded:Connect(
+    function(v)
+        if v.ClassName == "TextLabel" and getgenv().R then
+            v:GetPropertyChangedSignal("Text"):Connect(
+                function()
+                    v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, d)
+                end
+            )
+            if string.find(v.Text, game.Players.LocalPlayer.Name) then
+                v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, d)
+            end
+        end
+    end
+)
+
+end)
 local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 god = State
 game:GetService("RunService").Stepped:connect(
