@@ -120,14 +120,13 @@ re = game:GetService("RunService").Stepped:connect(
                             v:FindFirstChildOfClass("Humanoid") and
                             v:FindFirstChildOfClass("Humanoid").Health ~= 0
                      then
-                        print(v)
                         v.HumanoidRootPart.CFrame =
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -2)
                         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                             game:GetService("Workspace").QuestMarkers[Quest.QuestName.Text].CFrame *
                             CFrame.new(0, -uu, 0)
                         Part.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
-                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                        
                 end
                 end
 
@@ -146,6 +145,10 @@ re = game:GetService("RunService").Stepped:connect(
     end
 )
 
+while getgenv().System do 
+    wait()
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+end
 end)
 
 
