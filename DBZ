@@ -28,7 +28,7 @@ end
 function c()
     for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
         if v.ClassName == "Tool" and v:FindFirstChild("Combat Script") then
-            v.Parent = game.Players.LocalPlayer.Character
+            game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
         end
     end
 end
@@ -105,16 +105,15 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-game:GetService("RunService").Stepped:connect(
+local re
+re = game:GetService("RunService").Stepped:connect(
     function()
         pcall(
             function()
                 if getgenv().System then
                 c()
                 local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame
-
-                wait()
-
+                wait(0.2)
                 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
                     if
                         v:FindFirstChild("HumanoidRootPart") and v.Quest.Value == Quest:WaitForChild("QuestName").Text and
@@ -129,7 +128,7 @@ game:GetService("RunService").Stepped:connect(
                             CFrame.new(0, -uu, 0)
                         Part.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
                         game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-                    end
+                end
                 end
 
                 if Quest.Visible == false then
@@ -137,6 +136,10 @@ game:GetService("RunService").Stepped:connect(
                         game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
                     )
                 end
+                        else
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0,0,0)
+                        re:disconnect()
+                    
                 end 
             end
         )
