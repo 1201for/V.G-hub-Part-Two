@@ -130,6 +130,20 @@ for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
     )()
 end
 end)
+local Toggle1 = Section1:CreateToggle("No Trees", nil, function(State)
+getgenv().Simp = State
+for i, v in pairs(game:GetService("Workspace").dbzmap:GetDescendants()) do
+    if v.Parent.Name:match("Tree") then
+        if getgenv().Simp then
+            v.Transparency = 1
+            v.CanCollide = false
+        else
+            v.Transparency = 0
+            v.CanCollide = true
+        end
+    end
+end
+end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto Quest", nil, function(State)
@@ -186,6 +200,7 @@ while getgenv().System do
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
 end
 end)
+
 
 
 local Dropdown1 = Section1:CreateDropdown("Select Quest")
