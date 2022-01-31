@@ -136,7 +136,7 @@ for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
     coroutine.wrap(function()--Credits for help/teaching me coroutine.wrap by nil#0001
             while ee do
                 wait()
-                Vet:SendKeyEvent(true, v, false, uwu)
+                Vet:SendKeyEvent(true, v, false, game)
             end
         end
     )()
