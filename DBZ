@@ -169,49 +169,57 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 local re
-re = game:GetService("RunService").Stepped:connect(
+re =
+    game:GetService("RunService").Stepped:connect(
     function()
         pcall(
             function()
                 if getgenv().System then
-                c()
-                local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame
-                wait(0.2)
-                for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-                    if
-                        v:FindFirstChild("HumanoidRootPart") and v.Quest.Value == Quest:WaitForChild("QuestName").Text and
-                            v:FindFirstChildOfClass("Humanoid") and
-                            v:FindFirstChildOfClass("Humanoid").Health ~= 0
-                     then
-                        v.HumanoidRootPart.CFrame =
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -2)
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                            game:GetService("Workspace").QuestMarkers[Quest.QuestName.Text].CFrame *
-                            CFrame.new(0, -uu, 0)
-                        Part.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
-                        
-                end
-                end
+                    c()
+                    local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame
+                    wait(0.2)
+                    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                        if
+                            v:FindFirstChild("HumanoidRootPart") and
+                                v.Quest.Value == Quest:WaitForChild("QuestName").Text and
+                                v:FindFirstChildOfClass("Humanoid") and
+                                v:FindFirstChildOfClass("Humanoid").Health ~= 0
+                         then
+                            v.HumanoidRootPart.CFrame =
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -2)
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                game:GetService("Workspace").QuestMarkers[Quest.QuestName.Text].CFrame *
+                                CFrame.new(0, -uu, 0)
+                            Part.CFrame =
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
+                            for i, v in pairs(v:GetChildren()) do
+                                if v:IsA("BasePart") then
+                                    v.CanCollide = false
+                                    v.Transparency = 1
+                                end
+                            end
+                        end
+                    end
 
-                if Quest.Visible == false then
-                    game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
-                        game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
-                    )
+                    if Quest.Visible == false then
+                        game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+                            game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
+                        )
+                    end
+                else
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 0, 0)
+                    re:disconnect()
                 end
-                        else
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0,0,0)
-                        re:disconnect()
-                    
-                end 
             end
         )
     end
 )
 
-while getgenv().System do 
+while getgenv().System do
     wait()
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+    game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
 end
+
 end)
 
 
