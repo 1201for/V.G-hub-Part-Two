@@ -47,6 +47,18 @@ for i,v in pairs(Table) do
     table.insert(Table2, v)
 end 
 
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
+    local Args = {...}
+        if self.Name == "DoubleExperienceTimerRemote" then
+            return nil
+        end
+    return OldNameCall(self, unpack(Args))
+end)
+
+
+
+
 Hentai = {}
 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
     if v:FindFirstChild("Humanoid") and v.Quest.Value == "Defeat 10 Thugs" and v.Name ~= "Thug (lvl. 5)" then
@@ -144,6 +156,7 @@ for i, v in pairs(game:GetService("Workspace").dbzmap:GetDescendants()) do
     end
 end
 end)
+
 
 
 local Toggle1 = Section1:CreateToggle("Auto Quest", nil, function(State)
