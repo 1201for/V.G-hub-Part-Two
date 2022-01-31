@@ -192,15 +192,9 @@ re =
                                 CFrame.new(0, -uu, 0)
                             Part.CFrame =
                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
-                            for i, v in pairs(v:GetChildren()) do
-                                if v:IsA("BasePart") then
-                                    v.CanCollide = false
-                                    v.Transparency = 1
-                                end
+                                v.Humanoid:ChangeState(11)
                             end
                         end
-                    end
-
                     if Quest.Visible == false then
                         game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
                             game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
@@ -239,12 +233,22 @@ okdidntask = State
 game:GetService("RunService").Stepped:connect(
     function()
         if okdidntask then
+            Part.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+okdidntask = State
+
+game:GetService("RunService").Stepped:connect(
+    function()
+        if okdidntask then
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
 )
 
-while okdidntask do
+while okdidntask do pcall(function()
     wait()
     c()
     for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
@@ -252,9 +256,14 @@ while okdidntask do
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                 v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
             game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+            v.Humanoid:ChangeState(11)
         end
     end
+    end)
 end
+
+
+
 end)
 
 local Dropdown1 = Section1:CreateDropdown("Select Boss")
