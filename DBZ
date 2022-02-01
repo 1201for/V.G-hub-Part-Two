@@ -57,7 +57,10 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
 end)
 
 
-
+aka = {
+    "Requiem Arrow",
+    "Lucky Arrow"
+}
 
 Hentai = {}
 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
