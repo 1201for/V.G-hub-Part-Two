@@ -102,7 +102,7 @@ Part.Transparency = 1
 
 uu = 50
 getgenv().delay2 = 0.2
-
+getgenv().delay = 1
 getgenv().name = "MagicMan1240"
 
 
@@ -156,6 +156,7 @@ for i, v in pairs(game:GetService("Workspace").dbzmap:GetDescendants()) do
     end
 end
 end)
+
 
 
 
@@ -274,46 +275,88 @@ Hentai = String
 end)
 end
 
-
-local Toggle1 = Section2:CreateToggle("Auto Buy Spins", nil, function(State)
-get = State
-while get do
+local Button1 = Section2:CreateButton("Find Lucky or Requiem Arrows", function()
+hunt = true
+game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+wait(0.5)
+while hunt do
     wait()
-    game:GetService("ReplicatedStorage").RemoteEvents.BuySpinRemote:FireServer()
-end
-end)
-local Toggle1 = Section2:CreateToggle("Auto Spin Slot 1", nil, function(State)
-spin = State
-while spin do
-    wait(0.5)
-    if game:GetService("Players").LocalPlayer.PlayerValues.Ability.Value ~= tostring(Table) then
-        game:GetService("ReplicatedStorage").RemoteEvents.SpinRemote:FireServer(1)
+    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if not table.find(aka, v.Name) and v.Name:find("Arrow") then
+                v.Parent = game.Players.LocalPlayer.Character
+                v:Destroy()
+            elseif v.Name:find("Arrow") and table.find(aka, v.Name) then
+                game.StarterGui:SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Found One",
+                        Text = "Check your inventory plz"
+                    }
+                )
+                hunt = false
+            end
+        end
+    else
+        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
     end
 end
 end)
 
-local Dropdown1 = Section2:CreateDropdown("Select Spin Slot 1")
-Dropdown1:AddToolTip("Select Spin Slot 1")
+
+
+local Toggle1 = Section2:CreateToggle("Auto Ability 1", nil, function(State)
+Abily = State
+while Abily do
+    wait(2)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Ability.Value ~= Table then
+                wait(getgenv().delay)
+                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
+                game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer("Moveset1")
+
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Arrow)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                wait(getgenv().delay)
+            end
+        end
+    )
+end
+end)
+
+local Dropdown1 = Section2:CreateDropdown("Select Abilty Slot 1")
+Dropdown1:AddToolTip("Select Abilty Slot 1")
 for i,v in next, Table do
 Dropdown1:AddOption(v, function(String)
 Table = String
 end)
 end
 
-local Toggle1 = Section2:CreateToggle("Auto Spin Slot 2", nil, function(State)
-spin2 = State
-while spin2 do
-    wait(0.5)
-    if game:GetService("Players").LocalPlayer.PlayerValues.Ability2.Value ~= tostring(Table2) then
-        game:GetService("ReplicatedStorage").RemoteEvents.SpinRemote:FireServer(2)
-    end
+local Toggle1 = Section2:CreateToggle("Auto Ability 2", nil, function(State)
+Abily2 = State
+while Abily2 do
+    wait(2)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Ability2.Value ~= Table2 then
+                wait(getgenv().delay)
+                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
+                game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer("Moveset2")
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Arrow)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                wait(getgenv().delay)
+            end
+        end
+    )
 end
 end)
 
 
 
-local Dropdown1 = Section2:CreateDropdown("Select Spin Slot 2")
-Dropdown1:AddToolTip("Select Spin Slot 2")
+
+local Dropdown1 = Section2:CreateDropdown("Select Abilty Slot 2")
+Dropdown1:AddToolTip("Select Abilty Slot 2")
 for i,v in next, Table2 do
 Dropdown1:AddOption(v, function(String)
 Table2 = String
