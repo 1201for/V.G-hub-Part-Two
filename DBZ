@@ -61,7 +61,7 @@ end)
 
 Hentai = {}
 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-    if v:FindFirstChild("Humanoid") and v.Quest.Value == "Defeat 10 Thugs" and v.Name ~= "Thug (lvl. 5)" then
+    if v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and  v.Quest.Value == "Defeat 10 Thugs" and v.Name ~= "Thug (lvl. 5)" then
         table.insert(Hentai, v.Name)
     end
 end
@@ -274,20 +274,6 @@ Hentai = String
 end)
 end
 
-local Toggle1 = Section1:CreateToggle("Auto Upgrade Stats", nil, function(State)
-getgenv().Huh = State
-while getgenv().Huh do
-    wait()
-    game:GetService("ReplicatedStorage").RemoteEvents.UpgradeStatsRemote:FireServer(huh)
-end
-end)
-local Dropdown1 = Section1:CreateDropdown("Select Stat")
-Dropdown1:AddToolTip("Select Stat")
-for i,v in next, huh do
-Dropdown1:AddOption(v, function(String)
-huh = String
-end)
-end
 
 local Toggle1 = Section2:CreateToggle("Auto Buy Spins", nil, function(State)
 get = State
