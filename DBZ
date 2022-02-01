@@ -7,6 +7,30 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
+
+aka = {
+    "Requiem Arrow",
+    "Lucky Arrow"
+}
+local Table = {
+    "Technician of Time Guldo",
+    "Never Ending Battle Vegeta",
+    "Preparations Made Before the Final Battle Krillin",
+    "Strategy to Defeat the Emperor Vegeta",
+    "Honest Admiration Super Saiyan Cabba",
+    "Indomitable Sense of Justice Super Saiyan Gohan",
+    "Indomitable Sense of Justice Super Saiyan Gohan",
+    "Martial Mettle Goku",
+    "The Trump Card Goku",
+    "The Nightmare Returns Frieza",
+    "Strike of Full Anger Super Saiyan Goku"
+}
+Table2 = {}
+for i,v in pairs(Table) do
+    table.insert(Table2, v)
+end 
+--real tables below
+pcall(function()
 Quests = {}
 for i,v in pairs(game:GetService("ReplicatedStorage").Quests:GetChildren()) do
     table.insert(Quests, v.Name)
@@ -28,24 +52,16 @@ Mobs = {}
 for i,v in pairs(game:GetService("Workspace").Live:GetChildren()) do
     table.insert(Mobs, v.Name)
 end
+game:GetService("Workspace").QuestMarkers["Defeat 10 Kung Fu Masters"].Name = "Defeat 10 Kung fu Masters"
+Hentai = {}
+for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+    if v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and  v.Quest.Value == "Defeat 10 Thugs" and v.Name ~= "Thug (lvl. 5)" then
+        table.insert(Hentai, v.Name)
+    end
+end
 
-local Table = {
-    "Technician of Time Guldo",
-    "Never Ending Battle Vegeta",
-    "Preparations Made Before the Final Battle Krillin",
-    "Strategy to Defeat the Emperor Vegeta",
-    "Honest Admiration Super Saiyan Cabba",
-    "Indomitable Sense of Justice Super Saiyan Gohan",
-    "Indomitable Sense of Justice Super Saiyan Gohan",
-    "Martial Mettle Goku",
-    "The Trump Card Goku",
-    "The Nightmare Returns Frieza",
-    "Strike of Full Anger Super Saiyan Goku"
-}
-Table2 = {}
-for i,v in pairs(Table) do
-    table.insert(Table2, v)
-end 
+end)
+
 
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
@@ -57,17 +73,6 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
 end)
 
 
-aka = {
-    "Requiem Arrow",
-    "Lucky Arrow"
-}
-
-Hentai = {}
-for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-    if v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and  v.Quest.Value == "Defeat 10 Thugs" and v.Name ~= "Thug (lvl. 5)" then
-        table.insert(Hentai, v.Name)
-    end
-end
 
 function c()
     for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
@@ -176,8 +181,7 @@ local re
 re =
     game:GetService("RunService").Stepped:connect(
     function()
-        pcall(
-            function()
+            pcall(function()
                 if getgenv().System then
                     c()
                     local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame
@@ -192,6 +196,7 @@ re =
                          then
                             v.HumanoidRootPart.CFrame =
                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -2)
+                                
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                                 game:GetService("Workspace").QuestMarkers[Quest.QuestName.Text].CFrame *
                                 CFrame.new(0, -uu, 0)
@@ -206,10 +211,9 @@ re =
                         )
                     end
                 else
-                    re:disconnect()
-                end
+                re:disconnect()
             end
-        )
+        end)
     end
 )
 
