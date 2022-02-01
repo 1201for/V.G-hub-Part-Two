@@ -181,10 +181,11 @@ re =
                     wait(0.2)
                     for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
                         if
-                            v:FindFirstChild("HumanoidRootPart") and
+                            v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Quest") and
                                 v.Quest.Value == Quest:WaitForChild("QuestName").Text and
                                 v:FindFirstChildOfClass("Humanoid") and
-                                v:FindFirstChildOfClass("Humanoid").Health ~= 0
+                                v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
+                                not table.find(Hentai, v.Name)
                          then
                             v.HumanoidRootPart.CFrame =
                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -2)
@@ -193,16 +194,15 @@ re =
                                 CFrame.new(0, -uu, 0)
                             Part.CFrame =
                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
-                                v.Humanoid:ChangeState(11)
-                            end
+                            v.Humanoid:ChangeState(11)
                         end
+                    end
                     if Quest.Visible == false then
                         game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
                             game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
                         )
                     end
                 else
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 0, 0)
                     re:disconnect()
                 end
             end
