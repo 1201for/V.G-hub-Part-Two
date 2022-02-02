@@ -72,17 +72,17 @@ pcall(
             table.insert(Mobs, v.Name)
         end
         game:GetService("Workspace").QuestMarkers["Defeat 10 Kung Fu Masters"].Name = "Defeat 10 Kung fu Masters"
-        Hentai = {}
-        for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-            if
-                v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and v.Quest.Value == "Defeat 10 Thugs" and
-                    v.Name ~= "Thug (lvl. 5)"
-             then
-                table.insert(Hentai, v.Name)
-            end
-        end
     end
 )
+Hentai = {}
+for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+    if
+        v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and v.Quest.Value == "Defeat 10 Thugs" and
+            v.Name ~= "Thug (lvl. 5)"
+     then
+        table.insert(Hentai, v.Name)
+    end
+end
 
 local OldNameCall = nil
 OldNameCall =
@@ -141,10 +141,9 @@ getgenv().delay2 = 0.2
 getgenv().delay = 1
 getgenv().name = "MagicMan1240"
 
-
-
 local Vet = game:GetService("VirtualInputManager")
-local huh = {"Strength","Magic","Endurance"}
+local huh = {"Strength", "Magic", "Endurance"}
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -236,8 +235,10 @@ re =
                             game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
                         )
                     end
-                else
+                elseif not getgenv().System then
                 re:disconnect()
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                game:GetService("Workspace").SafeZoneIndicator.CFrame
             end
         end)
     end
@@ -272,32 +273,27 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-okdidntask = State
 
-game:GetService("RunService").Stepped:connect(
-    function()
-        if okdidntask then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-        end
-    end
-)
 
-while okdidntask do pcall(function()
-    wait()
-    c()
-    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-        if v.Name == Hentai then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
-            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-            v.Humanoid:ChangeState(11)
+while okdidntask do
+    pcall(
+        function()
+            wait()
+            c()
+            for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                if v.Name == Hentai then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
+                    game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                    v.Humanoid:ChangeState(11)
+                elseif not okdidntask then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        game:GetService("Workspace").SafeZoneIndicator.CFrame
+                end
+            end
         end
-    end
-    end)
+    )
 end
-
-
-
 end)
 
 local Dropdown1 = Section1:CreateDropdown("Select Boss")
