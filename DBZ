@@ -26,53 +26,77 @@ local Table = {
     "Strike of Full Anger Super Saiyan Goku"
 }
 Table2 = {}
-for i,v in pairs(Table) do
+for i, v in pairs(Table) do
     table.insert(Table2, v)
-end 
---real tables below
-pcall(function()
-Quests = {}
-for i,v in pairs(game:GetService("ReplicatedStorage").Quests:GetChildren()) do
-    table.insert(Quests, v.Name)
 end
 
-game:GetService("RunService").Stepped:connect(function()
-        sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+--real tables below
+
+pcall(
+    function()
+        spawn(
+            function()
+                while wait(1) do
+                    pcall(
+                        function()
+                            for i, v in pairs(game.Workspace:GetChildren()) do
+                                if v:IsA("Part") and v.Name == "Part" then
+                                    v:remove()
+                                end
+                            end
+                        end
+                    )
+                end
+            end
+        )
+        Quests = {}
+        for i, v in pairs(game:GetService("ReplicatedStorage").Quests:GetChildren()) do
+            table.insert(Quests, v.Name)
+        end
+
+        game:GetService("RunService").Stepped:connect(
+            function()
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+            end
+        )
+        code = {}
+        for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
+            table.insert(code, v.Name)
+        end
+        Shop = {}
+        for i, v in pairs(game:GetService("Workspace").Shop:GetChildren()) do
+            table.insert(Shop, v.Name)
+        end
+        Mobs = {}
+        for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+            table.insert(Mobs, v.Name)
+        end
+        game:GetService("Workspace").QuestMarkers["Defeat 10 Kung Fu Masters"].Name = "Defeat 10 Kung fu Masters"
+        Hentai = {}
+        for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+            if
+                v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and v.Quest.Value == "Defeat 10 Thugs" and
+                    v.Name ~= "Thug (lvl. 5)"
+             then
+                table.insert(Hentai, v.Name)
+            end
+        end
     end
 )
-code = {}
-for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
-    table.insert(code, v.Name)
-end
-Shop = {}
-for i,v in pairs(game:GetService("Workspace").Shop:GetChildren()) do
-    table.insert(Shop, v.Name)
-end
-Mobs = {}
-for i,v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-    table.insert(Mobs, v.Name)
-end
-game:GetService("Workspace").QuestMarkers["Defeat 10 Kung Fu Masters"].Name = "Defeat 10 Kung fu Masters"
-Hentai = {}
-for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-    if v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and  v.Quest.Value == "Defeat 10 Thugs" and v.Name ~= "Thug (lvl. 5)" then
-        table.insert(Hentai, v.Name)
-    end
-end
-
-end)
-
 
 local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
-    local Args = {...}
+OldNameCall =
+    hookmetamethod(
+    game,
+    "__namecall",
+    function(self, ...)
+        local Args = {...}
         if self.Name == "DoubleExperienceTimerRemote" then
             return nil
         end
-    return OldNameCall(self, unpack(Args))
-end)
-
-
+        return OldNameCall(self, unpack(Args))
+    end
+)
 
 function c()
     for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
@@ -83,12 +107,17 @@ function c()
 end
 
 local OldNameCall
-OldNameCall = hookmetamethod(game, "__newindex", function(A, B, C)
-    if (not checkcaller() and A.ClassName == "Humanoid" and (B == "WalkSpeed" or B == "JumpPower")) then
-        return
+OldNameCall =
+    hookmetamethod(
+    game,
+    "__newindex",
+    function(A, B, C)
+        if (not checkcaller() and A.ClassName == "Humanoid" and (B == "WalkSpeed" or B == "JumpPower")) then
+            return
+        end
+        return OldNameCall(A, B, C)
     end
-    return OldNameCall(A, B, C)
-end)
+)
 
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
 game.Players.LocalPlayer.CharacterAdded:Connect(
@@ -101,19 +130,16 @@ game.Players.LocalPlayer.CharacterAdded:Connect(
     end
 )
 
-
-local Part = Instance.new('Part',workspace)
+local Part = Instance.new("Part", workspace)
 Part.Name = "poopy"
-Part.Size = Vector3.new(9e9,0,9e9)
+Part.Size = Vector3.new(9e9, 0, 9e9)
 Part.Anchored = true
-Part.Transparency = 1 
+Part.Transparency = 1
 
 uu = 50
 getgenv().delay2 = 0.2
 getgenv().delay = 1
 getgenv().name = "MagicMan1240"
-
-
 
 
 
