@@ -244,9 +244,11 @@ re =
     end
 )
 
-while getgenv().System do
+while getgenv().System do pcall(function()
     wait()
+    Vet:SendKeyEvent(true, "S", false, game)
     game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+end)
 end
 
 end)
@@ -260,7 +262,7 @@ Dropdown1:AddOption(v, function(String)
 Quests = String
 end)
 end
-local Button1 = Section2:CreateButton("For the weak Hearted <3", function()
+local Button1 = Section1:CreateButton("Time waits for noone.", function()
 local Cooldown; Cooldown = hookfunction(wait, function(v)
     v = 0;
     return Cooldown(v);
