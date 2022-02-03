@@ -260,8 +260,12 @@ Dropdown1:AddOption(v, function(String)
 Quests = String
 end)
 end
-
-
+local Button1 = Section2:CreateButton("For the weak Hearted <3", function()
+local Cooldown; Cooldown = hookfunction(wait, function(v)
+    v = 0;
+    return Cooldown(v);
+end);
+end)
 local Toggle1 = Section1:CreateToggle("Auto Bosses", nil, function(State)
 okdidntask = State
 
