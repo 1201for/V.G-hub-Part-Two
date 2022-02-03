@@ -337,6 +337,72 @@ while hunt do
     end
 end
 end)
+local Button1 = Section2:CreateButton("Find Legendary Armor", function()
+hhfg = true
+game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+wait(0.5)
+while hhfg do
+    wait()
+    pcall(
+        function()
+            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
+            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            game.StarterGui:SetCore(
+                                "SendNotification",
+                                {
+                                    Title = "Found One",
+                                    Text = "Check your inventory plz"
+                                }
+                            )
+                            hhfg = false
+                        elseif v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Rarity.Text == "Rare" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            v:remove()
+                        end
+                    end
+                end
+            end
+        end
+    )
+end
+end)
+local Button1 = Section2:CreateButton("Find Rare Armor", function()
+hhfg = true
+game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+wait(0.5)
+while hhfg do
+    wait()
+    pcall(
+        function()
+            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
+            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            game.StarterGui:SetCore(
+                                "SendNotification",
+                                {
+                                    Title = "Found One",
+                                    Text = "Check your inventory plz"
+                                }
+                            )
+                            hhfg = false
+                        elseif v.BagPart.Overhead.Rarity.Text == "Common" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            v:remove()
+                        end
+                    end
+                end
+            end
+        end
+    )
+end
+end)
 
 
 
