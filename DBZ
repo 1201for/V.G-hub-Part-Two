@@ -237,8 +237,7 @@ re =
                     end
                 elseif not getgenv().System then
                 re:disconnect()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                game:GetService("Workspace").SafeZoneIndicator.CFrame
+                game.Players.LocalPlayer.Character.Humanoid.Health = 0
             end
         end)
     end
@@ -246,7 +245,6 @@ re =
 
 while getgenv().System do pcall(function()
     wait()
-    Vet:SendKeyEvent(true, "S", false, game)
     game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
 end)
 end
@@ -293,8 +291,7 @@ while okdidntask do
                     game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
                     v.Humanoid:ChangeState(11)
                 elseif not okdidntask then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        game:GetService("Workspace").SafeZoneIndicator.CFrame
+                   game.Players.LocalPlayer.Character.Humanoid.Health = 0
                 end
             end
         end
