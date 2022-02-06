@@ -99,6 +99,7 @@ OldNameCall =
 )
 
 function c()
+    
     for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
         if v.ClassName == "Tool" and v:FindFirstChild("Combat Script") then
             game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
@@ -208,7 +209,6 @@ re =
     function()
             pcall(function()
                 if getgenv().System then
-                    c()
                     local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Menu.QuestFrame
                     wait(0.2)
                     for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
@@ -246,6 +246,9 @@ re =
 while getgenv().System do pcall(function()
     wait()
     game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+    if game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool") then 
+    c()
+    end
 end)
 end
 
@@ -308,10 +311,10 @@ end)
 end
 
 local Button1 = Section2:CreateButton("Find Lucky or Requiem Arrows", function()
-hunt = true
+getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hunt do
+while getgenv().LOL do
     wait()
     if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
         for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
@@ -326,7 +329,7 @@ while hunt do
                         Text = "Check your inventory plz"
                     }
                 )
-                hunt = false
+                getgenv().LOL = false
             end
         end
     else
@@ -335,10 +338,10 @@ while hunt do
 end
 end)
 local Button1 = Section2:CreateButton("Find Legendary Armor", function()
-hhfg = true
+getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hhfg do
+while getgenv().LOL do
     wait()
     pcall(
         function()
@@ -355,7 +358,7 @@ while hhfg do
                                     Text = "Check your inventory plz"
                                 }
                             )
-                            hhfg = false
+                            getgenv().LOL = false
                         elseif v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Rarity.Text == "Rare" then
                             v.Parent = game.Players.LocalPlayer.Character
                             v:remove()
@@ -368,10 +371,10 @@ while hhfg do
 end
 end)
 local Button1 = Section2:CreateButton("Find Rare Armor", function()
-hhfg = true
+getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hhfg do
+while getgenv().LOL do
     wait()
     pcall(
         function()
@@ -388,7 +391,7 @@ while hhfg do
                                     Text = "Check your inventory plz"
                                 }
                             )
-                            hhfg = false
+                            getgenv().LOL = false
                         elseif v.BagPart.Overhead.Rarity.Text == "Common" then
                             v.Parent = game.Players.LocalPlayer.Character
                             v:remove()
@@ -402,6 +405,9 @@ end
 end)
 
 
+local Button1 = Section2:CreateButton("Stop Finding", function()
+getgenv().LOL = false
+end)
 
 local Toggle1 = Section2:CreateToggle("Auto Ability 1", nil, function(State)
 Abily = State
