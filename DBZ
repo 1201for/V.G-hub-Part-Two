@@ -25,6 +25,7 @@ local Table = {
     "The Nightmare Returns Frieza",
     "Strike of Full Anger Super Saiyan Goku"
 }
+local Races = {"Human","Skypiean","Namekian","Dodoria's Race","Burter's Race","Saiyan","Half-Saiyan","Android","Demon","Angel"}
 Table2 = {}
 for i, v in pairs(Table) do
     table.insert(Table2, v)
@@ -466,6 +467,38 @@ Dropdown1:AddOption(v, function(String)
 Table2 = String
 end)
 end
+
+local Toggle1 = Section2:CreateToggle("Auto Race", nil, function(State)
+Race = State
+while Race do
+    wait(2)
+    pcall(
+        function()
+            if game:GetService("Players").LocalPlayer.PlayerValues.Race ~= Races then
+                wait(getgenv().delay)
+                if not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Heart") then
+                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Heart")
+                end
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack.Heart)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                wait(getgenv().delay)
+            end
+        end
+    )
+end
+end)
+
+
+
+
+local Dropdown1 = Section2:CreateDropdown("Select Race")
+Dropdown1:AddToolTip("Select Race")
+for i,v in next, Races do
+Dropdown1:AddOption(v, function(String)
+Races = String
+end)
+end
+
 
 local Toggle1 = Section2:CreateToggle("Streamer Mode", nil, function(State)
 getgenv().R = State
