@@ -25,8 +25,20 @@ local Table = {
     "The Nightmare Returns Frieza",
     "Strike of Full Anger Super Saiyan Goku"
 }
-local Races = {"Human","Skypiean","Namekian","Dodoria's Race","Burter's Race","Saiyan","Half-Saiyan","Android","Demon","Angel"}
+local Races = {
+    "Human",
+    "Skypiean",
+    "Namekian",
+    "Dodoria's Race",
+    "Burter's Race",
+    "Saiyan",
+    "Half-Saiyan",
+    "Android",
+    "Demon (Demon Slayer)",
+    "Angel (In Training)"
+}
 Table2 = {}
+
 for i, v in pairs(Table) do
     table.insert(Table2, v)
 end
@@ -409,6 +421,9 @@ end)
 local Button1 = Section2:CreateButton("Stop Finding", function()
 getgenv().LOL = false
 end)
+local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, function(Value)
+   getgenv().delay = Value
+end)
 
 local Toggle1 = Section2:CreateToggle("Auto Ability 1", nil, function(State)
 Abily = State
@@ -469,27 +484,23 @@ end)
 end
 
 local Toggle1 = Section2:CreateToggle("Auto Race", nil, function(State)
-Race = State
-while Race do
-    wait(2)
+Heart = State
+while Heart do
+    wait(getgenv().delay)
     pcall(
         function()
-            if game:GetService("Players").LocalPlayer.PlayerValues.Race ~= Races then
-                wait(getgenv().delay)
-                if not game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Heart") then
-                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Heart")
+            if game.Players.LocalPlayer.PlayerValues.Race.Value ~= Races then
+                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Heart") then
+                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Heart")
                 end
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game:GetService("Players").LocalPlayer.Backpack.Heart)
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Heart)
                 game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-                wait(getgenv().delay)
             end
         end
     )
 end
+
 end)
-
-
-
 
 local Dropdown1 = Section2:CreateDropdown("Select Race")
 Dropdown1:AddToolTip("Select Race")
