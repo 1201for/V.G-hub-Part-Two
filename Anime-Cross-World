@@ -39,6 +39,12 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+game.Players.LocalPlayer.CharacterAdded:connect(function()
+if getgenv().JJ then
+wait(1) repeat wait() until game.Players.LocalPlayer.Character
+game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+end
+end)
 while getgenv().JJ do
     pcall(
         function()
@@ -74,7 +80,7 @@ game:GetService("RunService").Stepped:connect(
             function()
                 if game.Players.LocalPlayer.Character.Boosts:FindFirstChild("Instinct") then
                     if gods then
-                        game.Players.LocalPlayer.Character.Boosts.Instinct:remove()
+                        game.Players.LocalPlayer.Character.Boosts.Instinct.Value = 0
                     end
                 end
             end
