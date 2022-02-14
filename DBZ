@@ -34,8 +34,9 @@ local Races = {
     "Saiyan",
     "Half-Saiyan",
     "Android",
-    "Demon (Demon Slayer)",
-    "Angel (In Training)"
+    "Demon",
+    "Angel (In Training)",
+    "Cerealian"
 }
 Table2 = {}
 
