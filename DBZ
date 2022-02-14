@@ -36,7 +36,8 @@ local Races = {
     "Android",
     "Demon",
     "Angel (In Training)",
-    "Cerealian"
+    "Cerealian",
+    "Bojack Race"
 }
 Table2 = {}
 
