@@ -17,6 +17,10 @@ if v.Name ~= "???" then
 table.insert(Mobs,v.Name)
 end end 
 
+
+local Script = getsenv(game:GetService("Players").LocalPlayer.PlayerGui.Client)
+Action = Script.Action
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -34,22 +38,22 @@ getgenv().JJ = State
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().JJ then
+            Action("0", Script)
+            Action("1", Script)
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
 )
-game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-game.Players.LocalPlayer.CharacterAdded:connect(function()
-if getgenv().JJ then
-wait(1) repeat wait() until game.Players.LocalPlayer.Character
-game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
-end
-end)
 while getgenv().JJ do
     pcall(
         function()
             wait()
-
+            
+            if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Main.Bottom.Status.Menu.Buttons.List["0"].Visible ==
+                    false
+             then
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+            end
             for i, v in pairs(game:GetService("Workspace").Alive.Mobs:GetChildren()) do
                 if
                     v.Name == Mobs and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and
@@ -57,7 +61,7 @@ while getgenv().JJ do
                  then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
-                    mouse1click()
+                        
                 end
             end
         end
@@ -72,7 +76,63 @@ Dropdown1:AddOption(v, function(String)
 Mobs = String
 end)
 end
-local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
+
+
+
+local Toggle1 = Section1:CreateToggle("Auto Quest Lvl 5+", nil, function(State)
+    getgenv().Senpai = State
+
+
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().Senpai then
+                Action("0", Script)
+                    Action("1", Script)
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+while wait() and getgenv().Senpai do
+    pcall(
+        function()
+            if
+                game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Main.Bottom.Status.Menu.Buttons.List["0"].Visible ==
+                    false
+             then
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, game)
+            end
+            repeat
+                wait()
+                if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Main.Quest.Visible == false then
+                    for i, v in pairs(game:GetService("Workspace").Alive.NPCs:GetChildren()) do
+                        if
+                            v:FindFirstChildOfClass("Model") and
+                                v:FindFirstChildOfClass("Model").Quest.NPC.Level.Value >=
+                                    game:GetService("Players").LocalPlayer.Data.Level.Value
+                         then
+                            game:GetService("ReplicatedStorage").Burn.QuestTake:FireServer(
+                                v:FindFirstChildOfClass("Model").Quest.NPC
+                            )
+                        end
+                    end
+                end
+            until game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Main.Quest.Visible == true
+
+            repeat
+                wait()
+                if game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Main.Quest.Visible == true then
+                    Action("0", Script)
+                    Action("1", Script)
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        game:GetService("Workspace").Marks.Mark.CFrame * CFrame.new(0, 0, 3)
+                end
+            until game:GetService("Players").LocalPlayer.PlayerGui.GameGui.Main.Quest.Visible == false
+        end
+    )
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("GodMode dosen't work", nil, function(State)
 gods = State
 game:GetService("RunService").Stepped:connect(
     function()
@@ -89,6 +149,54 @@ game:GetService("RunService").Stepped:connect(
 )
 if not gods then
     game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end
+end)
+local Toggle1 = Section1:CreateToggle("Auto Strength", nil, function(State)
+getgenv().k = State
+while getgenv().k do wait()
+
+game:GetService("ReplicatedStorage").Burn.AddStat:FireServer("Strength",1)
+end
+end)
+local Toggle1 = Section1:CreateToggle("Auto Vitality", nil, function(State)
+getgenv().k2 = State
+while getgenv().k2 do wait()
+
+game:GetService("ReplicatedStorage").Burn.AddStat:FireServer("Vitality",1)
+end end)
+local Toggle1 = Section1:CreateToggle("Auto Endurance", nil, function(State)
+getgenv().k3 = State
+while getgenv().k3 do wait() 
+
+game:GetService("ReplicatedStorage").Burn.AddStat:FireServer("Endurance",1)
+end
+end)
+local Toggle1 = Section1:CreateToggle("Auto Instinct", nil, function(State)
+getgenv().k3 = State
+while getgenv().k3 do wait()
+
+game:GetService("ReplicatedStorage").Burn.AddStat:FireServer("Instinct",1)
+end
+end)
+local Toggle1 = Section1:CreateToggle("Auto Agility", nil, function(State)
+getgenv().k4 = State
+while getgenv().k4 do wait()
+
+game:GetService("ReplicatedStorage").Burn.AddStat:FireServer("Agility",1)
+end
+end)
+local Toggle1 = Section1:CreateToggle("Auto Rage", nil, function(State)
+getgenv().k5 = State
+while getgenv().k5 do wait()
+
+game:GetService("ReplicatedStorage").Burn.AddStat:FireServer("Rage",1)
+end
+end)
+local Toggle1 = Section1:CreateToggle("Auto Focus", nil, function(State)
+getgenv().k6 = State
+while getgenv().k6 do wait()
+
+game:GetService("ReplicatedStorage").Burn.AddStat:FireServer("Focus",1)
 end
 end)
 
