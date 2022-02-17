@@ -34,7 +34,7 @@ local Races = {
     "Saiyan",
     "Half-Saiyan",
     "Android",
-    "Demon",
+    "Demon (DS)",
     "Angel (In Training)",
     "Cerealian",
     "Bojack Race"
@@ -250,9 +250,10 @@ while getgenv().System do
                             CFrame.new(0, -5, 0)
                             
                             
-                         wait(1)
-                        v:WaitForChild("Humanoid").Health = 0
-                        
+                        if getgenv().InstantKill then
+                    wait(1)
+                    v.Humanoid.Health = 0
+                    end
                         if
                             game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and
                                 game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
@@ -294,6 +295,8 @@ Dropdown1:AddOption(v, function(String)
 Quests = String
 end)
 end
+
+
 local Button1 = Section1:CreateButton("Time waits for noone.", function()
 local Cooldown; Cooldown = hookfunction(wait, function(v)
     v = 0;
@@ -322,13 +325,12 @@ while okdidntask do
             c()
             for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
                 if table.find(Hentai,v.Name) and v.Humanoid.Health ~= 0  and not v:FindFirstChildOfClass("ForceField")  then
-          
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                    
-                        v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
                         
+                    if getgenv().InstantKill then
                     wait(1)
                     v.Humanoid.Health = 0
+                    end
                
                 elseif not okdidntask then
                    game.Players.LocalPlayer.Character.Humanoid.Health = 0
@@ -338,12 +340,15 @@ while okdidntask do
     )
 end
 end)
+
 spawn(function()
 while okdidntask do wait()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
 end end)
 end)
-
+local Toggle1 = Section1:CreateToggle("InstantKill", nil, function(State)
+getgenv().InstantKill = State
+end)
 local Dropdown1 = Section1:CreateDropdown("Select Boss")
 Dropdown1:AddToolTip("Select Boss")
 for i,v in next, Hentai do
