@@ -32,7 +32,7 @@ local Races = {
     "Dodoria's Race",
     "Burter's Race",
     "Saiyan",
-    "Half-Saiyan",
+    "Hybrid-Saiyan",
     "Android",
     "Demon (DS)",
     "Angel (In Training)",
@@ -250,10 +250,10 @@ while getgenv().System do
                             CFrame.new(0, -5, 0)
                             
                             
-                        if getgenv().InstantKill then
-                    wait(1)
-                    v.Humanoid.Health = 0
-                    end
+                        if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                         wait(1)
+                        v.Humanoid.Health = 0
+                        end
                         if
                             game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and
                                 game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
@@ -327,12 +327,11 @@ while okdidntask do
                 if v.Name == Hentai and v.Humanoid.Health ~= 0  then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
                         
-                    if getgenv().InstantKill then
+                    if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                     wait(1)
                     v.Humanoid.Health = 0
                     end
-               
-                elseif not okdidntask then
+                   elseif not okdidntask then
                    game.Players.LocalPlayer.Character.Humanoid.Health = 0
                 end
             end
