@@ -324,7 +324,7 @@ while okdidntask do
             wait()
             c()
             for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-                if table.find(Hentai,v.Name) and v.Humanoid.Health ~= 0  and not v:FindFirstChildOfClass("ForceField")  then
+                if v.Name == Hentai and v.Humanoid.Health ~= 0  then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
                         
                     if getgenv().InstantKill then
