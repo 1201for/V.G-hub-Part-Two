@@ -218,6 +218,7 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
+spawn(function()
 while getgenv().System do
     wait()
     pcall(
@@ -236,6 +237,7 @@ while getgenv().System do
                             v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
                             not table.find(Hentai, v.Name)
                      then
+                         
                         v:WaitForChild("HumanoidRootPart").CFrame =
                             game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                             CFrame.new(0, 0, -2)
@@ -246,9 +248,11 @@ while getgenv().System do
                         Part.CFrame =
                             game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                             CFrame.new(0, -5, 0)
-                        v:WaitForChild("Humanoid"):ChangeState(11)
-                        wait()
-                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                            
+                            
+                         wait(1)
+                        v:WaitForChild("Humanoid").Health = 0
+                        
                         if
                             game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and
                                 game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
@@ -273,6 +277,13 @@ while getgenv().System do
     )
 end
 end)
+spawn(function()
+while getgenv().System do
+    wait()
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+end
+end)
+end)
 
 
 
@@ -295,24 +306,30 @@ okdidntask = State
 game:GetService("RunService").Stepped:connect(
     function()
         if okdidntask then
+            pcall(function()
             Part.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+            end)
         end
     end
 )
 
-
+spawn(function()
 while okdidntask do
     pcall(
         function()
             wait()
             c()
             for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-                if v.Name == Hentai then
+                if table.find(Hentai,v.Name) and v.Humanoid.Health ~= 0  and not v:FindFirstChildOfClass("ForceField")  then
+          
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                    
                         v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
-                    game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-                    v.Humanoid:ChangeState(11)
+                        
+                    wait(1)
+                    v.Humanoid.Health = 0
+               
                 elseif not okdidntask then
                    game.Players.LocalPlayer.Character.Humanoid.Health = 0
                 end
@@ -320,6 +337,11 @@ while okdidntask do
         end
     )
 end
+end)
+spawn(function()
+while okdidntask do wait()
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+end end)
 end)
 
 local Dropdown1 = Section1:CreateDropdown("Select Boss")
