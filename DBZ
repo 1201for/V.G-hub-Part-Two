@@ -223,7 +223,6 @@ while getgenv().System do
     wait()
     pcall(
         function()
-            if getgenv().System then
                 local Quest =
                     game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
                     "QuestFrame"
@@ -254,6 +253,9 @@ while getgenv().System do
                          wait(1)
                         v.Humanoid.Health = 0
                         end
+                          elseif not getgenv().System then
+                game.Players.LocalPlayer.Character.Humanoid.Health = 0
+         
                         if
                             game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and
                                 game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
@@ -271,9 +273,7 @@ while getgenv().System do
                         game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
                     )
                 end
-            elseif not getgenv().System then
-                game.Players.LocalPlayer.Character.Humanoid.Health = 0
-            end
+          
         end
     )
 end
@@ -345,6 +345,50 @@ while okdidntask do wait()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
 end end)
 end)
+
+local Toggle1 = Section1:CreateToggle("Auto All Bosses", nil, function(State)
+okdidntask1 = State
+
+game:GetService("RunService").Stepped:connect(
+    function()
+        if okdidntask1 then
+            pcall(function()
+            Part.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -5, 0)
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+            end)
+        end
+    end
+)
+
+spawn(function()
+while okdidntask1 do
+    pcall(
+        function()
+            wait()
+            c()
+            for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                if table.find(Hentai,v.Name) and v.Humanoid.Health ~= 0  then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
+                        
+                    if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                    
+                    v.Humanoid.Health = 0
+                    end
+                   elseif not okdidntask1 then
+                   game.Players.LocalPlayer.Character.Humanoid.Health = 0
+                end
+            end
+        end
+    )
+end
+end)
+
+spawn(function()
+while okdidntask1 do wait()
+game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+end end)
+end)
+
 local Toggle1 = Section1:CreateToggle("InstantKill", nil, function(State)
 getgenv().InstantKill = State
 end)
