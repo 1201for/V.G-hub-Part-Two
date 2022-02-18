@@ -39,6 +39,19 @@ local Races = {
     "Cerealian",
     "Bojack Race"
 }
+
+local Specializations = {
+    "Nagi Nagi no mi v1",
+    "Flashstep",
+    "Nagi Nagi no mi v2",
+    "Suke Suke no mi v1",
+    "Sonido",
+    "Kenbunshoku Haki",
+    "Haoshoku Haki",
+    "Borg",
+    "Busoshoku Haki"
+}
+
 Table2 = {}
 
 for i, v in pairs(Table) do
@@ -228,6 +241,7 @@ while getgenv().System do
                     "QuestFrame"
                 )
                 wait()
+                c()
                 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
                     if
                         v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Quest") and
@@ -260,7 +274,7 @@ while getgenv().System do
                             game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and
                                 game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
                          then
-                            c()
+                          
                         end
                     end
                 end
@@ -367,7 +381,7 @@ while okdidntask1 do
             wait()
             c()
             for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-                if table.find(Hentai,v.Name) and v.Humanoid.Health ~= 0  then
+                if table.find(Hentai,v.Name) and v.Humanoid.Health ~= 0  then wait(1)
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
                         
                     if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
@@ -439,7 +453,7 @@ while getgenv().LOL do
             if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
                 for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
-                        if v.BagPart.Overhead.Rarity.Text == "Legendary" then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary"  then
                             v.Parent = game.Players.LocalPlayer.Character
                             game.StarterGui:SetCore(
                                 "SendNotification",
@@ -579,6 +593,8 @@ end
 
 end)
 
+
+
 local Dropdown1 = Section2:CreateDropdown("Select Race")
 Dropdown1:AddToolTip("Select Race")
 for i,v in next, Races do
@@ -586,6 +602,47 @@ Dropdown1:AddOption(v, function(String)
 Races = String
 end)
 end
+
+
+local Toggle1 = Section2:CreateToggle("Auto Specialization", nil, function(State)
+getgenv().d = State
+while getgenv().d do
+     wait(getgenv().delay)
+    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= Specializations then
+            if v.ClassName == "Tool" and v:FindFirstChild("SpecializationTool") and v.Name ~= Specializations  then
+                v.Parent = game.Players.LocalPlayer.Character
+                v:Destroy()
+            elseif v.ClassName == "Tool" and v:FindFirstChild("SpecializationTool") and v.Name == Specializations  then
+                game.StarterGui:SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Found One",
+                        Text = "Check your inventory plz"
+                    }
+                )
+                v.Parent = game.Players.LocalPlayer.Character
+                game:GetService("ReplicatedStorage").RemoteEvents.SpecializationRemote:FireServer()
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                getgenv().d = false
+            end
+            end
+    end
+    else
+        game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
+        end
+end
+
+end)
+
+local Dropdown1 = Section2:CreateDropdown("Select Specialization")
+Dropdown1:AddToolTip("Select Specialization")
+for i,v in next, Specializations do
+Dropdown1:AddOption(v, function(String)
+Specializations = String
+end)
+end 
 
 
 local Toggle1 = Section2:CreateToggle("Streamer Mode", nil, function(State)
