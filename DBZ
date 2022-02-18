@@ -181,6 +181,7 @@ local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("")
 local Section2 = Tab1:CreateSection("")
+local SectionA = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
@@ -786,6 +787,63 @@ for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants())
     game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(v.Name)
 end
 end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress E", nil, function(State)
+getgenv().E = State
+while getgenv().E do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,game)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress R", nil, function(State)
+getgenv().R = State
+while getgenv().R do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"R",false,game)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress X", nil, function(State)
+getgenv().X = State
+while getgenv().X do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"X",false,game)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress C", nil, function(State)
+getgenv().C = State
+while getgenv().C do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"C",false,game)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress Y", nil, function(State)
+getgenv().Y = State
+while getgenv().Y do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"Y",false,game)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress V", nil, function(State)
+getgenv().V = State
+while getgenv().V do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"V",false,game)
+end 
+end)
+
+local Toggle1 = SectionA:CreateToggle("AutoKeyPress T", nil, function(State)
+getgenv().T = State
+while getgenv().T do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"T",false,game)
+end 
+end)
+
 local TextBox1 = Section2:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
     getgenv().Fps = Value
     pcall(function()
