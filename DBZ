@@ -41,7 +41,7 @@ local Races = {
 }
 
 local Specializations = {
-    "Nagi Nagi no mi v1",
+    "Nagi Nagi no mi",
     "Flashstep",
     "Nagi Nagi no mi v2",
     "Suke Suke no mi",
