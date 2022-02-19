@@ -264,7 +264,7 @@ while getgenv().System do
                             
                             
                         if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                         wait(1)
+                         wait(0.2)
                         v.Humanoid.Health = 0
                         end
                           elseif not getgenv().System then
@@ -287,7 +287,7 @@ while getgenv().System do
                         game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
                     )
                 end
-          
+    
         end
     )
 end
@@ -342,7 +342,7 @@ while okdidntask do
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
                         
                     if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                    wait(1)
+                    wait(0.2)
                     v.Humanoid.Health = 0
                     end
                    elseif not okdidntask then
