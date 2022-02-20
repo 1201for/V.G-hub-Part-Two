@@ -83,8 +83,10 @@ pcall(
         end
 
         game:GetService("RunService").Stepped:connect(
-            function()
+            function() pcall(function()
+                workspace.FallenPartsDestroyHeight = 0 / 0
                 sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+                end)
             end
         )
         code = {}
@@ -100,8 +102,13 @@ pcall(
             table.insert(Mobs, v.Name)
         end
         game:GetService("Workspace").QuestMarkers["Defeat 10 Kung Fu Masters"].Name = "Defeat 10 Kung fu Masters"
+  
     end
 )
+  VVV = {}
+    for i,v in pairs(game:GetService("Workspace").QuestMarkers:GetChildren()) do
+    table.insert(VVV,v.Name)
+    end
 Hentai = {}
 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
     if
@@ -111,6 +118,30 @@ for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
         table.insert(Hentai, v.Name)
     end
 end
+
+system = {}
+for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+    if
+        v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and not table.find(Hentai,v.Name)
+     then
+        table.insert(system, v.Name)
+    end
+end
+
+local function getBasePlate()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace").dbzmap.Map.Baseplates:GetChildren()) do
+        if v.Name == "BasePlate" then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
 
 local OldNameCall = nil
 OldNameCall =
@@ -169,10 +200,10 @@ uu = 50
 getgenv().delay2 = 0.2
 getgenv().delay = 1
 getgenv().name = "MagicMan1240"
-
+aa = 0
 local Vet = game:GetService("VirtualInputManager")
 local huh = {"Strength", "Magic", "Endurance"}
-
+local Void = Vector3.new(0,-483,0)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -219,7 +250,31 @@ for i, v in pairs(game:GetService("Workspace").dbzmap:GetDescendants()) do
 end
 end)
 
-
+local Toggle1 = Section1:CreateToggle("Auto Dummy", nil, function(State)
+yourdumb = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if yourdumb then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+        end
+    end
+)
+while yourdumb do
+    wait()
+    pcall(function()
+            c()
+            wait()
+            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                game:GetService("Workspace").Live["Training Dummy"].Torso.CFrame * CFrame.new(-10, 0, 0) * CFrame.Angles(aa, 0, 0)
+            if not yourdumb then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+            end
+        end
+    )
+end
+end)
 
 
 local Toggle1 = Section1:CreateToggle("Auto Quest", nil, function(State)
@@ -241,7 +296,7 @@ while getgenv().System do
                     "QuestFrame"
                 )
                 wait()
-                c()
+                
                 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
                     if
                         v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Quest") and
@@ -250,14 +305,14 @@ while getgenv().System do
                             v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
                             not table.find(Hentai, v.Name)
                      then
-                         
+                         repeat wait()
                         v:WaitForChild("HumanoidRootPart").CFrame =
                             game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                             CFrame.new(0, 0, -2)
 
                         game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
                             game:GetService("Workspace").QuestMarkers[Quest:WaitForChild("QuestName").Text].CFrame *
-                            CFrame.new(0, -uu, 0)
+                            CFrame.new(0, -uu, 0) * CFrame.Angles(aa, 0, 0)
                         Part.CFrame =
                             game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                             CFrame.new(0, -5, 0)
@@ -267,6 +322,7 @@ while getgenv().System do
                          wait(0.2)
                         v.Humanoid.Health = 0
                         end
+                        until v.Humanoid.Health == 0 or getgenv().System == false
                           elseif not getgenv().System then
                 game.Players.LocalPlayer.Character.Humanoid.Health = 0
          
@@ -295,6 +351,7 @@ end)
 spawn(function()
 while getgenv().System do
     wait()
+    c()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
 end
 end)
@@ -336,18 +393,21 @@ while okdidntask do
     pcall(
         function()
             wait()
-            c()
             for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
                 if v.Name == Hentai and v.Humanoid.Health ~= 0  then
+                    repeat wait()
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
                         
                     if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                     wait(0.2)
                     v.Humanoid.Health = 0
                     end
+                    until v.Humanoid.Health == 0 or okdidntask == false
                    elseif not okdidntask then
-                   game.Players.LocalPlayer.Character.Humanoid.Health = 0
-                end
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                   game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) * CFrame.Angles(aa, 0, 0)
+                   
+                   end
             end
         end
     )
@@ -356,6 +416,7 @@ end)
 
 spawn(function()
 while okdidntask do wait()
+    c()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
 end end)
 end)
@@ -379,17 +440,19 @@ while okdidntask1 do
     pcall(
         function()
             wait()
-            c()
             for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
                 if table.find(Hentai,v.Name) and v.Humanoid.Health ~= 0  then wait(1)
+                    repeat wait()
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
-                        
+                     
                     if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                     
                     v.Humanoid.Health = 0
                     end
+                       until v.Humanoid.Health == 0 or okdidntask1 == false
                    elseif not okdidntask1 then
-                   game.Players.LocalPlayer.Character.Humanoid.Health = 0
+                   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                   game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) * CFrame.Angles(aa, 0, 0)
                 end
             end
         end
@@ -399,9 +462,11 @@ end)
 
 spawn(function()
 while okdidntask1 do wait()
+    c()
 game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
 end end)
 end)
+
 
 local Toggle1 = Section1:CreateToggle("InstantKill", nil, function(State)
 getgenv().InstantKill = State
@@ -414,6 +479,94 @@ Hentai = String
 end)
 end
 
+
+local Toggle1 = Section1:CreateToggle("Auto use DragonBalls", nil, function(State)
+Dragoon = State
+local K = game:GetService("Players").LocalPlayer.PlayerValues
+local A = game.Players.LocalPlayer
+while Dragoon do
+    wait()
+    pcall(function()
+    if K.DragonBall1.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["One Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall2.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Two Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall3.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Three Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall4.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Four Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall5.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Five Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall6.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Six Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    if K.DragonBall7.Value == false then
+        wait(getgenv().delay)
+        A.Character.Humanoid:EquipTool(A.Backpack["Seven Star Dragonball"])
+        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+    end
+    end)
+end
+end)
+
+
+local Toggle1 = Section1:CreateToggle("Stun All Mobs", nil, function(State)
+stun = State
+while wait(2) do
+    pcall(
+        function()
+            if stun then
+                for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                    if v:FindFirstChild("Humanoid") then
+                        v.Humanoid.PlatformStand = true
+                    end
+                end
+            end
+        end
+    )
+end
+end)
+
+
+getgenv().magss = 100
+local Toggle1 = Section1:CreateToggle("Auto Bring Mob", nil, function(State)
+sexs = State
+while sexs do
+    wait(0.5)
+    pcall(function()
+            for i, v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
+                if v:FindFirstChild("Humanoid") and v.Name ~= "Training dummy" and v.Humanoid.Health > 0 then
+                    local Root = game.Players.LocalPlayer.Character.HumanoidRootPart
+                    local RootTwo = v.HumanoidRootPart
+                    if (Root.Position - RootTwo.Position).Magnitude < getgenv().magss then
+                        Tween(v.HumanoidRootPart, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.p, 100)
+                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                    end
+                end
+            end
+        end
+    )
+end
+end)
 local Button1 = Section2:CreateButton("Find Lucky or Requiem Arrows", function()
 getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
@@ -441,7 +594,7 @@ while getgenv().LOL do
     end
 end
 end)
-local Button1 = Section2:CreateButton("Find Legendary Armor", function()
+local Button1 = Section2:CreateButton("Find Legendary Armor not avabible ", function()
 getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
@@ -507,6 +660,42 @@ while getgenv().LOL do
     )
 end
 end)
+
+local Button1 = Section2:CreateButton("Find Rare Armor Enchanted", function()
+getgenv().LOL = true
+game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+wait(0.5)
+while getgenv().LOL do
+    wait()
+    pcall(
+        function()
+            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
+            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                    if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" and v.BagPart.Overhead.Enchantment.Text ~= ""  then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            game.StarterGui:SetCore(
+                                "SendNotification",
+                                {
+                                    Title = "Found One",
+                                    Text = "Check your inventory plz"
+                                }
+                            )
+                            getgenv().LOL = false
+                        elseif v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Enchantment.Text == "" then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            v:remove()
+                        end
+                    end
+                end
+            end
+        end
+    )
+end
+end)
+
+
 
 
 local Button1 = Section2:CreateButton("Stop Finding", function()
@@ -767,6 +956,16 @@ Toggle1:AddToolTip("Makes you not able to level up")
 
 local Slider2 = Section1:CreateSlider("Attack Distance", 0,100,nil,false, function(Value)
 uu = Value
+end)
+local Slider2 = Section1:CreateSlider("AutoFarm Speed", 0,7,nil,false, function(Value)
+getgenv().delay2 = Value
+end)
+local Slider2 = Section1:CreateSlider("Bring Radius", 0,1000,nil,false, function(Value)
+getgenv().magss = Value
+end)
+
+local Slider2 = Section1:CreateSlider("Attack Angle", 0,360,nil,false, function(Value)
+aa = Value
 end)
 local Slider2 = Section1:CreateSlider("AutoFarm Speed", 0,7,nil,false, function(Value)
 getgenv().delay2 = Value
