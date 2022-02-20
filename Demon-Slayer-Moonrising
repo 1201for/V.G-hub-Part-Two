@@ -111,6 +111,18 @@ while getgenv().f do
 end
 
 end)
+local Toggle1 = Section1:CreateToggle("Stun All Mobs", nil, function(State)
+troll = State
+while wait() and troll do pcall(function()
+    for i, v in pairs(game:GetService("Workspace").Game.Characters:GetChildren()) do
+        if v:IsA("Model") and v:FindFirstChild("AI") and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 then
+            v.Humanoid.PlatformStand = true
+        end
+    end
+    end)
+end
+end)
+
 
 
 local Button1 = Section1:CreateButton("Teleport To Selected Location", function()
