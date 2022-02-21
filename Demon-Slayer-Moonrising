@@ -18,8 +18,11 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
 end)
 
 game:GetService("RunService").Stepped:connect(
-    function()
+    function() pcall(function()
         sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+        game:GetService("Players").LocalPlayer.Stats.FirstName.Value = "V.G Hub Winning"
+        game:GetService("Players").LocalPlayer.Stats.LastName.Value = ""
+        end)
     end
 )
 
@@ -124,7 +127,17 @@ end
 end)
 
 
+local Toggle1 = Section1:CreateToggle("Infinite Breathing", nil, function(State)
+trolls = State
+while wait() and trolls do pcall(function()
+game.Players.LocalPlayer.Character.INFO.Breath.Value = 100
+end) end end)
 
+local Toggle1 = Section1:CreateToggle("Infinite Stamina", nil, function(State)
+trolls1 = State
+while wait() and trolls1 do pcall(function()
+game.Players.LocalPlayer.Character.INFO.Stamina.Value = 100
+end) end end)
 local Button1 = Section1:CreateButton("Teleport To Selected Location", function()
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Game.Locations[Hentai].CFrame
 end)
@@ -143,8 +156,8 @@ end)
 Dropdown1:AddToolTip("Select NPC")
 
 
-local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+local TextBox1 = Section2:CreateTextBox("Sprint Speed", "Only numbers", true, function(Value)
+    game.Players.LocalPlayer.Character.INFO.MaxSpeed.Value = Value
 end)
 local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
