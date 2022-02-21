@@ -306,15 +306,15 @@ spawn(
                     )
                     wait()
 
-                        for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-                            if
-                                v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Quest") and
-                                    v:WaitForChild("Quest").Value == Quest:WaitForChild("QuestName").Text and
-                                    v:FindFirstChildOfClass("Humanoid") and
-                                    v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
-                                    not table.find(Hentai, v.Name)
-                             then
-                                 if  getgenv().Default1 == "Default" then
+                    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                        if
+                            v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Quest") and
+                                v:WaitForChild("Quest").Value == Quest:WaitForChild("QuestName").Text and
+                                v:FindFirstChildOfClass("Humanoid") and
+                                v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
+                                not table.find(Hentai, v.Name)
+                         then
+                            if getgenv().Default1 == "Default" then
                                 v:WaitForChild("HumanoidRootPart").CFrame =
                                     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                                     CFrame.new(0, 0, -2)
@@ -326,9 +326,9 @@ spawn(
                                 Part.CFrame =
                                     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                                     CFrame.new(0, -5, 0)
-                                 end
-                                if getgenv().Default1 == "Sky" then
-                                  v:WaitForChild("HumanoidRootPart").CFrame =
+                            end
+                            if getgenv().Default1 == "Sky" then
+                                v:WaitForChild("HumanoidRootPart").CFrame =
                                     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                                     CFrame.new(0, 0, -2)
 
@@ -339,30 +339,26 @@ spawn(
                                 Part.CFrame =
                                     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                                     CFrame.new(0, -5, 0)
-                                end
-                                 if getgenv().Default1 == "Fancy" then
-                                 game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
-                                  v:WaitForChild("HumanoidRootPart").CFrame *
-                                    CFrame.new(0, -7, 2)
+                            end
+                            if getgenv().Default1 == "Fancy" then
+                                game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                    v:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, -7, 2)
                                 Part.CFrame =
                                     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                                     CFrame.new(0, -5, 0)
-                                    end
-                                if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                                    wait(getgenv().delay2)
-                                    v.Humanoid.Health = 0
-                                end
-                            elseif not getgenv().System then
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) * CFrame.Angles(aa, 0, 0)
+                            end
+                            if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                wait(getgenv().delay2)
+                                v.Humanoid.Health = 0
+                            end
 
-                                if
-                                    game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and
-                                        game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
-                                 then
-                                end
+                            if
+                                game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and
+                                    game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
+                             then
                             end
                         end
+                    end
                     if Quest.Visible == false then
                         repeat
                             wait()
@@ -371,6 +367,11 @@ spawn(
                         game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
                             game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
                         )
+                    end
+                    if not getgenv().System then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
+                            CFrame.Angles(aa, 0, 0)
                     end
                 end
             )
@@ -386,6 +387,7 @@ spawn(
         end
     end
 )
+
 
 end)
 
