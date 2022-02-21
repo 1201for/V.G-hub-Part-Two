@@ -37,7 +37,7 @@ local Races = {
     "Demon (DS)",
     "Angel (In Training)",
     "Cerealian",
-    "Bojack Race"
+    "Bojack's Race"
 }
 
 local Specializations = {
