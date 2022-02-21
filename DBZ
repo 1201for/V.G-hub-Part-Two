@@ -204,7 +204,7 @@ Part.Size = Vector3.new(9e9, 0, 9e9)
 Part.Anchored = true
 Part.Transparency = 1
 
-uu = 300
+uu = 150
 getgenv().delay2 = 0
 getgenv().delay = 1
 getgenv().name = "MagicMan1240"
