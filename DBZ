@@ -286,75 +286,77 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-spawn(function()
-while getgenv().System do
-    wait()
-    pcall(
-        function()
-                local Quest =
-                    game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
-                    "QuestFrame"
-                )
-                wait()
-                
-                for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-                    if
-                        v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Quest") and
-                            v:WaitForChild("Quest").Value == Quest:WaitForChild("QuestName").Text and
-                            v:FindFirstChildOfClass("Humanoid") and
-                            v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
-                            not table.find(Hentai, v.Name)
-                     then
-                         repeat wait()
-                        v:WaitForChild("HumanoidRootPart").CFrame =
-                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
-                            CFrame.new(0, 0, -2)
+spawn(
+    function()
+        while getgenv().System do
+            wait()
+            pcall(
+                function()
+                    local Quest =
+                        game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
+                        "QuestFrame"
+                    )
+                    wait()
 
-                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
-                            game:GetService("Workspace").QuestMarkers[Quest:WaitForChild("QuestName").Text].CFrame *
-                            CFrame.new(0, -uu, 0) * CFrame.Angles(aa, 0, 0)
-                        Part.CFrame =
-                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
-                            CFrame.new(0, -5, 0)
-                            
-                            
-                        if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                         wait(0.2)
-                        v.Humanoid.Health = 0
+                        for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                            if
+                                v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Quest") and
+                                    v:WaitForChild("Quest").Value == Quest:WaitForChild("QuestName").Text and
+                                    v:FindFirstChildOfClass("Humanoid") and
+                                    v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
+                                    not table.find(Hentai, v.Name)
+                             then
+                                v:WaitForChild("HumanoidRootPart").CFrame =
+                                    game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                    CFrame.new(0, 0, -2)
+
+                                game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                    game:GetService("Workspace").QuestMarkers[Quest:WaitForChild("QuestName").Text].CFrame *
+                                    CFrame.new(0, -uu, 0) *
+                                    CFrame.Angles(aa, 0, 0)
+                                Part.CFrame =
+                                    game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                    CFrame.new(0, -5, 0)
+
+                                if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                    wait(0.2)
+                                    v.Humanoid.Health = 0
+                                end
+                            elseif not getgenv().System then
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) * CFrame.Angles(aa, 0, 0)
+
+                                if
+                                    game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and
+                                        game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
+                                 then
+                                end
+                            end
                         end
-                        until v.Humanoid.Health == 0 or getgenv().System == false
-                          elseif not getgenv().System then
-                game.Players.LocalPlayer.Character.Humanoid.Health = 0
-         
-                        if
-                            game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and
-                                game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
-                         then
-                          
-                        end
+                    if Quest.Visible == false then
+                        repeat
+                            wait()
+                        until game.Players.LocalPlayer.Character
+                        wait(3)
+                        game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+                            game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
+                        )
                     end
                 end
-                if Quest.Visible == false then
-                    repeat
-                        wait()
-                    until game.Players.LocalPlayer.Character
-                    wait(3)
-                    game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
-                        game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
-                    )
-                end
-    
+            )
         end
-    )
-end
-end)
-spawn(function()
-while getgenv().System do
-    wait()
-    c()
-game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-end
-end)
+    end
+)
+spawn(
+    function()
+        while getgenv().System do
+            wait()
+            c()
+            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+        end
+    end
+)
+
 end)
 
 
