@@ -118,7 +118,15 @@ for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
         table.insert(Hentai, v.Name)
     end
 end
-
+local function Tween(A, B, C)
+    if A and B then
+        local Time = (B - A.Position).magnitude/C
+        local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
+        local Tween = game:GetService("TweenService"):Create(A,Info,{CFrame = CFrame.new(B.X,B.Y,B.Z)})
+        Tween:Play()
+        wait(Time)
+    end
+end
 system = {}
 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
     if
@@ -196,15 +204,15 @@ Part.Size = Vector3.new(9e9, 0, 9e9)
 Part.Anchored = true
 Part.Transparency = 1
 
-uu = 50
-getgenv().delay2 = 0.2
+uu = 300
+getgenv().delay2 = 0
 getgenv().delay = 1
 getgenv().name = "MagicMan1240"
 aa = 0
 local Vet = game:GetService("VirtualInputManager")
 local huh = {"Strength", "Magic", "Endurance"}
 local Void = Vector3.new(0,-483,0)
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
 local Tab1 = Window:CreateTab("dbz adventures unleashed")
@@ -306,6 +314,7 @@ spawn(
                                     v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
                                     not table.find(Hentai, v.Name)
                              then
+                                 if  getgenv().Default1 == "Default" then
                                 v:WaitForChild("HumanoidRootPart").CFrame =
                                     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                                     CFrame.new(0, 0, -2)
@@ -317,9 +326,30 @@ spawn(
                                 Part.CFrame =
                                     game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
                                     CFrame.new(0, -5, 0)
+                                 end
+                                if getgenv().Default1 == "Sky" then
+                                  v:WaitForChild("HumanoidRootPart").CFrame =
+                                    game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                    CFrame.new(0, 0, -2)
 
+                                game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                    game:GetService("Workspace").QuestMarkers[Quest:WaitForChild("QuestName").Text].CFrame *
+                                    CFrame.new(0, uu, 0) *
+                                    CFrame.Angles(aa, 0, 0)
+                                Part.CFrame =
+                                    game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                    CFrame.new(0, -5, 0)
+                                end
+                                 if getgenv().Default1 == "Fancy" then
+                                 game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                  v:WaitForChild("HumanoidRootPart").CFrame *
+                                    CFrame.new(0, -7, 2)
+                                Part.CFrame =
+                                    game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                    CFrame.new(0, -5, 0)
+                                    end
                                 if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                                    wait(0.2)
+                                    wait(getgenv().delay2)
                                     v.Humanoid.Health = 0
                                 end
                             elseif not getgenv().System then
@@ -360,15 +390,17 @@ spawn(
 end)
 
 
-
-local Dropdown1 = Section1:CreateDropdown("Select Quest")
-Dropdown1:AddToolTip("Select Quest")
-for i,v in next, Quests do
-Dropdown1:AddOption(v, function(String)
-Quests = String
+local Dropdown1 = Section1:CreateDropdown("Quest Modes", {"Default","Fancy","Sky"}, function(String)
+	getgenv().Default1 = String
 end)
-end
+Dropdown1:SetOption("Default")
 
+
+
+
+local Dropdown1 = Section1:CreateDropdown("Quests", Quests, function(String)
+	Quests = String
+end)
 
 local Button1 = Section1:CreateButton("Time waits for noone.", function()
 local Cooldown; Cooldown = hookfunction(wait, function(v)
@@ -401,7 +433,7 @@ while okdidntask do
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
                         
                     if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                    wait(0.2)
+                    wait(getgenv().delay2)
                     v.Humanoid.Health = 0
                     end
                     until v.Humanoid.Health == 0 or okdidntask == false
@@ -473,14 +505,11 @@ end)
 local Toggle1 = Section1:CreateToggle("InstantKill", nil, function(State)
 getgenv().InstantKill = State
 end)
-local Dropdown1 = Section1:CreateDropdown("Select Boss")
-Dropdown1:AddToolTip("Select Boss")
-for i,v in next, Hentai do
-Dropdown1:AddOption(v, function(String)
-Hentai = String
-end)
-end
 
+
+local Dropdown1 = Section1:CreateDropdown("Bosses", Hentai, function(String)
+	Hentai = String
+end)
 
 local Toggle1 = Section1:CreateToggle("Auto use DragonBalls", nil, function(State)
 Dragoon = State
@@ -488,7 +517,7 @@ local K = game:GetService("Players").LocalPlayer.PlayerValues
 local A = game.Players.LocalPlayer
 
 while Dragoon do
-    wait()
+    wait(getgenv().delay2)
     pcall(function()
     for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
         if v.Name:match("Dragon") and v.Value == false then
@@ -803,13 +832,11 @@ while Abily do
 end
 end)
 
-local Dropdown1 = Section2:CreateDropdown("Select Abilty Slot 1")
-Dropdown1:AddToolTip("Select Abilty Slot 1")
-for i,v in next, Table do
-Dropdown1:AddOption(v, function(String)
-Table = String
+
+
+local Dropdown1 = Section2:CreateDropdown("Ability 1", Table, function(String)
+	Table = String
 end)
-end
 
 local Toggle1 = Section2:CreateToggle("Auto Ability 2", nil, function(State)
 Abily2 = State
@@ -832,14 +859,9 @@ end)
 
 
 
-
-local Dropdown1 = Section2:CreateDropdown("Select Abilty Slot 2")
-Dropdown1:AddToolTip("Select Abilty Slot 2")
-for i,v in next, Table2 do
-Dropdown1:AddOption(v, function(String)
-Table2 = String
+local Dropdown1 = Section2:CreateDropdown("Ability 2", Table2, function(String)
+	Table2 = String
 end)
-end
 
 local Toggle1 = Section2:CreateToggle("Auto Race", nil, function(State)
 Heart = State
@@ -862,14 +884,10 @@ end)
 
 
 
-local Dropdown1 = Section2:CreateDropdown("Select Race")
-Dropdown1:AddToolTip("Select Race")
-for i,v in next, Races do
-Dropdown1:AddOption(v, function(String)
-Races = String
-end)
-end
 
+local Dropdown1 = Section2:CreateDropdown("Races", Races, function(String)
+	Races = String
+end)
 
 local Toggle1 = Section2:CreateToggle("Auto Specialization", nil, function(State)
 getgenv().d = State
@@ -903,13 +921,9 @@ end
 
 end)
 
-local Dropdown1 = Section2:CreateDropdown("Select Specialization")
-Dropdown1:AddToolTip("Select Specialization")
-for i,v in next, Specializations do
-Dropdown1:AddOption(v, function(String)
-Specializations = String
+local Dropdown1 = Section2:CreateDropdown("Specializations", Specializations, function(String)
+	Specializations = String
 end)
-end 
 
 
 local Toggle1 = Section2:CreateToggle("Streamer Mode", nil, function(State)
@@ -1032,7 +1046,7 @@ end)
 Toggle1:AddToolTip("Makes you not able to level up")
 
 
-local Slider2 = Section1:CreateSlider("Attack Distance", 0,100,nil,false, function(Value)
+local Slider2 = Section1:CreateSlider("Attack Distance", 0,300,nil,false, function(Value)
 uu = Value
 end)
 local Slider2 = Section1:CreateSlider("AutoFarm Speed", 0,7,nil,false, function(Value)
@@ -1045,19 +1059,14 @@ end)
 local Slider2 = Section1:CreateSlider("Attack Angle", 0,360,nil,false, function(Value)
 aa = Value
 end)
-local Slider2 = Section1:CreateSlider("AutoFarm Speed", 0,7,nil,false, function(Value)
-getgenv().delay2 = Value
-end)
+
 local Button1 = Section1:CreateButton("Redeem Selected Code", function()
 game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(code)
 end)
-local Dropdown1 = Section1:CreateDropdown("Select Code")
-Dropdown1:AddToolTip("Select Code")
-for i,v in next, code do
-Dropdown1:AddOption(v, function(String)
-code = String
+
+local Dropdown1 = Section2:CreateDropdown("Codes", code, function(String)
+	code = String
 end)
-end
 local Button1 = Section1:CreateButton("Redeem All Codes", function()
 for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
     game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(v.Name)
@@ -1386,6 +1395,9 @@ end)
 local Button1 = Section2:CreateButton("Rejoin", function()
 game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
 
+
+
+
 local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
 	Window:Toggle(State)
 end)
@@ -1400,30 +1412,26 @@ local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
 Colorpicker3:UpdateColor(Config.Color)
+
 -- credits to jan for patterns
-local Dropdown3 = Section4:CreateDropdown("Image")
-local Option7 = Dropdown3:AddOption("Default", function(String)
-	Window:SetBackground("2151741365")
+local Dropdown3 = Section4:CreateDropdown("Image", {"Default","Hearts","Abstract","Hexagon","Circles","Lace With Flowers","Floral"}, function(Name)
+	if Name == "Default" then
+		Window:SetBackground("2151741365")
+	elseif Name == "Hearts" then
+		Window:SetBackground("6073763717")
+	elseif Name == "Abstract" then
+		Window:SetBackground("6073743871")
+	elseif Name == "Hexagon" then
+		Window:SetBackground("6073628839")
+	elseif Name == "Circles" then
+		Window:SetBackground("6071579801")
+	elseif Name == "Lace With Flowers" then
+		Window:SetBackground("6071575925")
+	elseif Name == "Floral" then
+		Window:SetBackground("5553946656")
+	end
 end)
-local Option8 = Dropdown3:AddOption("Hearts", function(String)
-	Window:SetBackground("6073763717")
-end)
-local Option9 = Dropdown3:AddOption("Abstract", function(String)
-	Window:SetBackground("6073743871")
-end)
-local Option10 = Dropdown3:AddOption("Hexagon", function(String)
-	Window:SetBackground("6073628839")
-end)
-local Option11 = Dropdown3:AddOption("Circles", function(String)
-	Window:SetBackground("6071579801")
-end)
-local Option12 = Dropdown3:AddOption("Lace With Flowers", function(String)
-	Window:SetBackground("6071575925")
-end)
-local Option13 = Dropdown3:AddOption("Floral", function(String)
-	Window:SetBackground("5553946656")
-end)
-Option7:SetOption()
+Dropdown3:SetOption("Default")
 
 local Colorpicker4 = Section4:CreateColorpicker("Color", function(Color)
 	Window:SetBackgroundColor(Color)
