@@ -59,7 +59,13 @@ for i, v in pairs(Table) do
 end
 
 --real tables below
-
+game:GetService("RunService").Stepped:connect(
+            function() pcall(function()
+                workspace.FallenPartsDestroyHeight = 0 / 0
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+                end)
+            end
+        )
 pcall(
     function()
         spawn(
@@ -81,14 +87,6 @@ pcall(
         for i, v in pairs(game:GetService("ReplicatedStorage").Quests:GetChildren()) do
             table.insert(Quests, v.Name)
         end
-
-        game:GetService("RunService").Stepped:connect(
-            function() pcall(function()
-                workspace.FallenPartsDestroyHeight = 0 / 0
-                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
-                end)
-            end
-        )
         code = {}
         for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
             table.insert(code, v.Name)
@@ -406,6 +404,73 @@ Dropdown1:SetOption("Default")
 
 local Dropdown1 = Section1:CreateDropdown("Quests", Quests, function(String)
 	Quests = String
+end)
+
+local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
+god = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if game.Players.LocalPlayer.Character:WaitForChild("CharacterValues"):FindFirstChild("DamageDivider") then
+            if god then
+                pcall(
+                    function()
+                        game.Players.LocalPlayer.Character:WaitForChild("CharacterValues"):WaitForChild("DamageDivider"):remove(
+
+                        )
+                    end
+                )
+            end
+        end
+    end
+)
+if not god then
+    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("StatusImmune", nil, function(State)
+gods = State
+game:GetService("RunService").Stepped:connect(function()
+pcall(function()
+        if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("StatusImmune") then
+            if gods then
+                game.Players.LocalPlayer.Character.CharacterValues.StatusImmune:remove()
+            end
+        end
+        end)
+    end
+)
+if not gods then
+    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end
+end)
+Toggle1:AddToolTip("Makes your StatusImmune to any stun attack such as fire etc")
+local Toggle1 = Section1:CreateToggle("No CooldownReduction", nil, function(State)
+nocool = State
+while wait() do
+    wait()
+    if nocool then
+        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = -9e9
+    else
+        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = 1
+    end
+end
+end)
+Toggle1:AddToolTip("Makes Abilitys have no anmation Cooldown")
+
+local Button1 = Section1:CreateButton("Anti Effects", function()
+pcall(
+    function()
+        game.StarterGui:SetCore(
+            "SendNotification",
+            {
+                Title = "Effects Gone",
+                Text = "Try one of your gay ugly weak moves unless you use *** then u cool"
+            }
+        )
+        game:GetService("Workspace").Effects:remove()
+    end
+)
 end)
 
 local Button1 = Section1:CreateButton("Time waits for noone.", function()
@@ -964,72 +1029,7 @@ game.DescendantAdded:Connect(
 )
 
 end)
-local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
-god = State
-game:GetService("RunService").Stepped:connect(
-    function()
-        if game.Players.LocalPlayer.Character:WaitForChild("CharacterValues"):FindFirstChild("DamageDivider") then
-            if god then
-                pcall(
-                    function()
-                        game.Players.LocalPlayer.Character:WaitForChild("CharacterValues"):WaitForChild("DamageDivider"):remove(
 
-                        )
-                    end
-                )
-            end
-        end
-    end
-)
-if not god then
-    game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end
-end)
-
-local Toggle1 = Section1:CreateToggle("StatusImmune", nil, function(State)
-gods = State
-game:GetService("RunService").Stepped:connect(function()
-pcall(function()
-        if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("StatusImmune") then
-            if gods then
-                game.Players.LocalPlayer.Character.CharacterValues.StatusImmune:remove()
-            end
-        end
-        end)
-    end
-)
-if not gods then
-    game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end
-end)
-Toggle1:AddToolTip("Makes your StatusImmune to any stun attack such as fire etc")
-local Toggle1 = Section1:CreateToggle("No CooldownReduction", nil, function(State)
-nocool = State
-while wait() do
-    wait()
-    if nocool then
-        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = -9e9
-    else
-        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = 1
-    end
-end
-end)
-Toggle1:AddToolTip("Makes Abilitys have no anmation Cooldown")
-
-local Button1 = Section1:CreateButton("Anti Effects", function()
-pcall(
-    function()
-        game.StarterGui:SetCore(
-            "SendNotification",
-            {
-                Title = "Effects Gone",
-                Text = "Try one of your gay ugly weak moves unless you use *** then u cool"
-            }
-        )
-        game:GetService("Workspace").Effects:remove()
-    end
-)
-end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 local Esp = Section1:CreateToggle("Esp", nil, function(State)
 ESP:Toggle(State)
