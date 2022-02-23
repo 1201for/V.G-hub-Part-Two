@@ -59,13 +59,7 @@ for i, v in pairs(Table) do
 end
 
 --real tables below
-game:GetService("RunService").Stepped:connect(
-            function() pcall(function()
-                workspace.FallenPartsDestroyHeight = 0 / 0
-                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
-                end)
-            end
-        )
+
 pcall(
     function()
         spawn(
@@ -100,7 +94,13 @@ pcall(
             table.insert(Mobs, v.Name)
         end
         game:GetService("Workspace").QuestMarkers["Defeat 10 Kung Fu Masters"].Name = "Defeat 10 Kung fu Masters"
-  
+  game:GetService("RunService").Stepped:connect(
+            function() pcall(function()
+                workspace.FallenPartsDestroyHeight = 0 / 0
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 9e9)
+                end)
+            end
+        )
     end
 )
   VVV = {}
