@@ -1,0 +1,91 @@
+if game.PlaceId == 8056702588 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 8311302084 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6296321810 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6301638949 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6365635361 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6373539583 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6406571212 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6425178683 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6472459099 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6682163754 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6682164423 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7251865082 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7251866503 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7251867155 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7251867574 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7261077841 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7068737459 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7633631103 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7633631351 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7633631511 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7618863566 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6479231833 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6480994221 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6485055338 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6485055836 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6485056556 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6688734180 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6688734313 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6688734395 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7265396387 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7265396805 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7265397072 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7265397848 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7069191531 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7068951438 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7068951914 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7068952294 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7069191531 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7859079264 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 6243699076 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7903959731 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7068738088 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7068739000 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7068740106 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+elseif game.PlaceId == 7068740194 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Mimic"))()
+end
