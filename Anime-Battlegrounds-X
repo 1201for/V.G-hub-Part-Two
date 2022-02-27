@@ -207,12 +207,25 @@ end
 
 end)
 
+local Toggle1 = Section1:CreateToggle("no Duration Abilitys", nil, function(State)
+getgenv().sus = State
+local F = require(game:GetService("ReplicatedStorage").Modules.Bins.AbilityData)
+for i, v in pairs(F) do
+    if getgenv().sus then
+        v.Duration = 0
+    else
+        v.Duration = 2
+    end
+end
+end)
+
+
 local Toggle1 = Section1:CreateToggle("Auto Collect", nil, function(State)
 orr = State
 while orr or getgenv().O do
-    wait(3)
+    wait(1)
     for i, v in pairs(game:GetService("Workspace").FX:GetChildren()) do
-        if v:FindFirstChild("BodyGyro") then
+        if v:FindFirstChild("BodyGyro") then wait(0.002)
             v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
             game:GetService("ReplicatedStorage").Remotes.Coins:FireServer("Collect", v.Name)
             game:GetService("ReplicatedStorage").Remotes.Coins:FireServer("Claim", v.Name)
@@ -241,26 +254,29 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Auto Breakables", nil, function(State)
 ii = State
-while ii do wait() pcall(function()
-for i, v in pairs(game:GetService("Workspace").WORLD:GetChildren()) do
-    if v:IsA("Folder") then
-        for i, v in pairs(v:GetChildren()) do
-            if v.Name == "Zones" then
-                for i, v in pairs(v:GetChildren()) do
-                    for i, v in pairs(v.Destroyable:GetChildren()) do
-                        if v:FindFirstChildOfClass("Part") then repeat wait(0.1) game:GetService("ReplicatedStorage").Remotes.Melee:FireServer("Melee")
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                v:FindFirstChildOfClass("Part").CFrame
-                               until v.Healthbar == nil
-                        end
-                    end
-                end
-            end
+game:GetService("RunService").Stepped:connect(
+    function()
+        if ii then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
+)
+while ii do
+    wait(1)
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace")["SPAWNED_CHESTS"]:GetChildren()) do
+                if v:IsA("Model") and v:FindFirstChild("Part") then
+
+                    
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChild("Part").CFrame
+                end
+            end
+            game:GetService("ReplicatedStorage").Remotes.Melee:FireServer("Melee")
+        end
+    )
 end
-end)
-end
+
 end)
 local Button1 = Section1:CreateButton("Teleport to Selected Arena", function()
 local KOS = {}
