@@ -36,7 +36,16 @@ for i, v in pairs(game:GetService("Workspace").Game.Players:GetChildren()) do
         print(v)
     end
 end
-
+spawn(
+    function()
+        game:GetService("RunService").Stepped:connect(
+            function()
+                workspace.FallenPartsDestroyHeight = 0 / 0
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+            end
+        )
+    end
+)
 
 game:GetService("RunService").Stepped:connect(
     function()
@@ -115,20 +124,48 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
 mobs = State
-while mobs do
-    wait()
-    for i, v in pairs(game:GetService("Workspace").Game.Players:GetChildren()) do
-        if
-            v.ClassName == "Model" and v:FindFirstChild("Respawn") and v.Name == Mobs and v:FindFirstChild("Humanoid") and
-                v.Humanoid.Health ~= 0
-         then
-            game:GetService("ReplicatedStorage").Remotes.ClientToServer.BasicCombat:FireServer("SwingSound", 1, "Right")
-            wait(1)
-            game:GetService("ReplicatedStorage").Remotes.ClientToServer.BasicCombat:FireServer("SwingSound", 2, "Left")
 
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if mobs then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
         end
     end
+)
+while mobs do
+    wait()
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").Game.Players:GetChildren()) do
+                if
+                    v.ClassName == "Model" and v:FindFirstChild("Respawn") and v.Name == Mobs and
+                        v:FindFirstChild("Humanoid") and
+                        v.Humanoid.Health ~= 0
+                 then
+                    repeat
+                        wait()
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            v.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0) * CFrame.Angles(-90, 0, 0)
+
+                        if game:GetService("Players").LocalPlayer.Data.Stamina.Value >= 50 then
+                            
+                            game:GetService("ReplicatedStorage").Remotes.ClientToServer.BasicCombat:FireServer(
+                                "LightPunch",
+                                1,
+                                v.Humanoid
+                            )
+                          wait(0.5)
+                            game:GetService("ReplicatedStorage").Remotes.ClientToServer.BasicCombat:FireServer(
+                                "LightPunch",
+                                2,
+                                v.Humanoid
+                            )
+                        end
+                    until v.Humanoid.Health == 0 or mobs == false
+                end
+            end
+        end
+    )
 end
 
 end)
@@ -481,3 +518,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
