@@ -1,0 +1,9 @@
+if game.PlaceId == 8937894388 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Anime-Battlegrounds-X'))()
+elseif game.PlaceId == 8649341147 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Anime-Battlegrounds-X'))()
+elseif game.PlaceId == 8793088660 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Anime-Battlegrounds-X'))()
+elseif game.PlaceId == 7655489843 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-hub-Part-Two/main/Anime-Battlegrounds-X'))()
+end
