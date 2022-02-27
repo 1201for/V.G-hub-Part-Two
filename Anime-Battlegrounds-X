@@ -8,9 +8,16 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-for i,v in pairs(game:GetService("Workspace")["ZONE_SPAWNS"]:GetChildren()) do wait(0.3)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
-end 
+local F = require(game:GetService("ReplicatedStorage").SupportModules.CamShake.CameraShaker)
+local Cooldown; Cooldown = hookfunction(F.StartShake, function(v)
+    return nil
+end);
+
+local K = require(game:GetService("ReplicatedStorage").Modules.Bins.PortData)
+for i,v in pairs(K) do wait(0.5)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v)
+end
+
 
 getgenv().Speed = 35
 game.Players.LocalPlayer:GetMouse().KeyDown:connect(function(v)
@@ -50,7 +57,7 @@ end
 
 local KOS = {}
 for i, v in pairs(game:GetService("Workspace").WORLD:GetDescendants()) do
-    if v:IsA("Folder") and v.Parent.Name == "Zones" then
+    if v:IsA("Folder") and v.Parent.Name == "Arenas" then
         table.insert(KOS,v.Name)
     end
 end
@@ -255,11 +262,16 @@ end
 end)
 end
 end)
-local Button1 = Section1:CreateButton("Teleport to Selected Zone", function()
-game:GetService("ReplicatedStorage").Remotes.TeleportPlayer:InvokeServer(KOS)
+local Button1 = Section1:CreateButton("Teleport to Selected Arena", function()
+local KOS = {}
+for i, v in pairs(game:GetService("Workspace").WORLD:GetDescendants()) do
+    if v:IsA("Folder") and v.Parent.Name == "Arenas" then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Detect.CFrame
+    end
+end
 end)
 
-local Dropdown1 = Section1:CreateDropdown("Zones", KOS, function(String)
+local Dropdown1 = Section1:CreateDropdown("Aernas", KOS, function(String)
     KOS = String
 end)
 local Toggle1 = Section1:CreateToggle("Enable Reset", nil, function(State)
