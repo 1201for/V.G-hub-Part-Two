@@ -14,7 +14,7 @@ local Cooldown; Cooldown = hookfunction(F.StartShake, function(v)
 end);
 
 local K = require(game:GetService("ReplicatedStorage").Modules.Bins.PortData)
-for i,v in pairs(K) do wait(0.5)
+for i,v in pairs(K) do wait(1)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v)
 end
 
