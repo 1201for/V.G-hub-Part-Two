@@ -97,7 +97,7 @@ for i, v in pairs(game:GetService("Workspace").WORLD:GetChildren()) do
         for i, v in pairs(v:GetChildren()) do
             if v.Name == "Arenas" and v:FindFirstChild(KO) then
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                    v[KO].Detect.CFrame * CFrame.new(0, 0, 0) * CFrame.Angles(0, 0, 0)
+                    v[KO]:WaitForChild("Detect").CFrame * CFrame.new(0, 0, 0) * CFrame.Angles(0, 0, 0)
             end
         end
     end
@@ -212,7 +212,7 @@ getgenv().sus = State
 local F = require(game:GetService("ReplicatedStorage").Modules.Bins.AbilityData)
 for i, v in pairs(F) do
     if getgenv().sus then
-        v.Duration = 0
+        v.Duration = 0.5
     else
         v.Duration = 2
     end
@@ -281,8 +281,8 @@ end)
 local Button1 = Section1:CreateButton("Teleport to Selected Arena", function()
 local KOS = {}
 for i, v in pairs(game:GetService("Workspace").WORLD:GetDescendants()) do
-    if v:IsA("Folder") and v.Parent.Name == "Arenas" and v.Name == KOS then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Detect.CFrame
+    if v.Name == KOS and v:IsA("Folder") and v.Parent.Name == "Arenas"  then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("Part").CFrame
     end
 end
 end)
