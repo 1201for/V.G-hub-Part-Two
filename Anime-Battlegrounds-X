@@ -279,10 +279,10 @@ end
 
 end)
 local Button1 = Section1:CreateButton("Teleport to Selected Arena", function()
-local KOS = {}
+
 for i, v in pairs(game:GetService("Workspace").WORLD:GetDescendants()) do
     if v.Name == KOS and v:IsA("Folder") and v.Parent.Name == "Arenas"  then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("Part").CFrame
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Bounds.CFrame
     end
 end
 end)
