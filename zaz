@@ -409,7 +409,7 @@ spawn(
 
                                             game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
                                                 v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 0)
-                                        until isnetworkowner(v.HumanoidRootPart)
+                                        until isnetworkowner(v.HumanoidRootPart) or getgenv().System == false
                                         v.HumanoidRootPart.CFrame =
                                             game:GetService("Workspace").QuestMarkers[
                                             Quest:WaitForChild("QuestName").Text
