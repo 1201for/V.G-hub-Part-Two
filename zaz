@@ -333,7 +333,8 @@ spawn(
                         until game.Players.LocalPlayer.Character and
                             game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
                                 "QuestFrame"
-                            )
+                            ) and
+                                game.Players.LocalPlayer:WaitForChild("Backpack"):FindFirstChildOfClass("Tool")
 
                         game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
                             game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
@@ -1311,6 +1312,46 @@ game:GetService("RunService").Stepped:connect(
         sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
     end
 )
+
+local Toggle1 = Section2:CreateToggle("Crash/Lag Server", nil, function(State)
+getgenv().Mob = State
+spawn(
+    function()
+        game:GetService("RunService").Stepped:connect(
+            function()
+            
+                if getgenv().Mob then pcall(function()
+                    game:GetService("Players").LocalPlayer.Backpack.Scripts.TeleportToCacScript.Disabled = true
+                workspace.FallenPartsDestroyHeight = 0 / 0
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+                for i, v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
+                    if v:FindFirstChild("Humanoid") and v.Name ~= "Training dummy" and v.Humanoid.Health > 0 then
+                        if isnetworkowner(v.HumanoidRootPart) then
+                            v.HumanoidRootPart.CFrame =
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(9e9, 9e9, 9e9)
+                        end
+                    end
+                end
+                  end)
+                end
+              
+            end
+        )
+    end
+)
+end)
+spawn(function()
+while wait() and getgenv().Mob do pcall(function()
+    for i, v in pairs(game:GetService("Workspace").QuestMarkers:GetChildren()) do
+        if v:IsA("Part") then
+            wait(1)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame 
+        end
+    end
+    end)
+end
+end)
+
 local Toggle1 = Section2:CreateToggle("SS Float Mobs", nil, function(State)
 gogogo = State
 for i, v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
