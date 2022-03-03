@@ -70,9 +70,9 @@ spawn(
     function()
         game:GetService("RunService").Stepped:connect(
             function()
-                game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("CombatLog").Position =UDim2.new(0,1300,0,780)
-game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame").Position =UDim2.new(0,1250,0,860)
-                game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("VersionNumber").Position =UDim2.new(0,1400,0,-25)
+                game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame"):TweenPosition(UDim2.new(0,1250,0,860))
+                game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("CombatLog"):TweenPosition(UDim2.new(0,1300,0,780))
+                game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("VersionNumber"):TweenPosition(UDim2.new(0,1400,0,-25))
                 workspace.FallenPartsDestroyHeight = 0 / 0
                 sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
             end
