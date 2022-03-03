@@ -694,39 +694,31 @@ local A = game.Players.LocalPlayer
 while Dragoon do
     wait()
     pcall(function()
-    if K.DragonBall1.Value == false then
-        wait()
+    if K.DragonBall1.Value == false and A.Backpack:FindFirstChild("One Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["One Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall2.Value == false then
-        wait()
+
+    elseif K.DragonBall2.Value == false and A.Backpack:FindFirstChild("Two Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Two Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall3.Value == false then
-        wait()
+
+    elseif K.DragonBall3.Value == false and A.Backpack:FindFirstChild("Three Star Dragonball")  then
         A.Character.Humanoid:EquipTool(A.Backpack["Three Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall4.Value == false then
-        wait()
+
+    elseif K.DragonBall4.Value == false and A.Backpack:FindFirstChild("Four Star Dragonball")  then
         A.Character.Humanoid:EquipTool(A.Backpack["Four Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall5.Value == false then
-        wait()
+
+    elseif K.DragonBall5.Value == false and A.Backpack:FindFirstChild("Five Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Five Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall6.Value == false then
-        wait()
+
+    elseif K.DragonBall6.Value == false and A.Backpack:FindFirstChild("Six Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Six Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall7.Value == false then
-        wait()
-        
+
+    elseif K.DragonBall7.Value == false and A.Backpack:FindFirstChild("Seven Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Seven Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
     end
@@ -745,7 +737,7 @@ while wait(1) and getgenv().Nigga do pcall(function()
             for i = 1, 13 do
             for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                 if v.Name:match("Platnium") then
-                    v.Parent = game.Players.LocalPlayer.Character
+                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
                 end
             end
         
@@ -753,7 +745,7 @@ while wait(1) and getgenv().Nigga do pcall(function()
         
             for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
                 if v.Name:match("ItemStorage" .. i) and v.Value == "" then
-                    wait(0000.1)
+                    wait()
                     game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
                 end
             end
@@ -765,12 +757,12 @@ while wait(1) and getgenv().Nigga do pcall(function()
     if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
         for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
             if v.Name == "Requiem Arrow" then
-                v.Parent = game.Players.LocalPlayer.Character
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
             end
         end
         for i = 1, 13 do
             for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
-                if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0000.1)
+                if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait()
                     game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
                 end
             end
