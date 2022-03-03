@@ -77,7 +77,6 @@ spawn(
     end
 )
 
-
 local function Float(v)
     if v:FindFirstChild("BodyForce") then
         return
@@ -91,9 +90,7 @@ for i,v in pairs(game:GetService("Workspace").NPCS:GetChildren()) do
 if v:IsA("Model") and v:FindFirstChild("Humanoid") then
 v.Chat.QuestText1.Value = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. " Thanks you for using V.G Hub"
 end end 
-for i,v in next, getconnections(game.Players.LocalPlayer:WaitForChild("PlayerValues"):WaitForChild("DoubleExperienceTimer").Changed) do
-   v:Disable()
-end
+
 pcall(
     function()
         Quests = {}
@@ -143,23 +140,10 @@ for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
     end
 end
 
-local OldNameCall = nil
-OldNameCall =
-    hookmetamethod(
-    game,
-    "__namecall",
-    function(self, ...)
-        local Args = {...}
-        if self.Name == "DoubleExperienceTimerRemote" then
-            return nil
-        end
-        return OldNameCall(self, unpack(Args))
-    end
-)
 
 function c()
     for i, v in pairs(game.Players.LocalPlayer:WaitForChild("Backpack"):GetChildren()) do
-        if v.ClassName == "Tool" and v:FindFirstChild("Combat Script") then
+        if v.ClassName == "Tool" and v:FindFirstChild("Combat Script") then wait(0.001)
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(v)
         end
     end
@@ -333,7 +317,8 @@ spawn(
                             game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
                                 "QuestFrame"
                             ) and
-                                game.Players.LocalPlayer:WaitForChild("Backpack"):FindFirstChildOfClass("Tool")
+                                game.Players.LocalPlayer:WaitForChild("Backpack"):FindFirstChildOfClass("Tool") or
+                            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
 
                         game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
                             game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
@@ -752,29 +737,32 @@ end)
 local Toggle1 = Section1:CreateToggle("Auto Wish", nil, function(State)
 getgenv().Nigga = State
 while wait(1) and getgenv().Nigga do pcall(function() 
-    if game:GetService("Players").LocalPlayer.PlayerGui.Menu.ShenronButton.Visible == true then
-        if getgenv().Sex == "Reborn" then
-            game:GetService("ReplicatedStorage").RemoteEvents.ShenronRemote:FireServer("Be Reborn")
 
+        if getgenv().Sex == "Reborn" and game:GetService("Players").LocalPlayer.PlayerGui.Menu.ShenronButton.Visible == true then
+            game:GetService("ReplicatedStorage").RemoteEvents.ShenronRemote:FireServer("Be Reborn")
+        end
+        if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Platnium Heart") then
+            for i = 1, 13 do
             for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                 if v.Name:match("Platnium") then
                     v.Parent = game.Players.LocalPlayer.Character
                 end
             end
-        end
-
-        for i = 1, 13 do
+        
+        
+        
             for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
                 if v.Name:match("ItemStorage" .. i) and v.Value == "" then
-                    wait(0.001)
+                    wait(0000.1)
                     game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
                 end
             end
-        end
-    end
-    if getgenv().Sex == "The Strongest" then
+    end end 
+    if getgenv().Sex == "The Strongest" and game:GetService("Players").LocalPlayer.PlayerGui.Menu.ShenronButton.Visible == true then
         game:GetService("ReplicatedStorage").RemoteEvents.ShenronRemote:FireServer("The Strongest")
-
+    end
+    
+    if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
         for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
             if v.Name == "Requiem Arrow" then
                 v.Parent = game.Players.LocalPlayer.Character
@@ -782,13 +770,13 @@ while wait(1) and getgenv().Nigga do pcall(function()
         end
         for i = 1, 13 do
             for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
-                if v.Name:match("ItemStorage" .. i) and v.Value == "" then
-                    wait(0.001)
+                if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0000.1)
                     game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
                 end
             end
         end
     end
+
     end)
 end
 end)
