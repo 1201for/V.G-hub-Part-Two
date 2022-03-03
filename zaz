@@ -70,34 +70,13 @@ spawn(
     function()
         game:GetService("RunService").Stepped:connect(
             function()
-                if game:GetService("Players").LocalPlayer.PlayerGui.Menu.StatsGui.Visible == true then
-                    for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Menu.StatsGui:GetChildren()) do
-                        if v:IsA("Frame") and v:FindFirstChild("Armor") then
-                            v:TweenPosition(UDim2.new(0, 470, 0, 0))
-                        elseif v:IsA("Frame") and v:FindFirstChild("Race") then
-                            v:TweenPosition(UDim2.new(0, 910, 0, 0))
-                        end
-                    end
-                end
-                game:GetService("Players").LocalPlayer.PlayerGui.Menu.StatsGui.ItemStorageFrame:TweenPosition(
-                    UDim2.new(0, 1350, 0, 0)
-                )
-
-                game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
-                    "QuestFrame"
-                ):TweenPosition(UDim2.new(0, 1250, 0, 860))
-                game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
-                    "CombatLog"
-                ):TweenPosition(UDim2.new(0, 1300, 0, 780))
-                game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
-                    "VersionNumber"
-                ):TweenPosition(UDim2.new(0, 1400, 0, -25))
                 workspace.FallenPartsDestroyHeight = 0 / 0
                 sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
             end
         )
     end
 )
+
 
 local function Float(v)
     if v:FindFirstChild("BodyForce") then
