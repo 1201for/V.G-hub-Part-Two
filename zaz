@@ -696,7 +696,7 @@ while getgenv().InstantKill do
     pcall(
         function()
             for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-                if
+                if v:FindFirstChild("Humanoid") and 
                     v.Humanoid.Health ~= 0 and isnetworkowner(v.HumanoidRootPart) and
                         v.Humanoid.Health < v.Humanoid.MaxHealth
                  then
