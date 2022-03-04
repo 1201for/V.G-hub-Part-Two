@@ -244,7 +244,7 @@ local Mouse = LocalPlayer:GetMouse()
 function ClosestPlayerToCurser()
     local MaxDistance, Closest = math.huge
     for i, v in pairs(Players.GetPlayers(Players)) do
-        if v ~= LocalPlayer and v.Character and v.Character.FindFirstChild(v.Character, "Humanoid") and v.Character.Humanoid.Healh ~= 0 then
+        if v ~= LocalPlayer and v.Character then
             local H = v.Character.FindFirstChild(v.Character, "Head")
             if H then
                 local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
@@ -289,7 +289,7 @@ local Mouse = LocalPlayer:GetMouse()
 function ClosestMobToCurser()
     local MaxDistance, Closest = math.huge
     for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-        if v:IsA("Model") and v:FindFirstChild("Humanoid") and v.Humanoid.Healh ~= 0 then
+        if v:IsA("Model")  then
             local H = v:FindFirstChild("Head")
             if H then
                 local Pos, Vis = workspace.CurrentCamera:WorldToScreenPoint(H.Position)
