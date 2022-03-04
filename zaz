@@ -244,7 +244,7 @@ local Mouse = LocalPlayer:GetMouse()
 function ClosestPlayerToCurser()
     local MaxDistance, Closest = math.huge
     for i, v in pairs(Players.GetPlayers(Players)) do
-        if v ~= LocalPlayer and v.Character then
+        if v ~= LocalPlayer and v.Character and v.Character.FindFirstChild(v.Character, "Humanoid") and v.Character.Humanoid.Healh ~= 0 then
             local H = v.Character.FindFirstChild(v.Character, "Head")
             if H then
                 local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
@@ -289,7 +289,7 @@ local Mouse = LocalPlayer:GetMouse()
 function ClosestMobToCurser()
     local MaxDistance, Closest = math.huge
     for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-        if v:IsA("Model") then
+        if v:IsA("Model") and v:FindFirstChild("Humanoid") and v.Humanoid.Healh ~= 0 then
             local H = v:FindFirstChild("Head")
             if H then
                 local Pos, Vis = workspace.CurrentCamera:WorldToScreenPoint(H.Position)
@@ -1413,28 +1413,42 @@ spawn(
     function()
         game:GetService("RunService").Stepped:connect(
             function()
-            
-                if getgenv().Mob then pcall(function()
-                    game:GetService("Players").LocalPlayer.Backpack.Scripts.TeleportToCacScript.Disabled = true
-                workspace.FallenPartsDestroyHeight = 0 / 0
-                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
-                for i, v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
-                    if v:FindFirstChild("Humanoid") and v.Name ~= "Training dummy" and v.Humanoid.Health > 0 then
-                        if isnetworkowner(v.HumanoidRootPart) then
-                            v.HumanoidRootPart.CFrame =
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(9e9, 9e9, 9e9)
+                for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
+                    coroutine.wrap(
+                        function()
+                            --Credits for help/teaching me coroutine.wrap by nil#0001
+
+                            Vet:SendKeyEvent(true, v, false, game)
                         end
-                    end
+                    )()
                 end
-                  end)
+                c()
+                if getgenv().Mob then
+                    pcall(
+                        function()
+                            game:GetService("Players").LocalPlayer.Backpack.Scripts.TeleportToCacScript.Disabled = true
+                            workspace.FallenPartsDestroyHeight = 0 / 0
+                            sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+                            for i, v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
+                                if v:FindFirstChild("Humanoid") and v.Name ~= "Training dummy" and v.Humanoid.Health > 0 then
+                                    if isnetworkowner(v.HumanoidRootPart) then
+                                        v.HumanoidRootPart.CFrame =
+                                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame *
+                                            CFrame.new(9e9, 9e9, 9e9)
+                                    end
+                                end
+                            end
+                        end
+                    )
                 end
-              
             end
         )
     end
 )
+
 spawn(function()
 while wait() and getgenv().Mob do pcall(function()
+
     for i, v in pairs(game:GetService("Workspace").QuestMarkers:GetChildren()) do
         if v:IsA("Part") then
             wait(1)
@@ -1442,14 +1456,7 @@ while wait() and getgenv().Mob do pcall(function()
         end
     end
 end)
-for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
-    coroutine.wrap(function()--Credits for help/teaching me coroutine.wrap by nil#0001
 
-                Vet:SendKeyEvent(true, v, false, game)
-            end
-    )()
-end
-c()
 end
 
 end)
