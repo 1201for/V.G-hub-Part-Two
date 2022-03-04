@@ -1399,15 +1399,16 @@ end
 end)
 
 
+
+
+local Toggle1 = Section2:CreateToggle("Crash/Lag Server", nil, function(State)
+getgenv().Mob = State
 game:GetService("RunService").Stepped:connect(
     function()
         workspace.FallenPartsDestroyHeight = 0 / 0
         sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
     end
 )
-
-local Toggle1 = Section2:CreateToggle("Crash/Lag Server", nil, function(State)
-getgenv().Mob = State
 spawn(
     function()
         game:GetService("RunService").Stepped:connect(
@@ -1432,7 +1433,6 @@ spawn(
         )
     end
 )
-end)
 spawn(function()
 while wait() and getgenv().Mob do pcall(function()
     for i, v in pairs(game:GetService("Workspace").QuestMarkers:GetChildren()) do
@@ -1441,9 +1441,20 @@ while wait() and getgenv().Mob do pcall(function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame 
         end
     end
-    end)
-end
 end)
+for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
+    coroutine.wrap(function()--Credits for help/teaching me coroutine.wrap by nil#0001
+
+                Vet:SendKeyEvent(true, v, false, game)
+            end
+    )()
+end
+c()
+end
+
+end)
+end)
+
 
 local Toggle1 = Section2:CreateToggle("SS Float Mobs", nil, function(State)
 gogogo = State
@@ -1462,18 +1473,20 @@ for i, v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
 end
 
 game:GetService("Workspace").Live.ChildAdded:Connect(
-    function(v)
+    function()
+for i, v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
+    if v:IsA("Model") then
         if gogogo then
-        if v:IsA("Model") then
-            for i, v in ipairs(v:GetChildren()) do
-                if v:IsA("BasePart") and v.Anchored == false then
-                    Float(v)
-                elseif v:IsA("Humanoid") then
-                    v.PlatformStand = true
-                end
+        for i, v in ipairs(v:GetChildren()) do
+            if v:IsA("BasePart") and v.Anchored == false then
+                Float(v)
+            elseif v:IsA("Humanoid") then
+                v.PlatformStand = true
+            end
             end
         end
-        end
+    end
+end
     end
 )
 
