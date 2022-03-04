@@ -1413,6 +1413,7 @@ spawn(
     function()
         game:GetService("RunService").Stepped:connect(
             function()
+                if getgenv().Mob then
                 for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
                     coroutine.wrap(
                         function()
@@ -1423,7 +1424,7 @@ spawn(
                     )()
                 end
                 c()
-                if getgenv().Mob then
+                
                     pcall(
                         function()
                             game:GetService("Players").LocalPlayer.Backpack.Scripts.TeleportToCacScript.Disabled = true
