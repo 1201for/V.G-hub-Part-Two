@@ -892,6 +892,16 @@ local Dropdown1 = Section1:CreateDropdown("Wish Method", {"The Strongest","Rebor
 end)
 
 Dropdown1:SetOption("Reborn")
+game.Players.PlayerAdded:Connect(
+    function(v)
+        if v.Name == "DekuDimz" and v ~= game.Players.LocalPlayer then
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+                "Hi DekuDimz Welcome to the server",
+                "All"
+            )
+        end
+    end
+)
 
 local Toggle1 = Section1:CreateToggle("Stun All Mobs", nil, function(State)
 stun = State
@@ -1857,3 +1867,6 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
+
+
