@@ -23,13 +23,14 @@ local Table = {
     "The Trump Card Goku",
     "The Nightmare Returns Frieza",
     "Strike of Full Anger Super Saiyan Goku",
-    "Sound Breathing",
     "Yami Yami no mi",
     "Santoryu v1",
     "Black Leg Style v1",
     "Black Leg Style v2",
+    "Sound Breathing",
     "Wind Breathing",
-    "Flame Breathing"
+    "Flame Breathing",
+    "Water Breathing"
 }
 local Races = {
     "Human",
@@ -1867,6 +1868,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
-
-
