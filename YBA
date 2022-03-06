@@ -8,26 +8,73 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 local OldNameCall
-OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
-    if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
-        return
+OldNameCall =
+    hookmetamethod(
+    game,
+    "__newindex",
+    function(A, B, ...)
+        if not checkcaller() and (B == "WalkSpeed" or B == "JumpPower") then
+            return
+        end
+        return OldNameCall(A, B, ...)
     end
-    return OldNameCall(A, B, ...)
-end)
+)
+
+spawn(
+    function()
+        game:GetService("RunService").Stepped:connect(
+            function()
+                workspace.FallenPartsDestroyHeight = 0 / 0
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+            end
+        )
+    end
+)
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = 25
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = 50
+game.Players.LocalPlayer.CharacterAdded:Connect(
+    function()
+        repeat
+            wait()
+        until game.Players.LocalPlayer.Character
+        wait(3)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+    end
+)
 local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
-    local Args = {...}
-    local Self = Args[1]
-    if self.Name == "Returner" and Args[1] == "idklolbrah2de"  then
-           return "  ___XP DE KEY"
+OldNameCall =
+    hookmetamethod(
+    game,
+    "__namecall",
+    function(self, ...)
+        local Args = {...}
+        local Self = Args[1]
+        if self.Name == "Returner" and Args[1] == "idklolbrah2de" then
+            return "  ___XP DE KEY"
+        end
+        if self.Name == "RemoteEvent" then
+            if Args[1] == "Reset" then
+                return nil
+            end
+            if Args[2] == "Enum.HumanoidStateType.PlatformStanding" then
+                return nil
+            end
+        end
+        return OldNameCall(self, ...)
     end
-     if self.Name == "RemoteEvent" then
-      if Args[1] == "Reset"  then
-            return nil
-      end
-  end
-    return OldNameCall(self, ...)
-end)
+)
+
+mobs = {}
+for i, v in pairs(game.Workspace.Living:GetChildren()) do
+    if v.ClassName == "Model" and v:FindFirstChild("AIHandler") and not table.find(mobs, v.Name) then
+        table.insert(mobs, v.Name)
+    end
+end
+Bees = {}
+for i, v in pairs(game:GetService("Workspace").Locations:GetChildren()) do
+    table.insert(Bees, v.Name)
+end
 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/dragonadventures/main/imretardedbadbusiness"))()
@@ -40,37 +87,57 @@ local Section1 = Tab1:CreateSection("")
 local Section2 = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
-Section1:CreateLabel("Low Features until")
-Section1:CreateLabel("i can figure out this game")
-local Toggle1 = Section1:CreateToggle("AutoCollect Items", nil, function(State)
-fo = State
-while fo do
+
+
+local Toggle1 = Section1:CreateToggle("AutoFarm Mobs", nil, function(State)
+yessir = State
+while yessir do
     wait()
     pcall(
         function()
-            for i, v in pairs(game:GetService("Workspace")["Item_Spawns"].Items:GetChildren()) do
-                if v:IsA("Model") and v:FindFirstChild("ClickDetector") and v:FindFirstChild("MeshPart") then
+            for i, v in pairs(game.Workspace.Living:GetChildren()) do
+                if
+                    v.ClassName == "Model" and v.Name == mobs and v:FindFirstChild("Humanoid") and
+                        v:FindFirstChildOfClass("Humanoid").Health ~= 0
+                 then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                        v.MeshPart.CFrame * CFrame.new(0, 1.5, 0)
-                    wait(0.3)
-                    fireclickdetector(v.ClickDetector)
-                    wait(0.5)
+                        v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+
+                    game:GetService("Players").LocalPlayer.Character.RemoteEvent:FireServer("Attack", "m1")
                 end
             end
         end
     )
 end
+end)
 
-end) 
+local Dropdown1 = Section1:CreateDropdown("Select Mob")
+Dropdown1:AddToolTip("Select Mob")
+for i,v in next, mobs do
+Dropdown1:AddOption(v, function(String)
+mobs = String
+end)
+end 
+
+local Button1 = Section1:CreateButton("Teleport Location", function()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Locations[Bees].CFrame
+end)
+local Dropdown1 = Section1:CreateDropdown("Select Locations")
+Dropdown1:AddToolTip("Select Locations")
+for i,v in next, Bees do
+Dropdown1:AddOption(v, function(String)
+Bees = String
+end)
+end 
 
 
-local TextBox1 = Section1:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
+local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
-local TextBox1 = Section1:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
+local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
 end)
-local Toggle1 = Section1:CreateToggle("Infinite Jump", nil, function(State)
+local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
 Infinite = State
 game:GetService("UserInputService").JumpRequest:connect(function()
 	if Infinite then
@@ -233,4 +300,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
