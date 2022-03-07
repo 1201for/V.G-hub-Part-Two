@@ -2,4 +2,6 @@ if game.PlaceId == 7816227995 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/dragonadventures/main/OwO'))()
 elseif game.PlaceId == 6198225400 then
 loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/dragonadventures/main/OwO'))()
+elseif game.PlaceId == 8793520828 then
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/dragonadventures/main/OwO'))()
 end
