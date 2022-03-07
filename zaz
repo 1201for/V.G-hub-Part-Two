@@ -186,7 +186,7 @@ getgenv().delay2 = 0
 getgenv().delay = 1
 getgenv().name = "MagicMan1240"
 aa = 0
-
+getgenv().Amount = 10
 
 local Vet = game:GetService("VirtualInputManager")
 local huh = {"Strength", "Magic", "Endurance"}
@@ -1312,6 +1312,33 @@ ESP:Toggle(State)
 ESP.Tracers = State
 ESP.Names = State
 ESP.Boxes = State
+end)
+
+local Button1 = Section1:CreateButton("Make Money Anoucement", function()
+if getgenv().MakeItRain == true then
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("This Cash Grab Was Sponsored By V.G Hub","All")
+end
+end)
+local Toggle1 = Section1:CreateToggle("Make It Rain Cash", nil, function(State)
+getgenv().MakeItRain = State
+while wait() and getgenv().MakeItRain do
+    pcall(
+        function()
+            for i, v in pairs(game.Players:GetPlayers()) do
+                if v ~= game.Players.LocalPlayer then
+                    game:GetService("ReplicatedStorage").RemoteEvents.CommandsRemote:FireServer(
+                        "!pay " .. v.Name .. " " .. getgenv().Amount
+                    )
+                end
+            end
+        end
+    )
+end
+
+end)
+Toggle1:AddToolTip("Warning this uses your cash use it wisely")
+local Slider2 = Section1:CreateSlider("Giving Money Amount", 0,1000,nil,false, function(Value)
+    getgenv().Amount = Value
 end)
 
 local Toggle1 = Section1:CreateToggle("Anti Leveling", nil, function(State)
