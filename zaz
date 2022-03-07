@@ -676,9 +676,6 @@ spawn(
                                     wait(getgenv().delay2)
                                     v.Humanoid.Health = 0
                                 end
-                                if v.Humanoid.Health == 0 then
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(5000,5000,5000)
-                                end 
                             until v.Humanoid.Health == 0 or okdidntask == false
                         
                         elseif not okdidntask then
@@ -738,9 +735,6 @@ spawn(
                                 if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
-                                if v.Humanoid.Health == 0 then
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(5000,5000,5000)
-                                end 
                             until v.Humanoid.Health == 0 or okdidntask1 == false
                      
                         elseif not okdidntask1 then
