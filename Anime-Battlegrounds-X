@@ -8,10 +8,6 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-local F = require(game:GetService("ReplicatedStorage").SupportModules.CamShake.CameraShaker)
-local Cooldown; Cooldown = hookfunction(F.StartShake, function(v)
-    return nil
-end);
 
 local K = require(game:GetService("ReplicatedStorage").Modules.Bins.PortData)
 for i,v in pairs(K) do wait(1)
@@ -69,7 +65,11 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
-
+local R = require(game:GetService("ReplicatedStorage").Modules.Bins.RebirthData)
+Rebirths = {}
+for i,v in pairs(R) do
+table.insert(Rebirths,i)
+end 
 
 getgenv().Speed = 300
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
@@ -194,6 +194,35 @@ Dropdown1:SetOption("Teleport")
 local Dropdown1 = Section1:CreateDropdown("Arenas", KO, function(String)
 	KO = String
 end)
+local Toggle1 = Section1:CreateToggle("Auto Rebirth", nil, function(State)
+Rebirth = State
+while wait() and Rebirth do 
+    pcall(function()
+    local numbers =
+        string.match(game:GetService("Players").LocalPlayer.PlayerGui.UI.HotbarArea.Hotbar.Health.Level.Text, "%d")
+    if tonumber(numbers) >= 300 then
+        game:GetService("ReplicatedStorage").Remotes.Rebirth:InvokeServer()
+    end
+    end)
+end
+end)
+
+local Toggle1 = Section1:CreateToggle("Auto Rebirth Upgrades", nil, function(State)
+Spend = State
+while Spend do
+    wait()
+    pcall(
+        function()
+            game:GetService("ReplicatedStorage").Remotes.SpendRebirthPoint:FireServer(Rebirths)
+        end
+    )
+end
+end)
+
+local Dropdown1 = Section1:CreateDropdown("Rebirth Upgrades", Rebirths, function(String)
+	Rebirths = String
+end)
+
 local Toggle1 = Section1:CreateToggle("Auto Abilty", nil, function(State)
 ee = State
 while ee do wait()
