@@ -662,11 +662,11 @@ spawn(
                             repeat
                                 wait()
                             until game.Players.LocalPlayer.Character and
+                            
                                 game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
                                     "QuestFrame"
                                 ) and
                                 game.Players.LocalPlayer:WaitForChild("Backpack"):FindFirstChildOfClass("Tool")
-
                             repeat
                                 wait()
                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
@@ -676,8 +676,11 @@ spawn(
                                     wait(getgenv().delay2)
                                     v.Humanoid.Health = 0
                                 end
+                            
                             until v.Humanoid.Health == 0 or okdidntask == false
-                        
+                                if v.Humanoid.Health == 0 then wait(1)
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(500,-300,500)
+                                end
                         elseif not okdidntask then
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                                 game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
@@ -735,8 +738,13 @@ spawn(
                                 if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
+                                if v.Humanoid.Health == 0 then
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(5000,5000,5000)
+                                end 
                             until v.Humanoid.Health == 0 or okdidntask1 == false
-                     
+                                if v.Humanoid.Health == 0 then wait(1)
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(500,-300,500)
+                                end 
                         elseif not okdidntask1 then
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                                 game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
