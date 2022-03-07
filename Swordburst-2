@@ -86,8 +86,21 @@ local Slider1 = Section4:CreateSlider("Tween Speed",0,300,nil,false, function(Va
 	getgenv().Speed = Value
 end)
 Slider1:SetValue(50)
-
-
+local Toggle1 = Section1:CreateToggle("Auto Invis", nil, function(State)
+Invis = State
+if Invis then
+local Clone = game.Players.LocalPlayer.Character.LowerTorso.Root:Clone()
+game.Players.LocalPlayer.Character.LowerTorso.Root:remove()
+Clone.Parent = game.Players.LocalPlayer.Character.LowerTorso
+end 
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+repeat wait() until game.Players.LocalPlayer.Character:WaitForChild("LowerTorso")
+wait(1)
+if Invis then
+local Clone = game.Players.LocalPlayer.Character.LowerTorso.Root:Clone()
+game.Players.LocalPlayer.Character.LowerTorso.Root:remove()
+Clone.Parent = game.Players.LocalPlayer.Character.LowerTorso
+end end) end)
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
 local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
