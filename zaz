@@ -738,9 +738,7 @@ spawn(
                                 if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
-                                if v.Humanoid.Health == 0 then
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(5000,5000,5000)
-                                end 
+
                             until v.Humanoid.Health == 0 or okdidntask1 == false
                                 if v.Humanoid.Health == 0 then wait(1)
                                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(500,-300,500)
