@@ -14,7 +14,7 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, C)
     end
     return OldNameCall(A, B, C)
 end)
-uu = 4
+uu = 75
 aa = 0
 getgenv().delay = 2
 getgenv().delay2 = 0
@@ -356,6 +356,14 @@ system = {
     "Rahgan's Minion",
     "Rahgan's Overseer"
 }
+
+local Part = Instance.new("Part", workspace)
+Part.Name = "poopy"
+Part.Size = Vector3.new(9e9, 0, 9e9)
+Part.Anchored = true
+Part.Transparency = 1
+
+
 local Vet = game:GetService("VirtualInputManager")
 local Players = game.Players
 local LocalPlayer = Players.LocalPlayer
@@ -479,6 +487,38 @@ end
 end)
 
 
+
+local Toggle1 = Section1:CreateToggle("StatusImmune", nil, function(State)
+gods = State
+game:GetService("RunService").Stepped:connect(function()
+pcall(function()
+        if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("StatusImmune") then
+            if gods then
+                game.Players.LocalPlayer.Character.CharacterValues.StatusImmune:remove()
+            end
+        end
+        end)
+    end
+)
+if not gods then
+    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end
+end)
+Toggle1:AddToolTip("Makes your StatusImmune to any stun attack such as fire etc")
+local Toggle1 = Section1:CreateToggle("No CooldownReduction", nil, function(State)
+nocool = State
+while wait() do
+    wait()
+    if nocool then
+        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = -9e9
+    else
+        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = 1
+    end
+end
+end)
+Toggle1:AddToolTip("Makes Abilitys have no anmation Cooldown")
+
+
 local Toggle1 = Section1:CreateToggle("Player Silent Aim", nil, function(State)
 getgenv().Player = State
 
@@ -571,36 +611,6 @@ OldIndex =
 )
 end)
 
-
-local Toggle1 = Section1:CreateToggle("StatusImmune", nil, function(State)
-gods = State
-game:GetService("RunService").Stepped:connect(function()
-pcall(function()
-        if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("StatusImmune") then
-            if gods then
-                game.Players.LocalPlayer.Character.CharacterValues.StatusImmune:remove()
-            end
-        end
-        end)
-    end
-)
-if not gods then
-    game.Players.LocalPlayer.Character.Humanoid.Health = 0
-end
-end)
-Toggle1:AddToolTip("Makes your StatusImmune to any stun attack such as fire etc")
-local Toggle1 = Section1:CreateToggle("No CooldownReduction", nil, function(State)
-nocool = State
-while wait() do
-    wait()
-    if nocool then
-        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = -9e9
-    else
-        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = 1
-    end
-end
-end)
-Toggle1:AddToolTip("Makes Abilitys have no anmation Cooldown")
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 local Esp = Section1:CreateToggle("Esp", nil, function(State)
 ESP:Toggle(State)
@@ -689,11 +699,33 @@ local Toggle1 = Section1:CreateToggle("Auto Quest", nil, function(State)
 getgenv().System = State
 game:GetService("RunService").Stepped:connect(
     function()
-        if getgenv().System then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-        end
+        pcall(
+            function()
+                if getgenv().System then
+                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+                    if game.Players.LocalPlayer.Character.Humanoid.Health == 0 then
+                        game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer()
+                        for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                            if v:IsA("Tool") and v:FindFirstChild("Combat Script") then
+                                v.Parent = game.Players.LocalPlayer.Backpack
+                            end
+                        end
+                    end
+                    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                        if
+                            v:FindFirstChild("Quest") and v.Quest.Value == Quest.QuestName.Text and
+                                v:FindFirstChildOfClass("Humanoid") and
+                                v:FindFirstChildOfClass("Humanoid").Health ~= 0 
+                         then
+                            v.Humanoid:ChangeState(11)
+                        end
+                    end
+                end
+            end
+        )
     end
 )
+
 spawn(
     function()
         while getgenv().System do
@@ -704,57 +736,141 @@ spawn(
                         game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
                         "QuestFrame"
                     )
-                    wait()
-
-                    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-                        if
-                            v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Quest") and
-                                v:WaitForChild("Quest").Value == Quest:WaitForChild("QuestName").Text and
-                                v:FindFirstChildOfClass("Humanoid") and
-                                v:FindFirstChildOfClass("Humanoid").Health ~= 0 then
-                                game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
-                                v:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, -7, 2)
-                            if v.Humanoid.Health < v.Humanoid.MaxHealth then
-                                wait(getgenv().delay2)
-                                v.Humanoid.Health = 0
-                            end
-                            if not getgenv().System then 
-                            v.HumanoidRootPart.CFrame = game:GetService("Workspace").QuestMarkers[Quest:WaitForChild("QuestName").Text].CFrame *
-                            CFrame.new(0, 50, 0) *
-                            CFrame.Angles(aa, 0, 0)
-                            end
-                            if
-                                game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 and
-                                    game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
-                             then
-                            end
-                        end
-                    end
                     if Quest.Visible == false then
                         repeat
                             wait()
-                        until game.Players.LocalPlayer.Character
-                        wait(3)
+                        until game.Players.LocalPlayer.Character and
+                            game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
+                                "QuestFrame"
+                            ) and
+                                game.Players.LocalPlayer:WaitForChild("Backpack"):FindFirstChildOfClass("Tool") or
+                            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+
                         game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
                             game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
                         )
                     end
-                    if not getgenv().System then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
-                            CFrame.Angles(aa, 0, 0)
+                    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                        if
+                            v:FindFirstChild("Quest") and v.Quest.Value == Quest.QuestName.Text and
+                                v:FindFirstChildOfClass("Humanoid") and
+                                v:FindFirstChildOfClass("Humanoid").Health ~= 0 
+                         then
+                            pcall(
+                                function()
+                                    if getgenv().Default1 == "Default" then
+                                        v:WaitForChild("HumanoidRootPart").CFrame =
+                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            CFrame.new(0, 0, -2)
+                                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                            game:GetService("Workspace").QuestMarkers[
+                                            Quest:WaitForChild("QuestName").Text
+                                        ].CFrame *
+                                            CFrame.new(0, -uu, 0) *
+                                            CFrame.Angles(aa, 0, 0)
+                                        Part.CFrame =
+                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            CFrame.new(0, -5, 0)
+                                    end
+                                    if getgenv().Default1 == "Sky" then
+                                        v:WaitForChild("HumanoidRootPart").CFrame =
+                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            CFrame.new(0, 0, -2)
+                                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                            game:GetService("Workspace").QuestMarkers[
+                                            Quest:WaitForChild("QuestName").Text
+                                        ].CFrame *
+                                            CFrame.new(0, uu, 0) *
+                                            CFrame.Angles(aa, 0, 0)
+                                        Part.CFrame =
+                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            CFrame.new(0, -5, 0)
+                                    end
+                                    if getgenv().Default1 == "Fancy" then
+                                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                            v:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, -5, 2)
+                                        Part.CFrame =
+                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            CFrame.new(0, -5, 0)
+                                    end
+                                    if getgenv().Default1 == "BeHind" then
+                                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                            v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                                    end
+                                    if getgenv().Default1 == "Crazy" then
+                                        wait(0.1)
+                                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                            game:GetService("Workspace").QuestMarkers[
+                                            Quest:WaitForChild("QuestName").Text
+                                        ].CFrame *
+                                            CFrame.new(math.random(100), -uu, math.random(100)) *
+                                            CFrame.Angles(aa, 0, 0)
+                                        Part.CFrame =
+                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            CFrame.new(0, -5, 0)
+                                        v.HumanoidRootPart.CFrame =
+                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            CFrame.new(0, 0, -3)
+                                    end
+                                    if getgenv().Default1 == "Void" then
+                                        repeat
+                                            wait()
+
+                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                                v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 0)
+                                        until isnetworkowner(v.HumanoidRootPart) or getgenv().System == false
+                                        v.HumanoidRootPart.CFrame =
+                                            game:GetService("Workspace").QuestMarkers[
+                                            Quest:WaitForChild("QuestName").Text
+                                        ].CFrame * CFrame.new(0, 50000, 0)
+                                        Part.CFrame =
+                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            CFrame.new(0, 7, 0)
+                                    end
+                                    if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                        wait(getgenv().delay2)
+                                        v.Humanoid.Health = 0
+                                    end
+
+                                    if not getgenv().System then
+                                        v.HumanoidRootPart.CFrame =
+                                            game:GetService("Workspace").QuestMarkers[
+                                            Quest:WaitForChild("QuestName").Text
+                                        ].CFrame *
+                                            CFrame.new(0, 50, 0) *
+                                            CFrame.Angles(aa, 0, 0)
+                                    end
+
+                                    if not getgenv().System then
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
+                                            CFrame.Angles(aa, 0, 0)
+                                    end
+                                end
+                            )
+                        end
                     end
                 end
             )
         end
     end
 )
+
 spawn(
     function()
         while getgenv().System do
             wait()
-            c()
-            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+            pcall(
+                function()
+                    if
+                        game.Players.LocalPlayer:WaitForChild("Backpack"):FindFirstChildOfClass("Tool") or
+                            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                     then
+                        c()
+                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                    end
+                end
+            )
         end
     end
 )
@@ -763,11 +879,45 @@ spawn(
 end)
 
 
+local Dropdown1 = Section1:CreateDropdown("Quest Modes", {"Default","Fancy","Sky","BeHind","Crazy","Void"}, function(String)
+	getgenv().Default1 = String
+end)
+Dropdown1:SetOption("Fancy")
+
+
 local Dropdown1 = Section1:CreateDropdown("Quests", Quests, function(String)
 	Quests = String
 end)
 
+local Toggle1 = Section1:CreateToggle("InstantKill", nil, function(State)
+getgenv().InstantKill = State
 
+while getgenv().InstantKill do
+    wait()
+    pcall(
+        function()
+            for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                if v:FindFirstChild("Humanoid") and 
+                    v.Humanoid.Health ~= 0 and isnetworkowner(v.HumanoidRootPart) and
+                        v.Humanoid.Health < v.Humanoid.MaxHealth
+                 then
+                    v.Humanoid.Health = 0
+                end
+            end
+        end
+    )
+end
+if getgenv().InstantKill then
+    game.StarterGui:SetCore(
+        "SendNotification",
+        {
+            Title = "if it dosen't work",
+            Text = "Minmize the roblox tab and then reopen it should work again"
+        }
+    )
+end
+
+end)
 
 getgenv().magss = 100
 local Toggle1 = Section1:CreateToggle("Auto Bring Mob", nil, function(State)
@@ -806,7 +956,7 @@ pcall(
     end
 )
 end)
-local Slider2 = Section1:CreateSlider("Attack Distance", 0,7,nil,false, function(Value)
+local Slider2 = Section1:CreateSlider("Attack Distance", 0,300,nil,false, function(Value)
 uu = Value
 end)
 local Slider2 = Section1:CreateSlider("Bring Radius", 0,1000,nil,false, function(Value)
@@ -822,7 +972,7 @@ end)
 local Button1 = Section1:CreateButton("Redeem Selected Code", function()
 game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(code)
 end)
-local Dropdown1 = Section1:CreateDropdown("Mobs", code, function(String)
+local Dropdown1 = Section1:CreateDropdown("Codes", code, function(String)
 	code = String
 end)
 
@@ -905,52 +1055,44 @@ local A = game.Players.LocalPlayer
 while Dragoon do
     wait()
     pcall(function()
-    if K.DragonBall1.Value == false then
-        wait(getgenv().delay)
+    if K.DragonBall1.Value == false and A.Backpack:FindFirstChild("One Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["One Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall2.Value == false then
-        wait(getgenv().delay)
+
+    elseif K.DragonBall2.Value == false and A.Backpack:FindFirstChild("Two Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Two Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall3.Value == false then
-        wait(getgenv().delay)
+
+    elseif K.DragonBall3.Value == false and A.Backpack:FindFirstChild("Three Star Dragonball")  then
         A.Character.Humanoid:EquipTool(A.Backpack["Three Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall4.Value == false then
-        wait(getgenv().delay)
+
+    elseif K.DragonBall4.Value == false and A.Backpack:FindFirstChild("Four Star Dragonball")  then
         A.Character.Humanoid:EquipTool(A.Backpack["Four Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall5.Value == false then
-        wait(getgenv().delay)
+
+    elseif K.DragonBall5.Value == false and A.Backpack:FindFirstChild("Five Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Five Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall6.Value == false then
-        wait(getgenv().delay)
+
+    elseif K.DragonBall6.Value == false and A.Backpack:FindFirstChild("Six Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Six Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-    end
-    if K.DragonBall7.Value == false then
-        wait(getgenv().delay)
+
+    elseif K.DragonBall7.Value == false and A.Backpack:FindFirstChild("Seven Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Seven Star Dragonball"])
         game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
     end
-    end)
+  end)
 end
 end)
 
 
-
 local Button1 = Section2:CreateButton("Find Lucky or Requiem Arrows", function()
-hunt = true
+getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hunt do
+while getgenv().LOL do
     wait()
     if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
         for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
@@ -965,7 +1107,7 @@ while hunt do
                         Text = "Check your inventory plz"
                     }
                 )
-                hunt = false
+                getgenv().LOL = false
             end
         end
     else
@@ -975,10 +1117,10 @@ end
 end)
 
 local Button1 = Section2:CreateButton("Find Uchiha Eyeball", function()
-hhg = true
+getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hhg do
+while getgenv().LOL do
     wait()
     game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
     if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
@@ -992,7 +1134,7 @@ while hhg do
                         Text = "Check your inventory plz"
                     }
                 )
-                hhg = false
+                getgenv().LOL = false
             elseif  v.ClassName == "Tool" and not v:FindFirstChild("Meshes/Sphere_009") and not v:FindFirstChild("Combat Script") then 
                 v.Parent = game.Players.LocalPlayer.Character
                 v:remove()
@@ -1003,10 +1145,10 @@ end
 end)
 
 local Button1 = Section2:CreateButton("Find Legendary Armor", function()
-hhfg = true
+getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hhfg do
+while getgenv().LOL do
     wait()
     pcall(
         function()
@@ -1023,7 +1165,7 @@ while hhfg do
                                     Text = "Check your inventory plz"
                                 }
                             )
-                            hhfg = false
+                            getgenv().LOL = false
                         elseif v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Rarity.Text == "Rare" then
                             v.Parent = game.Players.LocalPlayer.Character
                             v:remove()
@@ -1037,10 +1179,10 @@ end
 
 end)
 local Button1 = Section2:CreateButton("Find Rare Armor", function()
-hhfg = true
+getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hhfg do
+while getgenv().LOL do
     wait()
     pcall(
         function()
@@ -1057,7 +1199,7 @@ while hhfg do
                                     Text = "Check your inventory plz"
                                 }
                             )
-                            hhfg = false
+                            getgenv().LOL = false
                         elseif v.BagPart.Overhead.Rarity.Text == "Common" then
                             v.Parent = game.Players.LocalPlayer.Character
                             v:remove()
@@ -1071,10 +1213,10 @@ end
 
 end)
 local Button1 = Section2:CreateButton("Find Rare Accessory", function()
-hh1fg = true
+getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hh1fg do
+while getgenv().LOL do
     wait()
     pcall(
         function()
@@ -1091,7 +1233,7 @@ while hh1fg do
                                     Text = "Check your inventory plz"
                                 }
                             )
-                            hh1fg = false
+                            getgenv().LOL = false
                         elseif
                             v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Rarity.Text == "Uncommon"
                          then
@@ -1107,10 +1249,10 @@ end
 end)
 
 local Button1 = Section2:CreateButton("Find Uncommon Accessory", function()
-hh1fg1 = true
+getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while hh1fg1 do
+while getgenv().LOL do
     wait()
     pcall(
         function()
@@ -1127,7 +1269,7 @@ while hh1fg1 do
                                     Text = "Check your inventory plz"
                                 }
                             )
-                            hh1fg1 = false
+                            getgenv().LOL = false
                         elseif
                             v.BagPart.Overhead.Rarity.Text == "Common" 
                          then
@@ -1141,6 +1283,87 @@ while hh1fg1 do
     )
 end
 end)
+
+local Button1 = Section2:CreateButton("Stop Finding", function()
+getgenv().LOL = false
+end)
+local Toggle1 = Section2:CreateToggle("Find and Store Lucky/Requiem Arrows", nil, function(State)
+getgenv().LL = State
+
+while getgenv().LL do
+    wait()
+    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+            if not table.find(aka, v.Name) and v.Name:find("Arrow") then
+                   for a = 1, 13 do
+                    for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                        if v.Name:match("ItemStorage" .. a) and v.Value ~= "" then
+                            break end end end 
+                v.Parent = game.Players.LocalPlayer.Character
+                v:Destroy()
+            elseif v.Name:find("Arrow") and table.find(aka, v.Name) then
+                game.StarterGui:SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Found One",
+                        Text = "Putting in inventory"
+                    }
+                )
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                for i = 1, 13 do
+                    for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                        if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
+                            game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                        end
+                    end
+                end
+                wait(3)
+            end
+        end
+    else
+        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+    end
+end
+end)
+
+local Toggle1 = Section2:CreateToggle("Find and Store Requiem Arrows", nil, function(State)
+getgenv().LL = State
+
+while getgenv().LL do
+    wait()
+    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+            if v.Name ~= "Requiem Arrow" and v:FindFirstChild("Blade") then
+            
+                v.Parent = game.Players.LocalPlayer.Character
+                v:Destroy()
+            elseif  v.Name == "Requiem Arrow" and v:FindFirstChild("Blade") then
+                game.StarterGui:SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Found One",
+                        Text = "Putting in inventory"
+                    }
+                )
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                for i = 1, 13 do
+                    for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                        if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
+                            game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                        end
+                    end
+                end
+                wait(3)
+            end
+        end
+    else
+        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+    end
+end
+end)
+
+
+
 
 local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, function(Value)
    getgenv().delay = Value
