@@ -40,19 +40,21 @@ local function getNearestOrbs()
     return Target
 end
 
-
-repeat wait() until game:GetService("Workspace"):WaitForChild("__MAP")
+repeat wait() until game.Players.LocalPlayer.Character
+repeat wait() until game:GetService("Workspace")["__MAP"]
 
 
 quest = {}
 for i,v in pairs(game:GetService("Workspace")["__MAP"].Areas:GetDescendants()) do
 if v:IsA("Folder") then
 table.insert(quest,v.Name)
+table.sort(quest)
 end end 
 local eggs = require(game:GetService("ReplicatedStorage"):WaitForChild("Framework"):WaitForChild("Library")).Directory.Eggs
 local yes = {}
 for i,v in pairs(eggs) do
     table.insert(yes, i)
+    table.sort(yes)
 end
 
 
@@ -107,13 +109,13 @@ end
 function get(v)
     return Save()[v]
 end
-pcall(function()
+
 game:GetService("Players").LocalPlayer.PlayerGui.Main.Right.Diamonds.LayoutOrder = 99988
 game:GetService("Players").LocalPlayer.PlayerGui.Main.Right['Tech Coins'].LayoutOrder = 99992
 game:GetService("Players").LocalPlayer.PlayerGui.Main.Right['Fantasy Coins'].LayoutOrder = 99994
 game:GetService("Players").LocalPlayer.PlayerGui.Main.Right.Coins.LayoutOrder = 99996
 game:GetService("Players").LocalPlayer.PlayerGui.Main.Right.UIListLayout.HorizontalAlignment = 2
-end)
+
 getgenv().MyTables = {}
 for i,v in pairs(Tables) do
     if game:GetService("Players").LocalPlayer.PlayerGui.Main.Right:FindFirstChild(v.."2") then
