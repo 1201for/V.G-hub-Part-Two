@@ -1314,13 +1314,7 @@ game.DescendantAdded:Connect(
 
 end)
 
-local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
-local Esp = Section1:CreateToggle("Esp", nil, function(State)
-ESP:Toggle(State)
-ESP.Tracers = State
-ESP.Names = State
-ESP.Boxes = State
-end)
+
 
 local Button1 = Section1:CreateButton("Make Money Anoucement", function()
 if getgenv().MakeItRain == true then
