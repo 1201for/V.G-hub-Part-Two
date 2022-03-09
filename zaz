@@ -1280,7 +1280,61 @@ local Dropdown1 = Section2:CreateDropdown("Specializations", Specializations, fu
 	Specializations = String
 end)
 
+local Toggle1 = Section2:CreateToggle("AutoKeyPress E", nil, function(State)
+getgenv().E = State
+while getgenv().E do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
+end 
+end)
 
+local Toggle1 = Section2:CreateToggle("AutoKeyPress R", nil, function(State)
+getgenv().R = State
+while getgenv().R do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"R",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress X", nil, function(State)
+getgenv().X = State
+while getgenv().X do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"X",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress C", nil, function(State)
+getgenv().C = State
+while getgenv().C do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"C",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress Y", nil, function(State)
+getgenv().Y = State
+while getgenv().Y do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"Y",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress V", nil, function(State)
+getgenv().V = State
+while getgenv().V do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"V",false,uwu)
+end 
+end)
+
+local Toggle1 = Section2:CreateToggle("AutoKeyPress T", nil, function(State)
+getgenv().T = State
+while getgenv().T do 
+    wait()
+game:GetService('VirtualInputManager'):SendKeyEvent(true,"T",false,uwu)
+end 
+end)
 local Toggle1 = Section2:CreateToggle("Streamer Mode", nil, function(State)
 getgenv().R = State
 getgenv().d = "ImNumNums"
@@ -1314,7 +1368,13 @@ game.DescendantAdded:Connect(
 
 end)
 
-
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+local Esp = Section1:CreateToggle("Esp", nil, function(State)
+ESP:Toggle(State)
+ESP.Tracers = State
+ESP.Names = State
+ESP.Boxes = State
+end)
 
 local Button1 = Section1:CreateButton("Make Money Anoucement", function()
 if getgenv().MakeItRain == true then
@@ -1411,6 +1471,22 @@ end) end)
 local words = {"V.G Hub Best","Autofarming with V.G hub makes this game ten times easier","DekuDimz is so cool fast updates ez",'V.G Hub has the only working godmode','im pround to be using V.G Hub OwO','why are you just standing around get yourself V.G hub its free dude','Honestly if your not using godmode your a dork','Random messging is funny','i have auto chat enabled LOL',
 'V.G Hub Winning','V.G Hub on Top'
 }
+
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+
+local Toggle1 = Section2:CreateToggle("Player Esp", nil, function(State)
+    ESP:Toggle(State)
+end)
+local Toggle1 = Section2:CreateToggle("Tracers Esp", nil, function(State)
+    ESP.Tracers = State
+end)
+local Toggle1 = Section2:CreateToggle("Name Esp", nil, function(State)
+    ESP.Names = State
+end)
+local Toggle1 = Section2:CreateToggle("Boxes Esp", nil, function(State)
+    ESP.Boxes = State
+end)
+
 local Toggle1 = Section2:CreateToggle("Spam Chat", nil, function(State)
 words1 = State
 while words1 do wait(5)
@@ -1454,17 +1530,6 @@ spawn(
         game:GetService("RunService").Stepped:connect(
             function()
                 if getgenv().Mob then
-                for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
-                    coroutine.wrap(
-                        function()
-                            --Credits for help/teaching me coroutine.wrap by nil#0001
-
-                            Vet:SendKeyEvent(true, v, false, game)
-                        end
-                    )()
-                end
-                c()
-                
                     pcall(
                         function()
                             game:GetService("Players").LocalPlayer.Backpack.Scripts.TeleportToCacScript.Disabled = true
