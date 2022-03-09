@@ -30,7 +30,8 @@ local Table = {
     "Sound Breathing",
     "Wind Breathing",
     "Flame Breathing",
-    "Water Breathing"
+    "Water Breathing",
+    "Yami's Dark Magic"
 }
 local Races = {
     "Human",
