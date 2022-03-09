@@ -1020,7 +1020,7 @@ spawn(
                                     v.Humanoid.Health > 0
                          then
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(aa, 0, 0)
+                                v.Torso.CFrame * CFrame.new(0, -5, 2) * CFrame.Angles(aa, 0, 0)
                             wait(getgenv().delay2)
                             c()
                             game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
