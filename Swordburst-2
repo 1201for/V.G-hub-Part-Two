@@ -60,11 +60,11 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 ----------
-
+spawn(function()
 while wait(0.3) and getgenv().B do
     pcall(
         function()
-            
+
             local Time =
                 (getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, 5) -
                 game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().Speed
@@ -79,7 +79,14 @@ while wait(0.3) and getgenv().B do
             game:GetService("ReplicatedStorage").Event:FireServer("Combat",key,{"Attack",nil,"1",getNearestMob()})
         end
     )
-end
+end end)
+spawn(function()
+while wait()and getgenv().B do 
+
+if getNearestMob().Entity.Health.Value <= getNearestMob().Entity.Health.MaxValue then
+wait(10)
+getNearestMob():remove()
+end end end)
 end)
 
 local Slider1 = Section4:CreateSlider("Tween Speed",0,300,nil,false, function(Value)
