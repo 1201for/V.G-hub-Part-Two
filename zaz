@@ -1368,13 +1368,7 @@ game.DescendantAdded:Connect(
 
 end)
 
-local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
-local Esp = Section1:CreateToggle("Esp", nil, function(State)
-ESP:Toggle(State)
-ESP.Tracers = State
-ESP.Names = State
-ESP.Boxes = State
-end)
+
 
 local Button1 = Section1:CreateButton("Make Money Anoucement", function()
 if getgenv().MakeItRain == true then
@@ -1474,16 +1468,16 @@ local words = {"V.G Hub Best","Autofarming with V.G hub makes this game ten time
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
-local Toggle1 = Section2:CreateToggle("Player Esp", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
     ESP:Toggle(State)
 end)
-local Toggle1 = Section2:CreateToggle("Tracers Esp", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Tracers Esp", nil, function(State)
     ESP.Tracers = State
 end)
-local Toggle1 = Section2:CreateToggle("Name Esp", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Name Esp", nil, function(State)
     ESP.Names = State
 end)
-local Toggle1 = Section2:CreateToggle("Boxes Esp", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
     ESP.Boxes = State
 end)
 
