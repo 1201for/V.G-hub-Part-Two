@@ -54,6 +54,9 @@ local function bodyvel(Part, Speed, Destination, Extra, waittime)
     end
 end
 
+getgenv().Speed = 100
+getgenv().Distance = 2000
+getgenv().Delay = 3
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -69,16 +72,28 @@ local Toggle1 = Section1:CreateToggle("AutoFarm", nil, function(State)
 getgenv().Ok = State
 while wait() and getgenv().Ok do
     pcall(
-        function()            
-            bodyvel(GetCar().PrimaryPart, 66, Vector3.new(-1640, 5, -11190), math.huge, math.huge, math.huge, 2)
-            bodyvel(GetCar().PrimaryPart, 66, Vector3.new(-2136, 5, -11082), math.huge, math.huge, math.huge, 2)
-            wait()
+        function()
+            game.Workspace.Gravity = 0
+            GetCar():SetPrimaryPartCFrame(CFrame.new(0, 100, 0))
+            bodyvel(game.Players.LocalPlayer.Character.Head, getgenv().Speed, Vector3.new(0, 100, getgenv().Distance), math.huge, math.huge, math.huge, 2)
+            wait(getgenv().Delay)
+            game.Workspace.Gravity = 196.2
         end
     )
 end
 end)
 
+local Slider3 = Section1:CreateSlider("AutoFarm Speed",0,1000,nil,false, function(Value)
+	getgenv().Speed = Value
+end)
 
+local Slider3 = Section1:CreateSlider("AutoFarm Distance",0,10000,nil,false, function(Value)
+	getgenv().Distance = Value
+end)
+
+local Slider3 = Section1:CreateSlider("AutoFarm Delay",0,7,nil,false, function(Value)
+	getgenv().Delay = Value
+end)
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
@@ -436,4 +451,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
