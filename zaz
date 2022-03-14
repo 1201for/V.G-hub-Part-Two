@@ -11,6 +11,10 @@ aka = {
     "Requiem Arrow",
     "Lucky Arrow"
 }
+aka2 ={ 
+    "Platnium Heart",
+    "Silver Heart"
+}
 local Table = {
     "Technician of Time Guldo",
     "Never Ending Battle Vegeta", 
@@ -983,6 +987,34 @@ while getgenv().LOL do
     end
 end
 end)
+
+local Button1 = Section2:CreateButton("Find Silver or Platheart", function()
+getgenv().LOL = true
+game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+wait(0.5)
+while getgenv().LOL do
+    wait()
+    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if not table.find(aka2, v.Name) and v.Name:find("Heart") then
+                v.Parent = game.Players.LocalPlayer.Character
+                v:Destroy()
+            elseif v.Name:find("Heart") and table.find(aka2, v.Name) then
+                game.StarterGui:SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Found One",
+                        Text = "Check your inventory plz"
+                    }
+                )
+                getgenv().LOL = false
+            end
+        end
+    else
+        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
+    end
+end
+end)
 local Button1 = Section2:CreateButton("Find Legendary Armor not avabible ", function()
 getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
@@ -1166,6 +1198,83 @@ end
 end)
 
 
+local Toggle1 = Section2:CreateToggle("Find and Store Silver/Platnium Hearts", nil, function(State)
+getgenv().LL = State
+
+while getgenv().LL do
+    wait()
+    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+            if not table.find(aka2, v.Name) and v.Name:find("Heart") then
+                   for a = 1, 13 do
+                    for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                        if v.Name:match("ItemStorage" .. a) and v.Value ~= "" then
+                            break end end end 
+                v.Parent = game.Players.LocalPlayer.Character
+                v:Destroy()
+            elseif v.Name:find("Heart") and table.find(aka2, v.Name) then
+                game.StarterGui:SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Found One",
+                        Text = "Putting in inventory"
+                    }
+                )
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                for i = 1, 13 do
+                    for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                        if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
+                            game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                        end
+                    end
+                end
+                wait(3)
+            end
+        end
+    else
+        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
+    end
+end
+end)
+
+local Toggle1 = Section2:CreateToggle("Find and Store Platnium Hearts", nil, function(State)
+getgenv().LL = State
+
+while getgenv().LL do
+    wait()
+    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+            if not string.find("Platnium", v.Name) and v.Name:find("Heart") then
+                   for a = 1, 13 do
+                    for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                        if v.Name:match("ItemStorage" .. a) and v.Value ~= "" then
+                            break end end end 
+                v.Parent = game.Players.LocalPlayer.Character
+                v:Destroy()
+            elseif v.Name:find("Heart") and string.find("Platnium", v.Name) then
+                game.StarterGui:SetCore(
+                    "SendNotification",
+                    {
+                        Title = "Found One",
+                        Text = "Putting in inventory"
+                    }
+                )
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                for i = 1, 13 do
+                    for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                        if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
+                            game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                        end
+                    end
+                end
+                wait(3)
+            end
+        end
+    else
+        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
+    end
+end
+end)
 
 local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, function(Value)
    getgenv().delay = Value
