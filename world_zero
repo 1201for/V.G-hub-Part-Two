@@ -10,8 +10,8 @@ end)
 
 
 
-local Speed  = 1; 
-local MaxDistance = 100
+local Speed  = 0.4; 
+
 --  i stole this from ICEE#0004 UwU
 -- jk check credits
 local Classes = {
