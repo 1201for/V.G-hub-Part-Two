@@ -102,6 +102,7 @@ game:GetService("RunService").Stepped:connect(
         end
     end
 )
+spawn(function()
 while wait() and auto do
     pcall(
         function()
@@ -116,13 +117,25 @@ while wait() and auto do
                 {CFrame = CFrame.new(getNearestMobs().HumanoidRootPart.CFrame.p + Vector3.new(0, 5, 0))}
             )
             Tween:Play()
-            game:GetService("VirtualInputManager"):SendKeyEvent(true, 49, false, uwu)
-            game:GetService("VirtualInputManager"):SendKeyEvent(true, 50, false, uwu)
-            game:GetService("VirtualInputManager"):SendKeyEvent(true, 51, false, uwu)
-            game:GetService("VirtualInputManager"):SendKeyEvent(true, 52, false, uwu)
         end
     )
 end
+end)
+spawn(
+    function()
+        while auto do
+            wait(1)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, 49, false, uwu)
+            wait(0.5)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, 50, false, uwu)
+            wait(0.5)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, 51, false, uwu)
+            wait(0.5)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, 52, false, uwu)
+            wait(0.5)
+        end
+    end
+)
 
 end)
 
@@ -462,3 +475,4 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
