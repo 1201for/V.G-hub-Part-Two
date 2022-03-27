@@ -451,7 +451,7 @@ spawn(
                             game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
 
                         game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
-                            game:GetService("ReplicatedStorage").Quests:FindFirstChild(Settings.Quests)
+                            game:GetService("ReplicatedStorage").Quests:FindFirstChild(Settings.Quest)
                         )
                     end
                     for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
@@ -587,7 +587,7 @@ end)
 local Dropdown1 = Section1:CreateDropdown("Quest Modes", {"Default","Fancy","Sky","BeHind","Crazy","Void"}, function(String)
 	Settings.Modes = String
 end)
-
+Dropdown1:SetOption("Default")
 
 
 
