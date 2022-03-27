@@ -1515,23 +1515,29 @@ game:GetService('VirtualInputManager'):SendKeyEvent(true,"T",false,uwu)
 end 
 end)
 end)
+
+
 local Toggle1 = Section2:CreateToggle("Streamer Mode", Settings.Name, function(State)
 Settings.Name = State
+Settings.FakeName = ""
 for i, v in next, game:GetDescendants() do
+    pcall(function()
     if v.ClassName == "TextLabel" and Settings.Name then
         if string.find(v.Text, game.Players.LocalPlayer.Name) then
-            v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, d)
+            v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, Settings.FakeName)
         end
         v:GetPropertyChangedSignal("Text"):Connect(
             function()
-                v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, d)
+                v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, Settings.FakeName)
             end
         )
     end
+    end)
 end
 
 game.DescendantAdded:Connect(
     function(v)
+        pcall(function()
         if v.ClassName == "TextLabel" and Settings.Name then
             v:GetPropertyChangedSignal("Text"):Connect(
                 function()
@@ -1542,6 +1548,7 @@ game.DescendantAdded:Connect(
                 v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, d)
             end
         end
+        end)
     end
 )
 
@@ -1640,6 +1647,7 @@ while Settings.UU do
 end
 end)
 end)
+
 
 
 local Toggle1 = Section2:CreateToggle("SS Float Mobs", nil, function(State)
