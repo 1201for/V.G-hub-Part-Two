@@ -1519,7 +1519,7 @@ end)
 
 local Toggle1 = Section2:CreateToggle("Streamer Mode", Settings.Name, function(State)
 Settings.Name = State
-Settings.FakeName = ""
+Settings.FakeName = "OkButWhoAsked"
 for i, v in next, game:GetDescendants() do
     pcall(function()
     if v.ClassName == "TextLabel" and Settings.Name then
@@ -1541,11 +1541,11 @@ game.DescendantAdded:Connect(
         if v.ClassName == "TextLabel" and Settings.Name then
             v:GetPropertyChangedSignal("Text"):Connect(
                 function()
-                    v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, d)
+                    v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, Settings.FakeName)
                 end
             )
             if string.find(v.Text, game.Players.LocalPlayer.Name) then
-                v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, d)
+                v.Text = v.Text:gsub(game.Players.LocalPlayer.Name, Settings.FakeName)
             end
         end
         end)
