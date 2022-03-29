@@ -306,7 +306,7 @@ Mouse.KeyDown:connect(
             Max = Max + 1
             getgenv().Fly = false
             if Settings.Sex2 then
-                local T = LP.Character.Torso
+                local T = LP.Character.UpperTorso
                 local S = {
                     F = 0,
                     B = 0,
