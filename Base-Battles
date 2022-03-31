@@ -27,7 +27,6 @@ FreeForAll= false,
 WallCheck = false,
 Enabled = false,
 FOV = 250,
-Smoothness = 0.25
 }
 local Shoot = false
 
@@ -65,7 +64,8 @@ function GetClosestToCuror()
     Closest = math.huge
     Target = nil
     for _,v in pairs(game:GetService("Players"):GetPlayers()) do
-            if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character.HumanoidRootPart.Nametag.Arrow.ImageColor3 == Color3.fromRGB(255, 0, 0) then
+        if FreeForAll(v) then
+            if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0  then
                 Point,OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
                 if OnScreen and NotObstructing(v.Character.HumanoidRootPart.Position,{game.Players.LocalPlayer.Character,v.Character}) then
                     Distance = (Vector2.new(Point.X,Point.Y) - Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
@@ -76,28 +76,19 @@ function GetClosestToCuror()
                   end
                end
             end
+         end
     return Target
 end 
 
-game:GetService("RunService").RenderStepped:Connect(
-    function()
-        if getgenv().AimBot.Enabled == false or Shoot == false then
-            return
-        end
-        ClosestPlayer = GetClosestToCuror()
-        if ClosestPlayer then
-            local Mouse = game:GetService("UserInputService"):GetMouseLocation()
-            local TargetPos = game.workspace.Camera:WorldToViewportPoint(ClosestPlayer.Character[getgenv().AimPart].Position)
-            mousemoverel(
-                (TargetPos.X - Mouse.X) / getgenv().AimBot.Smoothness,
-                (TargetPos.Y - Mouse.Y) / getgenv().AimBot.Smoothness
-            )
-        end
-    end
-)
-
-
-
+game:GetService('RunService').Stepped:connect(function()
+pcall(function()
+    if getgenv().AimBot.Enabled == false or Shoot == false then return end
+    ClosestPlayer = GetClosestToCuror()
+    if ClosestPlayer then
+     workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.p,ClosestPlayer.Character[getgenv().AimPart].CFrame.p)
+    end 
+end)
+end)
 getgenv().Head = 5
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -111,37 +102,6 @@ local Section5 = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
-
---[[
-local Toggle1 = Section1:CreateToggle("Aimbot", nil, function(State)
-    getgenv().AimBot.Enabled = State
-end)
-
-
-local Dropdown1 = Section1:CreateDropdown("HitPart", {"HumanoidRootPart","Head","UpperTorso","LowerTorso","Random"}, function(String)
-	getgenv().AimPart = String
-end)
-Dropdown1:AddToolTip("Select AimPart")
-Dropdown1:SetOption("HumanoidRootPart")
-
-local Toggle1 = Section1:CreateToggle("WallCheck", nil, function(State)
-    getgenv().AimBot.WallCheck = State
-end)
-
-local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,nil,false, function(Value)
-    getgenv().AimBot.FOV = Value
-    Circle.Radius = Value
-end)
-local Slider2 = Section1:CreateSlider("Aimbot Smoothness", 0,10,nil,false, function(Value)
-    getgenv().AimBot.Smoothness = Value
-end)
-local Toggle1 = Section1:CreateToggle("Circle Visible", nil, function(State)
-   Circle.Visible = State
-end)
-
-local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
-    Circle.Color = Color
-end)]]--
 local Toggle1 = Section1:CreateToggle("FullBright", nil, function(State)
 FullBright = State
         if FullBright then
@@ -167,6 +127,34 @@ game.Lighting.Changed:connect(
     end
 )
 end)
+
+local Toggle1 = Section1:CreateToggle("Aimbot", nil, function(State)
+    getgenv().AimBot.Enabled = State
+end)
+
+local Toggle1 = Section1:CreateToggle("FreeForAll", nil, function(State)
+    getgenv().AimBot.FreeForAll = State
+end)
+
+local Toggle1 = Section1:CreateToggle("WallCheck", nil, function(State)
+    getgenv().AimBot.WallCheck = State
+end)
+
+local Slider2 = Section1:CreateSlider("Aimbot Smoothness", 0,10,nil,false, function(Value)
+    getgenv().AimBot.Smoothness = Value
+end)
+local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,nil,false, function(Value)
+    getgenv().AimBot.FOV = Value
+    Circle.Radius = Value
+end)
+local Toggle1 = Section1:CreateToggle("Circle Visible", nil, function(State)
+   Circle.Visible = State
+end)
+
+local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
+    Circle.Color = Color
+end)
+
 
 local Toggle1 = Section1:CreateToggle("Silent Aim", nil, function(State)
 getgenv().SilentAim = State
@@ -198,13 +186,14 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
     local Args = {...}
     if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  getgenv().SilentAim  then
         local GivemeHead = ClosestPlayerToCurser()
-        if GivemeHead and GivemeHead.Character and GivemeHead.Character.FindFirstChild(GivemeHead.Character, "Head") then
-            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.Character.Head.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
+        if GivemeHead   then
+            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.Character.HumanoidRootPart.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
             return OldNameCall(self, unpack(Args))
         end
     end
     return OldNameCall(self, ...)
-end)end)
+end)
+end)
 
 local Toggle1 = Section1:CreateToggle("HitBox Extender", nil, function(State)
 getgenv().On = State
@@ -212,7 +201,7 @@ getgenv().On = State
 game:GetService('RunService').Stepped:connect(function()
      pcall(function() if getgenv().On then
     for _, v in pairs(game.Players:GetPlayers()) do
-        if v ~= game.Players.LocalPlayer and v.Character and v.Character.HumanoidRootPart.Nametag.Arrow.ImageColor3 == Color3.fromRGB(255, 0, 0) then
+        if v ~= game.Players.LocalPlayer and v.Character and v.Character.HumanoidRootPart.Nametag.Arrow.ImageColor3 ~= Color3.fromRGB(34, 255, 143) then
             v.Character.HumanoidRootPart.CanCollide = false
             v.Character.HumanoidRootPart.Material = "Neon"
             v.Character.HumanoidRootPart.Transparency = 0.5
@@ -596,3 +585,5 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
+
