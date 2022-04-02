@@ -7,7 +7,14 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(v, ...)
+    local Args = {...}
+    if not checkcaller() and v == "WalkSpeed" or v == "JumpPower" then
+            return 
+    end
+    return OldNameCall(v, ...)
+end)
 
 
 local function getNearestTricket()
@@ -30,6 +37,21 @@ local function getNearestSlayer()
     local Target
     for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
         if v.Name:match("Slayer") and v:FindFirstChild("HumanoidRootPart")  then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
+            if Mag < TargetDistance then
+                TargetDistance = Mag
+                Target = v
+            end
+        end
+    end
+    return Target
+end;
+
+local function getNearestDemon()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
+        if v:FindFirstChild("Demon") and v:FindFirstChild("HumanoidRootPart")  then
             local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
             if Mag < TargetDistance then
                 TargetDistance = Mag
@@ -151,6 +173,38 @@ end
 end)
 
 
+local Toggle1 = Section1:CreateToggle("Defeat Closest Demon", nil, function(State)
+my = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        pcall(
+            function()
+                if my then
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                        if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestDrop().Position).Magnitude < 50 then
+    Tween(game.Players.LocalPlayer.Character.HumanoidRootPart, getNearestDrop().CFrame.p, getgenv().Tween)
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+    end
+                end
+            end
+        )
+    end
+)
+while my do
+    pcall(function()
+    wait()
+    game:GetService("ReplicatedStorage").Remotes.Sync:InvokeServer("Character", "Execute")
+    game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana", "Server")
+    game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana", "EquippedEvents", true, true)
+    Tween(
+        game.Players.LocalPlayer.Character.HumanoidRootPart,
+        getNearestDemon().HumanoidRootPart.CFrame.p + Vector3.new(0,-3,3),
+        getgenv().Tween
+    )
+    end)
+end
+end)
+
 local Slider2 = Section1:CreateSlider("Tween Speed", 0,75,nil,false, function(Value)
 getgenv().Tween = Value
 end)
@@ -197,13 +251,13 @@ local Toggle1 = Section1:CreateToggle("Anti Sun", nil, function(State)
 falls = State
 local OldNamecall
 OldNamecall =
-    hookmetamethod(game,"__namecall",function(Self, ...)
+    hookmetamethod(game,"__namecall",function(self, ...)
         local shit = {...}
-        if getnamecallmethod() == "FireServer" and game:GetService "ReplicatedStorage".Remotes.Async and shit[2] == "DemonWeakness" and falls
+        if getnamecallmethod() == "FireServer" and shit[2] == "DemonWeakness" and falls
          then
             return wait(math.huge)
         end
-        return OldNamecall(Self, ...)
+        return OldNamecall(self, ...)
     end
 )
 end)
@@ -211,13 +265,13 @@ end)
 local Toggle1 = Section1:CreateToggle("No FallDamage", nil, function(State)
 fall = State
 local OldNamecall
-OldNamecall = hookmetamethod(game,"__namecall",function(Self, ...)
+OldNamecall = hookmetamethod(game,"__namecall",function(self, ...)
         local shit = {...}
-        if getnamecallmethod() == "FireServer" and game:GetService "ReplicatedStorage".Remotes.Async and shit[2] == "FallDamageServer" and fall
+        if getnamecallmethod() == "FireServer"  and shit[2] == "FallDamageServer" and fall
          then
             return nil
         end
-        return OldNamecall(Self, ...)
+        return OldNamecall(self, ...)
     end
 )
 end)
@@ -342,12 +396,26 @@ end)
 
 
 
+getgenv().WalkSpeed = 16
+getgenv().JumpPower = 50
+local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", nil, function(State)
+getgenv().s = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if getgenv().s then
+            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = getgenv().WalkSpeed
+            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = getgenv().JumpPower
+        end
+    end
+)
+end)
 local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    getgenv().WalkSpeed = Value
 end)
 local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    getgenv().JumpPower = Value
 end)
+
 local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
 Infinite = State
 game:GetService("UserInputService").JumpRequest:connect(function()
@@ -363,7 +431,7 @@ noclip = false
 game:GetService("RunService").Stepped:connect(
     function()
         if noclip then
-            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(11)
         end
     end
 )
@@ -372,7 +440,7 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
         if key == "g" then
             if yes44 then
                 noclip = not noclip
-                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(11)
             end
         end
     end
@@ -391,7 +459,7 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
                         for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
                             pcall(
                                 function()
-                                    if v.ClassName == "Part" or v.ClassName == "MeshPart" then
+                                    if v:IsA("BasePart")  then
                                         v.CanCollide = false
                                     end
                                 end
@@ -418,7 +486,7 @@ if k:lower() == 'b' then
 Max = Max + 1
 getgenv().Fly = false
 if sex2 then
-local T = LP.Character.UpperTorso
+local T = LP.Character.HumanoidRootPart
 local S = {
 F = 0,
 B = 0,
@@ -439,14 +507,14 @@ local BodyVelocity = Instance.new('BodyVelocity', T)
 BodyGyro.P = 9e4
 BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
 BodyGyro.cframe = T.CFrame
-BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.velocity = Vector3.new(0, 0, 0)
 BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
 spawn(function()
 repeat
 wait()
 LP.Character.Humanoid.PlatformStand = false
 if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
-SPEED = 200
+SPEED = 75
 elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
 SPEED = 0
 end
