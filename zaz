@@ -170,7 +170,7 @@ local function Tween(A, B, C)
 end
 system = {}
 for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-    if v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and not table.find(Hentai, v.Name) then
+    if v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and not table.find(Hentai, v.Name) and not table.find(system,v.Name) then
         table.insert(system, v.Name)
     end
 end
@@ -259,6 +259,71 @@ for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
 end 
 end)
 end)
+
+local Toggle1 = Section1:CreateToggle("Auto Mob", Settings.AutoMobss, function(State)
+Settings.AutoMobss = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        pcall(
+            function()
+                if Settings.AutoMobss then
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                end
+            end
+        )
+    end
+)
+c()
+spawn(
+    function()
+        while Settings.AutoMobss do
+            wait()
+            pcall(
+                function()
+                    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                        if
+                            v:IsA("Model") and v.Name == Settings.Mo and v:FindFirstChildOfClass("Humanoid") and
+                                v.Humanoid.Health > 0
+                         then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                                v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 2) * CFrame.Angles(aa, 0, 0)
+                            wait(getgenv().delay2)
+                   
+                            wait(getgenv().delay2)
+                            if v.Humanoid.Health < v.Humanoid.MaxHealth and Settings.InstantKill then
+                            v.Humanoid.Health = 0
+                            end
+                            wait(getgenv().delay2)
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
+spawn(
+    function()
+        while Settings.AutoMobss do
+            wait()
+            pcall(
+                function()
+                    c()
+                    wait(getgenv().delay2)
+                    game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                    game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                end
+            )
+        end
+    end
+)
+   
+end)
+
+
+local Dropdown1 = Section1:CreateDropdown("Mobs", system, function(String)
+	Settings.Mo = String
+end)
+
 local Toggle1 = Section1:CreateToggle("No Trees", Settings.NoTrees, function(State)
 Settings.NoTrees = State
 for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
