@@ -1404,7 +1404,7 @@ while Settings.AutoAbility do
     wait(2)
     pcall(
         function()
-            if game.Players.LocalPlayer.PlayerValues.Ability.Value ~= Table then
+            if game.Players.LocalPlayer.PlayerValues.Ability.Value ~= Settings.Ability then
                 wait(getgenv().delay)
                 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
                 game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer("Moveset1")
@@ -1431,7 +1431,7 @@ while Settings.AutoAbility2 do
     wait(2)
     pcall(
         function()
-            if game.Players.LocalPlayer.PlayerValues.Ability2.Value ~= Table2 then
+            if game.Players.LocalPlayer.PlayerValues.Ability2.Value ~= Settings.Ability2 then
                 wait(getgenv().delay)
                 game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
                 game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer("Moveset2")
@@ -1458,7 +1458,7 @@ while Settings.AutoRace do
     wait(getgenv().delay)
     pcall(
         function()
-            if game.Players.LocalPlayer.PlayerValues.Race.Value ~= Races then
+            if game.Players.LocalPlayer.PlayerValues.Race.Value ~= Settings.Race then
                 if not game.Players.LocalPlayer.Backpack:FindFirstChild("Heart") then
                     game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Heart")
                 end
@@ -1486,11 +1486,11 @@ while Settings.Specialization do
      wait(getgenv().delay)
     if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
         for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-            if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= Specializations then
-            if v.ClassName == "Tool" and v:FindFirstChild("SpecializationTool") and v.Name ~= Specializations  then
+            if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= Settings.Specializations then
+            if v.ClassName == "Tool" and v:FindFirstChild("SpecializationTool") and v.Name ~= Settings.Specializations  then
                 v.Parent = game.Players.LocalPlayer.Character
                 v:Destroy()
-            elseif v.ClassName == "Tool" and v:FindFirstChild("SpecializationTool") and v.Name == Specializations  then
+            elseif v.ClassName == "Tool" and v:FindFirstChild("SpecializationTool") and v.Name == Settings.Specializations  then
                 game.StarterGui:SetCore(
                     "SendNotification",
                     {
