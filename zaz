@@ -196,12 +196,14 @@ end
 
 
 
-local OldNameCall
-OldNameCall = hookmetamethod(game, "__newindex", function(A, B, C)
-    if (not checkcaller() and A.ClassName == "Humanoid" and (B == "WalkSpeed" or B == "JumpPower")) then
-        return
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(k, ...)
+    local Args = {...}
+    local Self = Args[1]
+    if not checkcaller() and k == "WalkSpeed" or k == "JumpPower" then
+            return 
     end
-    return OldNameCall(A, B, C)
+    return OldNameCall(k, ...)
 end)
 
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
@@ -1783,8 +1785,11 @@ Settings.Go = State
 game:GetService("RunService").Stepped:connect(
     function()
         if Settings.Go then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = Settings.JumpPower
+            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = Settings.WalkSpeed
+            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = Settings.JumpPower
+            if game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').UseJumpPower then
+            game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').JumpHeight = Settings.JumpPower
+            end
             if not game:GetService("UserInputService").WindowFocusReleased then
                 setfpscap(Settings.Fps)
             end
@@ -1861,7 +1866,9 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
                 noclips = not noclips
                 for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
                     if v:IsA("BasePart") then
+                        pcall(function()
                         v.CanCollide = false
+                        end)
                     end
                 end
             end
@@ -1873,7 +1880,9 @@ game:GetService("RunService").Stepped:connect(
         if noclips then
             for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
                 if v:IsA("BasePart") then
+                    pcall(function()
                     v.CanCollide = false
+                    end)
                 end
             end
         end
@@ -1916,7 +1925,7 @@ Mouse.KeyDown:connect(
             Max = Max + 1
             getgenv().Fly = false
             if Settings.Sex2 then
-                local T = LP.Character.UpperTorso
+                local T = LP.Character.Torso
                 local S = {
                     F = 0,
                     B = 0,
