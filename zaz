@@ -1786,10 +1786,10 @@ game:GetService("RunService").Stepped:connect(
     function()
         if Settings.Go then
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
-       	    if speaker.Character:WaitForChild('Humanoid').UseJumpPower then
-			speaker.Character:WaitForChild('Humanoid').JumpPower = Settings.JumpPower
+       	    if game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').UseJumpPower then
+			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpPower = Settings.JumpPower
 		    else
-			speaker.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
+			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
 			end 
             if not game:GetService("UserInputService").WindowFocusReleased then
                 setfpscap(Settings.Fps)
