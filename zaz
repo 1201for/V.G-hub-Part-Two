@@ -121,6 +121,16 @@ local function Float(v)
     BodyForce.Parent = v
 end
 
+game:GetService("RunService").Stepped:connect(function()
+        pcall(function()
+                if game.Players.LocalPlayer.Character.Head:FindFirstChild("Overhead") then
+                    game.Players.LocalPlayer.Character.Head.Overhead:remove()
+                end
+            end
+        )
+    end
+)
+
 for i,v in pairs(game:GetService("Workspace").NPCS:GetChildren()) do
 if v:IsA("Model") and v:FindFirstChild("Humanoid") then
 v.Chat.QuestText1.Value = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. " Thanks you for using V.G Hub"
@@ -187,18 +197,12 @@ end
 
 
 local OldNameCall
-OldNameCall =
-    hookmetamethod(
-    game,
-    "__newindex",
-    function(A, B, C)
-        if (not checkcaller() and A.ClassName == "Humanoid" and (B == "WalkSpeed" or B == "JumpPower")) then
-            return
-        end
-        return OldNameCall(A, B, C)
+OldNameCall = hookmetamethod(game, "__newindex", function(A, B, C)
+    if (not checkcaller() and A.ClassName == "Humanoid" and (B == "WalkSpeed" or B == "JumpPower")) then
+        return
     end
-)
-
+    return OldNameCall(A, B, C)
+end)
 
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
 game.Players.LocalPlayer.CharacterAdded:Connect(
