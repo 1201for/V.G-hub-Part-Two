@@ -153,8 +153,8 @@ end)
 
 local Button1 = Section1:CreateButton("Collect All Chests", function()
 for i, v in pairs(game:GetService("Workspace").Chests:GetChildren()) do
-    if v.ClassName == "MeshPart" and v.Name == "TouchPart" then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+    if v.ClassName == "Model" and v:FindFirstChildOfClass("Part") then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v:FindFirstChildOfClass("Part").CFrame
         wait(1)
     end
 end
