@@ -27,15 +27,9 @@ FreeForAll= false,
 WallCheck = false,
 Enabled = false,
 FOV = 250,
+Smoothness = 0.2
 }
 local Shoot = false
-
-function FreeForAll(v)
-    if getgenv().AimBot.FreeForAll == false or getgenv().TriggerBot.FreeForAll == false then
-        if game.Players.LocalPlayer.Team == v.Team then return false
-        else return true end
-    else return true end
-end
 
 function NotObstructing(i, v)
     if getgenv().AimBot.WallCheck then
@@ -64,8 +58,7 @@ function GetClosestToCuror()
     Closest = math.huge
     Target = nil
     for _,v in pairs(game:GetService("Players"):GetPlayers()) do
-        if FreeForAll(v) then
-            if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0  then
+            if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0 and v.Character.HumanoidRootPart.Nametag.Arrow.ImageColor3 ~= Color3.fromRGB(34, 255, 143)  then
                 Point,OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
                 if OnScreen and NotObstructing(v.Character.HumanoidRootPart.Position,{game.Players.LocalPlayer.Character,v.Character}) then
                     Distance = (Vector2.new(Point.X,Point.Y) - Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
@@ -76,19 +69,27 @@ function GetClosestToCuror()
                   end
                end
             end
-         end
     return Target
 end 
 
-game:GetService('RunService').Stepped:connect(function()
-pcall(function()
-    if getgenv().AimBot.Enabled == false or Shoot == false then return end
-    ClosestPlayer = GetClosestToCuror()
-    if ClosestPlayer then
-     workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.p,ClosestPlayer.Character[getgenv().AimPart].CFrame.p)
-    end 
-end)
-end)
+
+game:GetService("RunService").RenderStepped:Connect(
+    function()
+        if getgenv().AimBot.Enabled == false or Shoot == false then
+            return
+        end
+        ClosestPlayer = GetClosestToCuror()
+        if ClosestPlayer then
+            local Mouse = game.Players.LocalPlayer:GetMouse()
+            local TargetPos = game.workspace.Camera:WorldToViewportPoint(ClosestPlayer.Character.HumanoidRootPart.Position)
+            mousemoverel(
+                (TargetPos.X - Mouse.X) * getgenv().AimBot.Smoothness,
+                (TargetPos.Y - Mouse.Y) * getgenv().AimBot.Smoothness
+            )
+        end
+    end
+)
+
 getgenv().Head = 5
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -101,32 +102,6 @@ local Section2 = Tab1:CreateSection("")
 local Section5 = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
-
-local Toggle1 = Section1:CreateToggle("FullBright", nil, function(State)
-FullBright = State
-        if FullBright then
-            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
-            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
-            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
-        else
-            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
-            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
-            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
-        end
-game.Lighting.Changed:connect(
-    function()
-        if FullBright then
-            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
-            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
-            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
-        else
-            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
-            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
-            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
-        end
-    end
-)
-end)
 
 local Toggle1 = Section1:CreateToggle("Aimbot", nil, function(State)
     getgenv().AimBot.Enabled = State
@@ -154,7 +129,31 @@ end)
 local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
     Circle.Color = Color
 end)
-
+local Toggle1 = Section1:CreateToggle("FullBright", nil, function(State)
+FullBright = State
+        if FullBright then
+            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
+        else
+            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
+        end
+game.Lighting.Changed:connect(
+    function()
+        if FullBright then
+            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
+        else
+            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
+        end
+    end
+)
+end)
 
 local Toggle1 = Section1:CreateToggle("Silent Aim", nil, function(State)
 getgenv().SilentAim = State
