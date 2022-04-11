@@ -115,7 +115,7 @@ if v.ClassName == "Model" and v:FindFirstChild("Kill") and not table.find(Mobs, 
 table.insert(Mobs,v.Name)
 table.sort(Mobs)
 end end 
-repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChild('None')
+repeat wait() until game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
 for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
 if v.ClassName == "Tool" then
 v.Parent = game.Players.LocalPlayer.Backpack
@@ -698,5 +698,6 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
 
 
