@@ -708,7 +708,7 @@ spawn(
             pcall(
                 function()
                     if Settings.SemiGodMode then
-                        if game.Players.LocalPlayer.Character:FindFirstChild("Player") then
+                        if game.Players.LocalPlayer.Character:FindFirstChild("Player") and not Settings.AutoAllBosses or not Settings.AutoBosses then
                             game.Players.LocalPlayer.Character:WaitForChild("Player"):remove()
                         end
                     end
