@@ -53,8 +53,15 @@ local function getNearestMob()
     return Target
 end
 
-getgenv().Distance = 5
+getgenv().Distance = 0
 
+local function Click() wait(0.5)
+game:GetService("VirtualInputManager"):SendMouseButtonEvent(600,600,0, true, game, 1)
+end
+local function Invis()
+pcall(function()
+game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
+end) end 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -69,28 +76,6 @@ local Section4 = Tab2:CreateSection("Background")
 local Toggle1 = Section1:CreateToggle("Auto Mob", nil, function(State)
 getgenv().Farmming = State
 
-Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
-
-game.Players.LocalPlayer.CharacterAdded:Connect(
-    function()
-        if getgenv().Farmming  then
-            pcall(
-                function()
-                    repeat
-                        wait()
-                    until game.Players.LocalPlayer.Character
-                    wait(4)
-                    Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-                    game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-                    Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
-                end
-            )
-        end
-    end
-)
-
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().Farmming then
@@ -103,8 +88,11 @@ while getgenv().Farmming do
     wait()
     pcall(
         function()
+            repeat wait()
+            Invis()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getNearestMob().HumanoidRootPart.CFrame * CFrame.new(0,-getgenv().Distance,3)
-            game:GetService("ReplicatedStorage").Remotes.SKILL_EVENT:FireServer("NonePunch")
+            Click() wait(1)
+            until getNearestMob().Humanoid.Health == 0 or getgenv().Farmming == false
         end
     )
 end
@@ -120,10 +108,6 @@ end
 
 local Toggle1 = Section1:CreateToggle("Auto Quest", nil, function(State)
 que = State
-Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
-
 game:GetService("RunService").Stepped:connect(
     function()
         if que then
@@ -132,30 +116,14 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 
-game.Players.LocalPlayer.CharacterAdded:Connect(
-    function()
-        if que then
-            pcall(
-                function()
-                    repeat
-                        wait()
-                    until game.Players.LocalPlayer.Character
-                    wait(4)
-                    Clone = game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Clone()
-                    game:GetService("Players").LocalPlayer.Character.LowerTorso.Root:Destroy()
-                    Clone.Parent = game:GetService("Players").LocalPlayer.Character.LowerTorso
-                end
-            )
-        end
-    end
-)
 
 while que do
     wait()
     pcall(
         function()
             repeat
-                wait(0.5)
+                wait()
+                Invis()
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                     game:GetService("Workspace").QUEST[Numbers].HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
                 game:GetService("ReplicatedStorage").Remotes.QUEST_EVENT:FireServer(tostring(Numbers))
@@ -173,7 +141,7 @@ while que do
                      then
                         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                             v:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, -getgenv().Distance, 3)
-                        game:GetService("ReplicatedStorage").Remotes.SKILL_EVENT:FireServer("NonePunch")
+                        Click()
                     elseif v.Name == "Gigant" then
                         v.Name = "Giant"
                     elseif v.Name == "Praieiro" then
