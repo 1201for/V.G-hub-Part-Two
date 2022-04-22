@@ -1,5 +1,4 @@
 
-
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
@@ -13,11 +12,38 @@ local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     local Args = {...}
     local Self = Args[1]
-    if getnamecallmethod()=="FireServer" and tostring(Self)=="ErrorLoggerRemote"or tostring(Self) == 'ACDTResponse' then
-            return nil
+    if getnamecallmethod()=="FireServer" and self.Name == "ErrorLoggerRemote"or self.Name == 'ACDTResponse' then
+        return wait(math.huge)
     end
     return OldNameCall(self, ...)
 end)
+
+
+local Name = "TheWildWest.json"
+
+Des = {}
+if makefolder then
+    makefolder("V.G Hub")
+end
+
+local Settings
+
+if
+    not pcall(
+        function()
+            readfile("V.G Hub//" .. Name)
+        end
+    )
+ then
+    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Des))
+end
+
+Settings = game:service "HttpService":JSONDecode(readfile("V.G Hub//" .. Name))
+
+local function Save()
+    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Settings))
+end
+
 
 for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
     v:Disable()
@@ -39,7 +65,7 @@ for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
 end
 
 function FreeForAll(v)
-    if getgenv().FreeForAll == false then
+    if Settings.AimBot.FreeForAll == false then
         if game.Players.LocalPlayer.Team == v.Team then return false
         else return true end
     else return true end
@@ -58,38 +84,6 @@ for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining
     end
 end
 
-spawn(
-    function()
-        while wait(1) do
-            for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Geometry"]:GetChildren()) do
-                if v:FindFirstChild("Trees") then
-                    for i, v in pairs(v.Trees:GetChildren()) do
-                        if v.ClassName == "Model" and v:FindFirstChild("Leaves") then
-                            if getgenv().Simp then
-                                v.Leaves.Transparency = 1
-                                v.Trunk.Transparency = 1
-                            else
-                                v.Leaves.Transparency = 0
-                                v.Trunk.Transparency = 0
-                            end
-                        end
-                    end
-                elseif v:FindFirstChild("Vegetation") then
-                    for i, v in pairs(v.Vegetation:GetChildren()) do
-                        if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") then
-                            if getgenv().Simp2 then
-                                v:FindFirstChildOfClass("MeshPart").Transparency = 1
-                            else
-                                v:FindFirstChildOfClass("MeshPart").Transparency = 0
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-)
-
 local function GetOwner()
     local Target
     for i, v in ipairs(game:GetService("Workspace")["WORKSPACE_Entities"].Animals:GetChildren()) do
@@ -100,85 +94,114 @@ local function GetOwner()
     return Target
 end
 
+
 local Circle = Drawing.new("Circle")
-Circle.Color =  Color3.fromRGB(22, 13, 56)
+Circle.Color = Color3.fromRGB(22, 13, 56)
 Circle.Thickness = 1
 Circle.Radius = 250
-Circle.Visible = false
+Circle.Visible = false 
 Circle.NumSides = 1000
 Circle.Filled = false
 Circle.Transparency = 1
 
-game:GetService("RunService").RenderStepped:Connect(function()
-    local Mouse = game:GetService("UserInputService"):GetMouseLocation()
-    Circle.Position = Vector2.new(Mouse.X, Mouse.Y)
-end)
-getgenv().AimBot = {
-FreeForAll= false,
-WallCheck = false,
-Enabled = false,
-FOV = 250,
-Smoothness = 0.25
-}
+game:GetService("RunService").RenderStepped:Connect(
+    function()
+        local Mouse = game:GetService("UserInputService"):GetMouseLocation()
+        Circle.Position = Vector2.new(Mouse.X, Mouse.Y)
+    end
+)
 
+Settings.AimBot = {
+            FreeForAll = false,
+            WallCheck = false,
+            Enabled = false,
+            FOV = 250,
+            Smoothness = 0.02
+        }
 local Shoot = false
 
 function FreeForAll(v)
-    if getgenv().AimBot.FreeForAll == false then
-        if game.Players.LocalPlayer.Team == v.Team then return false
-        else return true end
-    else return true end
+    if Settings.AimBot.FreeForAll == false or Settings.T.AimBot.FreeForAll == false then
+        if game.Players.LocalPlayer.Team == v.Team then
+            return false
+        else
+            return true
+        end
+    else
+        return true
+    end
 end
 
 function NotObstructing(i, v)
-    if getgenv().AimBot.WallCheck then
+    if Settings.AimBot.WallCheck then
         c = workspace.CurrentCamera.CFrame.p
-        a = Ray.new(c, i- c)
+        a = Ray.new(c, i - c)
         f = workspace:FindPartOnRayWithIgnoreList(a, v)
         return f == nil
     else
         return true
     end
 end
-game:GetService("UserInputService").InputBegan:Connect(function(v)
-    if v.UserInputType == Enum.UserInputType.MouseButton2 then
-        Shoot = true
+game:GetService("UserInputService").InputBegan:Connect(
+    function(v)
+        if v.UserInputType == Enum.UserInputType.MouseButton2 then
+            Shoot = true
+        end
     end
-end)
+)
 
-game:GetService("UserInputService").InputEnded:Connect(function(v)
-    if v.UserInputType == Enum.UserInputType.MouseButton2 then
-        Shoot = false
+game:GetService("UserInputService").InputEnded:Connect(
+    function(v)
+        if v.UserInputType == Enum.UserInputType.MouseButton2 then
+            Shoot = false
+        end
     end
-end)
+)
 
-function GetMouse()
-    return Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)
-end
 function GetClosestToCuror()
-    MousePos = GetMouse()
     Closest = math.huge
     Target = nil
-    for _,v in pairs(game:GetService("Players"):GetPlayers()) do
+    for _, v in pairs(game:GetService("Players"):GetPlayers()) do
         if FreeForAll(v) then
-            if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0  then
-                Point,OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
-                if OnScreen and NotObstructing(v.Character.HumanoidRootPart.Position,{game.Players.LocalPlayer.Character,v.Character}) then
-                    Distance = (Vector2.new(Point.X,Point.Y) - MousePos).magnitude
-                      if Distance <= getgenv().AimBot.FOV then
-                          Closest = Distance
-                       Target = v
-                     end
-                  end
-               end
+            if
+                v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and
+                    v.Character:FindFirstChild("Humanoid") and
+                    v.Character.Humanoid.Health ~= 0
+             then
+                Point, OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                if
+                    OnScreen and
+                        NotObstructing(
+                            v.Character.HumanoidRootPart.Position,
+                            {game.Players.LocalPlayer.Character, v.Character}
+                        )
+                 then
+                    Distance =
+                        (Vector2.new(Point.X, Point.Y) -
+                        Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
+                    if Distance <= Settings.FOV then
+                        Closest = Distance
+                        Target = v
+                    end
+                end
             end
-         end
+        end
+    end
     return Target
-end 
+end
+
+
+game:GetService("UserInputService").InputEnded:connect(
+    function(v)
+        if v.KeyCode == Enum.UserInputType.MouseButton2 and Settings.T.Toggle then
+            Aim = false
+        end
+    end
+)
 
 game:GetService("RunService").RenderStepped:Connect(
-    function()
-        if getgenv().AimBot.Enabled == false or Shoot == false then
+    function() pcall(function()
+        if Settings.AimBot.Enabled == false or Shoot == false then
             return
         end
         ClosestPlayer = GetClosestToCuror()
@@ -186,16 +209,56 @@ game:GetService("RunService").RenderStepped:Connect(
             local Mouse = game:GetService("UserInputService"):GetMouseLocation()
             local TargetPos = game.workspace.Camera:WorldToViewportPoint(ClosestPlayer.Character.HumanoidRootPart.Position)
             mousemoverel(
-                (TargetPos.X - Mouse.X) * getgenv().AimBot.Smoothness,
-                (TargetPos.Y - Mouse.Y) * getgenv().AimBot.Smoothness
+                (TargetPos.X - Mouse.X) * Settings.Smoothness,
+                (TargetPos.Y - Mouse.Y) * Settings.Smoothness
             )
         end
+        end)
     end
 )
 
 
+Settings = {
+    TeamCheck = false,
+    Delay = 0.01,
+    Enabled = false
+}
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
+local Aim = false
+game:GetService("UserInputService").InputBegan:connect(
+    function(v)
+        if v.UserInputType == Enum.UserInputType.MouseButton2 and Settings.Toggle then
+            Aim = true
+            while Aim do
+                wait()
+                if
+                    game:GetService("Players").LocalPlayer:GetMouse().Target and
+                        game:GetService("Players"):FindFirstChild(
+                            game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name
+                        )
+                 then
+                    local Person =
+                        game:GetService("Players"):FindFirstChild(
+                        game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name
+                    )
+                    if Person.Team ~= game:GetService("Players").LocalPlayer.Team or not Settings.TeamCheck then
+                        if Settings.Delay > 0 then
+                            wait(0.01)
+                        end
+                        mouse1press()
+                        wait()
+                        mouse1release()
+                    end
+                end
+                if not Settings.Toggle then
+                    break
+                end
+            end
+        end
+    end
+)
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
 local Tab1 = Window:CreateTab("The Wild West")
@@ -206,20 +269,20 @@ local Section2 = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
-local Toggle1 = Section1:CreateToggle("Auto Sprint", nil, function(State)
-sex = State
+local Toggle1 = Section1:CreateToggle("Auto Sprint", Settings.WalkFast, function(State)
+Settings.WalkFast = State
 game:GetService("RunService").Stepped:Connect(
     function()
-        if sex then
+        if Settings.WalkFast then
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
         end
     end
 )
 
 end)
-local Toggle1 = Section1:CreateToggle("FullBright", nil, function(State)
-FullBright = State
-        if FullBright then
+local Toggle1 = Section1:CreateToggle("FullBright", Settings.FullBright, function(State)
+Settings.FullBright = State
+        if Settings.FullBright then
             game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
             game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
             game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
@@ -230,7 +293,7 @@ FullBright = State
         end
 game.Lighting.Changed:connect(
     function()
-        if FullBright then
+        if Settings.FullBright then
             game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
             game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
             game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
@@ -242,37 +305,41 @@ game.Lighting.Changed:connect(
     end
 )
 end)
-
-local Toggle1 = Section1:CreateToggle("Aimbot", nil, function(State)
-    getgenv().AimBot.Enabled = State
+pcall(function()
+local Toggle1 = Section1:CreateToggle("Aimbot", Settings.AimBot.Enabled, function(State)
+    Settings.AimBot.Enabled = State
 end)
 
-local Toggle1 = Section1:CreateToggle("FreeForAll", nil, function(State)
-    getgenv().AimBot.FreeForAll = State
+local Toggle1 = Section1:CreateToggle("FreeForAll", Settings.AimBot.FreeForAll, function(State)
+    Settings.AimBot.FreeForAll = State
 end)
 
-local Toggle1 = Section1:CreateToggle("WallCheck", nil, function(State)
-    getgenv().AimBot.WallCheck = State
+local Toggle1 = Section1:CreateToggle("WallCheck", Settings.AimBot.WallCheck, function(State)
+    Settings.AimBot.WallCheck = State
+end)
+local Toggle1 = Section1:CreateToggle("TriggerBot", Settings.Toggle, function(State)
+    Settings.Toggle = State
 end)
 
-local Slider2 = Section1:CreateSlider("Aimbot Smoothness", 0,10,nil,false, function(Value)
-    getgenv().AimBot.Smoothness = Value
+local Slider2 = Section1:CreateSlider("Aimbot Smoothness", 0,10,Settings.Smoothness,false, function(Value)
+    Settings.AimBot.Smoothness = Value
 end)
-local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,nil,false, function(Value)
-    getgenv().AimBot.FOV = Value
-    Circle.Radius = Value
+local Slider2 = Section1:CreateSlider("Aimbot Radius", 0,1000,Settings.AimBot.FOV,false, function(Value)
+    Settings.AimBot.FOV = Circle.Radius 
+    Settings.AimBot.FOV = Value
 end)
-local Toggle1 = Section1:CreateToggle("Circle Visible", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Circle Visible", Settings.AimBot.Visible, function(State)
    Circle.Visible = State
 end)
 
 local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
     Circle.Color = Color
 end)
-
-local Toggle1 = Section1:CreateToggle("Spam DuelRequests", nil, function(State)
-getgenv().Hentai = State
-while wait() and getgenv().Hentai do
+end)
+local Toggle1 = Section1:CreateToggle("Spam DuelRequests", Settings.Hentai, function(State)
+Settings.Hentai = State
+spawn(function()
+while wait() and Settings.Hentai do
     for i, v in pairs(game.Players:GetPlayers()) do wait(0.2)
         if v ~= game.Players.LocalPlayer then
             game:GetService("ReplicatedStorage").Communication.Events.DuelRequest:FireServer(v)
@@ -280,11 +347,13 @@ while wait() and getgenv().Hentai do
     end
 end
 end)
-local Toggle1 = Section1:CreateToggle("Invis Character CS", nil, function(State)
-getgenv().Invis = State
+end)
+
+local Toggle1 = Section1:CreateToggle("Invis Character CS", Settings.Invis, function(State)
+Settings.Invis = State
 for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
     if v:IsA("BasePart") then
-        if getgenv().Invis then
+        if Settings.Invis then
             v.Transparency = 1
         else
             v.Transparency = 0
@@ -295,7 +364,7 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function()
 repeat wait() until game.Players.LocalPlayer.Character.Humanoid
 for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
     if v:IsA("BasePart") then
-        if getgenv().Invis then
+        if Settings.Invis then
             v.Transparency = 1
         else
             v.Transparency = 0
@@ -306,14 +375,14 @@ end)
 end)
 
 local Toggle1 = Section1:CreateToggle("Player Silent Aim", nil, function(State)
-getgenv().SilentAim = State
+Settings.SilentAim = State
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 function ClosestPlayerToCurser()
     local MaxDistance, Closest = math.huge
     for i,v in pairs(Players.GetPlayers(Players)) do
-        if v ~= LocalPlayer  and v.Character and getgenv().TeamCheck and v.Team ~= LocalPlayer.Team then
+        if v ~= LocalPlayer  and v.Character and Settings.TeamCheck and v.Team ~= LocalPlayer.Team then
             local H = v.Character.FindFirstChild(v.Character, "Head")
             if H then 
                 local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
@@ -333,7 +402,7 @@ end
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
     local Args = {...}
-    if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  getgenv().SilentAim  then
+    if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  Settings.SilentAim  then
         local GivemeHead = ClosestPlayerToCurser()
         if GivemeHead and GivemeHead.Character and GivemeHead.Character.FindFirstChild(GivemeHead.Character, "UpperTorso") then
             Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.Character.UpperTorso.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
@@ -345,25 +414,24 @@ end)
 
 end)
 
-local Toggle1 = Section1:CreateToggle("Player Silent FreeForAll", nil, function(State)
-getgenv().TeamCheck = State
+local Toggle1 = Section1:CreateToggle("Player Silent FreeForAll", Settings.TeamCheck, function(State)
+Settings.TeamCheck = State
 end)
-local Toggle1 = Section1:CreateToggle("Animal Silent Aim", nil, function(State)
-getgenv().SilentAnimalAim = State
+local Toggle1 = Section1:CreateToggle("Animal Silent Aim", Settings.SilentAnimalAim, function(State)
+Settings.SilentAnimalAim = State
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 function ClosestAnimalToCurser()
     local MaxDistance, Closest = math.huge
     for i, v in pairs(game.Workspace.WORKSPACE_Entities.Animals:GetChildren()) do
-        if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") and not v.Name:match("Horse") then
-            local H = v.FindFirstChild(v, "Body")
-            if H then 
-                local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
+        if v.ClassName == "Model" and v.PrimaryPart then
+            if v.PrimaryPart then 
+                local Pos, Vis = workspace.CurrentCamera:WorldToScreenPoint(v.PrimaryPart.Position)
                 if Vis then
                     local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
                     local Dist = (A2 - A1).Magnitude
-                    if Dist < MaxDistance and Dist <= 2500 then
+                    if Dist < MaxDistance and Dist <= math.huge then
                         MaxDistance = Dist
                         Closest = v
                     end
@@ -376,10 +444,10 @@ end
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
     local Args = {...}
-    if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  getgenv().SilentAnimalAim  then
+    if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  Settings.SilentAnimalAim  then
         local GivemeHead = ClosestAnimalToCurser()
-        if GivemeHead and GivemeHead.Body then
-            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.Body.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
+        if GivemeHead and GivemeHead.PrimaryPart then
+            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.PrimaryPart.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
             return OldNameCall(self, unpack(Args))
         end
     end
@@ -391,23 +459,23 @@ end)
 
 
 
-local Toggle1 = Section1:CreateToggle("Anti Ragdoll", nil, function(State)
-AntiRagdoll = State
+local Toggle1 = Section1:CreateToggle("Anti Ragdoll", Settings.AntiRagDoll, function(State)
+Settings.AntiRagDoll = State
 A = hookfunction(Player.Ragdoll, function(...)
-    if AntiRagdoll and game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 then
+    if Settings.AntiRagDoll and game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 then
         return;
     end
     return A(...)
 end)
 end) 
 
-local Toggle1 = Section1:CreateToggle("Infinite animal Boosts", nil, function(State)
-InfiniteBoosts = State
+local Toggle1 = Section1:CreateToggle("Infinite animal Boosts", Settings.InfiniteBoosts, function(State)
+Settings.InfiniteBoosts = State
 Fuck =
     hookfunction(
     Animal.Mount,
     function(...)
-        if InfiniteBoosts then
+        if Settings.InfiniteBoosts then
             Fuck(...)
             local RidingAnimal = AnimalRiding.GetRidingAnimal()
             RidingAnimal.MaxBoosts = math.huge
@@ -419,11 +487,11 @@ Fuck =
 )
 end)
 
-local Toggle1 = Section1:CreateToggle("Anti Hosile Animals", nil, function(State)
-getgenv().Kok = State
+local Toggle1 = Section1:CreateToggle("Anti Hosile Animals", Settings.Kok, function(State)
+Settings.Kok = State
 for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Entities"].Animals:GetChildren()) do
     if v:IsA("Model") then pcall(function()
-        if getgenv().Kok then
+        if Settings.Kok then
             v.Target:remove()
             v.Anger:remove()
         end end)
@@ -432,7 +500,7 @@ end
 game:GetService("Workspace")["WORKSPACE_Entities"].Animal.ChildAdded:Connect(
     function(v)
         if v:IsA("Model") then pcall(function()
-            if getgenv().Kok then
+            if Settings.Kok then
                 v.Target:remove()
                 v.Anger:remove() 
             end end)
@@ -441,10 +509,10 @@ game:GetService("Workspace")["WORKSPACE_Entities"].Animal.ChildAdded:Connect(
 )
 end)
 
-local Toggle1 = Section1:CreateToggle("InstantBreakFree", nil, function(State)
-getgenv().InstantBreakFree = State
+local Toggle1 = Section1:CreateToggle("InstantBreakFree", Settings.InstantBreakFree, function(State)
+Settings.InstantBreakFree = State
     System = hookfunction(R.EnterRagdoll, function(...)
-    if getgenv().InstantBreakFree then
+    if Settings.InstantBreakFree then
             local Start = tick()
             repeat
                 wait()
@@ -455,10 +523,10 @@ getgenv().InstantBreakFree = State
 end)
 end) 
 
-local Toggle1 = Section1:CreateToggle("AutoGetUp", nil, function(State)
-getgenv().AutoGetUp = State
+local Toggle1 = Section1:CreateToggle("AutoGetUp", Settings.AutoGetUp, function(State)
+Settings.AutoGetUp = State
 Y = hookfunction(R.EnterRagdoll, function(...)
-    if getgenv().AutoGetUp then
+    if Settings.AutoGetUp then
         coroutine.resume(coroutine.create(function()
             local Start = tick()
             repeat
@@ -473,13 +541,13 @@ Y = hookfunction(R.EnterRagdoll, function(...)
 end)
 end)
 
-local Toggle1 = Section1:CreateToggle("infinite Stamina", nil, function(State)
-Infinite = State
+local Toggle1 = Section1:CreateToggle("infinite Stamina", Settings.Infinite, function(State)
+Settings.Infinite = State
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args = {...}
     local Self = Args[1]
-    if getnamecallmethod()=="FireServer" and tostring(Self)=="LowerStamina" and Infinite then
+    if getnamecallmethod()=="FireServer" and tostring(Self)=="LowerStamina" and Settings.Infinite then
             return wait(math.huge)
     end
     return OldNameCall(...)
@@ -487,33 +555,33 @@ end)
 end)
 
 
-local Toggle1 = Section1:CreateToggle("NoFall Damage", nil, function(State)
-NoFall = State
+local Toggle1 = Section1:CreateToggle("NoFall Damage", Settings.NoFall, function(State)
+Settings.NoFall = State
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args = {...}
     local Self = Args[1]
-    if getnamecallmethod()=="FireServer" and tostring(Self)=="DamageSelf" and NoFall then
+    if getnamecallmethod()=="FireServer" and tostring(Self)=="DamageSelf" and Settings.NoFall then
             return nil
     end
     return OldNameCall(...)
 end) 
 end)
-local Toggle1 = Section1:CreateToggle("Animal AntiRagdoll", nil, function(State)
-AntiAnimalRagdoll = State
+local Toggle1 = Section1:CreateToggle("Animal AntiRagdoll", Settings.AntiAnimalRagdoll, function(State)
+Settings.AntiAnimalRagdoll = State
 Animal.Ragdoll = function(...)
-    if AntiAnimalRagdoll then
+    if Settings.AntiAnimalRagdoll then
         return;
     end
     return Core["Animal-Ragdoll"](...)
 end
 end)
 
-local Toggle1 = Section2:CreateToggle("NoRecoil", nil, function(State)
-NoRecoil = State
+local Toggle1 = Section2:CreateToggle("NoRecoil", Settings.NoRecoil, function(State)
+Settings.NoRecoil = State
 for i, v in pairs(getgc(true)) do
     if type(v) == "table" and rawget(v, "BaseRecoil") then
-        if getgenv().NoRecoil then
+        if Settings.NoRecoil then
         v.BaseRecoil = 0
         else
         v.BaseRecoil = 1
@@ -522,11 +590,11 @@ for i, v in pairs(getgc(true)) do
 end
 end)
 
-local Toggle1 = Section2:CreateToggle("NoSpread", nil, function(State)
-NoSpread = State
+local Toggle1 = Section2:CreateToggle("NoSpread", Settings.NOSpread, function(State)
+Settings.NOSpread = State
 for i, v in pairs(getgc(true)) do
     if type(v) == "table" and rawget(v, "BaseRecoil") then
-        if getgenv().NoSpread then
+        if Settings.NoSpread then
         v.FanAccuracy = 0
         v.ProjectileAccuracy = 0
         else
@@ -538,50 +606,83 @@ end
 end)
 
 
-local Toggle1 = Section2:CreateToggle("Wallbang", nil, function(State)
-Wallbang = State
+local Toggle1 = Section2:CreateToggle("Wallbang", Settings.WallBang, function(State)
+Settings.WallBang = State
 for i, v in pairs(getgc(true)) do
     if type(v) == "table" and rawget(v, "BaseRecoil") then
-        v.ProjectilePenetration = Wallbang == false and Key["Weapons"][i].ProjectilePenetration or 1000
+        v.ProjectilePenetration = Settings.WallBang == false and Key["Weapons"][i].ProjectilePenetration or 1000
     end
 end
 end)
-local Toggle1 = Section2:CreateToggle("InstantReload", nil, function(State)
-getgenv().InstantReload = State
+local Toggle1 = Section2:CreateToggle("InstantReload", Settings.InstantReload, function(State)
+Settings.InstantReload = State
 for i, v in pairs(getgc(true)) do
     if type(v) == "table" and rawget(v, "BaseRecoil")  then
-        v.ReloadSpeed = InstantReload == false and Key["Weapons"][i].ReloadSpeed or 1000
-        v.LoadSpeed = InstantReload == false and Key["Weapons"][i].LoadSpeed or 1000
-        v.LoadEndSpeed = InstantReload == false and Key["Weapons"][i].LoadEndSpeed or 1000
+        v.ReloadSpeed = Settings.InstantReload == false and Key["Weapons"][i].ReloadSpeed or 1000
+        v.LoadSpeed = Settings.InstantReload == false and Key["Weapons"][i].LoadSpeed or 1000
+        v.LoadEndSpeed = Settings.InstantReload == false and Key["Weapons"][i].LoadEndSpeed or 1000
     end
 end
 end)
-local Toggle1 = Section2:CreateToggle("Anti Grass", nil, function(State)
-getgenv().Grass = State
-if getgenv().Grass then
+local Toggle1 = Section2:CreateToggle("Anti Grass", Settings.Grass, function(State)
+Settings.Grass = State
+if Settings.Grass then
     sethiddenproperty(workspace.Terrain, "Decoration", false)
 else
     sethiddenproperty(workspace.Terrain, "Decoration", true)
 end
 end)
 
-local Toggle1 = Section2:CreateToggle("Anti Trees", nil, function(State)
-    getgenv().Simp = State
+local Toggle1 = Section2:CreateToggle("Anti Trees", Settings.Simp, function(State)
+    Settings.Simp = State
 end)
 
-local Toggle1 = Section2:CreateToggle("Anti Vegetation", nil, function(State)
-    getgenv().Simp2 = State
+local Toggle1 = Section2:CreateToggle("Anti Vegetation", Settings.Simp2, function(State)
+    Settings.Simp2 = State
 end)
 
-local Toggle1 = Section2:CreateToggle("Instant Cook Meat", nil, function(State)
-getgenv().Cook = State
-while wait(1) and getgenv().Cook do
+spawn(
+    function()
+        while wait(1) do
+            for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Geometry"]:GetChildren()) do
+                if v:FindFirstChild("Trees") then
+                    for i, v in pairs(v.Trees:GetChildren()) do
+                        if v.ClassName == "Model" and v:FindFirstChild("Leaves") then
+                            if Settings.Simp then
+                                v.Leaves.Transparency = 1
+                                v.Trunk.Transparency = 1
+                            else
+                                v.Leaves.Transparency = 0
+                                v.Trunk.Transparency = 0
+                            end
+                        end
+                    end
+                elseif v:FindFirstChild("Vegetation") then
+                    for i, v in pairs(v.Vegetation:GetChildren()) do
+                        if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") then
+                            if Settings.Simp2 then
+                                v:FindFirstChildOfClass("MeshPart").Transparency = 1
+                            else
+                                v:FindFirstChildOfClass("MeshPart").Transparency = 0
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+)
+
+local Toggle1 = Section2:CreateToggle("Instant Cook Meat", Settings.Cook, function(State)
+Settings.Cook = State
+spawn(function()
+while wait(1) and Settings.Cook do
     for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Placeables:GetChildren()) do
         if v.ClassName == "Model" and v.Owner.Value == game.Players.LocalPlayer then
             wait(0.5)
             repeat
                 wait()
-            until v.Center or getgenv().Cook
+            until v.Center or Settings.Cook
             game:GetService("ReplicatedStorage").Communication.Events.StartCookingAtCampFire:FireServer(v.Center)
             game:GetService("ReplicatedStorage").Communication.Events.CookFood:FireServer(v.Center)
             game:GetService("ReplicatedStorage").Communication.Events.StopCookingAtCampFire:FireServer(v.Center)
@@ -589,14 +690,14 @@ while wait(1) and getgenv().Cook do
     end
 end
 end)
+end)
 
-
-local Toggle1 = Section2:CreateToggle("Anti Rain", nil, function(State)
-rain = State
+local Toggle1 = Section2:CreateToggle("Anti Rain", Settings.Rain, function(State)
+Settings.Rain = State
 local save = game:GetService("ReplicatedStorage").GlobalWeather.RainPercent.Value
 game:GetService("RunService").Stepped:Connect(
     function()
-        if rain then
+        if Settings.Rain then
             game:GetService("ReplicatedStorage").GlobalWeather.RainPercent.Value = 0
         else
             game:GetService("ReplicatedStorage").GlobalWeather.RainPercent.Value = save
@@ -605,126 +706,88 @@ game:GetService("RunService").Stepped:Connect(
 )
 end)
 
-
-local Toggle1 = Section2:CreateToggle("Ore Esp", nil, function(State)
-getgenv().esp = State
-local function esp(v)
-    local T = Drawing.new("Text")
-    T.Visible = false
-    T.Center = true
-    T.Outline = true
-    T.Font = 2
-    T.Text = "Ore"
-    T.Size = 14
-    T.Color = Color3.fromRGB(203, 214, 73)
-    local function update()
-        local Re
-        Re =
-            game:GetService('RunService').Stepped:Connect(
-            function()
-                if v and v:FindFirstChildOfClass("MeshPart")  then wait()
-                    local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v:FindFirstChildOfClass("MeshPart").Position)
-                    if getgenv().esp and Screen then
-                        T.Position = Vector2.new(Vector.X, Vector.Y)
-                        T.Visible = true
-                        T.Text = v:FindFirstChildOfClass("MeshPart").Name
-                    else
-                        T.Visible = false
-                    end
-                elseif v:FindFirstChildOfClass("MeshPart") == nil then
-                    T:Remove()
-                    Re:disconnect()
-                end
-            end
-        )
-    end
-    update()
-end
-
-
-
-for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits:GetChildren()) do
-    if table.find(OreDeposits, v.Name) then
-        for i, v in pairs(v:GetChildren()) do
-            if v:FindFirstChildOfClass("MeshPart").Name:match("Ore") then
-                esp(v)
-            end
-        end
-    end
-end
-end)
-
-local Toggle1 = Section2:CreateToggle("Animal Esp", nil, function(State)
-getgenv().esp3 = State
-local function esp(v)
-    local T = Drawing.new("Text")
-    T.Visible = false
-    T.Center = true
-    T.Outline = true
-    T.Font = 2
-    T.Text = "Ore"
-    T.Size = 14
-    T.Color = Color3.fromRGB(203, 0, 0)
-    local function update()
-        local Re
-        Re =
-            game:GetService("RunService").Stepped:Connect(
-            function()
-                pcall(
-                    function()
-                        if v and v:FindFirstChildOfClass("MeshPart") then
-                            wait()
-                            local Vector, Screen =
-                                workspace.CurrentCamera:WorldToViewportPoint(
-                                v:FindFirstChildOfClass("MeshPart").Position
-                            )
-                            if getgenv().esp3 and Screen then
-                                T.Position = Vector2.new(Vector.X, Vector.Y)
-                                T.Visible = true
-                                T.Text = v.Name
-                            else
-                                T.Visible = false
-                            end
-                        elseif v:FindFirstChildOfClass("MeshPart") == nil then
-                            T:Remove()
-                            Re:disconnect()
-                        end
-                    end
-                )
-            end
-        )
-    end
-    update()
-end
-for i, v in pairs(game.Workspace.WORKSPACE_Entities.Animals:GetChildren()) do
-    if v.ClassName == "Model" and v:FindFirstChildOfClass("MeshPart") and not v.Name:match("Horse") then
-        esp(v)
-    end
-end
-game.Workspace.WORKSPACE_Entities.Animals.ChildAdded:Connect(
-    function(v)
-        if v:IsA("Model") and not v.Name:match("Horse") then
-            esp(v)
-        end
-    end
-)
-
-end)
-
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
-local Toggle1 = Section2:CreateToggle("Player Esp", nil, function(State)
-    ESP:Toggle(State)
+local Toggle1 = Section1:CreateToggle("Enable Esp", Settings.Esp, function(State)
+    Settings.Esp = State
+    ESP:Toggle(Settings.Esp)
+    
 end)
-local Toggle1 = Section2:CreateToggle("Tracers Esp", nil, function(State)
-    ESP.Tracers = State
+
+local Toggle1 = Section1:CreateToggle("PLayer Esp", Settings.PlayerEsp, function(State)
+    Settings.PlayerEsp = State
+    ESP.Players = Settings.PlayerEsp
 end)
-local Toggle1 = Section2:CreateToggle("Name Esp", nil, function(State)
-    ESP.Names = State
+
+
+local Toggle1 = Section2:CreateToggle("Ore Esp", Settings.Ore, function(State)
+Settings.Ore = State
+ESP.Ore = Settings.Ore
+ESP:AddObjectListener(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits, {
+    Color = Color3.new(20, 255, 228),
+    Type = "Model",
+    PrimaryPart = function(v)
+        local H = v:FindFirstChildWhichIsA("BasePart")
+        while not H do
+            wait()
+            H = v:FindFirstChildWhichIsA("BasePart")
+        end
+        return H
+    end,
+    Validator = function(v)
+    if v:FindFirstChildWhichIsA("BasePart").Name:match("Ore") then
+        return not game.Players:GetPlayerFromCharacter(v) and v:FindFirstChildWhichIsA("BasePart").Name:match("Ore")
+    end end,
+    CustomName = function(v)
+        return v:FindFirstChildWhichIsA("BasePart").Name:match("Ore")
+    end,
+    IsEnabled = "Ore",
+})
 end)
-local Toggle1 = Section2:CreateToggle("Boxes Esp", nil, function(State)
-    ESP.Boxes = State
+
+local Toggle1 = Section2:CreateToggle("Animal Esp", Settings.Animal, function(State)
+
+Settings.Animal = State
+ESP.Animal = Settings.Animal
+ESP:AddObjectListener(game.Workspace.WORKSPACE_Entities.Animals, {
+    Color = Color3.new(20, 255, 228),
+    Type = "Model",
+    PrimaryPart = function(v)
+        local H = v:FindFirstChildWhichIsA("BasePart")
+        while not H do
+            wait()
+            H = v:FindFirstChildWhichIsA("BasePart")
+        end
+        return H
+    end,
+    Validator = function(v)
+    if v.ClassName == "Model" and v:FindFirstChildWhichIsA("BasePart") and not v.Name:match("Horse") then
+        return not game.Players:GetPlayerFromCharacter(v) and v
+    end end,
+    CustomName = function(v)
+        return v.Name
+    end,
+    IsEnabled = "Animal",
+})
+
 end)
+
+local Toggle1 = Section1:CreateToggle("Tracers Esp", Settings.Tracers, function(State)
+    Settings.Tracers = State
+    ESP.Tracers = Settings.Tracers
+end)
+
+local Toggle1 = Section1:CreateToggle("Name Esp", Settings.EspNames, function(State)
+    ESP.Names = Settings.EspNames
+    Settings.EspNames = State
+end)
+
+local Toggle1 = Section1:CreateToggle("Boxes Esp", Settings.Boxes, function(State)
+    Settings.Boxes = State
+    ESP.Boxes = Settings.Boxes
+end)
+
+
 
 
 
