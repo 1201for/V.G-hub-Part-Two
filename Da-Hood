@@ -7,9 +7,7 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-if not hookmetamethod or not getrenv then
-    game.Players.LocalPlayer:Kick("You'll get banned if you try to execute this with that executor muchacho")
-end
+
 local NoNos = {
     "CHECKER_1",
     "TeleportDetect",
@@ -22,14 +20,14 @@ WalkSpeed,JumpPower
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args = {...}
-    if (getnamecallmethod() == "FireServer" and Args[1] == game:GetService("ReplicatedStorage").MainEvent and table.find(NoNos, Args[2])) then
+    if (getnamecallmethod() == "FireServer"  and table.find(NoNos, Args[2])) then
         return
     end
-     if getnamecallmethod()=="IsStudio"  then --e621 <3
+     if getnamecallmethod()=="IsStudio"  then
         return true
     end
     if (not checkcaller() and getfenv(2).crash) then
-        hookfunction(getfenv(2).crash, function() -- Stefanuk12 <3
+        hookfunction(getfenv(2).crash, function()
             return nil
         end)
     end
