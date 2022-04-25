@@ -1,233 +1,447 @@
-local Meta = getrawmetatable(game)
-local NewIndex = Meta.__newindex
-setreadonly(Meta, false)
+local Config = {
+    WindowName = "V.G Hub",
+	Color = Color3.fromRGB(255,128,64),
+	Keybind = Enum.KeyCode.RightControl
+}
+repeat wait() until game:IsLoaded() wait()
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+end)
 
-Meta.__newindex = newcclosure(function(t, k, ...)
-   if not checkcaller() and (k == "WalkSpeed" or k == "JumpPower") then
-       return
-   end
-   NewIndex(t, k, ...)
-end)
-setreadonly(Meta, true)
-spawn(function()
-game:GetService('RunService').Stepped:connect(function()
-if tree then
-game:GetService("Workspace").Water.CanCollide= true
-player = game.Players.LocalPlayer
-character = player.Character
-for _, v in pairs(character:GetDescendants()) do
-pcall(function()
-if v:IsA("BasePart") then
-v.CanCollide = false
-end
-end)
-end end 
-game:GetService("RunService").Stepped:wait()
-end)
- end)
-spawn(function()
-for i=1, math.huge do wait()
-if tree then
-game:GetService("VirtualUser"):ClickButton1(Vector2.new(125,125)) end  
-end end)
-spawn(function()
-while wait(1) do
-if tree then
-pcall(function()
-for i,v in pairs(game:GetService("Workspace").Plots:GetDescendants()) do
-if v.Name == "Owner" then
-if v.Value == game.Players.LocalPlayer then
-for i,v1 in pairs(v.Parent:GetDescendants()) do
-if string.find(v1.Name,"Tree_1") then 
-game.Players.LocalPlayer.Character.Humanoid:MoveTo(v1.MeshPart.CFrame.p)
-end
-if string.find(v1.Name,"Tree_2") then
-game.Players.LocalPlayer.Character.Humanoid:MoveTo(v1.MeshPart.CFrame.p) 
-end
-if string.find(v1.Name,"Tree_3") then
-game.Players.LocalPlayer.Character.Humanoid:MoveTo(v1.MeshPart.CFrame.p) 
-end
-end
-end
-end
-end
-end)
-end end 
-end)
-spawn(function()
-while wait(60) do
-if sell then
-for i,v in pairs(game:GetService("Workspace").Plots:GetDescendants()) do
-if v.Name == "Owner" then
-if v.Value == game.Players.LocalPlayer then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Parent["0_0"].Sell.CFrame.Position + Vector3.new(0,0,0))
-end end  end  end end  end)
-spawn(function()
-while wait() do
-if Upgrades then
-game:GetService("ReplicatedStorage").Communication.Remotes.Upgrade:FireServer("GoldenChance")
-game:GetService("ReplicatedStorage").Communication.Remotes.Upgrade:FireServer("TreeGrowth")
-game:GetService("ReplicatedStorage").Communication.Remotes.Upgrade:FireServer("AxeStrength")
-game:GetService("ReplicatedStorage").Communication.Remotes.Upgrade:FireServer("Speed")
-game:GetService("ReplicatedStorage").Communication.Remotes.Upgrade:FireServer("WCount")
-game:GetService("ReplicatedStorage").Communication.Remotes.Upgrade:FireServer("WStrength")
-game:GetService("ReplicatedStorage").Communication.Remotes.Upgrade:FireServer("WSpeed")
-game:GetService("ReplicatedStorage").Communication.Remotes.Upgrade:FireServer("WLogs")
-end 
-end end)
-spawn(function()
-while wait() do
-if expand then
-for i,v in pairs(game:GetService("Workspace").Promps.Expansion:GetChildren()) do
-v.CanCollide = false
-v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0,0,0)
-wait()
-v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame +  Vector3.new(0,0,0)
-end end end  end)        
 
-local Lib = loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/IMRETARDED'))()
-local CategoryVariableHere= Lib:Category("Timber")
-CategoryVariableHere:Toggle("Autofarm",function(State)
-tree = State
-end)
-CategoryVariableHere:Toggle("Auto Sell",function(State)
-sell = State
-end)
-CategoryVariableHere:Toggle("Auto Upgrade",function(State)
-Upgrade = State
-end)
-CategoryVariableHere:Toggle("Auto Expand",function(State)
-expand = State
-end)
-CategoryVariableHere:Label("Some features below might kick you due to anticheat")
-CategoryVariableHere:Slider("WalkSpeed",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Val end)
-CategoryVariableHere:Slider("JumpPower",16,16,100,function(Val) game.Players.LocalPlayer.Character.Humanoid.JumpPower = Val end)
-CategoryVariableHere:Toggle("InfiniteJump",function(State)
-InfiniteJumpEnabled = State
-game:GetService("UserInputService").JumpRequest:connect(function()
-	if InfiniteJumpEnabled then
-		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
-	end
-end) end)
-CategoryVariableHere:Button("BTools",function() 
-game.StarterGui:SetCoreGuiEnabled(2, true)
-a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-a.BinType = 2
-b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-b.BinType = 3
-c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
-c.BinType = 4 end)
-CategoryVariableHere:Button("G NoClip",function() 
-noclip = false
-game:GetService('RunService').Stepped:connect(function()
-if noclip then
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-end
-end)
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyDown:connect(function(key)
 
-if key == "g" then
-noclip = not noclip
-game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+local Name = "Timber.txt"
+
+Des = {}
+if makefolder then
+    makefolder("V.G Hub")
 end
-end) end)
-CategoryVariableHere:Button("B Fly",function()
-local gogo1000 = 0
-local LP = game:service('Players').LocalPlayer
-local MOUSE = LP:GetMouse()
-MOUSE.KeyDown:connect(function(KEY)
-if KEY:lower() == 'b' then
-local LP = game:service('Players').LocalPlayer
-local MOUSE = LP:GetMouse()
-gogo1000 = gogo1000 + 1
-_G.FLYING = false
-local T = LP.Character.UpperTorso
-local CONTROL = {F = 0, B = 0, L = 0, R = 0}
-local lCONTROL = {F = 0, B = 0, L = 0, R = 0}
-local SPEED = 5
-local function FLY()
-_G.FLYING = true
-local BG = Instance.new('BodyGyro', T)
-local BV = Instance.new('BodyVelocity', T)
-BG.P = 9e4
-BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-BG.cframe = T.CFrame
-BV.velocity = Vector3.new(0, 0.1, 0)
-BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
-spawn(function()
-repeat wait()
-LP.Character.Humanoid.PlatformStand = true
-if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 then
-SPEED = 50
-elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0) and SPEED ~= 0 then
-SPEED = 0
+
+local Settings
+
+if
+    not pcall(
+        function()
+            readfile("V.G Hub//" .. Name)
+        end
+    )
+ then
+    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Des))
 end
-if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 then
-BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
-elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and SPEED ~= 0 then
-BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+
+Settings = game:service "HttpService":JSONDecode(readfile("V.G Hub//" .. Name))
+
+local function Save()
+    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Settings))
+end
+
+
+local function getNearestTree()
+    local TargetDistance = math.huge
+    local Target
+    for i, v in pairs(game:GetService("Workspace").Plots:GetChildren()) do
+        if v:IsA("Folder") and v:FindFirstChild("Owner") and v.Owner.Value == game.Players.LocalPlayer then
+            for i, v in pairs(v:GetChildren()) do
+                if v:IsA("Model") and v.PrimaryPart then
+                    for i, v in pairs(v:GetChildren()) do
+                        if  v:FindFirstChild("MeshPart") and  v.MeshPart.BrickColor.Name == "Deep orange" or v:IsA("Model") and v.Name:find("Tree")  then
+                            local Mag =
+                                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildWhichIsA("BasePart").Position).Magnitude
+
+                            if Mag < TargetDistance then
+                                TargetDistance = Mag
+                                Target = v
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return Target
+end
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
+local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
+
+local Tab1 = Window:CreateTab("Stand Upright Rebooted")
+local Tab2 = Window:CreateTab("UI Settings")
+
+local Section1 = Tab1:CreateSection("AutoFarms")
+local Section2 = Tab1:CreateSection("Misc")
+local Section3 = Tab2:CreateSection("Menu")
+local Section4 = Tab2:CreateSection("Background")
+
+local Toggle1 = Section1:CreateToggle("Auto Farm", Settings.Walk, function(State)
+Settings.Walk = State
+spawn(
+    function()
+        while wait() and Settings.Walk do
+            pcall(
+                function()
+                    game:GetService("Workspace").Water.CanCollide = true
+                    wait(0.5)
+                    game:GetService("VirtualInputManager"):SendMouseButtonEvent(0, 0, 0, true, game, 1)
+                    game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestTree().MeshPart.CFrame.p)
+                end
+            )
+        end
+    end
+)
+
+end)
+
+local Toggle1 = Section1:CreateToggle("Auto Sell", Settings.AutoSell, function(State)
+Settings.AutoSell = State
+spawn(
+    function()
+        while Settings.AutoSell do
+            wait()
+            pcall(function()
+            for i, v in pairs(game:GetService("Workspace").Plots:GetChildren()) do
+                if v:IsA("Folder") and v:FindFirstChild("Owner") and v.Owner.Value == game.Players.LocalPlayer then
+                    for i, v in pairs(v:GetChildren()) do
+                        if v:IsA("Model") and v.Name == "0_0" then
+                            for i, v in pairs(v:GetChildren()) do
+                                if v:IsA("BasePart") and v.Name:find("Sell") then
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Hitbox.CFrame
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            end)
+            wait(65)
+        end
+    end
+)
+
+end)
+local Toggle1 = Section1:CreateToggle("Auto Claim Logs", Settings.AutoSells, function(State)
+Settings.AutoSells = State
+spawn(
+    function()
+        while Settings.AutoSells do
+            wait()
+            pcall(function()
+            for i, v in pairs(game:GetService("Workspace").Plots:GetChildren()) do
+                if v:IsA("Folder") and v:FindFirstChild("Owner") and v.Owner.Value == game.Players.LocalPlayer then
+                    for i, v in pairs(v:GetChildren()) do
+                        if v:IsA("Model") and v:FindFirstChild("Claim") then
+                            for i, v in pairs(v:GetChildren()) do
+                                if v:IsA("BasePart") and v.Name:find("Claim") then
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Hitbox.CFrame
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            end)
+            wait(60)
+            
+        end
+    end
+)
+end)
+
+local Toggle1 = Section1:CreateToggle("Auto Expansion island", Settings.Autoe, function(State)
+Settings.Autoe = State
+spawn(
+    function()
+        while Settings.Autoe do wait()
+            for i, v in pairs(game:GetService("Workspace").Promps.Expansion:GetChildren()) do
+                if v ~= nil and v:IsA("BasePart") then
+                    pcall(function()
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 0)
+                    end)
+                end
+            end
+        end
+    end
+)
+end)
+
+local Toggle1 = Section1:CreateToggle("Auto Collect Apples", Settings.Autor, function(State)
+Settings.Autor = State
+spawn(
+    function()
+        while Settings.Autor do wait()
+            for i, v in pairs(game:GetService("Workspace").Apples:GetChildren()) do
+                if v ~= nil and v:IsA("Model") and v:FindFirstChild("Main") then
+                    pcall(function()
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Main, 0)
+                    end)
+                end
+            end
+        end
+    end
+)
+end)
+
+
+
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+
+local Toggle1 = Section1:CreateToggle("Enable Esp", Settings.Esp, function(State)
+    Settings.Esp = State
+    ESP:Toggle(Settings.Esp)
+end)
+
+local Toggle1 = Section1:CreateToggle("PLayer Esp", Settings.PlayerEsp, function(State)
+    Settings.PlayerEsp = State
+    ESP.Players = Settings.PlayerEsp
+end)
+local Toggle1 = Section1:CreateToggle("Tracers Esp", Settings.Tracers, function(State)
+    Settings.Tracers = State
+    ESP.Tracers = Settings.Tracers
+end)
+local Toggle1 = Section1:CreateToggle("Name Esp", Settings.EspNames, function(State)
+    ESP.Names = Settings.EspNames
+    Settings.EspNames = State
+end)
+local Toggle1 = Section1:CreateToggle("Boxes Esp", Settings.Boxes, function(State)
+    Settings.Boxes = State
+    ESP.Boxes = Settings.Boxes
+end)
+
+local Toggle1 = Section2:CreateToggle("Infinite Jump", Settings.InfiniteJump, function(State)
+Settings.InfiniteJump = State
+game:GetService("UserInputService").JumpRequest:connect(
+    function()
+        if Settings.InfiniteJump then
+            game:GetService "Players".LocalPlayer.Character:FindFirstChildOfClass "Humanoid":ChangeState("Jumping")
+        end
+    end
+)
+end)
+
+
+local Toggle1 = Section2:CreateToggle("Invisicam", Settings.Sorry, function(State)
+Settings.Sorry = State
+if Settings.Sorry then
+    game:GetService("Players").LocalPlayer.DevCameraOcclusionMode = "Invisicam"
 else
-BV.velocity = Vector3.new(0, 0.1, 0)
-end
-BG.cframe = game.Workspace.CurrentCamera.CoordinateFrame
-until not _G.FLYING
-CONTROL = {F = 0, B = 0, L = 0, R = 0}
-lCONTROL = {F = 0, B = 0, L = 0, R = 0}
-SPEED = 0
-BG:destroy()
-BV:destroy()
-LP.Character.Humanoid.PlatformStand = false
-end)
-end
-MOUSE.KeyDown:connect(function(KEY)
-if KEY:lower() == 'w' then
-CONTROL.F = 1
-elseif KEY:lower() == 's' then
-CONTROL.B = -1
-elseif KEY:lower() == 'a' then
-CONTROL.L = -1 
-elseif KEY:lower() == 'd' then 
-CONTROL.R = 1
+    game:GetService("Players").LocalPlayer.DevCameraOcclusionMode = "Zoom"
 end
 end)
-MOUSE.KeyUp:connect(function(KEY)
-if KEY:lower() == 'w' then
-CONTROL.F = 0
-elseif KEY:lower() == 's' then
-CONTROL.B = 0
-elseif KEY:lower() == 'a' then
-CONTROL.L = 0
-elseif KEY:lower() == 'd' then
-CONTROL.R = 0
+
+local Toggle1 = Section2:CreateToggle("N Noclip", Settings.Sex1, function(State)
+noclips = false
+Settings.Sex1 = State
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "n" then
+            if Settings.Sex1 then
+                noclips = not noclips
+                for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                    if v:IsA("BasePart") then
+                        v.CanCollide = false
+                    end
+                end
+            end
+        end
+    end
+)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclips then
+            for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if v:IsA("BasePart") then
+                    v.CanCollide = false
+                end
+            end
+        end
+    end
+)
+
+end)
+
+local Toggle1 = Section2:CreateToggle("G Noclip", Settings.Sex, function(State)
+Settings.Sex = State
+noclip = false
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclip then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+mouse = game.Players.LocalPlayer:GetMouse()
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "g" then
+            if Settings.Sex then
+                noclip = not noclip
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            end
+        end
+    end
+)
+end)
+local Toggle1 = Section2:CreateToggle("H Fly", Settings.Sex2, function(State)
+Settings.Sex2 = State
+local Max = 0
+local Players = game.Players
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(
+    function(k)
+        if k:lower() == "h" then
+            Max = Max + 1
+            getgenv().Fly = false
+            if Settings.Sex2 then
+                local T = LP.Character.UpperTorso
+                local S = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local S2 = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local SPEED = 5
+                local function FLY()
+                    getgenv().Fly = true
+                    local BodyGyro = Instance.new("BodyGyro", T)
+                    local BodyVelocity = Instance.new("BodyVelocity", T)
+                    BodyGyro.P = 9e4
+                    BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    BodyGyro.cframe = T.CFrame
+                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                    BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                    spawn(
+                        function()
+                            repeat
+                                wait()
+                                LP.Character.Humanoid.PlatformStand = false
+                                if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+                                    SPEED = 200
+                                elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+                                    SPEED = 0
+                                end
+                                if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) -
+                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                    S2 = {
+                                        F = S.F,
+                                        B = S.B,
+                                        L = S.L,
+                                        R = S.R
+                                    }
+                                elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) -
+                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                else
+                                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                                end
+                                BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+                            until not getgenv().Fly
+                            S = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            S2 = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            SPEED = 0
+                            BodyGyro:destroy()
+                            BodyVelocity:destroy()
+                            LP.Character.Humanoid.PlatformStand = false
+                        end
+                    )
+                end
+                Mouse.KeyDown:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 1
+                        elseif k:lower() == "s" then
+                            S.B = -1
+                        elseif k:lower() == "a" then
+                            S.L = -1
+                        elseif k:lower() == "d" then
+                            S.R = 1
+                        end
+                    end
+                )
+                Mouse.KeyUp:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 0
+                        elseif k:lower() == "s" then
+                            S.B = 0
+                        elseif k:lower() == "a" then
+                            S.L = 0
+                        elseif k:lower() == "d" then
+                            S.R = 0
+                        end
+                    end
+                )
+                FLY()
+                if Max == 2 then
+                    getgenv().Fly = false
+                    Max = 0
+                end
+            end
+        end
+    end
+)
+end)
+local Button1 = Section2:CreateButton("Anti Lag", function()
+for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
+        v.Material = Enum.Material.SmoothPlastic
+        if v:IsA("Texture") then
+            v:Destroy()
+        end
+    end
 end
 end)
-FLY()
-if gogo1000 == 2 then
-_G.FLYING = false
-gogo1000 = 0
-end
-end
-end) end)
 
-CategoryVariableHere:Button("teleport to Random Player",function()
-local randomPlayer = game.Players:GetPlayers()
-[math.random(1,#game.Players:GetPlayers())]
+local Button1 = Section2:CreateButton("Teleport to RandomPlayer", function()
+local randomPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z)) end)
-CategoryVariableHere:Button("Lag Switch F3",function()
-local a = false
-local b = settings()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+    CFrame.new(
+    Vector3.new(
+        randomPlayer.Character.Head.Position.X,
+        randomPlayer.Character.Head.Position.Y,
+        randomPlayer.Character.Head.Position.Z
+    )
+)
+end)
+local Button1 = Section2:CreateButton("Lag Switch F3", function()
+local ass = false
+local bitch = settings()
 
-game:service'UserInputService'.InputEnded:connect(function(i)
-if i.KeyCode == Enum.KeyCode.F3 then
-a = not a
-b.Network.IncomingReplicationLag = a and 10 or 0
-end
-end) end) 
-CategoryVariableHere:Button("ServerHop",function()
+game:service "UserInputService".InputEnded:connect(
+    function(i)
+        if i.KeyCode == Enum.KeyCode.F3 then
+            ass = not ass
+            bitch.Network.IncomingReplicationLag = ass and 10 or 0
+        end
+    end
+)
+ end) 
+local Button1 = Section2:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
 local foundAnything = ""
@@ -298,9 +512,69 @@ function Teleport()
 end
 
 -- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Teleport() after it collected everything.
-Teleport()
+Teleport() 
 end)
-local CategoryVariableHere= Lib:Category("Credits")     
-CategoryVariableHere:Label("Credits to a r q for ui liba")
-CategoryVariableHere:Label("Credits to DekuDimz#7960 aka me lol")
-Lib:Reload()
+local Button1 = Section2:CreateButton("Rejoin", function()
+game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
+
+
+
+
+
+local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
+	Window:Toggle(State)
+end)
+Toggle3:CreateKeybind(tostring(Config.Keybind):gsub("Enum.KeyCode.", ""), function(Key)
+	Config.Keybind = Enum.KeyCode[Key]
+end)
+Toggle3:SetState(true)
+Section3:CreateLabel("Credits DekuDimz#7960")
+Section3:CreateLabel("Credits AlexR32#3232 Ui")
+Section3:CreateLabel("Credits The3Bakers")
+local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
+	Window:ChangeColor(Color)
+end)
+Colorpicker3:UpdateColor(Config.Color)
+
+-- credits to jan for patterns
+local Dropdown3 = Section4:CreateDropdown("Image", {"Default","Hearts","Abstract","Hexagon","Circles","Lace With Flowers","Floral"}, function(Name)
+	if Name == "Default" then
+		Window:SetBackground("2151741365")
+	elseif Name == "Hearts" then
+		Window:SetBackground("6073763717")
+	elseif Name == "Abstract" then
+		Window:SetBackground("6073743871")
+	elseif Name == "Hexagon" then
+		Window:SetBackground("6073628839")
+	elseif Name == "Circles" then
+		Window:SetBackground("6071579801")
+	elseif Name == "Lace With Flowers" then
+		Window:SetBackground("6071575925")
+	elseif Name == "Floral" then
+		Window:SetBackground("5553946656")
+	end
+end)
+Dropdown3:SetOption("Default")
+
+local Colorpicker4 = Section4:CreateColorpicker("Color", function(Color)
+	Window:SetBackgroundColor(Color)
+end)
+Colorpicker4:UpdateColor(Color3.new(1,1,1))
+
+local Slider3 = Section4:CreateSlider("Transparency",0,1,nil,false, function(Value)
+	Window:SetBackgroundTransparency(Value)
+end)
+Slider3:SetValue(0)
+
+local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value)
+	Window:SetTileScale(Value)
+end)
+Slider4:SetValue(0.5)
+
+
+spawn(function()
+while wait() do
+Save()
+end end)
+
+
