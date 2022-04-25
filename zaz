@@ -8,7 +8,7 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-local Name = "AnimeRifts.txt"
+local Name = "AnimeRifts.json"
 
 Des = {}
 if makefolder then
@@ -701,22 +701,21 @@ end)
 
 
 local Toggle1 = Section1:CreateToggle("NPC Semi Godmode", Settings.SemiGodMode, function(State)
+Settings.SemiGodMode = State
 spawn(
     function()
         while Settings.SemiGodMode do
             wait()
-            pcall(
-                function()
+                pcall(function()
                     if Settings.SemiGodMode then
-                        if game.Players.LocalPlayer.Character:FindFirstChild("Player") and not Settings.AutoAllBosses or not Settings.AutoBosses then
+                        if game.Players.LocalPlayer.Character:FindFirstChild("Player") then
                             game.Players.LocalPlayer.Character:WaitForChild("Player"):remove()
                         end
                     end
-                    if not Settings.SemiGodMode and not game.Players.LocalPlayer.Character:FindFirstChild("Player") then
+                    if not Settings.SemiGodMode then
                         game.Players.LocalPlayer.Character.Humanoid.Health = 0
                     end
-                end
-            )
+            end)
         end
     end
 )
