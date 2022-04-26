@@ -64,7 +64,7 @@ end
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("Timber")
+local Tab1 = Window:CreateTab("Stand Upright Rebooted")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("AutoFarms")
@@ -80,7 +80,7 @@ spawn(
             pcall(
                 function()
                     game:GetService("Workspace").Water.CanCollide = true
-                    wait(0.5)
+                    wait(0.3)
                     game:GetService("VirtualInputManager"):SendMouseButtonEvent(0, 0, 0, true, game, 1)
                     game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestTree().MeshPart.CFrame.p)
                 end
@@ -178,6 +178,45 @@ spawn(
         end
     end
 )
+end)
+local Toggle1 = Section1:CreateToggle("Auto Claim Mission", Settings.ClaimMission, function(State)
+Settings.ClaimMission = State
+while Settings.ClaimMission do
+    wait(2)
+    pcall(
+        function()
+            game:GetService("ReplicatedStorage").Communication.ClaimMission:FireServer()
+        end
+    )
+end
+
+end)
+
+local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
+Settings.Go = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if Settings.Go then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").JumpPower = Settings.JumpPower
+            if not game:GetService("UserInputService").WindowFocusReleased then
+                setfpscap(Settings.Fps)
+            end
+        end
+    end
+)
+
+end)
+
+local TextBox1 = Section2:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
+    Settings.Fps = Value
+end)
+
+local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
+    Settings.WalkSpeed = Value
+end)
+local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
+    Settings.JumpPower = Value
 end)
 
 
@@ -576,5 +615,4 @@ spawn(function()
 while wait() do
 Save()
 end end)
-
 
