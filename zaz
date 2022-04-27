@@ -193,7 +193,38 @@ function c()
         end
     end
 end
+--[[
+local Player = game.Players.LocalPlayer
+local Values = Players.PlayerValues
+local Level = Values.Level
+local Legendarys = {
+    "Eternal Horror Legendary Super Saiyan Broly",
+    "Burning Fury Super Saiyan Blue Vegeta",
+    "Symbol of Death Kid Buu",
+    "Unrivaled Saiyan's Peak Super Saiyan 4 Vegeta",
+    "Mark of Almighty Power Goku Black Rose",
+    "Umpire of Annihilation Beerus",
+    "End of the Human World Goku Black",
+    "Full Power of Destruction Ultra Ego Vegeta",
+    "Lost in Annihilation Ultra Ego Vegeta",
+    "Astonishing Even the Gods Ultra Instinct Goku"
+}
+while wait() do
+    if Level.Value == 1000 then
+        for i, v in pairs(Player.Backpack:GetChildren()) do
+            if
+                v:IsA("Tool") and v.Name == "Requiem Arrow" and v:FindFirstChild("Handle") and
+                    Value.Ability.Value ~= Settings.WantedLegendary or
+                    Settings.GoForIt and table.find(Legendarys, Value.Ability.Value)
+             then
+                Player.Character.Humanoid:EquipTool(v)
+            end
+        end
+    end
+end
+]]--
 
+-- NO NOT YET MY FRIEND SOON THE DAY WILL COME WHEN THESE FEATURES WILL COME TO LIGHT DO NOT WORRY ABOUT THE FURTURE KEEP YOU MIND IN THE PRESENT  DO NOT SUCCUMB TO YOUR DESIRE TO BE AS ANNOYING AS POSSIBLE TO ME xD
 
 
 local OldNameCall = nil
