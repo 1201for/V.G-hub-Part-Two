@@ -64,6 +64,7 @@ local Table = {
     "Insect Breathing",
     "Yami's Dark Magic",
     "Yami's Dark Magic v2"
+    --"Full Tilt Kamehameha Super Saiyan 2 Gohan"
     
 }
 local Races = {
@@ -95,6 +96,7 @@ local Specializations = {
     "Borg",
     "Busoshoku Haki"
 }
+
 
 Table2 = {}
 
@@ -205,9 +207,11 @@ local Legendarys = {
     "Mark of Almighty Power Goku Black Rose",
     "Umpire of Annihilation Beerus",
     "End of the Human World Goku Black",
+    "Shadow Dragon Slayer Magic"
     "Full Power of Destruction Ultra Ego Vegeta",
     "Lost in Annihilation Ultra Ego Vegeta",
     "Astonishing Even the Gods Ultra Instinct Goku"
+    
 }
 while wait() do
     if Level.Value == 1000 then
