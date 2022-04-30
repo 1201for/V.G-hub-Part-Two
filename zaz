@@ -7,7 +7,6 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-
 local Name = "AnimeRifts.json"
 
 Des = {}
@@ -24,14 +23,15 @@ if
         end
     )
  then
-    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Des))
+    writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Des))
 end
 
-Settings = game:service "HttpService":JSONDecode(readfile("V.G Hub//" .. Name))
+Settings = game:GetService("HttpService"):JSONDecode(readfile("V.G Hub//" .. Name))
 
 local function Save()
-    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Settings))
+    writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Settings))
 end
+
 
 aka = {
     "Requiem Arrow",
