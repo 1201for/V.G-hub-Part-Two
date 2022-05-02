@@ -63,8 +63,8 @@ local Table = {
     "Water Breathing",
     "Insect Breathing",
     "Yami's Dark Magic",
-    "Yami's Dark Magic v2"
-    --"Full Tilt Kamehameha Super Saiyan 2 Gohan"
+    "Yami's Dark Magic v2",
+    "Full Tilt Kamehameha Super Saiyan 2 Gohan"
     
 }
 local Races = {
@@ -190,45 +190,31 @@ end
 
 function c()
     for i, v in pairs(game.Players.LocalPlayer:WaitForChild("Backpack"):GetChildren()) do
-        if v.ClassName == "Tool" and v:FindFirstChild("Combat Script") then wait(0.001)
+        if v.ClassName == "Tool" and v:FindFirstChild("Combat Script")  then wait(0.001)
             game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(v)
         end
     end
 end
---[[
 local Player = game.Players.LocalPlayer
-local Values = Players.PlayerValues
+local Values = Player.PlayerValues
 local Level = Values.Level
 local Legendarys = {
-    "Eternal Horror Legendary Super Saiyan Broly",
-    "Burning Fury Super Saiyan Blue Vegeta",
     "Symbol of Death Kid Buu",
     "Unrivaled Saiyan's Peak Super Saiyan 4 Vegeta",
     "Mark of Almighty Power Goku Black Rose",
     "Umpire of Annihilation Beerus",
     "End of the Human World Goku Black",
-    "Shadow Dragon Slayer Magic"
+    "Shadow Dragon Slayer Magic",
+       "Lightning Dragon Slayer Magic",
+    "Shadow Dragon Slayer Magic",
+    "Fire Dragon Slayer Magic",
+    "Fire Dragon Slayer Magic v2",
     "Full Power of Destruction Ultra Ego Vegeta",
     "Lost in Annihilation Ultra Ego Vegeta",
-    "Astonishing Even the Gods Ultra Instinct Goku"
+    "Astonishing Even the Gods Ultra Instinct Goku",
+ 
     
 }
-while wait() do
-    if Level.Value == 1000 then
-        for i, v in pairs(Player.Backpack:GetChildren()) do
-            if
-                v:IsA("Tool") and v.Name == "Requiem Arrow" and v:FindFirstChild("Handle") and
-                    Value.Ability.Value ~= Settings.WantedLegendary or
-                    Settings.GoForIt and table.find(Legendarys, Value.Ability.Value)
-             then
-                Player.Character.Humanoid:EquipTool(v)
-            end
-        end
-    end
-end
-]]--
-
--- NO NOT YET MY FRIEND SOON THE DAY WILL COME WHEN THESE FEATURES WILL COME TO LIGHT DO NOT WORRY ABOUT THE FURTURE KEEP YOU MIND IN THE PRESENT  DO NOT SUCCUMB TO YOUR DESIRE TO BE AS ANNOYING AS POSSIBLE TO ME xD
 
 
 local OldNameCall = nil
@@ -266,8 +252,6 @@ aa = 0
 Settings.Amount = 10
 
 local Vet = game:GetService("VirtualInputManager")
-local huh = {"Strength", "Magic", "Endurance"}
-local Void = Vector3.new(0,-483,0)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -379,6 +363,7 @@ for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
     end
 end
 end)
+
 local Toggle1 = Section1:CreateToggle("Player Silent Aim", Settings.PlayerSilentAim, function(State)
 Settings.PlayerSilentAim = State
 
@@ -1057,12 +1042,31 @@ while wait(1) and Settings.AutoWish do pcall(function()
         end
     end
 
+        if Settings.WishMethod == "Better Clothes" and game:GetService("Players").LocalPlayer.PlayerGui.Menu.ShenronButton.Visible == true then
+        game:GetService("ReplicatedStorage").RemoteEvents.ShenronRemote:FireServer("The Strongest")
+    end
+    
+    if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Bag") then
+        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v.Name == "Bag" and v:FindFirstChild("BagPart") and 
+                      v.BagPart.Overhead.Rarity.Text == "Legendary" then
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+            end
+        end
+        for i = 1, 13 do
+            for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                if v.Name:match("BagStorage" .. i) and v.Value == "" then wait()
+                    game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                end
+            end
+        end
+    end
     end)
 end
 end)
 end)
 Toggle1:AddToolTip("Automatically wishs for seclected Wish need all dragon balls to use")
-local Dropdown1 = Section1:CreateDropdown("Wish Method", {"The Strongest","Reborn"}, function(String)
+local Dropdown1 = Section1:CreateDropdown("Wish Method", {"The Strongest","Reborn","Better Clothes"}, function(String)
     Settings.WishMethod = String
 end)
 
@@ -1444,6 +1448,90 @@ end)
 
 local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, function(Value)
    getgenv().delay = Value
+end)
+
+
+local Toggle1 = Section2:CreateToggle("Auto Find All Legendary Abilitys", Settings.GoForIt, function(State)
+Settings.GoForIt = State
+end)
+
+local Toggle1 = Section2:CreateToggle("Auto Find Legendary Ability Slot 1", Settings.AbilityE, function(State)
+Settings.AbilityE = State
+spawn(
+    function()
+        while wait() and Settings.AbilityE do
+            if
+                Values.Ability.Value ~= Settings.WantedLegendary or
+                    Settings.GoForIt and not table.find(Legendarys, Values.Ability.Value)
+             then
+                wait()
+                if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
+                    for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                        if
+                            v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") and Level.Value ~= 1000 and
+                                not v:FindFirstChild("Requiem Arrow")
+                         then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            v:Destroy()
+                        elseif  v.Name == "Requiem Arrow" and Level.Value == 1000 then
+                            game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                            game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                            game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer(
+                                "Moveset1"
+                            )
+                        end
+                    end
+                else
+                    if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
+                        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+                    end
+                end
+            end
+        end
+    end
+)
+
+
+end)
+
+local Toggle1 = Section2:CreateToggle("Auto Find Legendary Ability Slot 2", Settings.AbilityA, function(State)
+Settings.AbilityA = State
+spawn(
+    function()
+        while wait() and Settings.AbilityA do
+            if
+                Values.Ability2.Value ~= Settings.WantedLegendary or
+                    Settings.GoForIt and not table.find(Legendarys, Values.Ability2.Value)
+             then
+                wait()
+                if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
+                    for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                        if v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") then
+                            v.Parent = game.Players.LocalPlayer.Character
+                            v:Destroy()
+                        elseif  v.Name == "Requiem Arrow" then
+                            game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                            game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                            game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer(
+                                "Moveset2"
+                            )
+                        end
+                    end
+                else
+                    if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
+                        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+                    end
+                end
+            end
+        end
+    end
+)
+
+
+end)
+
+local Dropdown1 = Section2:CreateDropdown("Legendary Abilitys", Legendarys, function(String)
+	Settings.WantedLegendary = String
 end)
 
 local Toggle1 = Section2:CreateToggle("Auto Ability 1", Settings.AutoAbility, function(State)
