@@ -1529,7 +1529,7 @@ spawn(
                                     game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow"))
                                     game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
                                     game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer(
-                                        "Moveset1"
+                                        "Moveset2"
                                     )
                                 end
                             if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
