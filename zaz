@@ -216,6 +216,13 @@ local Legendarys = {
     
 }
 
+local Mysticals = {
+       "Full Power of Destruction Ultra Ego Vegeta",
+    "Lost in Annihilation Ultra Ego Vegeta",
+    "Astonishing Even the Gods Ultra Instinct Goku"
+    
+}
+
 
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(k, ...)
@@ -1464,7 +1471,7 @@ spawn(
                 function()
                     if
                         Values.Ability.Value ~= Settings.WantedLegendary or
-                            Settings.GoForIt and not table.find(Legendarys, Values.Ability.Value)
+                            Settings.GoForIt and not table.find(Legendarys, Values.Ability.Value)or Settings.OnlyMysticals and not table.find(Mysticals,Values.Ability.Value)
                      then
                         wait()
                         if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
@@ -1506,7 +1513,7 @@ spawn(
                 function()
                     if
                         Values.Ability2.Value ~= Settings.WantedLegendary or
-                            Settings.GoForIt and not table.find(Legendarys, Values.Ability2.Value)
+                            Settings.GoForIt and not table.find(Legendarys, Values.Ability2.Value) or Settings.OnlyMysticals and not table.find(Mysticals,Values.Ability2.Value)
                      then
                         wait()
                         if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
@@ -1541,6 +1548,9 @@ local Dropdown1 = Section2:CreateDropdown("Legendary Abilitys", Legendarys, func
 	Settings.WantedLegendary = String
 end)
 
+local Toggle1 = Section2:CreateToggle("Only Find Mysticals", Settings.OnlyMysticals, function(State)
+Settings.OnlyMysticals = State
+end)
 local Toggle1 = Section2:CreateToggle("Auto Ability 1", Settings.AutoAbility, function(State)
 Settings.AutoAbility = State
 spawn(function()
