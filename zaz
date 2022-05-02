@@ -1470,20 +1470,20 @@ spawn(
                         if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
                             for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                                 if
-                                    v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") and Level.Value ~= 1000 and
-                                        not v:FindFirstChild("Requiem Arrow")
+                                    v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") 
                                  then
                                     v.Parent = game.Players.LocalPlayer.Character
                                     v:Destroy()
-                                elseif v.Name == "Requiem Arrow" and Level.Value == 1000 then
-                                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                                 end
+                        end 
+                        else
+                            if game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") and Level.Value == 1000 then
+                                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow"))
                                     game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
                                     game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer(
                                         "Moveset1"
                                     )
                                 end
-                            end
-                        else
                             if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
                                 game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
                             end
@@ -1514,15 +1514,17 @@ spawn(
                                 if v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") then
                                     v.Parent = game.Players.LocalPlayer.Character
                                     v:Destroy()
-                                elseif v.Name == "Requiem Arrow" then
-                                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-                                    game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-                                    game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer(
-                                        "Moveset2"
-                                    )
+                         
                                 end
                             end
                         else
+                            if game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") and Level.Value == 1000 then
+                                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow"))
+                                    game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                                    game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer(
+                                        "Moveset1"
+                                    )
+                                end
                             if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
                                 game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
                             end
