@@ -215,6 +215,16 @@ local Legendarys = {
  
     
 }
+local LegRaces = {
+    "Lunarian",
+    "Mink",
+    "Angel",
+    "Baby (Possessed)",
+    "Heeter Race",
+    "Hit's Race",
+    "Toppo's Race",
+    "Beerus' Race"
+}
 
 local Mysticals = {
        "Full Power of Destruction Ultra Ego Vegeta",
@@ -1458,11 +1468,11 @@ local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, fun
 end)
 
 
-local Toggle1 = Section2:CreateToggle("Auto Find All Legendary Abilitys", Settings.GoForIt, function(State)
+local Toggle1 = Section2:CreateToggle("Auto All Legendary Abilitys", Settings.GoForIt, function(State)
 Settings.GoForIt = State
 end)
 
-local Toggle1 = Section2:CreateToggle("Auto Find Legendary Ability Slot 1", Settings.AbilityE, function(State)
+local Toggle1 = Section2:CreateToggle("Auto Legendary Ability Slot 1", Settings.AbilityE, function(State)
 Settings.AbilityE = State
 spawn(
     function()
@@ -1504,7 +1514,7 @@ spawn(
 
 end)
 
-local Toggle1 = Section2:CreateToggle("Auto Find Legendary Ability Slot 2", Settings.AbilityA, function(State)
+local Toggle1 = Section2:CreateToggle("Auto Legendary Ability Slot 2", Settings.AbilityA, function(State)
 Settings.AbilityA = State
 spawn(
     function()
@@ -1550,6 +1560,48 @@ end)
 
 local Toggle1 = Section2:CreateToggle("Only Find Mysticals", Settings.OnlyMysticals, function(State)
 Settings.OnlyMysticals = State
+end)
+
+
+local Toggle1 = Section2:CreateToggle("Auto Legendary Race", Settings.Raceing, function(State)
+Settings.Raceing = State
+spawn(
+    function()
+        while wait() and Settings.Raceing do
+            pcall(
+                function()
+                    if
+                        Values.Race.Value ~= Settings.LegRace or
+                            Settings.GoForIt and not table.find(LegRaces, Values.Race.Value)
+                     then
+                        wait()
+                        if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
+                            for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                                if v.Name ~= "Platnium Heart" and v.Name:find("Heart") then
+                                    v.Parent = game.Players.LocalPlayer.Character
+                                    v:Destroy()
+                         
+                                end
+                            end
+                        else
+                            if game.Players.LocalPlayer.Backpack:FindFirstChild("Platnium Heart") and Level.Value == 1000 and Values.Race.Value ~= Settings.LegRace then
+                                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Platnium Heart"))
+                                    game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                                end
+                            if not game.Players.LocalPlayer.Backpack:FindFirstChild("Platnium Heart") then
+                                game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
+                            end
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
+end)
+
+local Dropdown1 = Section2:CreateDropdown("Legendary Races", LegRaces, function(String)
+	Settings.LegRace = String
 end)
 local Toggle1 = Section2:CreateToggle("Auto Ability 1", Settings.AutoAbility, function(State)
 Settings.AutoAbility = State
