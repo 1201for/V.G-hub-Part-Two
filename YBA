@@ -98,7 +98,7 @@ while yessir do
             for i, v in pairs(game.Workspace.Living:GetChildren()) do
                 if
                     v.ClassName == "Model" and v.Name == mobs and v:FindFirstChild("Humanoid") and
-                        v:FindFirstChildOfClass("Humanoid").Health ~= 0
+                        v.Humanoid.Health ~= 0.1
                  then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
