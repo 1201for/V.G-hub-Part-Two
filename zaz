@@ -1063,7 +1063,7 @@ while wait(1) and Settings.AutoWish do pcall(function()
         for i = 1, 13 do
             for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
                 if v.Name:match("BagStorage" .. i) and v.Value == "" then wait()
-                    game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                game:GetService("ReplicatedStorage").RemoteEvents.BagStorageRemote:FireServer(v.Name)
                 end
             end
         end
