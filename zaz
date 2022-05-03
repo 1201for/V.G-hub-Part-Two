@@ -32,19 +32,6 @@ local function Save()
     writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Settings))
 end
 
-local BlackList = {
-    "Fake",
-    "Demolished",
-    "Mundane",
-    "Ruined",
-    "Small",
-    "Broken",
-    "Wrecked",
-    "Flawed",
-    "Used",
-    "Crude",
-    "Rusty"
-}
 
 aka = {
     "Requiem Arrow",
@@ -810,6 +797,25 @@ local Cooldown; Cooldown = hookfunction(wait, function(v)
 end);
 end)
 
+Section1:CreateTextBox("Fast Trade", "UserName Here", false, function(String)
+
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+if string.find(v.Name,String) or v.Name:lower():match(String)  or v.Name:upper():match(String) or string.find(v.DisplayName,String) or v.DisplayName:lower():match(String)  or v.DisplayName:upper():match(String)then
+
+game:GetService("ReplicatedStorage").RemoteEvents.CommandsRemote:FireServer("!trade ".. tostring(v))
+end end 
+end)
+
+
+Section1:CreateTextBox("Fast GiveItem", "UserName Here", false, function(String)
+
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+if string.find(v.Name,String) or v.Name:lower():match(String)  or v.Name:upper():match(String) or string.find(v.DisplayName,String) or v.DisplayName:lower():match(String)  or v.DisplayName:upper():match(String) then
+
+game:GetService("ReplicatedStorage").RemoteEvents.CommandsRemote:FireServer("!giveitem ".. tostring(v))
+end end 
+end)
+
 local Toggle1 = Section1:CreateToggle("Auto Bosses", Settings.AutoBosses, function(State)
 Settings.AutoBosses = State
 
@@ -1224,7 +1230,7 @@ while getgenv().LOL do
             if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
                 for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
-                        if v.BagPart.Overhead.Rarity.Text == "Legendary" and not table.find(BlackList, v.BagPart.Overhead.Enchantment.Text) then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary"  then
                             v.Parent = game.Players.LocalPlayer.Character
                             game.StarterGui:SetCore(
                                 "SendNotification",
@@ -1257,7 +1263,7 @@ while getgenv().LOL do
             if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
                 for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
-                        if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" and not table.find(BlackList, v.BagPart.Overhead.Enchantment.Text) then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" then
                             v.Parent = game.Players.LocalPlayer.Character
                             game.StarterGui:SetCore(
                                 "SendNotification",
@@ -1291,7 +1297,7 @@ while getgenv().LOL do
             if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
                 for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
-                        if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" and v.BagPart.Overhead.Enchantment.Text ~= ""  and not table.find(BlackList, v.BagPart.Overhead.Enchantment.Text) then
+                        if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" and v.BagPart.Overhead.Enchantment.Text ~= ""  then
                             v.Parent = game.Players.LocalPlayer.Character
                             game.StarterGui:SetCore(
                                 "SendNotification",
