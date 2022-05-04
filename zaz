@@ -132,11 +132,11 @@ game:GetService("RunService").Stepped:connect(function()
         )
     end
 )
-
+pcall(function()
 for i,v in pairs(game:GetService("Workspace").NPCS:GetChildren()) do
 if v:IsA("Model") and v:FindFirstChild("Humanoid") then
 v.Chat.QuestText1.Value = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. " Thanks you for using V.G Hub"
-end end 
+end end end)
 
 pcall(
     function()
@@ -795,25 +795,6 @@ local Cooldown; Cooldown = hookfunction(wait, function(v)
     v = 0;
     return Cooldown(v);
 end);
-end)
-
-Section1:CreateTextBox("Fast Trade", "UserName Here", false, function(String)
-
-for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-if string.find(v.Name,String) or v.Name:lower():match(String)  or v.Name:upper():match(String) or string.find(v.DisplayName,String) or v.DisplayName:lower():match(String)  or v.DisplayName:upper():match(String)then
-
-game:GetService("ReplicatedStorage").RemoteEvents.CommandsRemote:FireServer("!trade ".. tostring(v))
-end end 
-end)
-
-
-Section1:CreateTextBox("Fast GiveItem", "UserName Here", false, function(String)
-
-for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-if string.find(v.Name,String) or v.Name:lower():match(String)  or v.Name:upper():match(String) or string.find(v.DisplayName,String) or v.DisplayName:lower():match(String)  or v.DisplayName:upper():match(String) then
-
-game:GetService("ReplicatedStorage").RemoteEvents.CommandsRemote:FireServer("!giveitem ".. tostring(v))
-end end 
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto Bosses", Settings.AutoBosses, function(State)
