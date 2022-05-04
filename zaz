@@ -725,6 +725,10 @@ while Settings.StartQuest do
                 game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
                     "QuestFrame"
                 )
+		local Quest =
+                        game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
+                        "QuestFrame"
+                    )
             if Quest.Visible == false then
                 game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
                     game:GetService("ReplicatedStorage").Quests:FindFirstChild(Settings.Quest)
