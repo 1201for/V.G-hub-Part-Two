@@ -551,6 +551,7 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 
+
 spawn(
     function()
         while Settings.AutoQuest do
@@ -711,7 +712,29 @@ end)
 Dropdown1:SetOption("Default")
 
 
-
+local Toggle1 = Section1:CreateToggle("Auto Start Quest", Settings.StartQuest, function(State)
+Settings.StartQuest = State
+spawn(function()
+while Settings.StartQuest do
+    wait()
+    pcall(
+        function()
+            repeat
+                wait()
+            until game.Players.LocalPlayer.Character and
+                game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
+                    "QuestFrame"
+                )
+            if Quest.Visible == false then
+                game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
+                    game:GetService("ReplicatedStorage").Quests:FindFirstChild(Settings.Quest)
+                )
+            end
+        end
+    )
+end
+end)
+end)
 
 
 local Dropdown1 = Section1:CreateDropdown("Quests", Quests, function(String)
