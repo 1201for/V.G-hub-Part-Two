@@ -974,6 +974,25 @@ local Dropdown1 = Section1:CreateDropdown("Bosses", Hentai, function(String)
 	Settings.Boss = String
 end)
 
+Section1:CreateTextBox("Fast Trade", "UserName Here", false, function(String)
+
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+if string.find(v.Name,String) or v.Name:lower():match(String)  or v.Name:upper():match(String) or string.find(v.DisplayName,String) or v.DisplayName:lower():match(String)  or v.DisplayName:upper():match(String)then
+
+game:GetService("ReplicatedStorage").RemoteEvents.CommandsRemote:FireServer("!trade ".. tostring(v))
+end end 
+end)
+
+
+Section1:CreateTextBox("Fast GiveItem", "UserName Here", false, function(String)
+
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+if string.find(v.Name,String) or v.Name:lower():match(String)  or v.Name:upper():match(String) or string.find(v.DisplayName,String) or v.DisplayName:lower():match(String)  or v.DisplayName:upper():match(String) then
+
+game:GetService("ReplicatedStorage").RemoteEvents.CommandsRemote:FireServer("!giveitem ".. tostring(v))
+end end 
+end)
+
 local Toggle1 = Section1:CreateToggle("Auto use DragonBalls", Settings.DraginBalls, function(State)
 Settings.DraginBalls = State
 local K = game:GetService("Players").LocalPlayer.PlayerValues
