@@ -34,16 +34,7 @@ end
 
 local BlackList = {
     "Fake",
-    "Demolished",
-    "Mundane",
-    "Ruined",
-    "Small",
-    "Broken",
-    "Wrecked",
-    "Flawed",
-    "Used",
-    "Crude",
-    "Rusty"
+
 }
 
 aka = {
@@ -141,9 +132,6 @@ game:GetService("RunService").Stepped:connect(function()
                 if game.Players.LocalPlayer.Character.Head:FindFirstChild("Overhead") then
                     game.Players.LocalPlayer.Character.Head.Overhead:remove()
                 end
-                if game:GetService("Players").LocalPlayer.PlayerValues.Race.Value == "Angel" and game:GetService("Players").LocalPlayer.Character:FindFirstChild("Race Accessory") then
-                    game:GetService("Players").LocalPlayer.Character:WaitForChild("Race Accessory"):Destroy()
-                end 
             end
         )
     end
@@ -1122,7 +1110,7 @@ while wait(1) and Settings.AutoWish do pcall(function()
     end
 
         if Settings.WishMethod == "Better Clothes" and game:GetService("Players").LocalPlayer.PlayerGui.Menu.ShenronButton.Visible == true then
-        game:GetService("ReplicatedStorage").RemoteEvents.ShenronRemote:FireServer("The Strongest")
+        game:GetService("ReplicatedStorage").RemoteEvents.ShenronRemote:FireServer("Better Clothes")
     end
     
     if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Bag") then
@@ -1741,7 +1729,6 @@ end
 
 end)
 end)
-
 
 
 
