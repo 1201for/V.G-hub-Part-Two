@@ -34,7 +34,16 @@ end
 
 local BlackList = {
     "Fake",
-
+    "Demolished",
+    "Mundane",
+    "Ruined",
+    "Small",
+    "Broken",
+    "Wrecked",
+    "Flawed",
+    "Used",
+    "Crude",
+    "Rusty"
 }
 
 aka = {
