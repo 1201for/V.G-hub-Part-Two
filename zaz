@@ -34,16 +34,7 @@ end
 
 local BlackList = {
     "Fake",
-    "Demolished",
-    "Mundane",
-    "Ruined",
-    "Small",
-    "Broken",
-    "Wrecked",
-    "Flawed",
-    "Used",
-    "Crude",
-    "Rusty"
+
 }
 
 aka = {
@@ -110,6 +101,88 @@ local Specializations = {
     "Busoshoku Haki"
 }
 
+
+local Legendarys = {
+    "Symbol of Death Kid Buu",
+    "Unrivaled Saiyan's Peak Super Saiyan 4 Vegeta",
+    "Mark of Almighty Power Goku Black Rose",
+    "Umpire of Annihilation Beerus",
+    "End of the Human World Goku Black",
+    "Shadow Dragon Slayer Magic",
+       "Lightning Dragon Slayer Magic",
+    "Shadow Dragon Slayer Magic",
+    "Fire Dragon Slayer Magic",
+    "Fire Dragon Slayer Magic v2",
+    "Full Power of Destruction Ultra Ego Vegeta",
+    "Lost in Annihilation Ultra Ego Vegeta",
+    "Astonishing Even the Gods Ultra Instinct Goku",
+ 
+    
+}
+local LegRaces = {
+    "Lunarian",
+    "Mink",
+    "Angel",
+    "Baby (Possessed)",
+    "Heeter Race",
+    "Hit's Race",
+    "Toppo's Race",
+    "Beerus' Race"
+}
+
+local Mysticals = {
+       "Full Power of Destruction Ultra Ego Vegeta",
+    "Lost in Annihilation Ultra Ego Vegeta",
+    "Astonishing Even the Gods Ultra Instinct Goku"
+    
+}
+
+ab6 = {
+    "Potency",
+    "Resilience",
+    "Speed",
+    "Angry",
+    "Balanced",
+    "Brave",
+    "Brute",
+    "Compassionate",
+    "Courageous",
+    "Fighter",
+    "Fragile",
+    "Humble",
+    "Hypersonic",
+    "Indestructible",
+    "Inspiring",
+    "Legendary",
+    "Light",
+    "Mighty",
+    "Muscular",
+    "Noble",
+    "Paranoid",
+    "Patient",
+    "Perfect",
+    "Powerful",
+    "Quick",
+    "Resilient",
+    "Sensitive",
+    "Slim",
+    "Slow",
+    "Slugger",
+    "Speedy",
+    "Strong",
+    "Tank",
+    "Tough",
+    "Useless",
+    "Valiant",
+    "Weak"
+}
+ab7 = {
+    "Bruiser",
+    "Scrapper",
+    "Infiltrator",
+    "Tactician",
+    "Blaster"
+}
 
 Table2 = {}
 
@@ -211,40 +284,7 @@ end
 local Player = game.Players.LocalPlayer
 local Values = Player.PlayerValues
 local Level = Values.Level
-local Legendarys = {
-    "Symbol of Death Kid Buu",
-    "Unrivaled Saiyan's Peak Super Saiyan 4 Vegeta",
-    "Mark of Almighty Power Goku Black Rose",
-    "Umpire of Annihilation Beerus",
-    "End of the Human World Goku Black",
-    "Shadow Dragon Slayer Magic",
-       "Lightning Dragon Slayer Magic",
-    "Shadow Dragon Slayer Magic",
-    "Fire Dragon Slayer Magic",
-    "Fire Dragon Slayer Magic v2",
-    "Full Power of Destruction Ultra Ego Vegeta",
-    "Lost in Annihilation Ultra Ego Vegeta",
-    "Astonishing Even the Gods Ultra Instinct Goku",
- 
-    
-}
-local LegRaces = {
-    "Lunarian",
-    "Mink",
-    "Angel",
-    "Baby (Possessed)",
-    "Heeter Race",
-    "Hit's Race",
-    "Toppo's Race",
-    "Beerus' Race"
-}
 
-local Mysticals = {
-       "Full Power of Destruction Ultra Ego Vegeta",
-    "Lost in Annihilation Ultra Ego Vegeta",
-    "Astonishing Even the Gods Ultra Instinct Goku"
-    
-}
 
 
 local OldNameCall = nil
@@ -1781,6 +1821,55 @@ end)
 
 local Dropdown1 = Section2:CreateDropdown("Specializations", Specializations, function(String)
 	Settings.Specializations = String
+end)
+
+
+local Toggle1 = Section2:CreateToggle("Auto Trait", Settings.Fofo, function(State)
+Settings.Fofo = State
+while Settings.Fofo do
+    wait(getgenv().delay)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Trait.Value ~= ab6 then
+                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Eyeball") then
+                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Eyeball")
+                end
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Eyeball)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            end
+        end
+    )
+end
+end)
+
+
+
+local Dropdown1 = Section2:CreateDropdown("Traits", ab6, function(String)
+	ab6 = String
+end)
+
+local Toggle1 = Section2:CreateToggle("Auto Class", Settings.Heart, function(State)
+Settings.Heart = State
+while Settings.Heart do
+    wait(getgenv().delay)
+    pcall(
+        function()
+            if game.Players.LocalPlayer.PlayerValues.Class.Value ~= ab7 then
+                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Brain") then
+                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Brain")
+                end
+
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Brain)
+                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+            end
+        end
+    )
+end
+end)
+
+
+local Dropdown1 = Section2:CreateDropdown("Classes", ab7, function(String)
+	ab7 = String
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress E", Settings.E, function(State)
