@@ -36,6 +36,18 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 
+spawn(
+    function()
+        game:GetService("RunService").Stepped:connect(
+            function()
+                workspace.FallenPartsDestroyHeight = 0 / 0
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+            end
+        )
+    end
+)
+
+
 
 game:GetService("RunService").Stepped:connect(
     function()
@@ -68,7 +80,7 @@ local function getNearestMobs()
     local Target
     for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
         if v.ClassName == "Model" and table.find(Hell, v.Name) then
-            if v:FindFirstChildOfClass("Humanoid").Health ~= 0 then
+            if v:FindFirstChildWhichIsA("Humanoid")  and v:FindFirstChildOfClass("Humanoid").Health ~= 0 then
                 local Mag =
                     (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
                     v:FindFirstChildOfClass("Part").Position).Magnitude
@@ -103,10 +115,15 @@ end
 
 
 
+local function Hitv2(v)
+    for i = 1, 5 do
+        game.ReplicatedStorage.Punch:FireServer(v:FindFirstChildWhichIsA("Humanoid"),i,game.Players.LocalPlayer.Character.Cancellations.Value,nil,"DamageMultiplier: 1")
+        wait(.15)
+    end
+end
 
-getgenv().Mobss = 5
 getgenv().speed = 16
-getgenv().Distance = 3
+getgenv().Distance = 10
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -139,14 +156,13 @@ game:GetService("RunService").Stepped:connect(
 )
 
 while mobs do
-    wait()
-    pcall(function()
-    if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestMob():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss then
-    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
-    getNearestMob().HumanoidRootPart.Anchored = true
+ wait()
+  pcall(function()
+    if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestMob():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Distance then
+        Hitv2(getNearestMob())
     end
+   
     game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0,0,getgenv().Distance))
-    
     end)
 end
 end)
@@ -177,9 +193,9 @@ while mobs1 do
         function()
             if
                 (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
-                    getNearestMob():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss
+                    getNearestMob():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Distance
              then
-                game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                Hitv2(getNearestMob())
             end
             local Time =
                 (getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, getgenv().Distance) -
@@ -192,24 +208,21 @@ while mobs1 do
                 {CFrame = CFrame.new(getNearestMob().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, getgenv().Distance))}
             )
             Tween:Play()
-            getNearestMob().HumanoidRootPart.Anchored = true
         end
     )
 end
 end)
-local Slider2 = Section1:CreateSlider("Auto Mob Hit Distance", 0,50,nil,false, function(Value)
-getgenv().Mobss = Value
-end)
-local Slider2 = Section1:CreateSlider("Auto Mob Attack Distance", 0,50,nil,false, function(Value)
+local Slider2 = Section1:CreateSlider("Auto Mob Hit Distance", 0,60,nil,false, function(Value)
 getgenv().Distance = Value
 end)
+
 local Toggle1 = Section1:CreateToggle("Auto Heavy Hit", nil, function(State)
 heavy = State
 while heavy do
     wait(0.5)
     if
         (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
-            getNearestMob():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss
+            getNearestMob():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Distance
      then
         game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
     end
@@ -260,13 +273,11 @@ game:GetService("RunService").Stepped:connect(
 
 while mobs4 do
     wait()
-    pcall(function()
-    if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestMobs():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss then
-    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9,9e9))
-    getNearestMobs().HumanoidRootPart.Anchored = true
+  pcall(function()
+    if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestMobs().PrimaryPart.Position).Magnitude < getgenv().Distance then
+        Hitv2(getNearestMobs())
     end
     game.Players.LocalPlayer.Character.Humanoid:MoveTo(getNearestMobs().HumanoidRootPart.CFrame.p + Vector3.new(0,0,getgenv().Distance))
-    
     end)
 end
 end)
@@ -297,9 +308,9 @@ while mobs3 do
         function()
             if
                 (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
-                    getNearestMobs():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Mobss
+                    getNearestMobs():FindFirstChildOfClass("Part").Position).Magnitude < getgenv().Distance
              then
-                game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                Hitv2(getNearestMobs())
             end
             local Time =
                 (getNearestMobs().HumanoidRootPart.CFrame.p + Vector3.new(0, 0, getgenv().Distance) -
