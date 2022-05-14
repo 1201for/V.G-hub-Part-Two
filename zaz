@@ -32,9 +32,19 @@ local function Save()
     writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Settings))
 end
 
+
 local BlackList = {
     "Fake",
-
+    "Demolished",
+    "Mundane",
+    "Ruined",
+    "Small",
+    "Broken",
+    "Wrecked",
+    "Flawed",
+    "Used",
+    "Crude",
+    "Rusty"
 }
 
 aka = {
@@ -211,7 +221,7 @@ end
 
 game:GetService("RunService").Stepped:connect(function()
         pcall(function()
-                if game.Players.LocalPlayer.Character.Head:FindFirstChild("Overhead") then
+                if game.Players.LocalPlayer.Character.Head:FindFirstChild("Overhead") and not Settings.HideName then
                     game.Players.LocalPlayer.Character.Head.Overhead:remove()
                 end
             end
@@ -354,7 +364,9 @@ for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
 end 
 end)
 end)
-
+local Toggle1 = Section1:CreateToggle("Dont HideName", Settings.HideName, function(State)
+Settings.HideName = State
+end)
 local Toggle1 = Section1:CreateToggle("Auto Mob", Settings.AutoMobss, function(State)
 Settings.AutoMobss = State
 game:GetService("RunService").Stepped:connect(
