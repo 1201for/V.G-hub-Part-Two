@@ -8,16 +8,6 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
-    local Args = {...}
-    local Self = Args[1]
-    if getnamecallmethod()=="FireServer" and self.Name == "ErrorLoggerRemote"or self.Name == 'ACDTResponse' then
-        return wait(math.huge)
-    end
-    return OldNameCall(self, ...)
-end)
-
 
 local Name = "TheWildWest.json"
 
@@ -64,18 +54,31 @@ for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
     )
 end
 
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
+    local Args = {...}
+    local Self = Args[1]
+    if getnamecallmethod()=="FireServer" and self.Name == "ErrorLoggerRemote"or self.Name == 'ACDTResponse' then
+        return wait(math.huge)
+    end
+    return OldNameCall(self, ...)
+end)
+
+
 function FreeForAll(v)
     if Settings.AimBot.FreeForAll == false then
         if game.Players.LocalPlayer.Team == v.Team then return false
         else return true end
     else return true end
 end
+repeat wait() until game.Players.LocalPlayer.Character
 
 local Utils = require(game:GetService("ReplicatedStorage").Modules.Utils.Utils)
-local Player = require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter)
+local Rich = require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter)
 local R =  require(game:GetService("ReplicatedStorage").Modules.Load)("Ragdolls")
 local Animal = require(game:GetService("ReplicatedStorage").Modules.Load)("Animal")
 local AnimalRiding = require(game:GetService("ReplicatedStorage").Modules.Load)("AnimalRiding")
+
 Keys = {}
 OreDeposits = {}
 for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits:GetChildren()) do
@@ -419,19 +422,22 @@ Settings.TeamCheck = State
 end)
 local Toggle1 = Section1:CreateToggle("Animal Silent Aim", Settings.SilentAnimalAim, function(State)
 Settings.SilentAnimalAim = State
+
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
+local Animal = game.Workspace.WORKSPACE_Entities.Animals
 function ClosestAnimalToCurser()
     local MaxDistance, Closest = math.huge
-    for i, v in pairs(game.Workspace.WORKSPACE_Entities.Animals:GetChildren()) do
-        if v.ClassName == "Model" and v.PrimaryPart then
-            if v.PrimaryPart then 
-                local Pos, Vis = workspace.CurrentCamera:WorldToScreenPoint(v.PrimaryPart.Position)
+    for i,v in pairs(Animal.GetChildren(Animal)) do
+        if v.PrimaryPart  then
+            local H = v.FindFirstChild(v, "Body")
+            if H then 
+                local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
                 if Vis then
                     local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
                     local Dist = (A2 - A1).Magnitude
-                    if Dist < MaxDistance and Dist <= math.huge then
+                    if Dist < MaxDistance and Dist <= 2500 then
                         MaxDistance = Dist
                         Closest = v
                     end
@@ -439,14 +445,14 @@ function ClosestAnimalToCurser()
             end
         end
     end
-    return Closest
+ return Closest
 end
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
     local Args = {...}
     if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  Settings.SilentAnimalAim  then
         local GivemeHead = ClosestAnimalToCurser()
-        if GivemeHead and GivemeHead.PrimaryPart then
+        if GivemeHead and GivemeHead.PrimaryPart and GivemeHead.FindFirstChild(GivemeHead, "Body") then
             Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.PrimaryPart.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
             return OldNameCall(self, unpack(Args))
         end
@@ -461,7 +467,7 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Anti Ragdoll", Settings.AntiRagDoll, function(State)
 Settings.AntiRagDoll = State
-A = hookfunction(Player.Ragdoll, function(...)
+A = hookfunction(Rich.Ragdoll, function(...)
     if Settings.AntiRagDoll and game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 then
         return;
     end
@@ -516,8 +522,8 @@ Settings.InstantBreakFree = State
             local Start = tick()
             repeat
                 wait()
-            until Player:CanBreakFree() or Start - tick() > 4
-            Player.BreakFreePerc = 5
+            until Rich:CanBreakFree() or Start - tick() > 4
+            Rich.BreakFreePerc = 5
         end
     return System(...)
 end)
@@ -531,9 +537,9 @@ Y = hookfunction(R.EnterRagdoll, function(...)
             local Start = tick()
             repeat
                 wait()
-            until Player:CanGetUp() or Start - tick() > 2
-            if Player.IsRagdolledSelf then
-                Player:GetUp()
+            until Rich:CanGetUp() or Start - tick() > 2
+            if Rich.IsRagdolledSelf then
+                Rich:GetUp()
             end
         end))
     end
