@@ -8,9 +8,7 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
-hookfunction(game.ContentProvider.PreloadAsync,function() return wait(9e9) end)
 
-hookfunction(xpcall,function() return end)
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args={...}
@@ -475,8 +473,8 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits Stefanuk12")
-Section3:CreateLabel("Credits snake587")
+Section3:CreateLabel("Credits lol#7362")
+Section3:CreateLabel("Credits Bye...#0001")
 
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
