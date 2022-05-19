@@ -7,7 +7,8 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-
+hookfunction(game.ContentProvider.PreloadAsync,function() return wait(9e9)  end)
+game.ScriptContext:SetTimeout(0.05) -- stops any scripts from crashing
 
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
