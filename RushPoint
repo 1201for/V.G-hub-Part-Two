@@ -8,7 +8,9 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
+hookfunction(game.ContentProvider.PreloadAsync,function() return wait(9e9) end)
 
+hookfunction(xpcall,function() return end)
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__namecall", function(...)
     local Args={...}
