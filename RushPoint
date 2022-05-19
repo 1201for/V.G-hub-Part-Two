@@ -35,7 +35,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
 end)
 
 getgenv().AimBot = {
-FreeForAll= false,
 WallCheck = false,
 Enabled = false,
 FOV = 250,
@@ -76,29 +75,36 @@ end)
 function GetClosestToCuror()
     Closest = math.huge
     Target = nil
-    for _,v in pairs(game:GetService("Players"):GetPlayers()) do
-        if FreeForAll(v) then
-            if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health ~= 0  then
-                Point,OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
-                if OnScreen and NotObstructing(v.Character.HumanoidRootPart.Position,{game.Players.LocalPlayer.Character,v.Character}) then
-                    Distance = (Vector2.new(Point.X,Point.Y) - Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
-                      if Distance <= getgenv().AimBot.FOV then
-                          Closest = Distance
-                       Target = v
-                     end
-                  end
-               end
+    for _, v in pairs(game:GetService("Workspace").MapFolder.Players:GetChildren()) do
+        if
+            v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 and
+                v.LowerTorso:FindFirstChild("Outline") and
+                v.LowerTorso.Outline.BrickColor.Name ~= "Bright bluish green"
+         then
+            Point, OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.HumanoidRootPart.Position)
+            if OnScreen then
+                Distance =
+                    (Vector2.new(Point.X, Point.Y) -
+                    Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
+                if Distance <= getgenv().AimBot.FOV then
+                    Closest = Distance
+                    Target = v
+                end
             end
-         end
+        end
+    end
     return Target
-end 
+end
+
+
+
 
 game:GetService('RunService').Stepped:connect(function()
 pcall(function()
     if getgenv().AimBot.Enabled == false or Shoot == false then return end
     ClosestPlayer = GetClosestToCuror()
     if ClosestPlayer then
-     workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.p,ClosestPlayer.Character[getgenv().AimPart].CFrame.p)
+     workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.p,ClosestPlayer[getgenv().AimPart].CFrame.p)
     end 
 end)
 end)
@@ -155,12 +161,6 @@ end)
 Dropdown1:AddToolTip("Select AimPart")
 Dropdown1:SetOption("HumanoidRootPart")
 
-
-local Toggle1 = Section1:CreateToggle("FreeForAll", nil, function(State)
-    getgenv().AimBot.FreeForAll = State
-    getgenv().TriggerBot.TeamCheck = State
-end)
-
 local Toggle1 = Section1:CreateToggle("TriggerBot", nil, function(State)
     getgenv().TriggerBot.Enabled = State
 end)
@@ -186,8 +186,36 @@ end)
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
-local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
-ESP:Toggle(State)
+
+local Toggle1 = Section1:CreateToggle("PLayer Esp", nil, function(State)
+    ESP.Players = State
+ESP.Overrides.GetColor = function(v) 
+if v.LowerTorso:FindFirstChild("Outline") then
+if v.LowerTorso.Outline.BrickColor.Name ~= "Bright bluish green" then return Color3.fromRGB(255,0,0) end
+end 
+end
+
+ESP:AddObjectListener(game:GetService("Workspace").MapFolder.Players, {
+    Color =  Color3.new(0,255,0),
+    Type = "Model",
+    PrimaryPart = function(v)
+        local H = v:FindFirstChild("HumanoidRootPart")
+        while not H do
+            wait()
+            H = v:FindFirstChild("HumanoidRootPart")
+        end
+        return H
+    end,
+    Validator = function(v)
+        if v.LowerTorso:FindFirstChild("Outline") then
+        return not game.Players:GetPlayerFromCharacter(v) and v
+        end 
+    end,
+    CustomName = function(v)
+        return  v.Name
+    end,
+    IsEnabled = "Players",
+})
 end)
 
 local Toggle1 = Section1:CreateToggle("Tracers Esp", nil, function(State)
@@ -221,13 +249,13 @@ doodoo = State
 while doodoo do
     wait(1)
      pcall(function()
-    for _, v in pairs(game.Players:GetPlayers()) do
-        if v ~= game.Players.LocalPlayer and v.Character then
-            v.Character.LowerTorso.CanCollide = false
-            v.Character.LowerTorso.Material = "Neon"
-            v.Character.LowerTorso.Transparency = 0.5
-            v.Character.LowerTorso.Size = Vector3.new(head, head, head)
-            v.Character.HumanoidRootPart.Size = Vector3.new(head, head, head)
+    for _, v in pairs(game:GetService("Workspace").MapFolder.Players:GetChildren()) do
+        if v ~= game.Players.LocalPlayer and v then
+            v.LowerTorso.CanCollide = false
+            v.LowerTorso.Material = "Neon"
+            v.LowerTorso.Transparency = 0.5
+            v.LowerTorso.Size = Vector3.new(head, head, head)
+            v.HumanoidRootPart.Size = Vector3.new(head, head, head)
         end
     end
 end)
