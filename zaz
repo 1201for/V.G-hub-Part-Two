@@ -935,7 +935,7 @@ EST.Continue.Back.MouseButton1Click:Connect(
             end
         end
         
-        for i, v in pairs(game:GetService("Players").LocalPlayer:GetDescendants()) do
+        for i, v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants()) do
             if v:IsA("LocalScript") then
                 v.Disabled = true
                 v.Disabled = false
