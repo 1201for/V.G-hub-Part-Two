@@ -935,13 +935,12 @@ EST.Continue.Back.MouseButton1Click:Connect(
             end
         end
         
-        for i, v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants()) do
+        for i, v in pairs(game:GetService("Players").LocalPlayer:GetDescendants()) do
             if v:IsA("LocalScript") then
                 v.Disabled = true
                 v.Disabled = false
             end
-        end
-        game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Menu"):WaitForChild("Format"):Destroy()
+        end        game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Menu"):WaitForChild("Format"):Destroy()
     end
 )
 
@@ -985,7 +984,7 @@ spawn(
                 function()
                     wait()
                     for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
-                        if v.Name == Hentai and v.Humanoid.Health ~= 0 then
+                        if v.Name == Settings.Boss and v.Humanoid.Health ~= 0 then
                             repeat
                                 wait()
                             until game.Players.LocalPlayer.Character and
@@ -1006,7 +1005,7 @@ spawn(
                             
                             until v.Humanoid.Health == 0 or Settings.AutoBosses == false
                                 if v.Humanoid.Health == 0 then wait(1)
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(500,-300,500)
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.Position +Vector3.new(0,-5000,0))
                                 end
                         elseif not Settings.AutoBosses then
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
