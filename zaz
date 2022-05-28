@@ -292,6 +292,29 @@ function c()
         end
     end
 end
+function shit(A,B)
+local Cam, Player = B.CFrame, A
+local Character, Humanoid =
+                (Player.Character or workspace:FindFirstChild(Player.Name)),
+                A.Character.Humanoid
+            Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+            local Noob = Humanoid:Clone()
+            Player.Character = nil
+            Noob:SetStateEnabled(15, false)
+            Noob:SetStateEnabled(1, false)
+            Noob:SetStateEnabled(0, false)
+            Noob.Parent = Character
+            Humanoid:Destroy()
+            Player.Character, B.CameraSubject = Character, Noob
+            B.CFrame = Cam
+            Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+            local v = Character:FindFirstChild("Animate")
+            if v then
+                v.Disabled = true
+                wait()
+                v.Disabled = false
+            end
+end
 local Player = game.Players.LocalPlayer
 local Values = Player.PlayerValues
 local Level = Values.Level
@@ -853,6 +876,65 @@ end)
 
 Toggle1:AddToolTip("Disabled Boss Drops For Unknown Reasons")
 
+
+
+local Toggle1 = Section1:CreateToggle("True GodMode", nil, function(State)
+Settings.TrueGodMode = State
+if Settings.TrueGodMode then
+
+local EST = game:GetService("Players").LocalPlayer.PlayerGui.Menu.DialogFrame:Clone()
+EST:FindFirstChild("Name").Text = "DekuDimz"
+EST:FindFirstChild("MainMessage").Text =
+    "For those who seek power are fools of the world, The ones who humble themselves with comfort are arrogant to the world, and the ones who want revenge are the true means of what this feature is. So, let me ask you do you want to continue down this path?"
+EST.Continue:FindFirstChild("TextLabel").Text = "Yes!"
+EST.Cancel:FindFirstChild("TextLabel").Text = "No.. sorry"
+EST.Parent = game.Players.LocalPlayer
+EST.Name = "Format"
+EST.Parent = game:GetService("Players").LocalPlayer.PlayerGui.Menu
+EST.Visible = true
+EST.Continue.Visible = true
+EST.Cancel.Visible = true
+EST.Continue.Back.MouseButton1Click:Connect(
+    function()
+        for i = 1, 2 do
+            game:GetService("StarterGui"):SetCore("ResetButtonCallback", false);
+            for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
+                if v:IsA("ScreenGui") and v.Name ~= "BubbleChat" and v.Name ~= "Chat" then
+                    A = v:Clone()
+                    A.Parent = game.Players.LocalPlayer.Backpack
+                end
+            end
+            shit(game.Players.LocalPlayer,game.Workspace.Camera)
+            for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                if v:IsA("ScreenGui") then
+                    v.Parent = game:GetService("Players").LocalPlayer.PlayerGui
+                end
+            end
+        end
+        for i, v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants()) do
+            if v:IsA("LocalScript") then
+                v.Disabled = true
+                v.Disabled = false
+            end
+        end        
+        game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Menu"):WaitForChild("Format"):Destroy()
+    end
+)
+
+EST.Cancel.Back.MouseButton1Click:Connect(
+    function()
+        EST:Destroy()
+    end
+)
+end
+if not Settings.TrueGodMode then
+game:GetService("StarterGui"):SetCore("ResetButtonCallback", true);
+shit(game.Players.LocalPlayer,game.Workspace.Camera)
+end
+
+end)
+
+
 local Toggle1 = Section1:CreateToggle("No CooldownReduction", Settings.CooldownReduction, function(State)
 Settings.CooldownReduction = State
 spawn(function()
@@ -884,74 +966,6 @@ pcall(
 end)
 
 
-local Button1 = Section1:CreateButton("True Godmode..", function()
-local EST = game:GetService("Players").LocalPlayer.PlayerGui.Menu.DialogFrame:Clone()
-EST:FindFirstChild("Name").Text = "DekuDimz"
-EST:FindFirstChild("MainMessage").Text =
-    "For those who seek power are fools of the world, The ones who humble themselves with comfort are arrogant to the world, and the ones who want revenge are the true means of what this feature is. So, let me ask you do you want to continue down this path?"
-EST.Continue:FindFirstChild("TextLabel").Text = "Yes!"
-EST.Cancel:FindFirstChild("TextLabel").Text = "No.. sorry"
-EST.Parent = game.Players.LocalPlayer
-EST.Name = "Format"
-EST.Parent = game:GetService("Players").LocalPlayer.PlayerGui.Menu
-EST.Visible = true
-EST.Continue.Visible = true
-EST.Cancel.Visible = true
-EST.Continue.Back.MouseButton1Click:Connect(
-    function()
-        for i = 1, 2 do
-            for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
-                if v:IsA("ScreenGui") and v.Name ~= "BubbleChat" and v.Name ~= "Chat" then
-                    A = v:Clone()
-                    A.Parent = game.Players.LocalPlayer.Backpack
-                end
-            end
-
-            local Cam, Player = game.workspace.Camera.CFrame, game.Players.LocalPlayer
-            local Character, Humanoid =
-                (Player.Character or workspace:FindFirstChild(Player.Name)),
-                game.Players.LocalPlayer.Character.Humanoid
-            Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-            local Noob = Humanoid:Clone()
-            Player.Character = nil
-            Noob:SetStateEnabled(15, false)
-            Noob:SetStateEnabled(1, false)
-            Noob:SetStateEnabled(0, false)
-            Noob.Parent = Character
-            Humanoid:Destroy()
-            Player.Character, game.workspace.Camera.CameraSubject = Character, Noob
-            game.workspace.Camera.CFrame = Cam
-            Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-            local v = Character:FindFirstChild("Animate")
-            if v then
-                v.Disabled = true
-                wait()
-                v.Disabled = false
-            end
-            for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                if v:IsA("ScreenGui") then
-                    v.Parent = game:GetService("Players").LocalPlayer.PlayerGui
-                end
-            end
-        end
-        
-        for i, v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants()) do
-            if v:IsA("LocalScript") then
-                v.Disabled = true
-                v.Disabled = false
-            end
-        end        game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Menu"):WaitForChild("Format"):Destroy()
-    end
-)
-
-EST.Cancel.Back.MouseButton1Click:Connect(
-    function()
-        EST:Destroy()
-    end
-)
-
-
-end)
 
 
 local Button1 = Section1:CreateButton("Time waits for noone.", function()
