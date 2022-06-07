@@ -8,6 +8,15 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
+repeat wait() until game.Players.LocalPlayer
+game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Chat")
+
+game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatChannelParentFrame.Visible = true
+game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Position =
+    game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatChannelParentFrame.Position +
+    UDim2.new(UDim.new(), game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatChannelParentFrame.Size.Y)
+
+
 local NoNos = {
     "CHECKER_1",
     "TeleportDetect",
@@ -61,7 +70,52 @@ local Section2 = Tab1:CreateSection("")
 local SectionA = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
+local Toggle1 = Section1:CreateToggle("Auto Grab Cash V2!!111", nil, function(State)
+getgenv().Start = State
+while wait(0.2) and getgenv().Start do
+    pcall(
+        function()
+            if game.Players.LocalPlayer.Character.Humanoid.Sit == true then
+                game.Players.LocalPlayer.Character.Humanoid.Jump = true 
+            end 
+            for i, v in pairs(game:GetService("Workspace").Cashiers:GetChildren()) do
+                if v:IsA("Model") and v.Humanoid.Health >= 0 and v.Humanoid.Health > 5 then
+                    repeat
+                        wait(0.2)
 
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Open.CFrame * CFrame.new(0, 0, 2)
+                        if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Combat") then wait(5)
+                            game.Players.LocalPlayer.Character.Humanoid:EquipTool(
+                                game:GetService("Players").LocalPlayer.Backpack.Combat
+                            )
+                        end
+                        game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                    until v.Head.Crash.Playing or not getgenv().Start and game:GetService("Players").LocalPlayer.DataFolder.Information.Jail.Value == 0
+                    for i, v in pairs(game:GetService("Workspace").Ignored.Drop:GetChildren()) do
+                        if
+                            v:IsA("BasePart") and v.Name == "MoneyDrop" and
+                                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude <=
+                                    50 
+                         then
+                            repeat
+                                wait()
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+                                if
+                                    (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <=
+                                        12 and v:FindFirstChildWhichIsA("ClickDetector")
+                                 then
+                                    fireclickdetector(v:FindFirstChildWhichIsA("ClickDetector"))
+                                    wait(1)
+                                end
+                            until not v:FindFirstChildWhichIsA("ClickDetector") or not getgenv().Start and game:GetService("Players").LocalPlayer.DataFolder.Information.Jail.Value == 0
+                        end
+                    end
+                end
+            end
+        end
+    )
+end
+end)
 local Toggle1 = Section1:CreateToggle("Auto Grab Cash", nil, function(State)
 getgenv().CashGrab = State
 
