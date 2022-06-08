@@ -1,4 +1,3 @@
-
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
@@ -142,6 +141,44 @@ local Section2 = Tab1:CreateSection("")
 local SectionA = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
+
+
+local Toggle1 = Section1:CreateToggle("Auto Sprint", Settings.WalkFast, function(State)
+Settings.WalkFast = State
+game:GetService("RunService").Stepped:Connect(
+    function()
+        if Settings.WalkFast then
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
+        end
+    end
+)
+end)
+
+local Toggle1 = Section1:CreateToggle("FullBright", Settings.FullBright, function(State)
+Settings.FullBright = State
+        if Settings.FullBright then
+            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
+        else
+            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
+        end
+game.Lighting.Changed:connect(
+    function()
+        if Settings.FullBright then
+            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
+        else
+            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
+            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
+        end
+    end
+)
+end)
 
 local Toggle1 = Section1:CreateToggle("Tricket Farm", Settings.Snow, function(State)
 Settings.Snow = State
@@ -602,7 +639,7 @@ game.Players.LocalPlayer:GetMouse().KeyDown:connect(
     end
 )
 end)
-local Toggle1 = Section2:CreateToggle("H Fly", Settings.Sex2, function(State)
+local Toggle1 = Section2:CreateToggle("B Fly", Settings.Sex2, function(State)
 Settings.Sex2 = State 
 --- Inspired by IY
 local Max = 0
@@ -611,7 +648,7 @@ local LP = Players.LocalPlayer
 local Mouse = LP:GetMouse()
 Mouse.KeyDown:connect(
     function(k)
-        if k:lower() == "h" then
+        if k:lower() == "b" then
             Max = Max + 1
             getgenv().Fly = false
             if Settings.Sex2 then
@@ -644,7 +681,7 @@ Mouse.KeyDown:connect(
                                 wait()
                                 LP.Character.Humanoid.PlatformStand = false
                                 if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
-                                    SPEED = 200
+                                    SPEED = 75
                                 elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
                                     SPEED = 0
                                 end
@@ -740,7 +777,7 @@ end
 end)
 
 
-Section1:CreateTextBox("Teleport To Player", "UserName Here", false, function(String)
+Section2:CreateTextBox("Teleport To Player", "UserName Here", false, function(String)
 
 for i, v in pairs(game:GetService("Players"):GetPlayers()) do
     if
