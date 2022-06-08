@@ -1,28 +1,68 @@
+
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightControl
 }
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-game:GetService("VirtualUser"):ClickButton2(Vector2.new())
-end)
-
-local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(v, ...)
-    local Args = {...}
-    if not checkcaller() and v == "WalkSpeed" or v == "JumpPower" then
-            return 
+game:GetService("Players").LocalPlayer.Idled:connect(
+    function()
+        game:GetService("VirtualUser"):ClickButton2(Vector2.new())
     end
-    return OldNameCall(v, ...)
-end)
+)
 
+
+
+local Name = "DemonFall.json"
+
+Des = {}
+if makefolder then
+    makefolder("V.G Hub")
+end
+
+local Settings
+
+if
+    not pcall(
+        function()
+            readfile("V.G Hub//" .. Name)
+        end
+    )
+ then
+    writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Des))
+end
+
+Settings = game:GetService("HttpService"):JSONDecode(readfile("V.G Hub//" .. Name))
+
+local function Save()
+    writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Settings))
+end
+
+
+
+repeat wait() until game.Players.LocalPlayer
+game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Chat")
+
+game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatChannelParentFrame.Visible = true
+game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatBarParentFrame.Position =
+    game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatChannelParentFrame.Position +
+    UDim2.new(UDim.new(), game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.ChatChannelParentFrame.Size.Y)
+
+local Character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:wait(10) or game.Players.LocalPlayer.CharacterRemoving:wait(10)
+local OldNameCall
+OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
+    if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
+        return
+    end
+    return OldNameCall(A, B, ...)
+end)
 
 local function getNearestTricket()
     local TargetDistance = math.huge
     local Target
     for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
-        if v:FindFirstChild("Part")  and v:FindFirstChild("Id") then
-            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChild("Part").Position).Magnitude
+        if v:FindFirstChild("Part") and v:FindFirstChild("Id") then
+            local Mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChild("Part").Position).Magnitude
             if Mag < TargetDistance then
                 TargetDistance = Mag
                 Target = v
@@ -30,14 +70,15 @@ local function getNearestTricket()
         end
     end
     return Target
-end;
+end
 
 local function getNearestSlayer()
     local TargetDistance = math.huge
     local Target
     for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
-        if v.Name:match("Slayer") and v:FindFirstChild("HumanoidRootPart")  then
-            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
+        if v.Name:match("Slayer") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health ~= 0 and Character then
+            local Mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
             if Mag < TargetDistance then
                 TargetDistance = Mag
                 Target = v
@@ -45,14 +86,15 @@ local function getNearestSlayer()
         end
     end
     return Target
-end;
+end
 
 local function getNearestDemon()
     local TargetDistance = math.huge
     local Target
     for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
-        if v:FindFirstChild("Demon") and v:FindFirstChild("HumanoidRootPart")  then
-            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
+        if v:FindFirstChild("Demon") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health ~= 0 and Character then
+            local Mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
             if Mag < TargetDistance then
                 TargetDistance = Mag
                 Target = v
@@ -60,14 +102,14 @@ local function getNearestDemon()
         end
     end
     return Target
-end;
+end
 
 local function getNearestDrop()
     local TargetDistance = math.huge
     local Target
     for i, v in ipairs(game:GetService("Workspace"):GetChildren()) do
-        if v.Name == "DropItem" then
-            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude 
+        if v.Name == "DropItem" and Character then
+            local Mag = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude
             if Mag < TargetDistance then
                 TargetDistance = Mag
                 Target = v
@@ -75,20 +117,21 @@ local function getNearestDrop()
         end
     end
     return Target
-end;
+end
 
 local function Tween(A, B, C)
     if A and B then
-        local Time = (B - A.Position).magnitude/C
+        local Time = (B - A.Position).magnitude / C
         local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-        local Tween = game:GetService("TweenService"):Create(A,Info,{CFrame = CFrame.new(B.X,B.Y,B.Z)})
+        local Tween = game:GetService("TweenService"):Create(A, Info, {CFrame = CFrame.new(B.X, B.Y, B.Z)})
         Tween:Play()
         wait(Time)
     end
 end
-
-getgenv().Tween = 50
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
+if Settings.Tween == nil then
+Settings.Tween = 50
+end 
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
 local Tab1 = Window:CreateTab("DemonFall")
@@ -100,13 +143,13 @@ local SectionA = Tab1:CreateSection("")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
-local Toggle1 = Section1:CreateToggle("Tricket Farm", nil, function(State)
-snow = State
+local Toggle1 = Section1:CreateToggle("Tricket Farm", Settings.Snow, function(State)
+Settings.Snow = State
 game:GetService("RunService").Stepped:connect(
     function()
         pcall(
             function()
-                if snow then
+                if Settings.Snow then
                     game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
                 end
             end
@@ -114,14 +157,14 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 
-while snow do
+while Settings.Snow do
     wait()
     pcall(
         function()
             Tween(
                 game.Players.LocalPlayer.Character.HumanoidRootPart,
                 getNearestTricket().Part.CFrame.p,
-                getgenv().Tween
+                Settings.Tween
             )
                 repeat
                     wait()
@@ -140,80 +183,126 @@ while snow do
 end
 end)
 
-local Toggle1 = Section1:CreateToggle("Defeat Closest Slayer", nil, function(State)
-my = State
+local Toggle1 = Section1:CreateToggle("Defeat Closest Slayer", Settings.Slayer, function(State)
+Settings.Slayer = State
 game:GetService("RunService").Stepped:connect(
     function()
         pcall(
             function()
-                if my then
+                if Settings.Slayer then
                     game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-                        if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestDrop().Position).Magnitude < 50 then
-    Tween(game.Players.LocalPlayer.Character.HumanoidRootPart, getNearestDrop().CFrame.p, getgenv().Tween)
-        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-    end
+                    if
+                        (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestDrop().Position).Magnitude <
+                            50
+                     then
+                        Tween(
+                            game.Players.LocalPlayer.Character.HumanoidRootPart,
+                            getNearestDrop().CFrame.p,
+                            Settings.Tween
+                        )
+                        
+                        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    end
                 end
             end
         )
     end
 )
-while my do
-    pcall(function()
-    wait()
-    game:GetService("ReplicatedStorage").Remotes.Sync:InvokeServer("Character", "Execute")
-    game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana", "Server")
-    game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana", "EquippedEvents", true, true)
-    Tween(
-        game.Players.LocalPlayer.Character.HumanoidRootPart,
-        getNearestSlayer().HumanoidRootPart.CFrame.p + Vector3.new(0,-3,3),
-        getgenv().Tween
-    )
-    end)
-end
+spawn(
+    function()
+        while Settings.Slayer do
+            pcall(
+                function()
+                    wait()
+                    game:GetService("ReplicatedStorage").Remotes.Sync:InvokeServer("Character", "Execute")
+                    game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana", "Server")
+                    game:GetService("ReplicatedStorage").Remotes.Async:FireServer(
+                        "Katana",
+                        "EquippedEvents",
+                        true,
+                        true
+                    )
+                    Tween(
+                        game.Players.LocalPlayer.Character.HumanoidRootPart,
+                        getNearestSlayer().HumanoidRootPart.CFrame.p + Vector3.new(0, -3, 3),
+                        Settings.Tween
+                    )
+                    repeat wait() until Character 
+                    if getNearestSlayer().Humanoid.Health < getNearestSlayer().Humanoid.MaxHealth and isnetworkowner and isnetworkowner(getNearestSlayer().HumanoidRootPart) then
+                        getNearestSlayer().Humanoid.Health = 0 
+                    end 
+                end
+            )
+        end
+    end
+)
+
 end)
 
-
-local Toggle1 = Section1:CreateToggle("Defeat Closest Demon", nil, function(State)
-my = State
+local Toggle1 = Section1:CreateToggle("Defeat Closest Demon", Settings.Demon, function(State)
+Settings.Demon = State
 game:GetService("RunService").Stepped:connect(
     function()
         pcall(
             function()
-                if my then
+                if Settings.Demon then
                     game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-                        if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestDrop().Position).Magnitude < 50 then
-    Tween(game.Players.LocalPlayer.Character.HumanoidRootPart, getNearestDrop().CFrame.p, getgenv().Tween)
-        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
-    end
+                    if
+                        (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - getNearestDrop().Position).Magnitude <
+                            50
+                     then
+                        Tween(
+                            game.Players.LocalPlayer.Character.HumanoidRootPart,
+                            getNearestDrop().CFrame.p,
+                            Settings.Tween
+                        )
+                        game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+                    end
                 end
             end
         )
     end
 )
-while my do
-    pcall(function()
-    wait()
-    game:GetService("ReplicatedStorage").Remotes.Sync:InvokeServer("Character", "Execute")
-    game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana", "Server")
-    game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana", "EquippedEvents", true, true)
-    Tween(
-        game.Players.LocalPlayer.Character.HumanoidRootPart,
-        getNearestDemon().HumanoidRootPart.CFrame.p + Vector3.new(0,-3,3),
-        getgenv().Tween
-    )
-    end)
-end
+spawn(
+    function()
+        while Settings.Demon do
+            pcall(
+                function()
+                    wait()
+                    game:GetService("ReplicatedStorage").Remotes.Sync:InvokeServer("Character", "Execute")
+                    game:GetService("ReplicatedStorage").Remotes.Async:FireServer("Katana", "Server")
+                    game:GetService("ReplicatedStorage").Remotes.Async:FireServer(
+                        "Katana",
+                        "EquippedEvents",
+                        true,
+                        true
+                    )
+                    Tween(
+                        game.Players.LocalPlayer.Character.HumanoidRootPart,
+                        getNearestDemon().HumanoidRootPart.CFrame.p + Vector3.new(0, -3, 3),
+                        Settings.Tween
+                    )
+                    repeat wait() until Character 
+                    if getNearestDemon().Humanoid.Health < getNearestDemon().Humanoid.MaxHealth and isnetworkowner and isnetworkowner(getNearestDemon().HumanoidRootPart) then
+                        getNearestDemon().Humanoid.Health = 0 
+                    end 
+                end
+            )
+        end
+    end
+)
+
 end)
 
-local Slider2 = Section1:CreateSlider("Tween Speed", 0,75,nil,false, function(Value)
-getgenv().Tween = Value
+local Slider2 = Section1:CreateSlider("Tween Speed", 0,75,Settings.Tween,false, function(Value)
+Settings.Tween = Value
 end)
-local Toggle1 = Section1:CreateToggle("Auto Gourd", nil, function(State)
-nana = State
+local Toggle1 = Section1:CreateToggle("Auto Gourd", Settings.Gourd, function(State)
+Settings.Gourd = State
 
 game:GetService("Players").LocalPlayer.PlayerGui.Interface.HUD.Clay.Back.TextLabel:GetPropertyChangedSignal("Text"):Connect(
     function()
-        if nana then
+        if Settings.Gourd then
             local Text =
                 tonumber(
                 game:GetService("Players").LocalPlayer.PlayerGui.Interface.HUD.Clay.Back.TextLabel.Text:match("%d+")
@@ -228,9 +317,10 @@ game:GetService("Players").LocalPlayer.PlayerGui.Interface.HUD.Clay.Back.TextLab
 )
 end)
 
-local Toggle1 = Section1:CreateToggle("Auto Breathing", nil, function(State)
-isBreathing = State
-while isBreathing and wait() do
+local Toggle1 = Section1:CreateToggle("Auto Breathing", Settings.Breathing, function(State)
+Settings.Breathing = State
+spawn(function()
+while Settings.Breathing and wait() do
     pcall(
         function()
             repeat
@@ -245,15 +335,15 @@ while isBreathing and wait() do
     )
 end
 end)
+end)
 
-
-local Toggle1 = Section1:CreateToggle("Anti Sun", nil, function(State)
-falls = State
+local Toggle1 = Section1:CreateToggle("Anti Sun", Settings.AniSun, function(State)
+Settings.AniSun = State
 local OldNamecall
 OldNamecall =
     hookmetamethod(game,"__namecall",function(self, ...)
         local shit = {...}
-        if getnamecallmethod() == "FireServer" and shit[2] == "DemonWeakness" and falls
+        if getnamecallmethod() == "FireServer" and shit[2] == "DemonWeakness" and Settings.AniSun
          then
             return wait(math.huge)
         end
@@ -262,12 +352,12 @@ OldNamecall =
 )
 end)
 
-local Toggle1 = Section1:CreateToggle("No FallDamage", nil, function(State)
-fall = State
+local Toggle1 = Section1:CreateToggle("No FallDamage", Settings.AntiFall, function(State)
+Settings.AntiFall = State
 local OldNamecall
 OldNamecall = hookmetamethod(game,"__namecall",function(self, ...)
         local shit = {...}
-        if getnamecallmethod() == "FireServer"  and shit[2] == "FallDamageServer" and fall
+        if getnamecallmethod() == "FireServer"  and shit[2] == "FallDamageServer" and Settings.AntiFall
          then
             return nil
         end
@@ -276,9 +366,9 @@ OldNamecall = hookmetamethod(game,"__namecall",function(self, ...)
 )
 end)
 
-local Toggle1 = Section1:CreateToggle("Tricket Esp", nil, function(State)
+local Toggle1 = Section1:CreateToggle("Tricket Esp", Settings.Esp, function(State)
 
-getgenv().esp = State
+Settings.Esp = State
 local function esp(v)
     local T = Drawing.new("Text")
     T.Visible = false
@@ -295,7 +385,7 @@ local function esp(v)
             function()
                 if v and v:FindFirstChild("Spawned") then
                     local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.Position)
-                    if getgenv().esp and Screen then
+                    if Settings.Esp and Screen then
                         T.Position = Vector2.new(Vector.X, Vector.Y)
                         T.Visible = true
                         T.Text = "Tricket"
@@ -326,8 +416,8 @@ workspace.Trinkets.DescendantAdded:Connect(
 
 end)
 
-local Toggle1 = Section1:CreateToggle("Ore Esp", nil, function(State)
-getgenv().esp1 = State
+local Toggle1 = Section1:CreateToggle("Ore Esp", Settings.Esp1, function(State)
+Settings.Esp1 = State
 local function esp(v)
     local T = Drawing.new("Text")
     T.Visible = false
@@ -344,7 +434,7 @@ local function esp(v)
             function()
                 if v and v:FindFirstChild("Spawned") then
                     local Vector, Screen = workspace.CurrentCamera:WorldToViewportPoint(v.Position)
-                    if getgenv().esp1 and Screen then
+                    if Settings.Esp1 and Screen then
                         T.Position = Vector2.new(Vector.X, Vector.Y)
                         T.Visible = true
                         T.Text = "Ore"
@@ -376,219 +466,290 @@ game.workspace.Map.Minerals.DescendantAdded:Connect(
 end)
 
 
-local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
-local Toggle1 = Section1:CreateToggle("Player Esp", nil, function(State)
-    ESP:Toggle(State)
-end)
-local Toggle1 = Section1:CreateToggle("Tracers Esp", nil, function(State)
-    ESP.Tracers = State
-end)
-local Toggle1 = Section1:CreateToggle("Name Esp", nil, function(State)
-    ESP.Names = State
-end)
-local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
-    ESP.Boxes = State
-end)
-
-
-
-
-
-
-getgenv().WalkSpeed = 16
-getgenv().JumpPower = 50
-local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", nil, function(State)
-getgenv().s = State
+local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
+Settings.Go = State
 game:GetService("RunService").Stepped:connect(
     function()
-        if getgenv().s then
-            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = getgenv().WalkSpeed
-            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = getgenv().JumpPower
+        if Settings.Go then
+            game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
+       	    if game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').UseJumpPower then
+			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpPower = Settings.JumpPower
+		    else
+			game.Players.LocalPlayer.Character:WaitForChild('Humanoid').JumpHeight  = Settings.JumpPower
+			end 
+            if game:GetService("UserInputService").WindowFocused and not game:GetService("UserInputService").WindowFocusReleased then
+                setfpscap(Settings.Fps)
+            end
+        end
+    end
+)
+
+
+end)
+
+local TextBox1 = Section2:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
+    Settings.Fps = Value
+end)
+
+local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
+    Settings.WalkSpeed = Value
+end)
+local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
+    Settings.JumpPower = Value
+end)
+
+
+
+local Toggle1 = Section2:CreateToggle("Infinite Jump", Settings.InfiniteJump, function(State)
+Settings.InfiniteJump = State
+game:GetService("UserInputService").JumpRequest:connect(
+    function()
+        if Settings.InfiniteJump then
+            game:GetService "Players".LocalPlayer.Character:FindFirstChildOfClass "Humanoid":ChangeState("Jumping")
         end
     end
 )
 end)
-local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
-    getgenv().WalkSpeed = Value
+
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+
+local Toggle1 = Section1:CreateToggle("Enable Esp", Settings.Esp, function(State)
+    Settings.Esp = State
+    ESP:Toggle(Settings.Esp)
 end)
-local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
-    getgenv().JumpPower = Value
+
+local Toggle1 = Section1:CreateToggle("PLayer Esp", Settings.PlayerEsp, function(State)
+    Settings.PlayerEsp = State
+    ESP.Players = Settings.PlayerEsp
+end)
+local Toggle1 = Section1:CreateToggle("Tracers Esp", Settings.Tracers, function(State)
+    Settings.Tracers = State
+    ESP.Tracers = Settings.Tracers
+end)
+local Toggle1 = Section1:CreateToggle("Name Esp", Settings.EspNames, function(State)
+    ESP.Names = Settings.EspNames
+    Settings.EspNames = State
+end)
+local Toggle1 = Section1:CreateToggle("Boxes Esp", Settings.Boxes, function(State)
+    Settings.Boxes = State
+    ESP.Boxes = Settings.Boxes
 end)
 
-local Toggle1 = Section2:CreateToggle("Infinite Jump", nil, function(State)
-Infinite = State
-game:GetService("UserInputService").JumpRequest:connect(function()
-	if Infinite then
-		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
-	end
-end) end)
+local Toggle1 = Section2:CreateToggle("Invisicam", Settings.Sorry, function(State)
+Settings.Sorry = State
+if Settings.Sorry then
+    game:GetService("Players").LocalPlayer.DevCameraOcclusionMode = "Invisicam"
+else
+    game:GetService("Players").LocalPlayer.DevCameraOcclusionMode = "Zoom"
+end
+end)
 
+local Toggle1 = Section2:CreateToggle("N Noclip", Settings.Sex1, function(State)
+noclips = false
+Settings.Sex1 = State
+game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+    function(v)
+        if v == "n" then
+            if Settings.Sex1 then
+                noclips = not noclips
+                for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                    if v:IsA("BasePart") then
+                        pcall(function()
+                        v.CanCollide = false
+                        end)
+                    end
+                end
+            end
+        end
+    end
+)
+game:GetService("RunService").Stepped:connect(
+    function()
+        if noclips then
+            for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if v:IsA("BasePart") then
+                    pcall(function()
+                    v.CanCollide = false
+                    end)
+                end
+            end
+        end
+    end
+)
 
-local Toggle1 = Section2:CreateToggle("G PlatFormNoclip", nil, function(State)
-yes44 = State
+end)
+
+local Toggle1 = Section2:CreateToggle("G Noclip", Settings.Sex, function(State)
+Settings.Sex = State
 noclip = false
 game:GetService("RunService").Stepped:connect(
     function()
         if noclip then
-            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(11)
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
         end
     end
 )
-game.Players.LocalPlayer:GetMouse().KeyDown:connect(
-    function(key)
-        if key == "g" then
-            if yes44 then
-                noclip = not noclip
-                game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(11)
-            end
-        end
-    end
-)
-end)
-local Toggle1 = Section2:CreateToggle("N NonePlatFormNoclip", nil, function(State)
-hoe = State
+mouse = game.Players.LocalPlayer:GetMouse()
 game.Players.LocalPlayer:GetMouse().KeyDown:connect(
     function(v)
-        if v == "n" then
-            NoClip = not NoClip
-            game:GetService("RunService").Stepped:connect(
-                function()
-                    if NoClip then
-                     if hoe then
-                        for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-                            pcall(
-                                function()
-                                    if v:IsA("BasePart")  then
-                                        v.CanCollide = false
-                                    end
-                                end
-                            )
-                        end
-                    end
-                end
+        if v == "g" then
+            if Settings.Sex then
+                noclip = not noclip
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
             end
-            )
         end
     end
 )
 end)
-
-
-local Toggle1 = Section2:CreateToggle("B Fly", nil, function(State)
-sex2 = State
+local Toggle1 = Section2:CreateToggle("H Fly", Settings.Sex2, function(State)
+Settings.Sex2 = State 
+--- Inspired by IY
 local Max = 0
 local Players = game.Players
 local LP = Players.LocalPlayer
 local Mouse = LP:GetMouse()
-Mouse.KeyDown:connect(function(k)
-if k:lower() == 'b' then
-Max = Max + 1
-getgenv().Fly = false
-if sex2 then
-local T = LP.Character.HumanoidRootPart
-local S = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-local S2 = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-local SPEED = 5
-local function FLY()
-getgenv().Fly = true
-local BodyGyro = Instance.new('BodyGyro', T)
-local BodyVelocity = Instance.new('BodyVelocity', T)
-BodyGyro.P = 9e4
-BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-BodyGyro.cframe = T.CFrame
-BodyVelocity.velocity = Vector3.new(0, 0, 0)
-BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
-spawn(function()
-repeat
-wait()
-LP.Character.Humanoid.PlatformStand = false
-if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
-SPEED = 75
-elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
-SPEED = 0
-end
-if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
-BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-S2 = {
-F = S.F,
-B = S.B,
-L = S.L,
-R = S.R
-}
-elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
-BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
-else
-BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
-end
-BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
-until not getgenv().Fly
-S = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-S2 = {
-F = 0,
-B = 0,
-L = 0,
-R = 0
-}
-SPEED = 0
-BodyGyro:destroy()
-BodyVelocity:destroy()
-LP.Character.Humanoid.PlatformStand = false
-end)
-end
-Mouse.KeyDown:connect(function(k)
-if k:lower() == 'w' then
-S.F = 1
-elseif k:lower() == 's' then
-S.B = -1
-elseif k:lower() == 'a' then
-S.L = -1
-elseif k:lower() == 'd' then
-S.R = 1
-end
-end)
-Mouse.KeyUp:connect(function(k)
-if k:lower() == 'w' then
-S.F = 0
-elseif k:lower() == 's' then
-S.B = 0
-elseif k:lower() == 'a' then
-S.L = 0
-elseif k:lower() == 'd' then
-S.R = 0
-end
-end)
-FLY()
-if Max == 2 then
-getgenv().Fly = false
-Max = 0
-end
-end
-end
-end)
+Mouse.KeyDown:connect(
+    function(k)
+        if k:lower() == "h" then
+            Max = Max + 1
+            getgenv().Fly = false
+            if Settings.Sex2 then
+                local T = LP.Character:FindFirstChild('HumanoidRootPart') or LP.Character:FindFirstChild('Torso') or LP.Character:FindFirstChild('UpperTorso')
+                local S = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local S2 = {
+                    F = 0,
+                    B = 0,
+                    L = 0,
+                    R = 0
+                }
+                local SPEED = 5
+                local function FLY()
+                    getgenv().Fly = true
+                    local BodyGyro = Instance.new("BodyGyro", T)
+                    local BodyVelocity = Instance.new("BodyVelocity", T)
+                    BodyGyro.P = 9e4
+                    BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    BodyGyro.cframe = T.CFrame
+                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                    BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                    spawn(
+                        function()
+                            repeat
+                                wait()
+                                LP.Character.Humanoid.PlatformStand = false
+                                if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+                                    SPEED = 200
+                                elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+                                    SPEED = 0
+                                end
+                                if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) -
+                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                    S2 = {
+                                        F = S.F,
+                                        B = S.B,
+                                        L = S.L,
+                                        R = S.R
+                                    }
+                                elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+                                    BodyVelocity.velocity =
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) -
+                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                else
+                                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                                end
+                                BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+                            until not getgenv().Fly
+                            S = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            S2 = {
+                                F = 0,
+                                B = 0,
+                                L = 0,
+                                R = 0
+                            }
+                            SPEED = 0
+                            BodyGyro:destroy()
+                            BodyVelocity:destroy()
+                            LP.Character.Humanoid.PlatformStand = false
+                        end
+                    )
+                end
+                Mouse.KeyDown:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 1
+                        elseif k:lower() == "s" then
+                            S.B = -1
+                        elseif k:lower() == "a" then
+                            S.L = -1
+                        elseif k:lower() == "d" then
+                            S.R = 1
+                        end
+                    end
+                )
+                Mouse.KeyUp:connect(
+                    function(k)
+                        if k:lower() == "w" then
+                            S.F = 0
+                        elseif k:lower() == "s" then
+                            S.B = 0
+                        elseif k:lower() == "a" then
+                            S.L = 0
+                        elseif k:lower() == "d" then
+                            S.R = 0
+                        end
+                    end
+                )
+                FLY()
+                if Max == 2 then
+                    getgenv().Fly = false
+                    Max = 0
+                end
+            end
+        end
+    end
+)
 end)
 local Button1 = Section2:CreateButton("Anti Lag", function()
 for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
-    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
+    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
         v.Material = Enum.Material.SmoothPlastic
         if v:IsA("Texture") then
             v:Destroy()
         end
+    end
+end
+end)
+
+
+Section1:CreateTextBox("Teleport To Player", "UserName Here", false, function(String)
+
+for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+    if
+        string.find(v.Name, String) or v.Name:lower():match(String) or v.Name:upper():match(String) or
+            string.find(v.DisplayName, String) or
+            v.DisplayName:lower():match(String) or
+            v.DisplayName:upper():match(String)
+     then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
     end
 end
 
@@ -605,21 +766,20 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
         randomPlayer.Character.Head.Position.Z
     )
 )
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(randomPlayer.Character.Head.Position.X, randomPlayer.Character.Head.Position.Y, randomPlayer.Character.Head.Position.Z))
 end)
 local Button1 = Section2:CreateButton("Lag Switch F3", function()
-local X = false
-local C = settings()
+local ass = false
+local bitch = settings()
 
 game:service "UserInputService".InputEnded:connect(
-    function(V)
-        if V.KeyCode == Enum.KeyCode.F3 then
-            X = not X
-            C.Network.IncomingReplicationLag = X and 10 or 0
+    function(i)
+        if i.KeyCode == Enum.KeyCode.F3 then
+            ass = not ass
+            bitch.Network.IncomingReplicationLag = ass and 10 or 0
         end
     end
 )
-end) 
+ end) 
 local Button1 = Section2:CreateButton("ServerHop", function()
 local PlaceID = game.PlaceId
 local AllIDs = {}
@@ -705,34 +865,31 @@ end)
 Toggle3:SetState(true)
 Section3:CreateLabel("Credits DekuDimz#7960")
 Section3:CreateLabel("Credits AlexR32#3232 Ui")
+Section3:CreateLabel("Credits The3Bakers")
 local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
 	Window:ChangeColor(Color)
 end)
 Colorpicker3:UpdateColor(Config.Color)
+
 -- credits to jan for patterns
-local Dropdown3 = Section4:CreateDropdown("Image")
-local Option7 = Dropdown3:AddOption("Default", function(String)
-	Window:SetBackground("2151741365")
+local Dropdown3 = Section4:CreateDropdown("Image", {"Default","Hearts","Abstract","Hexagon","Circles","Lace With Flowers","Floral"}, function(Name)
+	if Name == "Default" then
+		Window:SetBackground("2151741365")
+	elseif Name == "Hearts" then
+		Window:SetBackground("6073763717")
+	elseif Name == "Abstract" then
+		Window:SetBackground("6073743871")
+	elseif Name == "Hexagon" then
+		Window:SetBackground("6073628839")
+	elseif Name == "Circles" then
+		Window:SetBackground("6071579801")
+	elseif Name == "Lace With Flowers" then
+		Window:SetBackground("6071575925")
+	elseif Name == "Floral" then
+		Window:SetBackground("5553946656")
+	end
 end)
-local Option8 = Dropdown3:AddOption("Hearts", function(String)
-	Window:SetBackground("6073763717")
-end)
-local Option9 = Dropdown3:AddOption("Abstract", function(String)
-	Window:SetBackground("6073743871")
-end)
-local Option10 = Dropdown3:AddOption("Hexagon", function(String)
-	Window:SetBackground("6073628839")
-end)
-local Option11 = Dropdown3:AddOption("Circles", function(String)
-	Window:SetBackground("6071579801")
-end)
-local Option12 = Dropdown3:AddOption("Lace With Flowers", function(String)
-	Window:SetBackground("6071575925")
-end)
-local Option13 = Dropdown3:AddOption("Floral", function(String)
-	Window:SetBackground("5553946656")
-end)
-Option7:SetOption()
+Dropdown3:SetOption("Default")
 
 local Colorpicker4 = Section4:CreateColorpicker("Color", function(Color)
 	Window:SetBackgroundColor(Color)
@@ -748,4 +905,9 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+spawn(function()
+while wait() do
+Save()
+end end)
+
 
