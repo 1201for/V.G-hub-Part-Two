@@ -876,9 +876,8 @@ end)
 
 Toggle1:AddToolTip("Disabled Boss Drops For Unknown Reasons")
 
-local Toggle1 = Section1:CreateToggle("True GodMode SubText", Settings.SubText, function(State)
-Settings.SubText = State
-end)
+
+
 local Toggle1 = Section1:CreateToggle("True GodMode", nil, function(State)
 Settings.TrueGodMode = State
 if Settings.TrueGodMode then
@@ -906,7 +905,6 @@ EST.Continue.Back.MouseButton1Click:Connect(
                 end
             end
             shit(game.Players.LocalPlayer,game.Workspace.Camera)
-
             for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
                 if v:IsA("ScreenGui") then
                     v.Parent = game:GetService("Players").LocalPlayer.PlayerGui
@@ -919,9 +917,6 @@ EST.Continue.Back.MouseButton1Click:Connect(
                 v.Disabled = false
             end
         end        
-        if Settings.SubText then
-            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("At long last i've have reached the pinnacle of perfection!","All")
-        end 
         game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Menu"):WaitForChild("Format"):Destroy()
     end
 )
