@@ -1356,7 +1356,7 @@ while getgenv().LOL do
                 game.StarterGui:SetCore(
                     "SendNotification",
                     {
-                        Title = "Found One",
+                        Title = "Found A " .. v.Name,
                         Text = "Check your inventory plz"
                     }
                 )
@@ -1384,7 +1384,7 @@ while getgenv().LOL do
                 game.StarterGui:SetCore(
                     "SendNotification",
                     {
-                        Title = "Found One",
+                        Title = "Found One ".. v.Name,
                         Text = "Check your inventory plz"
                     }
                 )
@@ -1413,7 +1413,7 @@ while getgenv().LOL do
                             game.StarterGui:SetCore(
                                 "SendNotification",
                                 {
-                                    Title = "Found One",
+                                    Title = "Found One ".. v.Name,
                                     Text = "Check your inventory plz"
                                 }
                             )
@@ -1446,7 +1446,7 @@ while getgenv().LOL do
                             game.StarterGui:SetCore(
                                 "SendNotification",
                                 {
-                                    Title = "Found One",
+                                    Title = "Found One " .. v.Name,
                                     Text = "Check your inventory plz"
                                 }
                             )
@@ -1480,7 +1480,7 @@ while getgenv().LOL do
                             game.StarterGui:SetCore(
                                 "SendNotification",
                                 {
-                                    Title = "Found One",
+                                    Title = "Found One " ..v.Name,
                                     Text = "Check your inventory plz"
                                 }
                             )
