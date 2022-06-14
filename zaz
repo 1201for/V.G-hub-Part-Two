@@ -1664,7 +1664,14 @@ local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, fun
    getgenv().delay = Value
 end)
 
-
+local Toggle1 = Section2:CreateToggle("Auto By Arrows", Settings.Aorrow, function(State)
+Settings.Aorrow = State
+spawn(function()
+while Settings.Aorrow do wait()
+    game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+end 
+end)
+end)
 
 
 local Toggle1 = Section2:CreateToggle("Auto Legendary Ability Slot 1", Settings.AbilityE, function(State)
@@ -1674,39 +1681,40 @@ spawn(
         while wait() and Settings.AbilityE do
             pcall(
                 function()
-                    if
-                        Values.Ability.Value ~= Settings.WantedLegendary or
-                            Settings.GoForIt and not table.find(Legendarys, Values.Ability.Value)or Settings.OnlyMysticals and not table.find(Mysticals,Values.Ability.Value)
-                     then
-                        wait()
-                        if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
-                            for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                                if
-                                    v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") 
-                                 then
-                                    v.Parent = game.Players.LocalPlayer.Character
-                                    v:Destroy()
-                                 end
-                        end 
-                        else
-                            if game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") and Level.Value == 1000 then
-                                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow"))
-                                    game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-                                    game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer(
-                                        "Moveset1"
-                                    )
+                    if Values.Ability.Value ~= Settings.WantedLegendary then
+                            if Settings.OnlyMysticals and not table.find(Mysticals, Values.Ability.Value) then
+                                wait()
+                                if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
+                                    for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                                        if v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") then
+                                            v.Parent = game.Players.LocalPlayer.Character
+                                            v:Destroy()
+                                        end
+                                    end
+                                else
+                                    if
+                                        game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") and
+                                            Level.Value == 1000
+                                     then
+                                        game.Players.LocalPlayer.Character.Humanoid:EquipTool(
+                                            game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow")
+                                        )
+                                        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                                        game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer(
+                                            "Moveset1"
+                                        )
+                                    end
+                                    if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
+                                        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+                                    end
                                 end
-                            if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
-                                game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
                             end
                         end
                     end
-                end
             )
         end
     end
 )
-
 end)
 
 local Toggle1 = Section2:CreateToggle("Auto Legendary Ability Slot 2", Settings.AbilityA, function(State)
@@ -1716,42 +1724,44 @@ spawn(
         while wait() and Settings.AbilityA do
             pcall(
                 function()
-                    if
-                        Values.Ability2.Value ~= Settings.WantedLegendary or
-                            Settings.GoForIt and not table.find(Legendarys, Values.Ability2.Value) or Settings.OnlyMysticals and not table.find(Mysticals,Values.Ability2.Value)
-                     then
-                        wait()
-                        if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
-                            for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                                if v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") then
-                                    v.Parent = game.Players.LocalPlayer.Character
-                                    v:Destroy()
-                         
+                    if Values.Ability2.Value ~= Settings.WantedLegendary then
+                            if Settings.OnlyMysticals and not table.find(Mysticals, Values.Ability2.Value) then
+                                wait()
+                                if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
+                                    for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                                        if v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") then
+                                            v.Parent = game.Players.LocalPlayer.Character
+                                            v:Destroy()
+                                        end
+                                    end
+                                else
+                                    if
+                                        game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") and
+                                            Level.Value == 1000
+                                     then
+                                        game.Players.LocalPlayer.Character.Humanoid:EquipTool(
+                                            game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow")
+                                        )
+                                        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                                        game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer(
+                                            "Moveset2"
+                                        )
+                                    end
+                                    if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
+                                        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+                                    end
                                 end
-                            end
-                        else
-                            if game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") and Level.Value == 1000 then
-                                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow"))
-                                    game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-                                    game:GetService("ReplicatedStorage").RemoteEvents.MovesetSelectorRemote:FireServer(
-                                        "Moveset2"
-                                    )
-                                end
-                            if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
-                                game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
                             end
                         end
-                    end
+                
                 end
             )
         end
     end
 )
+
 end)
 
-local Toggle1 = Section2:CreateToggle("Auto All Legendary Abilitys", Settings.GoForIt, function(State)
-Settings.GoForIt = State
-end)
 
 local Dropdown1 = Section2:CreateDropdown("Legendary Abilitys", Legendarys, function(String)
 	Settings.WantedLegendary = String
