@@ -634,6 +634,7 @@ spawn(
             wait()
             pcall(
                 function()
+                    
                     local Quest =
                         game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
                         "QuestFrame"
@@ -659,6 +660,7 @@ spawn(
                                 v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
                                 not table.find(Hentai, v.Name)
                          then
+                             if Settings.AbilityE and Level.Value < 300 and wait(5) and Level.Value ~= 1000 or Settings.AbilityA and Level.Value < 300 and wait(5) and Level.Value ~= 1000 or Settings.Raceing and Level.Value < 300 and wait(5) and Level.Value ~= 1000 then end 
                             pcall(
                                 function()
                                     if Settings.Modes == "Default" then
@@ -749,7 +751,7 @@ spawn(
                                             game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
                                             CFrame.Angles(aa, 0, 0)
                                     end
-                                    if Settings.AbilityE or Settings.AbilityA and Level.Value < 300 and wait(3) then end 
+                                    
                                 end
                             )
                         end
