@@ -749,6 +749,7 @@ spawn(
                                             game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
                                             CFrame.Angles(aa, 0, 0)
                                     end
+                                    if Settings.AbilityE or Settings.AbilityA and Level.Value < 300 and wait(3) then end 
                                 end
                             )
                         end
@@ -1704,7 +1705,7 @@ spawn(
                                             "Moveset1"
                                         )
                                     end
-                                    if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
+                                    if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") and Level.Value > 300 then
                                         game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
                                     end
                                 end
@@ -1747,7 +1748,7 @@ spawn(
                                             "Moveset2"
                                         )
                                     end
-                                    if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") then
+                                    if not game.Players.LocalPlayer.Backpack:FindFirstChild("Requiem Arrow") and Level.Value > 300 then
                                         game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
                                     end
                                 end
@@ -1797,7 +1798,7 @@ spawn(
                                     game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Platnium Heart"))
                                     game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
                                 end
-                            if not game.Players.LocalPlayer.Backpack:FindFirstChild("Platnium Heart") then
+                            if not game.Players.LocalPlayer.Backpack:FindFirstChild("Platnium Heart") and Level.Value > 300 then
                                 game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
                             end
                         end
