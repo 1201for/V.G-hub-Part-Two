@@ -86,15 +86,40 @@ local Toggle1 = Section1:CreateToggle("Boxes Esp", nil, function(State)
 ESP.Boxes = State
 end)
 
+local Toggle1 = Section1:CreateToggle("Computer Esp", nil, function(State)
+    ESP.Blue = State
+
+ESP:AddObjectListener(workspace:FindFirstChild(tostring(game.ReplicatedStorage.CurrentMap.Value)), {
+    Color = Color3.new(0,0,255),
+    Type = "Model",
+    PrimaryPart = function(v)
+        local H = v:FindFirstChild("Keyboard")
+        while not H do
+            wait()
+            H = v:FindFirstChild("Keyboard")
+        end
+        return H
+    end,
+    Validator = function(v)
+        return not game.Players:GetPlayerFromCharacter(v)
+    end,
+    CustomName = function(v)
+        return "Computer"
+    end,
+    IsEnabled = "Blue",
+})
+
+end)
+
 local Button1 = Section1:CreateButton("Go to random Computer", function()
 pcall(function()
-for i,v in pairs(Map:GetChildren()) do
+for i,v in pairs(workspace:FindFirstChild(tostring(game.ReplicatedStorage.CurrentMap.Value)):GetChildren()) do
 if v.Name == "ComputerTable" and  v.Screen.Color ~= Color3.fromRGB(40, 127, 71)  and v.Screen.Transparency == 0 then
 game:GetService"Players".LocalPlayer.Character.HumanoidRootPart.CFrame = v.ComputerTrigger1.CFrame
 end end
 end)
 end)
-if syn then
+if setfpscap then
 local TextBox1 = SectionA:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
     getgenv().Fps = Value
     pcall(function()
@@ -410,4 +435,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
