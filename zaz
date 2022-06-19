@@ -419,6 +419,8 @@ spawn(
                             v:IsA("Model") and v.Name == Settings.Mo and v:FindFirstChildOfClass("Humanoid") and
                                 v.Humanoid.Health > 0
                          then
+                            if Settings.AbilityE and Level.Value < 300 and wait(5)  or Settings.AbilityA and Level.Value < 300 and wait(5) or Settings.Raceing and Level.Value < 300 and wait(5) then Settings.AntiLeveling = true  end 
+                           
                             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                                 v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 2) * CFrame.Angles(aa, 0, 0)
                             wait(getgenv().delay2)
@@ -663,7 +665,7 @@ spawn(
                                 v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
                                 not table.find(Hentai, v.Name)
                          then
-                             if Settings.AbilityE and Level.Value < 300 and wait(5)  or Settings.AbilityA and Level.Value < 300 and wait(5) or Settings.Raceing and Level.Value < 300 and wait(5) then Settings.AntiLeveling = true task.wait(5) Settings.AntiLeveling = false  end 
+                             if Settings.AbilityE and Level.Value < 300 and wait(5)  or Settings.AbilityA and Level.Value < 300 and wait(5) or Settings.Raceing and Level.Value < 300 and wait(5) then end 
                             pcall(
                                 function()
                                     if Settings.Modes == "Default" then
