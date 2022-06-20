@@ -234,15 +234,18 @@ for i, v in pairs(Table) do
     table.insert(Table2, v)
 end
 
-
 local Player = game:GetService("Players").LocalPlayer 
-local Character = Player.Character or Player.CharacterAdded:wait(getgenv().delay2)
+local Character = Player.Character
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Live = game:GetService("Workspace").Live
 local Protest = game:GetService("ReplicatedStorage").Quests
 local Markers = game:GetService("Workspace").QuestMarkers
 
+Player.CharacterAdded:Connect(function()
+    wait(1)
+Character = Player.Character
+end)
 local Message = function(A, B, C)
     if messagebox then
         messagebox(B, A, 0x10)
