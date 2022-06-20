@@ -1366,10 +1366,10 @@ game.Players.PlayerAdded:Connect(function(v)
             elseif v == "Ignoring" then
                 Message("HEY",'WHY YOU IGNOREING ME')
             elseif v == "RickRoll" then
-                for i,v in pairs(Table3) do
+                for i,v in pairs(Table3) do wait()
                     game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(v,
                 "All"
-            )
+            ) wait(2)
             end 
             end
         end)
