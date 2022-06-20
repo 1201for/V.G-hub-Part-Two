@@ -276,6 +276,9 @@ if v:IsA("Model") and v:FindFirstChild("Humanoid") then
 v.Chat.QuestText1.Value = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. " Thanks you for using V.G Hub"
 end end end)
 
+
+
+
 pcall(
     function()
         Quests = {}
@@ -1534,6 +1537,7 @@ while getgenv().LOL do
     end
 end
 end)
+--[[
 local Button1 = Section2:CreateButton("Find Legendary Armor not avabible ", function()
 getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
@@ -1566,7 +1570,7 @@ while getgenv().LOL do
         end
     )
 end
-end)
+end)]]--
 local Button1 = Section2:CreateButton("Find Rare Armor", function()
 getgenv().LOL = true
 game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
@@ -1589,7 +1593,7 @@ while getgenv().LOL do
                                 }
                             )
                             getgenv().LOL = false
-                        elseif v.BagPart.Overhead.Rarity.Text == "Common" then
+                        elseif v.BagPart.Overhead.Rarity.Text == "Common" or  table.find(BlackList, v.BagPart.Overhead.Enchantment.Text) then
                             v.Parent = game.Players.LocalPlayer.Character
                             v:remove()
                         end
@@ -1623,7 +1627,7 @@ while getgenv().LOL do
                                 }
                             )
                             getgenv().LOL = false
-                        elseif v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Enchantment.Text == "" then
+                        elseif v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Enchantment.Text == "" or table.find(BlackList, v.BagPart.Overhead.Enchantment.Text) then
                             v.Parent = game.Players.LocalPlayer.Character
                             v:remove()
                         end
@@ -1950,7 +1954,7 @@ local Toggle1 = Section2:CreateToggle("Auto Ability 1", Settings.AutoAbility, fu
 Settings.AutoAbility = State
 spawn(function()
 while Settings.AutoAbility do
-    wait(2)
+    wait(getgenv().delay)
     pcall(
         function()
             if game.Players.LocalPlayer.PlayerValues.Ability.Value ~= Settings.Ability then
@@ -1977,7 +1981,7 @@ local Toggle1 = Section2:CreateToggle("Auto Ability 2", Settings.AutoAbility2, f
 Settings.AutoAbility2 = State
 spawn(function()
 while Settings.AutoAbility2 do
-    wait(2)
+    wait(getgenv().delay)
     pcall(
         function()
             if game.Players.LocalPlayer.PlayerValues.Ability2.Value ~= Settings.Ability2 then
