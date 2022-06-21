@@ -31,6 +31,7 @@ Settings = game:GetService("HttpService"):JSONDecode(readfile("V.G Hub//" .. Nam
 local function Save()
     writefile("V.G Hub//" .. Name, game:GetService("HttpService"):JSONEncode(Settings))
 end
+spawn = task.spawn
 wait = task.wait
 
 local BlackList = {
@@ -260,10 +261,11 @@ local Teleport = function(A, B, C)
         A.CFrame = B
     end
 end
-local Wait = function()
-    Player:WaitForChild("PlayerGui"):WaitForChild("Menu")
-    Player:WaitForChild("Backpack"):FindFirstChildWhichIsA("Tool")
-local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
+local Rough = function()
+
+Player:WaitForChild("PlayerGui"):WaitForChild("Menu")
+Player:WaitForChild("Backpack"):FindFirstChildWhichIsA("Tool")
+
 end
 
 
@@ -710,7 +712,8 @@ spawn(
             pcall(
                 function()
                     
-                 Wait()
+                 Rough()
+                 local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
                     if Quest.Visible == false then
                         ReplicatedStorage.RemoteEvents.ChangeQuestRemote:FireServer(
                             Protest:FindFirstChild(Settings.Quest)
@@ -831,7 +834,7 @@ spawn(
             wait(getgenv().delay2)
             pcall(
                 function()
-                    Wait()
+                    Rough()
                     c()
                 if Settings.AbilityE and Level.Value < 300 and wait(5)  or Settings.AbilityA and Level.Value < 300 and wait(5) or Settings.Raceing and Level.Value < 300 and wait(5)  then end 
                     ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
@@ -858,7 +861,8 @@ while Settings.StartQuest do
     wait(getgenv().delay2)
     pcall(
         function()
-            Wait()
+            Rough()
+            local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
             if Quest.Visible == false then
                 ReplicatedStorage.RemoteEvents.ChangeQuestRemote:FireServer(
                     Protest:FindFirstChild(Settings.Quest)
@@ -1053,7 +1057,8 @@ spawn(
                     wait(getgenv().delay2)
                     for i, v in pairs(Live:GetChildren()) do
                         if v.Name == Settings.Boss and v.Humanoid.Health ~= 0 then
-                            Wait()
+                            Rough()
+                            local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
                             repeat
                                 wait(getgenv().delay2)
                                 Character.HumanoidRootPart.CFrame =
@@ -1117,7 +1122,8 @@ spawn(
                     for i, v in pairs(Live:GetChildren()) do
                         if table.find(Hentai, v.Name) and v.Humanoid.Health ~= 0 then
                             wait(1)
-                            Wait()
+                            Rough()
+                            local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
                             repeat
                                 wait(getgenv().delay2)
 Teleport(Character.HumanoidRootPart,CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -7, 3)),true)
@@ -2806,4 +2812,3 @@ spawn(function()
 while wait(getgenv().delay2) do
 Save()
 end end)
-
