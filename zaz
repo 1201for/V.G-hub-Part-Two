@@ -3,7 +3,7 @@ local Config = {
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightControl
 }
-repeat wait(getgenv().delay2) until game:IsLoaded() wait(getgenv().delay2)
+repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
@@ -660,8 +660,7 @@ while Settings.AutoDummy do
                 Live["Training Dummy"].Torso.CFrame * CFrame.new(-10, 0, 0) *
                 CFrame.Angles(aa, 0, 0)
             if not Settings.AutoDummy then
-                Character.HumanoidRootPart.CFrame =
-                    game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+                Teleport(Character.HumanoidRootPart,CFrame.new(game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)),true)
             end
         end
     )
@@ -704,16 +703,14 @@ RunService.Stepped:connect(
     end
 )
 
-
 spawn(
     function()
         while Settings.AutoQuest do
             wait(getgenv().delay2)
             pcall(
                 function()
-                    
-                 Rough()
-                 local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
+                    Rough()
+                    local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
                     if Quest.Visible == false then
                         ReplicatedStorage.RemoteEvents.ChangeQuestRemote:FireServer(
                             Protest:FindFirstChild(Settings.Quest)
@@ -726,77 +723,121 @@ spawn(
                                 v:FindFirstChildOfClass("Humanoid").Health ~= 0 and
                                 not table.find(Hentai, v.Name)
                          then
-                             if Settings.AbilityE and Level.Value < 300 and wait(5)  or Settings.AbilityA and Level.Value < 300 and wait(5) or Settings.Raceing and Level.Value < 300 and wait(5) then end 
+                            if
+                                Settings.AbilityE and Level.Value < 300 and wait(5) or
+                                    Settings.AbilityA and Level.Value < 300 and wait(5) or
+                                    Settings.Raceing and Level.Value < 300 and wait(5)
+                             then
+                            end
                             pcall(
                                 function()
                                     if Settings.Modes == "Default" then
-                                        v:WaitForChild("HumanoidRootPart").CFrame =
-                                            Character:WaitForChild("HumanoidRootPart").CFrame *
-                                            CFrame.new(0, 0, -2)
-                                        Character:WaitForChild("HumanoidRootPart").CFrame =
-                                            Markers[
-                                            Quest:WaitForChild("QuestName").Text
-                                        ].CFrame *
-                                            CFrame.new(0, -uu, 0) *
-                                            CFrame.Angles(aa, 0, 0)
-                                        Part.CFrame =
-                                            Character:WaitForChild("HumanoidRootPart").CFrame *
-                                            CFrame.new(0, -5, 0)
+                                        Teleport(
+                                            v.HumanoidRootPart,
+                                            CFrame.new(Character.HumanoidRootPart.Position + Vector3.new(0, 0, -3)),
+                                            true
+                                        )
+                                        Teleport(
+                                            Character.HumanoidRootPart,
+                                            CFrame.new(
+                                                Markers[Quest:WaitForChild("QuestName").Text].Position +
+                                                    Vector3.new(0, -uu, 0)
+                                            ),
+                                            true
+                                        )
+                                        Teleport(
+                                            Part,
+                                            CFrame.new(Character.HumanoidRootPart.Position + Vector3.new(0, -5, 0)),
+                                            true
+                                        )
                                     end
                                     if Settings.Modes == "Sky" then
-                                        v:WaitForChild("HumanoidRootPart").CFrame =
-                                            Character:WaitForChild("HumanoidRootPart").CFrame *
-                                            CFrame.new(0, 0, -2)
-                                        Character:WaitForChild("HumanoidRootPart").CFrame =
-                                            Markers[
-                                            Quest:WaitForChild("QuestName").Text
-                                        ].CFrame *
-                                            CFrame.new(0, uu, 0) *
-                                            CFrame.Angles(aa, 0, 0)
-                                        Part.CFrame =
-                                            Character:WaitForChild("HumanoidRootPart").CFrame *
-                                            CFrame.new(0, -5, 0)
+                                        Teleport(
+                                            v.HumanoidRootPart,
+                                            CFrame.new(Character.HumanoidRootPart.Position + Vector3.new(0, 0, -3)),
+                                            true
+                                        )
+                                        Teleport(
+                                            Character.HumanoidRootPart,
+                                            CFrame.new(
+                                                Markers[Quest:WaitForChild("QuestName").Text].Position +
+                                                    Vector3.new(0, uu, 0)
+                                            ),
+                                            true
+                                        )
+                                        Teleport(
+                                            Part,
+                                            CFrame.new(Character.HumanoidRootPart.Position + Vector3.new(0, -5, 0)),
+                                            true
+                                        )
                                     end
                                     if Settings.Modes == "Fancy" then
-                                        Character:WaitForChild("HumanoidRootPart").CFrame =
-                                            v:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, -7, 2)
-                                        Part.CFrame =
-                                            Character:WaitForChild("HumanoidRootPart").CFrame *
-                                            CFrame.new(0, -5, 0)
+                                        Teleport(
+                                            Character.HumanoidRootPart,
+                                            CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, 0, -3)),
+                                            true
+                                        )
+                                        Teleport(
+                                            Character.HumanoidRootPart,
+                                            CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -7, 0)),
+                                            true
+                                        )
+                                        Teleport(
+                                            Part,
+                                            CFrame.new(Character.HumanoidRootPart.Position + Vector3.new(0, -5, 0)),
+                                            true
+                                        )
                                     end
                                     if Settings.Modes == "BeHind" then
-                                        Character:WaitForChild("HumanoidRootPart").CFrame =
-                                            v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                                        Teleport(
+                                            Character.HumanoidRootPart,
+                                            CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, 0, 3)),
+                                            true
+                                        )
                                     end
                                     if Settings.Modes == "Crazy" then
                                         wait(0.1)
-                                        Character:WaitForChild("HumanoidRootPart").CFrame =
-                                            Markers[
-                                            Quest:WaitForChild("QuestName").Text
-                                        ].CFrame *
-                                            CFrame.new(math.random(100), -uu, math.random(100)) *
-                                            CFrame.Angles(aa, 0, 0)
-                                        Part.CFrame =
-                                            Character:WaitForChild("HumanoidRootPart").CFrame *
-                                            CFrame.new(0, -5, 0)
-                                        v.HumanoidRootPart.CFrame =
-                                            Character:WaitForChild("HumanoidRootPart").CFrame *
-                                            CFrame.new(0, 0, -3)
+                                        Teleport(
+                                            Character.HumanoidRootPart,
+                                            CFrame.new(
+                                                Markers[Quest:WaitForChild("QuestName").Text].Position +
+                                                    Vector3.new(math.random(100), -uu, math.random(100))
+                                            ),
+                                            true
+                                        )
+                                        Teleport(
+                                            Part,
+                                            CFrame.new(Character.HumanoidRootPart.Position + Vector3.new(0, -5, 0)),
+                                            true
+                                        )
+                                        Teleport(
+                                            v.HumanoidRootPart,
+                                            CFrame.new(Character.HumanoidRootPart.Position + Vector3.new(0, 0, -3)),
+                                            true
+                                        )
                                     end
                                     if Settings.Modes == "Void" then
                                         repeat
                                             wait(getgenv().delay2)
-
-                                            Character:WaitForChild("HumanoidRootPart").CFrame =
-                                                v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 0)
+                                            Teleport(
+                                                Character.HumanoidRootPart,
+                                                CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -7, 3)),
+                                                true
+                                            )
                                         until isnetworkowner(v.HumanoidRootPart) or Settings.AutoQuest == false
-                                        v.HumanoidRootPart.CFrame =
-                                            Markers[
-                                            Quest:WaitForChild("QuestName").Text
-                                        ].CFrame * CFrame.new(0, 50000, 0)
-                                        Part.CFrame =
-                                            Character:WaitForChild("HumanoidRootPart").CFrame *
-                                            CFrame.new(0, 7, 0)
+                                        Teleport(
+                                            v.HumanoidRootPart,
+                                            CFrame.new(
+                                                Markers[Quest:WaitForChild("QuestName").Text].Position +
+                                                    Vector3.new(0, 50000, 3)
+                                            ),
+                                            true
+                                        )
+                                        Teleport(
+                                            Part,
+                                            CFrame.new(Character.HumanoidRootPart.Position + Vector3.new(0, 5, 3)),
+                                            true
+                                        )
                                     end
                                     if Settings.InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                         wait(getgenv().delay2)
@@ -804,20 +845,26 @@ spawn(
                                     end
 
                                     if not Settings.AutoQuest then
-                                        v.HumanoidRootPart.CFrame =
-                                            Markers[
-                                            Quest:WaitForChild("QuestName").Text
-                                        ].CFrame *
-                                            CFrame.new(0, 50, 0) *
-                                            CFrame.Angles(aa, 0, 0)
+                                        Teleport(
+                                            v.HumanoidRootPart,
+                                            CFrame.new(
+                                                Markers[Quest:WaitForChild("QuestName").Text].Position +
+                                                    Vector3.new(0, 50, 3)
+                                            ),
+                                            true
+                                        )
                                     end
 
                                     if not Settings.AutoQuest then
-                                        Character.HumanoidRootPart.CFrame =
-                                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
-                                            CFrame.Angles(aa, 0, 0)
+                                        Teleport(
+                                            Character.HumanoidRootPart,
+                                            CFrame.new(
+                                                game:GetService("Workspace").SafeZoneIndicator.CFrame.Position +
+                                                    Vector3.new(0, 5, 3)
+                                            ),
+                                            true
+                                        )
                                     end
-                                    
                                 end
                             )
                         end
@@ -836,13 +883,19 @@ spawn(
                 function()
                     Rough()
                     c()
-                if Settings.AbilityE and Level.Value < 300 and wait(5)  or Settings.AbilityA and Level.Value < 300 and wait(5) or Settings.Raceing and Level.Value < 300 and wait(5)  then end 
+                    if
+                        Settings.AbilityE and Level.Value < 300 and wait(5) or
+                            Settings.AbilityA and Level.Value < 300 and wait(5) or
+                            Settings.Raceing and Level.Value < 300 and wait(5)
+                     then
+                    end
                     ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
                 end
             )
         end
     end
 )
+
 
 
 end)
@@ -896,7 +949,7 @@ spawn(
                         for i = 1, 10 do
                             wait(getgenv().delay2)
                             Character.HumanoidRootPart.CFrame =
-                                game:GetService("Workspace").SafeZoneIndicator.CFrame
+                                game:GetService("Workspace").SafeZoneIndicator
                         end
                     end
                     if not Settings.PlayerGodMode then
@@ -1061,8 +1114,7 @@ spawn(
                             local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
                             repeat
                                 wait(getgenv().delay2)
-                                Character.HumanoidRootPart.CFrame =
-                                    v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3)
+                                Teleport(Character.HumanoidRootPart,CFrame.new(game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)),true)
 
                                 if Settings.InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                     wait(getgenv().delay2)
@@ -1071,12 +1123,10 @@ spawn(
                             
                             until v.Humanoid.Health == 0 or Settings.AutoBosses == false
                                 if v.Humanoid.Health == 0 then wait(1)
-                                Character.HumanoidRootPart.CFrame = CFrame.new(v.HumanoidRootPart.Position +Vector3.new(0,-5000,0))
+                                Teleport(Character.HumanoidRootPart,CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5000, 3)),true)
                                 end
                         elseif not Settings.AutoBosses then
-                            Character.HumanoidRootPart.CFrame =
-                                game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
-                                CFrame.Angles(aa, 0, 0)
+                            Teleport(Character.HumanoidRootPart,CFrame.new(game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)),true)
                         end
                     end
                 end
@@ -1126,19 +1176,17 @@ spawn(
                             local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
                             repeat
                                 wait(getgenv().delay2)
-Teleport(Character.HumanoidRootPart,CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -7, 3)),true)
+                                Teleport(Character.HumanoidRootPart,CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -7, 3)),true)
                                 if Settings.InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
 
                             until v.Humanoid.Health == 0 or Settings.AutoAllBosses == false
                                 if v.Humanoid.Health == 0 then wait(1)
-                                    Teleport(Character.HumanoidRootPart,CFrame.new(v.HumanoidRootPart.Position + Vector3.new(500,-300,500)),true)
+                                    Teleport(Character.HumanoidRootPart,CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5000, 3)),true)
                                 end 
                         elseif not Settings.AutoAllBosses then
-                            Character.HumanoidRootPart.CFrame =
-                                game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
-                                CFrame.Angles(aa, 0, 0)
+                            Teleport(Character.HumanoidRootPart,CFrame.new(game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)),true)
                         end
                     end
                 end
