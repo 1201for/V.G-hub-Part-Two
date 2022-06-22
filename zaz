@@ -963,10 +963,9 @@ spawn(
                             game:GetService("Workspace").GameStuff.EternalHorrorBrolyTeleporter.TeleportPart,
                             0
                         )
-                        for i = 1, 10 do
+                        for i = 1, 10 do wait(0.1)
                             wait(getgenv().delay2)
-                            Character.HumanoidRootPart.CFrame =
-                                game:GetService("Workspace").SafeZoneIndicator
+                            Teleport(Character.HumanoidRootPart,game:GetService("Workspace").SafeZoneIndicator.CFrame,true)
                         end
                     end
                     if not Settings.PlayerGodMode then
