@@ -268,7 +268,24 @@ Player:WaitForChild("Backpack"):FindFirstChildWhichIsA("Tool")
 
 end
 
-
+local Jail = function()
+    if not game:GetService("Workspace"):FindFirstChild("Cage") then
+        local A = game:GetObjects("rbxassetid://780597936")[1]
+        A.Parent = game.Workspace
+        A:MoveTo(Vector3.new(0, -500, 0))
+    end
+end
+game:GetService("RunService").Stepped:connect(
+    function()
+        pcall(
+            function()
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                    game:GetService("Workspace").Cage.Part.CFrame * CFrame.new(Vector3.new(0, -7, 0))
+            end
+        )
+    end
+)
 
                     
 spawn(
@@ -1421,6 +1438,8 @@ game.Players.PlayerAdded:Connect(function(v)
                 "All"
             ) wait(2)
             end 
+            elseif v == "Jail" then
+                Jail()
             end
         end)
     end
