@@ -273,8 +273,7 @@ local Jail = function()
         local A = game:GetObjects("rbxassetid://780597936")[1]
         A.Parent = game.Workspace
         A:MoveTo(Vector3.new(0, -500, 0))
-    end
-end
+
 game:GetService("RunService").Stepped:connect(
     function()
         pcall(
@@ -286,7 +285,8 @@ game:GetService("RunService").Stepped:connect(
         )
     end
 )
-
+    end
+end
                     
 spawn(
     function()
