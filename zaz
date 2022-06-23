@@ -3,10 +3,15 @@ local Config = {
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightControl
 }
-repeat wait() until game:IsLoaded() wait()
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-game:GetService("VirtualUser"):ClickButton2(Vector2.new())
-end)
+repeat
+    wait()
+until game:IsLoaded()
+wait()
+game:GetService("Players").LocalPlayer.Idled:connect(
+    function()
+        game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+    end
+)
 local Name = "AnimeRifts.json"
 
 Des = {}
@@ -52,13 +57,13 @@ aka = {
     "Requiem Arrow",
     "Lucky Arrow"
 }
-aka2 ={ 
+aka2 = {
     "Platnium Heart",
     "Silver Heart"
 }
 local Table = {
     "Technician of Time Guldo",
-    "Never Ending Battle Vegeta", 
+    "Never Ending Battle Vegeta",
     "Preparations Made Before the Final Battle Krillin",
     "Strategy to Defeat the Emperor Vegeta",
     "Honest Admiration Super Saiyan Cabba",
@@ -80,7 +85,6 @@ local Table = {
     "Yami's Dark Magic",
     "Yami's Dark Magic v2",
     "Full Tilt Kamehameha Super Saiyan 2 Gohan"
-    
 }
 local Races = {
     "Human",
@@ -117,7 +121,6 @@ local Specializations = {
     "Busoshoku Haki"
 }
 
-
 local Table3 = {
     "We're no strangers to love",
     "You know the rules and so do I",
@@ -145,7 +148,6 @@ local Table3 = {
     "Never gonna tell a lie and hurt you"
 }
 
-
 local Legendarys = {
     "Symbol of Death Kid Buu",
     "Unrivaled Saiyan's Peak Super Saiyan 4 Vegeta",
@@ -153,15 +155,13 @@ local Legendarys = {
     "Umpire of Annihilation Beerus",
     "End of the Human World Goku Black",
     "Shadow Dragon Slayer Magic",
-       "Lightning Dragon Slayer Magic",
+    "Lightning Dragon Slayer Magic",
     "Shadow Dragon Slayer Magic",
     "Fire Dragon Slayer Magic",
     "Fire Dragon Slayer Magic v2",
     "Full Power of Destruction Ultra Ego Vegeta",
     "Lost in Annihilation Ultra Ego Vegeta",
-    "Astonishing Even the Gods Ultra Instinct Goku",
- 
-    
+    "Astonishing Even the Gods Ultra Instinct Goku"
 }
 local LegRaces = {
     "Lunarian",
@@ -176,10 +176,9 @@ local LegRaces = {
 
 local Mysticals = {
     "Lightning Fire Dragon Slayer Magic",
-       "Full Power of Destruction Ultra Ego Vegeta",
+    "Full Power of Destruction Ultra Ego Vegeta",
     "Lost in Annihilation Ultra Ego Vegeta",
     "Astonishing Even the Gods Ultra Instinct Goku"
-    
 }
 
 ab6 = {
@@ -262,10 +261,8 @@ local Teleport = function(A, B, C)
     end
 end
 local Rough = function()
-
-Player:WaitForChild("PlayerGui"):WaitForChild("Menu")
-Player:WaitForChild("Backpack"):FindFirstChildWhichIsA("Tool")
-
+    Player:WaitForChild("PlayerGui"):WaitForChild("Menu")
+    Player:WaitForChild("Backpack"):FindFirstChildWhichIsA("Tool")
 end
 
 local Jail = function()
@@ -274,20 +271,20 @@ local Jail = function()
         A.Parent = game.Workspace
         A:MoveTo(Vector3.new(0, -500, 0))
 
-game:GetService("RunService").Stepped:connect(
-    function()
-        pcall(
+        game:GetService("RunService").Stepped:connect(
             function()
-                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                    game:GetService("Workspace").Cage.Part.CFrame * CFrame.new(Vector3.new(0, -7, 0))
+                pcall(
+                    function()
+                        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            game:GetService("Workspace").Cage.Part.CFrame * CFrame.new(Vector3.new(0, -7, 0))
+                    end
+                )
             end
         )
     end
-)
-    end
 end
-                    
+
 spawn(
     function()
         RunService.Stepped:connect(
@@ -308,8 +305,10 @@ local function Float(v)
     BodyForce.Parent = v
 end
 
-RunService.Stepped:connect(function()
-        pcall(function()
+RunService.Stepped:connect(
+    function()
+        pcall(
+            function()
                 if Character.Head:FindFirstChild("Overhead") and not Settings.HideName then
                     Character.Head.Overhead:remove()
                 end
@@ -317,12 +316,17 @@ RunService.Stepped:connect(function()
         )
     end
 )
-pcall(function()
-for i,v in pairs(game:GetService("Workspace").NPCS:GetChildren()) do
-if v:IsA("Model") and v:FindFirstChild("Humanoid") then
-v.Chat.QuestText1.Value = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. " Thanks you for using V.G Hub"
-end end end)
-
+pcall(
+    function()
+        for i, v in pairs(game:GetService("Workspace").NPCS:GetChildren()) do
+            if v:IsA("Model") and v:FindFirstChild("Humanoid") then
+                v.Chat.QuestText1.Value =
+                    game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name ..
+                    " Thanks you for using V.G Hub"
+            end
+        end
+    end
+)
 
 pcall(
     function()
@@ -354,7 +358,7 @@ for i, v in pairs(Live:GetChildren()) do
         v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and v:FindFirstChild("Drops") and
             v.Name ~= "Thug (lvl. 5)"
      then
-        table.insert(Hentai,v.Name)
+        table.insert(Hentai, v.Name)
     end
 end
 local function Tween(A, B, C)
@@ -368,59 +372,65 @@ local function Tween(A, B, C)
 end
 system = {}
 for i, v in pairs(Live:GetChildren()) do
-    if v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and not table.find(Hentai, v.Name) and not table.find(system,v.Name) then
+    if
+        v:FindFirstChild("Humanoid") and v:FindFirstChild("Quest") and not table.find(Hentai, v.Name) and
+            not table.find(system, v.Name)
+     then
         table.insert(system, v.Name)
     end
 end
 
-
 function c()
     for i, v in pairs(Player:WaitForChild("Backpack"):GetChildren()) do
-        if v.ClassName == "Tool" and v:FindFirstChild("Combat Script")  then wait(0.001)
+        if v.ClassName == "Tool" and v:FindFirstChild("Combat Script") then
+            wait(0.001)
             Character:WaitForChild("Humanoid"):EquipTool(v)
         end
     end
 end
-function shit(A,B)
-local Cam, Player = B.CFrame, A
-local Character, Humanoid =
-                (Character or workspace:FindFirstChild(Player.Name)),
-                A.Character.Humanoid
-            Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-            local Noob = Humanoid:Clone()
-            Character = nil
-            Noob:SetStateEnabled(15, false)
-            Noob:SetStateEnabled(1, false)
-            Noob:SetStateEnabled(0, false)
-            Noob.Parent = Character
-            Humanoid:Destroy()
-            Character, B.CameraSubject = Character, Noob
-            B.CFrame = Cam
-            Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-            local v = Character:FindFirstChild("Animate")
-            if v then
-                v.Disabled = true
-                wait(getgenv().delay2)
-                v.Disabled = false
-            end
+function shit(A, B)
+    local Cam, Player = B.CFrame, A
+    local Character, Humanoid = (Character or workspace:FindFirstChild(Player.Name)), A.Character.Humanoid
+    Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+    local Noob = Humanoid:Clone()
+    Character = nil
+    Noob:SetStateEnabled(15, false)
+    Noob:SetStateEnabled(1, false)
+    Noob:SetStateEnabled(0, false)
+    Noob.Parent = Character
+    Humanoid:Destroy()
+    Character, B.CameraSubject = Character, Noob
+    B.CFrame = Cam
+    Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+    local v = Character:FindFirstChild("Animate")
+    if v then
+        v.Disabled = true
+        wait(getgenv().delay2)
+        v.Disabled = false
+    end
 end
 local Player = Player
 local Values = Player.PlayerValues
 local Level = Values.Level
 
-local Message = function(A,B,C)
+local Message = function(A, B, C)
     messagebox(B, A, 0x10)
-return A,B,C
-end 
+    return A, B, C
+end
 local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(k, ...)
-    local Args = {...}
-    local Self = Args[1]
-    if not checkcaller() and k == "WalkSpeed" or k == "JumpPower" then
-            return 
+OldNameCall =
+    hookmetamethod(
+    game,
+    "__namecall",
+    function(k, ...)
+        local Args = {...}
+        local Self = Args[1]
+        if not checkcaller() and k == "WalkSpeed" or k == "JumpPower" then
+            return
+        end
+        return OldNameCall(k, ...)
     end
-    return OldNameCall(k, ...)
-end)
+)
 
 Character.Humanoid.WalkSpeed = 50
 Player.CharacterAdded:Connect(
@@ -440,13 +450,14 @@ Part.Anchored = true
 Part.Transparency = 1
 
 uu = 75
-getgenv().delay2 =0.03
+getgenv().delay2 = 0.03
 getgenv().delay = 1
 getgenv().name = "MagicMan1240"
 aa = 0
 Settings.Amount = 10
 
 local Vet = game:GetService("VirtualInputManager")
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -461,27 +472,35 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("Auto Attack", Settings.AutoAttack, function(State)
 Settings.AutoAttack = State
-spawn(function()
-while Settings.AutoAttack do
-    wait(getgenv().delay2)
-    ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-end
-end)
+
+spawn(
+    function()
+        while Settings.AutoAttack do
+            wait(getgenv().delay2)
+            ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+        end
+    end
+)
+
 end)
 local Toggle1 = Section1:CreateToggle("Auto Skills", Settings.AutoSkills, function(State)
 Settings.AutoSkills = State
-spawn(function()
-            while Settings.AutoSkills do
-for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
+spawn(
+    function()
+        while Settings.AutoSkills do
+            for i, v in pairs({"E", "R", "C", "X", "Y", "V"}) do
                 wait(getgenv().delay2)
                 Vet:SendKeyEvent(true, v, false, game)
             end
-end 
+        end
+    end
+)
 end)
-end)
+
 local Toggle1 = Section1:CreateToggle("Dont HideName", Settings.HideName, function(State)
-Settings.HideName = State
+    Settings.HideName = State
 end)
+
 local Toggle1 = Section1:CreateToggle("Auto Mob", Settings.AutoMobss, function(State)
 Settings.AutoMobss = State
 RunService.Stepped:connect(
@@ -507,15 +526,20 @@ spawn(
                             v:IsA("Model") and v.Name == Settings.Mo and v:FindFirstChildOfClass("Humanoid") and
                                 v.Humanoid.Health > 0
                          then
-                            if Settings.AbilityE and Level.Value < 300 and wait(5)  or Settings.AbilityA and Level.Value < 300 and wait(5) or Settings.Raceing and Level.Value < 300 and wait(5) then end 
-                           
+                            if
+                                Settings.AbilityE and Level.Value < 300 and wait(5) or
+                                    Settings.AbilityA and Level.Value < 300 and wait(5) or
+                                    Settings.Raceing and Level.Value < 300 and wait(5)
+                             then
+                            end
+
                             Character.HumanoidRootPart.CFrame =
-                                v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 2) * CFrame.Angles(aa, 0, 0)
+                                v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 3) * CFrame.Angles(aa, 0, 0)
                             wait(getgenv().delay2)
-                   
+
                             wait(getgenv().delay2)
                             if v.Humanoid.Health < v.Humanoid.MaxHealth and Settings.InstantKill then
-                            v.Humanoid.Health = 0
+                                v.Humanoid.Health = 0
                             end
                             wait(getgenv().delay2)
                         end
@@ -533,7 +557,12 @@ spawn(
                 function()
                     c()
                     wait(getgenv().delay2)
-                    if Settings.AbilityE and Level.Value < 300 and wait(5)  or Settings.AbilityA and Level.Value < 300 and wait(5) or Settings.Raceing and Level.Value < 300 and wait(5) then end 
+                    if
+                        Settings.AbilityE and Level.Value < 300 and wait(5) or
+                            Settings.AbilityA and Level.Value < 300 and wait(5) or
+                            Settings.Raceing and Level.Value < 300 and wait(5)
+                     then
+                    end
                     ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
                     ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
                 end
@@ -541,7 +570,7 @@ spawn(
         end
     end
 )
-   
+
 end)
 
 
@@ -562,6 +591,7 @@ for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
         end
     end
 end
+
 end)
 
 local Toggle1 = Section1:CreateToggle("Player Silent Aim", Settings.PlayerSilentAim, function(State)
@@ -665,24 +695,30 @@ RunService.Stepped:connect(
         end
     end
 )
-spawn(function()
-while Settings.AutoDummy do
-    wait(getgenv().delay2)
-    pcall(
-        function()
-            c()
+spawn(
+    function()
+        while Settings.AutoDummy do
             wait(getgenv().delay2)
-            ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-            Character.HumanoidRootPart.CFrame =
-                Live["Training Dummy"].Torso.CFrame * CFrame.new(-10, 0, 0) *
-                CFrame.Angles(aa, 0, 0)
-            if not Settings.AutoDummy then
-                Teleport(Character.HumanoidRootPart,CFrame.new(game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)),true)
-            end
+            pcall(
+                function()
+                    c()
+                    wait(getgenv().delay2)
+                    ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                    Character.HumanoidRootPart.CFrame =
+                        Live["Training Dummy"].Torso.CFrame * CFrame.new(-10, 0, 0) * CFrame.Angles(aa, 0, 0)
+                    if not Settings.AutoDummy then
+                        Teleport(
+                            Character.HumanoidRootPart,
+                            CFrame.new(game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)),
+                            true
+                        )
+                    end
+                end
+            )
         end
-    )
-end
-end)
+    end
+)
+
 end)
 
 
@@ -926,22 +962,25 @@ Dropdown1:SetOption("Default")
 
 local Toggle1 = Section1:CreateToggle("Auto Start Quest", Settings.StartQuest, function(State)
 Settings.StartQuest = State
-spawn(function()
-while Settings.StartQuest do
-    wait(getgenv().delay2)
-    pcall(
-        function()
-            Rough()
-            local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
-            if Quest.Visible == false then
-                ReplicatedStorage.RemoteEvents.ChangeQuestRemote:FireServer(
-                    Protest:FindFirstChild(Settings.Quest)
-                )
-            end
+spawn(
+    function()
+        while Settings.StartQuest do
+            wait(getgenv().delay2)
+            pcall(
+                function()
+                    Rough()
+                    local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
+                    if Quest.Visible == false then
+                        ReplicatedStorage.RemoteEvents.ChangeQuestRemote:FireServer(
+                            Protest:FindFirstChild(Settings.Quest)
+                        )
+                    end
+                end
+            )
         end
-    )
-end
-end)
+    end
+)
+
 end)
 
 
@@ -1008,56 +1047,56 @@ Toggle1:AddToolTip("Disabled Boss Drops For Unknown Reasons")
 local Toggle1 = Section1:CreateToggle("True GodMode", nil, function(State)
 Settings.TrueGodMode = State
 if Settings.TrueGodMode then
-
-local EST = Player.PlayerGui.Menu.DialogFrame:Clone()
-EST:FindFirstChild("Name").Text = "DekuDimz"
-EST:FindFirstChild("MainMessage").Text =
-    "For those who seek power are fools of the world, The ones who humble themselves with comfort are arrogant to the world, and the ones who want revenge are the true means of what this feature is. So, let me ask you do you want to continue down this path?"
-EST.Continue:FindFirstChild("TextLabel").Text = "Yes!"
-EST.Cancel:FindFirstChild("TextLabel").Text = "No.. sorry"
-EST.Parent = Player
-EST.Name = "Format"
-EST.Parent = Player.PlayerGui.Menu
-EST.Visible = true
-EST.Continue.Visible = true
-EST.Cancel.Visible = true
-EST.Continue.Back.MouseButton1Click:Connect(
-    function()
-        for i = 1, 2 do
-            game:GetService("StarterGui"):SetCore("ResetButtonCallback", false);
-            for i, v in pairs(Player.PlayerGui:GetChildren()) do
-                if v:IsA("ScreenGui") and v.Name ~= "BubbleChat" and v.Name ~= "Chat" then
-                    A = v:Clone()
-                    A.Parent = Player.Backpack
+    local EST = Player.PlayerGui.Menu.DialogFrame:Clone()
+    EST:FindFirstChild("Name").Text = "DekuDimz"
+    EST:FindFirstChild("MainMessage").Text =
+        "For those who seek power are fools of the world, The ones who humble themselves with comfort are arrogant to the world, and the ones who want revenge are the true means of what this feature is. So, let me ask you do you want to continue down this path?"
+    EST.Continue:FindFirstChild("TextLabel").Text = "Yes!"
+    EST.Cancel:FindFirstChild("TextLabel").Text = "No.. sorry"
+    EST.Parent = Player
+    EST.Name = "Format"
+    EST.Parent = Player.PlayerGui.Menu
+    EST.Visible = true
+    EST.Continue.Visible = true
+    EST.Cancel.Visible = true
+    EST.Continue.Back.MouseButton1Click:Connect(
+        function()
+            for i = 1, 2 do
+                game:GetService("StarterGui"):SetCore("ResetButtonCallback", false)
+                for i, v in pairs(Player.PlayerGui:GetChildren()) do
+                    if v:IsA("ScreenGui") and v.Name ~= "BubbleChat" and v.Name ~= "Chat" then
+                        A = v:Clone()
+                        A.Parent = Player.Backpack
+                    end
+                end
+                shit(Player, game.Workspace.Camera)
+                for i, v in pairs(Player.Backpack:GetChildren()) do
+                    if v:IsA("ScreenGui") then
+                        v.Parent = Player.PlayerGui
+                    end
                 end
             end
-            shit(Player,game.Workspace.Camera)
-            for i, v in pairs(Player.Backpack:GetChildren()) do
-                if v:IsA("ScreenGui") then
-                    v.Parent = Player.PlayerGui
+            for i, v in pairs(Player.Backpack:GetDescendants()) do
+                if v:IsA("LocalScript") then
+                    v.Disabled = true
+                    v.Disabled = false
                 end
             end
+            Player.PlayerGui:WaitForChild("Menu"):WaitForChild("Format"):Destroy()
         end
-        for i, v in pairs(Player.Backpack:GetDescendants()) do
-            if v:IsA("LocalScript") then
-                v.Disabled = true
-                v.Disabled = false
-            end
-        end        
-        Player.PlayerGui:WaitForChild("Menu"):WaitForChild("Format"):Destroy()
-    end
-)
+    )
 
-EST.Cancel.Back.MouseButton1Click:Connect(
-    function()
-        EST:Destroy()
-    end
-)
+    EST.Cancel.Back.MouseButton1Click:Connect(
+        function()
+            EST:Destroy()
+        end
+    )
 end
 if not Settings.TrueGodMode then
-game:GetService("StarterGui"):SetCore("ResetButtonCallback", true);
-shit(Player,game.Workspace.Camera)
+    game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
+    shit(Player, game.Workspace.Camera)
 end
+
 
 end)
 
@@ -1096,10 +1135,10 @@ end)
 
 
 local Button1 = Section1:CreateButton("Time waits for noone.", function()
-local Cooldown; Cooldown = hookfunction(wait, function(v)
-    v = 0;
-    return Cooldown(v);
-end);
+    local Cooldown; Cooldown = hookfunction(wait, function(v)
+        v = 0;
+        return Cooldown(v);
+    end);
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto Bosses", Settings.AutoBosses, function(State)
@@ -1127,22 +1166,39 @@ spawn(
                     for i, v in pairs(Live:GetChildren()) do
                         if v.Name == Settings.Boss and v.Humanoid.Health ~= 0 then
                             Rough()
-                            local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
+                            local Quest =
+                                Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
                             repeat
                                 wait(getgenv().delay2)
-                                Teleport(Character.HumanoidRootPart,CFrame.new(game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)),true)
+                                Teleport(
+                                    Character.HumanoidRootPart,
+                                    CFrame.new(
+                                        game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)
+                                    ),
+                                    true
+                                )
 
                                 if Settings.InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                     wait(getgenv().delay2)
                                     v.Humanoid.Health = 0
                                 end
-                            
                             until v.Humanoid.Health == 0 or Settings.AutoBosses == false
-                                if v.Humanoid.Health == 0 then wait(1)
-                                Teleport(Character.HumanoidRootPart,CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5000, 3)),true)
-                                end
+                            if v.Humanoid.Health == 0 then
+                                wait(1)
+                                Teleport(
+                                    Character.HumanoidRootPart,
+                                    CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5000, 3)),
+                                    true
+                                )
+                            end
                         elseif not Settings.AutoBosses then
-                            Teleport(Character.HumanoidRootPart,CFrame.new(game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)),true)
+                            Teleport(
+                                Character.HumanoidRootPart,
+                                CFrame.new(
+                                    game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)
+                                ),
+                                true
+                            )
                         end
                     end
                 end
@@ -1160,7 +1216,6 @@ spawn(
         end
     end
 )
-
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto All Bosses", Settings.AutoAllBosses, function(State)
@@ -1189,20 +1244,35 @@ spawn(
                         if table.find(Hentai, v.Name) and v.Humanoid.Health ~= 0 then
                             wait(1)
                             Rough()
-                            local Quest = Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
+                            local Quest =
+                                Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild("QuestFrame")
                             repeat
                                 wait(getgenv().delay2)
-                                Teleport(Character.HumanoidRootPart,CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -7, 3)),true)
+                                Teleport(
+                                    Character.HumanoidRootPart,
+                                    CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -7, 3)),
+                                    true
+                                )
                                 if Settings.InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
                                     v.Humanoid.Health = 0
                                 end
-
                             until v.Humanoid.Health == 0 or Settings.AutoAllBosses == false
-                                if v.Humanoid.Health == 0 then wait(1)
-                                    Teleport(Character.HumanoidRootPart,CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5000, 3)),true)
-                                end 
+                            if v.Humanoid.Health == 0 then
+                                wait(1)
+                                Teleport(
+                                    Character.HumanoidRootPart,
+                                    CFrame.new(v.HumanoidRootPart.Position + Vector3.new(0, -5000, 3)),
+                                    true
+                                )
+                            end
                         elseif not Settings.AutoAllBosses then
-                            Teleport(Character.HumanoidRootPart,CFrame.new(game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)),true)
+                            Teleport(
+                                Character.HumanoidRootPart,
+                                CFrame.new(
+                                    game:GetService("Workspace").SafeZoneIndicator.Position + Vector3.new(0, 5, 3)
+                                ),
+                                true
+                            )
                         end
                     end
                 end
@@ -1221,46 +1291,59 @@ spawn(
     end
 )
 
+
 end)
 local Toggle1 = Section1:CreateToggle("Auto Remove Capslues", Settings.NoCapslues, function(State)
 Settings.NoCapslues = State
-spawn(function()
-while wait(getgenv().delay2) and Settings.NoCapslues do pcall(function()
-for i,v in pairs(Player.Backpack:GetChildren()) do
-if v.Name:match("Cap") then
-v.Parent = Character
-v:remove()
-end end end) end end) end)
+spawn(
+    function()
+        while wait(getgenv().delay2) and Settings.NoCapslues do
+            pcall(
+                function()
+                    for i, v in pairs(Player.Backpack:GetChildren()) do
+                        if v.Name:match("Cap") then
+                            v.Parent = Character
+                            v:remove()
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
+end)
 
 local Toggle1 = Section1:CreateToggle("InstantKill", Settings.InstantKill, function(State)
 Settings.InstantKill = State
-spawn(function()
-while Settings.InstantKill do
-    wait(getgenv().delay2)
-    pcall(
-        function()
-            for i, v in pairs(Live:GetChildren()) do
-                if v:FindFirstChild("Humanoid") and 
-                    v.Humanoid.Health ~= 0 and isnetworkowner(v.HumanoidRootPart) and
-                        v.Humanoid.Health < v.Humanoid.MaxHealth
-                 then
-                    v.Humanoid.Health = 0
+spawn(
+    function()
+        while Settings.InstantKill do
+            wait(getgenv().delay2)
+            pcall(
+                function()
+                    for i, v in pairs(Live:GetChildren()) do
+                        if
+                            v:FindFirstChild("Humanoid") and v.Humanoid.Health ~= 0 and
+                                isnetworkowner(v.HumanoidRootPart) and
+                                v.Humanoid.Health < v.Humanoid.MaxHealth
+                         then
+                            v.Humanoid.Health = 0
+                        end
+                    end
                 end
-            end
+            )
         end
-    )
-end
-if Settings.InstantKill then
-    game.StarterGui:SetCore(
-        "SendNotification",
-        {
-            Title = "if it dosen't work",
-            Text = "Minmize the roblox tab and then reopen it should work again"
-        }
-    )
-end
-end)
-
+        if Settings.InstantKill then
+            game.StarterGui:SetCore(
+                "SendNotification",
+                {
+                    Title = "if it dosen't work",
+                    Text = "Minmize the roblox tab and then reopen it should work again"
+                }
+            )
+        end
+    end
+)
 end)
 
 
@@ -1279,7 +1362,6 @@ for i, v in pairs(game:GetService("Players"):GetPlayers()) do
         ReplicatedStorage.RemoteEvents.CommandsRemote:FireServer("!trade " .. tostring(v))
     end
 end
-
 end)
 
 
@@ -1301,109 +1383,116 @@ local Toggle1 = Section1:CreateToggle("Auto use DragonBalls", Settings.DraginBal
 Settings.DraginBalls = State
 local K = Player.PlayerValues
 local A = Player
-spawn(function()
-while Settings.DraginBalls do
-    wait(getgenv().delay2)
-    pcall(function()
-    if K.DragonBall1.Value == false and A.Backpack:FindFirstChild("One Star Dragonball") then
-        A.Character.Humanoid:EquipTool(A.Backpack["One Star Dragonball"])
-        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-
-    elseif K.DragonBall2.Value == false and A.Backpack:FindFirstChild("Two Star Dragonball") then
-        A.Character.Humanoid:EquipTool(A.Backpack["Two Star Dragonball"])
-        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-
-    elseif K.DragonBall3.Value == false and A.Backpack:FindFirstChild("Three Star Dragonball")  then
-        A.Character.Humanoid:EquipTool(A.Backpack["Three Star Dragonball"])
-        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-
-    elseif K.DragonBall4.Value == false and A.Backpack:FindFirstChild("Four Star Dragonball")  then
-        A.Character.Humanoid:EquipTool(A.Backpack["Four Star Dragonball"])
-        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-
-    elseif K.DragonBall5.Value == false and A.Backpack:FindFirstChild("Five Star Dragonball") then
-        A.Character.Humanoid:EquipTool(A.Backpack["Five Star Dragonball"])
-        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-
-    elseif K.DragonBall6.Value == false and A.Backpack:FindFirstChild("Six Star Dragonball") then
-        A.Character.Humanoid:EquipTool(A.Backpack["Six Star Dragonball"])
-        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-
-    elseif K.DragonBall7.Value == false and A.Backpack:FindFirstChild("Seven Star Dragonball") then
-        A.Character.Humanoid:EquipTool(A.Backpack["Seven Star Dragonball"])
-        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+spawn(
+    function()
+        while Settings.DraginBalls do
+            wait(getgenv().delay2)
+            pcall(
+                function()
+                    if K.DragonBall1.Value == false and A.Backpack:FindFirstChild("One Star Dragonball") then
+                        A.Character.Humanoid:EquipTool(A.Backpack["One Star Dragonball"])
+                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                    elseif K.DragonBall2.Value == false and A.Backpack:FindFirstChild("Two Star Dragonball") then
+                        A.Character.Humanoid:EquipTool(A.Backpack["Two Star Dragonball"])
+                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                    elseif K.DragonBall3.Value == false and A.Backpack:FindFirstChild("Three Star Dragonball") then
+                        A.Character.Humanoid:EquipTool(A.Backpack["Three Star Dragonball"])
+                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                    elseif K.DragonBall4.Value == false and A.Backpack:FindFirstChild("Four Star Dragonball") then
+                        A.Character.Humanoid:EquipTool(A.Backpack["Four Star Dragonball"])
+                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                    elseif K.DragonBall5.Value == false and A.Backpack:FindFirstChild("Five Star Dragonball") then
+                        A.Character.Humanoid:EquipTool(A.Backpack["Five Star Dragonball"])
+                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                    elseif K.DragonBall6.Value == false and A.Backpack:FindFirstChild("Six Star Dragonball") then
+                        A.Character.Humanoid:EquipTool(A.Backpack["Six Star Dragonball"])
+                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                    elseif K.DragonBall7.Value == false and A.Backpack:FindFirstChild("Seven Star Dragonball") then
+                        A.Character.Humanoid:EquipTool(A.Backpack["Seven Star Dragonball"])
+                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                    end
+                end
+            )
+        end
     end
-  end)
-end
-end)
+)
+
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto Wish", nil, function(State)
 Settings.AutoWish = State
-spawn(function()
-while wait(1) and Settings.AutoWish do pcall(function() 
+spawn(
+    function()
+        while wait(1) and Settings.AutoWish do
+            pcall(
+                function()
+                    if Settings.WishMethod == "Reborn" and Player.PlayerGui.Menu.ShenronButton.Visible == true then
+                        ReplicatedStorage.RemoteEvents.ShenronRemote:FireServer("Be Reborn")
+                    end
+                    if Player.Backpack:FindFirstChild("Platnium Heart") then
+                        for i = 1, 13 do
+                            for i, v in pairs(Player.Backpack:GetChildren()) do
+                                if v.Name:match("Platnium") then
+                                    Character.Humanoid:EquipTool(v)
+                                end
+                            end
 
-        if Settings.WishMethod == "Reborn" and Player.PlayerGui.Menu.ShenronButton.Visible == true then
-            ReplicatedStorage.RemoteEvents.ShenronRemote:FireServer("Be Reborn")
-        end
-        if Player.Backpack:FindFirstChild("Platnium Heart") then
-            for i = 1, 13 do
-            for i, v in pairs(Player.Backpack:GetChildren()) do
-                if v.Name:match("Platnium") then
-                    Character.Humanoid:EquipTool(v)
-                end
-            end
-        
-        
-        
-            for j, v in pairs(Player.PlayerValues:GetChildren()) do
-                if v.Name:match("ItemStorage" .. i) and v.Value == "" then
-                    wait(getgenv().delay2)
-                    ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
-                end
-            end
-    end end 
-    if Settings.WishMethod == "The Strongest" and Player.PlayerGui.Menu.ShenronButton.Visible == true then
-        ReplicatedStorage.RemoteEvents.ShenronRemote:FireServer("The Strongest")
-    end
-    
-    if Player.Backpack:FindFirstChild("Requiem Arrow") then
-        for i, v in pairs(Player.Backpack:GetChildren()) do
-            if v.Name == "Requiem Arrow" then
-                Character.Humanoid:EquipTool(v)
-            end
-        end
-        for i = 1, 13 do
-            for j, v in pairs(Player.PlayerValues:GetChildren()) do
-                if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(getgenv().delay2)
-                    ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
-                end
-            end
-        end
-    end
+                            for j, v in pairs(Player.PlayerValues:GetChildren()) do
+                                if v.Name:match("ItemStorage" .. i) and v.Value == "" then
+                                    wait(getgenv().delay2)
+                                    ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                                end
+                            end
+                        end
+                    end
+                    if Settings.WishMethod == "The Strongest" and Player.PlayerGui.Menu.ShenronButton.Visible == true then
+                        ReplicatedStorage.RemoteEvents.ShenronRemote:FireServer("The Strongest")
+                    end
 
-        if Settings.WishMethod == "Better Clothes" and Player.PlayerGui.Menu.ShenronButton.Visible == true then
-        ReplicatedStorage.RemoteEvents.ShenronRemote:FireServer("Better Clothes")
-    end
-    
-    if Player.Backpack:FindFirstChild("Bag") then
-        for i, v in pairs(Player.Backpack:GetChildren()) do
-            if v.Name == "Bag" and v:FindFirstChild("BagPart") and 
-                      v.BagPart.Overhead.Rarity.Text == "Legendary" then
-                Character.Humanoid:EquipTool(v)
-            end
-        end
-        for i = 1, 13 do
-            for j, v in pairs(Player.PlayerValues:GetChildren()) do
-                if v.Name:match("BagStorage" .. i) and v.Value == "" then wait(getgenv().delay2)
-                ReplicatedStorage.RemoteEvents.BagStorageRemote:FireServer(v.Name)
+                    if Player.Backpack:FindFirstChild("Requiem Arrow") then
+                        for i, v in pairs(Player.Backpack:GetChildren()) do
+                            if v.Name == "Requiem Arrow" then
+                                Character.Humanoid:EquipTool(v)
+                            end
+                        end
+                        for i = 1, 13 do
+                            for j, v in pairs(Player.PlayerValues:GetChildren()) do
+                                if v.Name:match("ItemStorage" .. i) and v.Value == "" then
+                                    wait(getgenv().delay2)
+                                    ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                                end
+                            end
+                        end
+                    end
+
+                    if Settings.WishMethod == "Better Clothes" and Player.PlayerGui.Menu.ShenronButton.Visible == true then
+                        ReplicatedStorage.RemoteEvents.ShenronRemote:FireServer("Better Clothes")
+                    end
+
+                    if Player.Backpack:FindFirstChild("Bag") then
+                        for i, v in pairs(Player.Backpack:GetChildren()) do
+                            if
+                                v.Name == "Bag" and v:FindFirstChild("BagPart") and
+                                    v.BagPart.Overhead.Rarity.Text == "Legendary"
+                             then
+                                Character.Humanoid:EquipTool(v)
+                            end
+                        end
+                        for i = 1, 13 do
+                            for j, v in pairs(Player.PlayerValues:GetChildren()) do
+                                if v.Name:match("BagStorage" .. i) and v.Value == "" then
+                                    wait(getgenv().delay2)
+                                    ReplicatedStorage.RemoteEvents.BagStorageRemote:FireServer(v.Name)
+                                end
+                            end
+                        end
+                    end
                 end
-            end
+            )
         end
     end
-    end)
-end
-end)
+)
+
 end)
 Toggle1:AddToolTip("Automatically wishs for seclected Wish need all dragon balls to use")
 local Dropdown1 = Section1:CreateDropdown("Wish Method", {"The Strongest","Reborn","Better Clothes"}, function(String)
@@ -1446,55 +1535,61 @@ end)
                 
 local Toggle1 = Section1:CreateToggle("Stun All Mobs", Settings.StunMobs, function(State)
 Settings.StunMobs = State
-spawn(function()
-while wait(2) do
-    pcall(
-        function()
-            if Settings.StunMobs then
-                for i, v in pairs(Live:GetChildren()) do
-                    if v:FindFirstChild("Humanoid") then
-                        v.Humanoid.PlatformStand = true
+spawn(
+    function()
+        while wait(2) do
+            pcall(
+                function()
+                    if Settings.StunMobs then
+                        for i, v in pairs(Live:GetChildren()) do
+                            if v:FindFirstChild("Humanoid") then
+                                v.Humanoid.PlatformStand = true
+                            end
+                        end
                     end
                 end
-            end
+            )
         end
-    )
-end
-end)
+    end
+)
+
 end)
 
 
 getgenv().magss = 100
 local Toggle1 = Section1:CreateToggle("Auto Bring Mob", Settings.Bring, function(State)
 Settings.Bring = State
-spawn(function()
-while Settings.Bring do
-    wait(0.5)
-    pcall(function()
-            for i, v in ipairs(Live:GetChildren()) do
-                if v:FindFirstChild("Humanoid") and v.Name ~= "Training dummy" and v.Humanoid.Health > 0 then
-                    local Root = Character.HumanoidRootPart
-                    local RootTwo = v.HumanoidRootPart
-                    if (Root.Position - RootTwo.Position).Magnitude < getgenv().magss then
-                        Tween(v.HumanoidRootPart, Character.HumanoidRootPart.CFrame.p, 100)
-                        ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-                        ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-                        ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+spawn(
+    function()
+        while Settings.Bring do
+            wait(0.5)
+            pcall(
+                function()
+                    for i, v in ipairs(Live:GetChildren()) do
+                        if v:FindFirstChild("Humanoid") and v.Name ~= "Training dummy" and v.Humanoid.Health > 0 then
+                            local Root = Character.HumanoidRootPart
+                            local RootTwo = v.HumanoidRootPart
+                            if (Root.Position - RootTwo.Position).Magnitude < getgenv().magss then
+                                Tween(v.HumanoidRootPart, Character.HumanoidRootPart.CFrame.p, 100)
+                                ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                                ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                                ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                            end
+                        end
                     end
                 end
-            end
+            )
         end
-    )
-end
-end)
+    end
+)
+
 end)
 
 
 Section1:CreateTextBox("Print Players Info", "UserName Here", false, function(String)
 for i, v in pairs(game:GetService("Players"):GetPlayers()) do
     if
-        string.find(v.Name, String) or v.Name:lower():match(String) or
-            v.Name:upper():match(String) or
+        string.find(v.Name, String) or v.Name:lower():match(String) or v.Name:upper():match(String) or
             string.find(v.DisplayName, String) or
             v.DisplayName:lower():match(String) or
             v.DisplayName:upper():match(String)
@@ -1516,33 +1611,33 @@ for i, v in pairs(game:GetService("Players"):GetPlayers()) do
         )
     end
 end
-
 end)
 
 Section1:CreateTextBox("Blurt Players Info", "UserName Here", false, function(String)
 for i, v in pairs(game:GetService("Players"):GetPlayers()) do
     if
-        string.find(v.Name, String) or v.Name:lower():match(String) or
-            v.Name:upper():match(String) or
+        string.find(v.Name, String) or v.Name:lower():match(String) or v.Name:upper():match(String) or
             string.find(v.DisplayName, String) or
             v.DisplayName:lower():match(String) or
             v.DisplayName:upper():match(String)
      then
-                     ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("First Ability They have Equiped is " ..(game:GetService("Players")[v.Name].PlayerValues.Ability.Value ..
+        ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+            "First Ability They have Equiped is " ..
+                (game:GetService("Players")[v.Name].PlayerValues.Ability.Value ..
                     " " ..
                         game:GetService("Players")[v.Name].PlayerValues.Trait.Value ..
                             " " .. game:GetService("Players")[v.Name].PlayerValues.Class.Value),
-                "All"
-            )
-                      ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Second Ability They have Equiped is " ..(game:GetService("Players")[v.Name].PlayerValues.Ability2.Value ..
+            "All"
+        )
+        ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+            "Second Ability They have Equiped is " ..
+                (game:GetService("Players")[v.Name].PlayerValues.Ability2.Value ..
                     " " ..
                         game:GetService("Players")[v.Name].PlayerValues.Trait2.Value ..
                             " " .. game:GetService("Players")[v.Name].PlayerValues.Class2.Value),
-                "All"
-            )
-                                  ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(v.Name.. " is there user",
-                "All"
-            )
+            "All"
+        )
+        ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(v.Name .. " is there user", "All")
     end
 end
 end)
@@ -1712,155 +1807,173 @@ getgenv().LOL = false
 end)
 local Toggle1 = Section2:CreateToggle("Find and Store Lucky/Requiem Arrows", Settings.Find, function(State)
 Settings.Find = State
-spawn(function()
-while Settings.Find do
-    wait(getgenv().delay2)
-    if #Player.Backpack:GetChildren() >= 20 then
-        for i, v in pairs(Player.Backpack:GetChildren()) do 
-            if not table.find(aka, v.Name) and v.Name:find("Arrow") then
-                   for a = 1, 13 do
-                    for j, v in pairs(Player.PlayerValues:GetChildren()) do
-                        if v.Name:match("ItemStorage" .. a) and v.Value ~= "" then
-                            break end end end 
-                v.Parent = Character
-                v:Destroy()
-            elseif v.Name:find("Arrow") and table.find(aka, v.Name) then
-                game.StarterGui:SetCore(
-                    "SendNotification",
-                    {
-                        Title = "Found One",
-                        Text = "Putting in inventory"
-                    }
-                )
-                Character.Humanoid:EquipTool(v)
-                for i = 1, 13 do
-                    for j, v in pairs(Player.PlayerValues:GetChildren()) do
-                        if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
-                            ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+spawn(
+    function()
+        while Settings.Find do
+            wait(getgenv().delay2)
+            if #Player.Backpack:GetChildren() >= 20 then
+                for i, v in pairs(Player.Backpack:GetChildren()) do
+                    if not table.find(aka, v.Name) and v.Name:find("Arrow") then
+                        for a = 1, 13 do
+                            for j, v in pairs(Player.PlayerValues:GetChildren()) do
+                                if v.Name:match("ItemStorage" .. a) and v.Value ~= "" then
+                                    break
+                                end
+                            end
                         end
+                        v.Parent = Character
+                        v:Destroy()
+                    elseif v.Name:find("Arrow") and table.find(aka, v.Name) then
+                        game.StarterGui:SetCore(
+                            "SendNotification",
+                            {
+                                Title = "Found One",
+                                Text = "Putting in inventory"
+                            }
+                        )
+                        Character.Humanoid:EquipTool(v)
+                        for i = 1, 13 do
+                            for j, v in pairs(Player.PlayerValues:GetChildren()) do
+                                if v.Name:match("ItemStorage" .. i) and v.Value == "" then
+                                    wait(0.001)
+                                    ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                                end
+                            end
+                        end
+                        wait(3)
                     end
                 end
-                wait(3)
+            else
+                game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
             end
         end
-    else
-        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
     end
-end
-end)
+)
+
 end)
 
 local Toggle1 = Section2:CreateToggle("Find and Store Requiem Arrows", Settings.Find1, function(State)
 Settings.Find1 = State
-spawn(function()
-while Settings.Find1 do
-    wait(getgenv().delay2)
-    if #Player.Backpack:GetChildren() >= 20 then
-        for i, v in pairs(Player.Backpack:GetChildren()) do 
-            if v.Name ~= "Requiem Arrow" and v:FindFirstChild("Blade") then
-            
-                v.Parent = Character
-                v:Destroy()
-            elseif  v.Name == "Requiem Arrow" and v:FindFirstChild("Blade") then
-                game.StarterGui:SetCore(
-                    "SendNotification",
-                    {
-                        Title = "Found One",
-                        Text = "Putting in inventory"
-                    }
-                )
-                Character.Humanoid:EquipTool(v)
-                for i = 1, 13 do
-                    for j, v in pairs(Player.PlayerValues:GetChildren()) do
-                        if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
-                            ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+spawn(
+    function()
+        while Settings.Find1 do
+            wait(getgenv().delay2)
+            if #Player.Backpack:GetChildren() >= 20 then
+                for i, v in pairs(Player.Backpack:GetChildren()) do
+                    if v.Name ~= "Requiem Arrow" and v:FindFirstChild("Blade") then
+                        v.Parent = Character
+                        v:Destroy()
+                    elseif v.Name == "Requiem Arrow" and v:FindFirstChild("Blade") then
+                        game.StarterGui:SetCore(
+                            "SendNotification",
+                            {
+                                Title = "Found One",
+                                Text = "Putting in inventory"
+                            }
+                        )
+                        Character.Humanoid:EquipTool(v)
+                        for i = 1, 13 do
+                            for j, v in pairs(Player.PlayerValues:GetChildren()) do
+                                if v.Name:match("ItemStorage" .. i) and v.Value == "" then
+                                    wait(0.001)
+                                    ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                                end
+                            end
                         end
+                        wait(3)
                     end
                 end
-                wait(3)
+            else
+                game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
             end
         end
-    else
-        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
     end
-end
-end)
+)
 end)
 
 local Toggle1 = Section2:CreateToggle("Find and Store Silver/Platnium Hearts", Settings.Find2, function(State)
 Settings.Find2 = State
-spawn(function()
-while Settings.Find2 do
-    wait(getgenv().delay2)
-    if #Player.Backpack:GetChildren() >= 10 then
-        for i, v in pairs(Player.Backpack:GetChildren()) do 
-            if not table.find(aka2, v.Name) and v.Name:find("Heart") then
-                   for a = 1, 13 do
-                    for j, v in pairs(Player.PlayerValues:GetChildren()) do
-                        if v.Name:match("ItemStorage" .. a) and v.Value ~= "" then
-                            break end end end 
-                v.Parent = Character
-                v:Destroy()
-            elseif v.Name:find("Heart") and table.find(aka2, v.Name) then
-                game.StarterGui:SetCore(
-                    "SendNotification",
-                    {
-                        Title = "Found One",
-                        Text = "Putting in inventory"
-                    }
-                )
-                Character.Humanoid:EquipTool(v)
-                for i = 1, 13 do
-                    for j, v in pairs(Player.PlayerValues:GetChildren()) do
-                        if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
-                            ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+spawn(
+    function()
+        while Settings.Find2 do
+            wait(getgenv().delay2)
+            if #Player.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(Player.Backpack:GetChildren()) do
+                    if not table.find(aka2, v.Name) and v.Name:find("Heart") then
+                        for a = 1, 13 do
+                            for j, v in pairs(Player.PlayerValues:GetChildren()) do
+                                if v.Name:match("ItemStorage" .. a) and v.Value ~= "" then
+                                    break
+                                end
+                            end
                         end
+                        v.Parent = Character
+                        v:Destroy()
+                    elseif v.Name:find("Heart") and table.find(aka2, v.Name) then
+                        game.StarterGui:SetCore(
+                            "SendNotification",
+                            {
+                                Title = "Found One",
+                                Text = "Putting in inventory"
+                            }
+                        )
+                        Character.Humanoid:EquipTool(v)
+                        for i = 1, 13 do
+                            for j, v in pairs(Player.PlayerValues:GetChildren()) do
+                                if v.Name:match("ItemStorage" .. i) and v.Value == "" then
+                                    wait(0.001)
+                                    ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                                end
+                            end
+                        end
+                        wait(3)
                     end
                 end
-                wait(3)
+            else
+                game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
             end
         end
-    else
-        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
     end
-end
-end)
+)
 end)
 
 local Toggle1 = Section2:CreateToggle("Find and Store Platnium Hearts", Settings.Find3, function(State)
 Settings.Find3 = State
-spawn(function()
-while Settings.Find3 do
-    wait(getgenv().delay2)
-    if #Player.Backpack:GetChildren() >= 10 then
-        for i, v in pairs(Player.Backpack:GetChildren()) do 
-            if v.Name ~= ("Platnium Heart") and v:FindFirstChild("Heart") then
-                v.Parent = Character
-                v:Destroy()
-            elseif v.Name == ("Platnium Heart") and v:FindFirstChild("Heart") then
-                game.StarterGui:SetCore(
-                    "SendNotification",
-                    {
-                        Title = "Found One",
-                        Text = "Putting in inventory"
-                    }
-                )
-                Character.Humanoid:EquipTool(v)
-                for i = 1, 13 do
-                    for j, v in pairs(Player.PlayerValues:GetChildren()) do
-                        if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
-                            ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+spawn(
+    function()
+        while Settings.Find3 do
+            wait(getgenv().delay2)
+            if #Player.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(Player.Backpack:GetChildren()) do
+                    if v.Name ~= ("Platnium Heart") and v:FindFirstChild("Heart") then
+                        v.Parent = Character
+                        v:Destroy()
+                    elseif v.Name == ("Platnium Heart") and v:FindFirstChild("Heart") then
+                        game.StarterGui:SetCore(
+                            "SendNotification",
+                            {
+                                Title = "Found One",
+                                Text = "Putting in inventory"
+                            }
+                        )
+                        Character.Humanoid:EquipTool(v)
+                        for i = 1, 13 do
+                            for j, v in pairs(Player.PlayerValues:GetChildren()) do
+                                if v.Name:match("ItemStorage" .. i) and v.Value == "" then
+                                    wait(0.001)
+                                    ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                                end
+                            end
                         end
+                        wait(3)
                     end
                 end
-                wait(3)
+            else
+                game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
             end
         end
-    else
-        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
     end
-end
-end)
+)
 end)
 
 local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, function(Value)
@@ -1869,11 +1982,15 @@ end)
 
 local Toggle1 = Section2:CreateToggle("Auto By Arrows", Settings.Aorrow, function(State)
 Settings.Aorrow = State
-spawn(function()
-while Settings.Aorrow do wait(getgenv().delay2)
-    game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
-end 
-end)
+spawn(
+    function()
+        while Settings.Aorrow do
+            wait(getgenv().delay2)
+            game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+        end
+    end
+)
+
 end)
 
 
@@ -1885,35 +2002,28 @@ spawn(
             pcall(
                 function()
                     if Values.Ability.Value ~= Settings.WantedLegendary then
-                            if Settings.OnlyMysticals and not table.find(Mysticals, Values.Ability.Value) then
-                                wait(getgenv().delay2)
-                                if #Player.Backpack:GetChildren() >= 20 then
-                                    for i, v in pairs(Player.Backpack:GetChildren()) do
-                                        if v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") then
-                                            v.Parent = Character
-                                            v:Destroy()
-                                        end
+                        if Settings.OnlyMysticals and not table.find(Mysticals, Values.Ability.Value) then
+                            wait(getgenv().delay2)
+                            if #Player.Backpack:GetChildren() >= 20 then
+                                for i, v in pairs(Player.Backpack:GetChildren()) do
+                                    if v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") then
+                                        v.Parent = Character
+                                        v:Destroy()
                                     end
-                                else
-                                    if
-                                        Player.Backpack:FindFirstChild("Requiem Arrow") and
-                                            Level.Value == 1000
-                                     then
-                                        Character.Humanoid:EquipTool(
-                                            Player.Backpack:FindFirstChild("Requiem Arrow")
-                                        )
-                                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-                                        ReplicatedStorage.RemoteEvents.MovesetSelectorRemote:FireServer(
-                                            "Moveset1"
-                                        )
-                                    end
-                                    if not Player.Backpack:FindFirstChild("Requiem Arrow") and Level.Value > 300 then
-                                        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
-                                    end
+                                end
+                            else
+                                if Player.Backpack:FindFirstChild("Requiem Arrow") and Level.Value == 1000 then
+                                    Character.Humanoid:EquipTool(Player.Backpack:FindFirstChild("Requiem Arrow"))
+                                    ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                                    ReplicatedStorage.RemoteEvents.MovesetSelectorRemote:FireServer("Moveset1")
+                                end
+                                if not Player.Backpack:FindFirstChild("Requiem Arrow") and Level.Value > 300 then
+                                    game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
                                 end
                             end
                         end
                     end
+                end
             )
         end
     end
@@ -1928,41 +2038,32 @@ spawn(
             pcall(
                 function()
                     if Values.Ability2.Value ~= Settings.WantedLegendary then
-                            if Settings.OnlyMysticals and not table.find(Mysticals, Values.Ability2.Value) then
-                                wait(getgenv().delay2)
-                                if #Player.Backpack:GetChildren() >= 20 then
-                                    for i, v in pairs(Player.Backpack:GetChildren()) do
-                                        if v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") then
-                                            v.Parent = Character
-                                            v:Destroy()
-                                        end
+                        if Settings.OnlyMysticals and not table.find(Mysticals, Values.Ability2.Value) then
+                            wait(getgenv().delay2)
+                            if #Player.Backpack:GetChildren() >= 20 then
+                                for i, v in pairs(Player.Backpack:GetChildren()) do
+                                    if v.Name ~= "Requiem Arrow" and v.Name:find("Arrow") then
+                                        v.Parent = Character
+                                        v:Destroy()
                                     end
-                                else
-                                    if
-                                        Player.Backpack:FindFirstChild("Requiem Arrow") and
-                                            Level.Value == 1000
-                                     then
-                                        Character.Humanoid:EquipTool(
-                                            Player.Backpack:FindFirstChild("Requiem Arrow")
-                                        )
-                                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-                                        ReplicatedStorage.RemoteEvents.MovesetSelectorRemote:FireServer(
-                                            "Moveset2"
-                                        )
-                                    end
-                                    if not Player.Backpack:FindFirstChild("Requiem Arrow") and Level.Value > 300 then
-                                        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
-                                    end
+                                end
+                            else
+                                if Player.Backpack:FindFirstChild("Requiem Arrow") and Level.Value == 1000 then
+                                    Character.Humanoid:EquipTool(Player.Backpack:FindFirstChild("Requiem Arrow"))
+                                    ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                                    ReplicatedStorage.RemoteEvents.MovesetSelectorRemote:FireServer("Moveset2")
+                                end
+                                if not Player.Backpack:FindFirstChild("Requiem Arrow") and Level.Value > 300 then
+                                    game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
                                 end
                             end
                         end
-                
+                    end
                 end
             )
         end
     end
 )
-
 end)
 
 
@@ -1992,14 +2093,16 @@ spawn(
                                 if v.Name ~= "Platnium Heart" and v.Name:find("Heart") then
                                     v.Parent = Character
                                     v:Destroy()
-                         
                                 end
                             end
                         else
-                            if Player.Backpack:FindFirstChild("Platnium Heart") and Level.Value == 1000 and Values.Race.Value ~= Settings.LegRace then
-                                    Character.Humanoid:EquipTool(Player.Backpack:FindFirstChild("Platnium Heart"))
-                                    ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-                                end
+                            if
+                                Player.Backpack:FindFirstChild("Platnium Heart") and Level.Value == 1000 and
+                                    Values.Race.Value ~= Settings.LegRace
+                             then
+                                Character.Humanoid:EquipTool(Player.Backpack:FindFirstChild("Platnium Heart"))
+                                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                            end
                             if not Player.Backpack:FindFirstChild("Platnium Heart") and Level.Value > 300 then
                                 game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
                             end
@@ -2017,24 +2120,26 @@ local Dropdown1 = Section2:CreateDropdown("Legendary Races", LegRaces, function(
 end)
 local Toggle1 = Section2:CreateToggle("Auto Ability 1", Settings.AutoAbility, function(State)
 Settings.AutoAbility = State
-spawn(function()
-while Settings.AutoAbility do
-    wait(getgenv().delay)
-    pcall(
-        function()
-            if Player.PlayerValues.Ability.Value ~= Settings.Ability then
-                wait(getgenv().delay)
-                ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
-                ReplicatedStorage.RemoteEvents.MovesetSelectorRemote:FireServer("Moveset1")
+spawn(
+    function()
+        while Settings.AutoAbility do
+            wait(getgenv().delay)
+            pcall(
+                function()
+                    if Player.PlayerValues.Ability.Value ~= Settings.Ability then
+                        wait(getgenv().delay)
+                        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+                        ReplicatedStorage.RemoteEvents.MovesetSelectorRemote:FireServer("Moveset1")
 
-                Character.Humanoid:EquipTool(Player.Backpack.Arrow)
-                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-                wait(getgenv().delay)
-            end
+                        Character.Humanoid:EquipTool(Player.Backpack.Arrow)
+                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                        wait(getgenv().delay)
+                    end
+                end
+            )
         end
-    )
-end
-end)
+    end
+)
 end)
 
 
@@ -2044,23 +2149,25 @@ end)
 
 local Toggle1 = Section2:CreateToggle("Auto Ability 2", Settings.AutoAbility2, function(State)
 Settings.AutoAbility2 = State
-spawn(function()
-while Settings.AutoAbility2 do
-    wait(getgenv().delay)
-    pcall(
-        function()
-            if Player.PlayerValues.Ability2.Value ~= Settings.Ability2 then
-                wait(getgenv().delay)
-                ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
-                ReplicatedStorage.RemoteEvents.MovesetSelectorRemote:FireServer("Moveset2")
-                Character.Humanoid:EquipTool(Player.Backpack.Arrow)
-                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-                wait(getgenv().delay)
-            end
+spawn(
+    function()
+        while Settings.AutoAbility2 do
+            wait(getgenv().delay)
+            pcall(
+                function()
+                    if Player.PlayerValues.Ability2.Value ~= Settings.Ability2 then
+                        wait(getgenv().delay)
+                        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+                        ReplicatedStorage.RemoteEvents.MovesetSelectorRemote:FireServer("Moveset2")
+                        Character.Humanoid:EquipTool(Player.Backpack.Arrow)
+                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                        wait(getgenv().delay)
+                    end
+                end
+            )
         end
-    )
-end
-end)
+    end
+)
 end)
 
 
@@ -2071,23 +2178,24 @@ end)
 
 local Toggle1 = Section2:CreateToggle("Auto Race", Settings.AutoRace, function(State)
 Settings.AutoRace = State
-spawn(function()
-while Settings.AutoRace do
-    wait(getgenv().delay)
-    pcall(
-        function()
-            if Player.PlayerValues.Race.Value ~= Settings.Race then
-                if not Player.Backpack:FindFirstChild("Heart") then
-                    ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
+spawn(
+    function()
+        while Settings.AutoRace do
+            wait(getgenv().delay)
+            pcall(
+                function()
+                    if Player.PlayerValues.Race.Value ~= Settings.Race then
+                        if not Player.Backpack:FindFirstChild("Heart") then
+                            ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
+                        end
+                        Character.Humanoid:EquipTool(Player.Backpack.Heart)
+                        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                    end
                 end
-                Character.Humanoid:EquipTool(Player.Backpack.Heart)
-                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-            end
+            )
         end
-    )
-end
-
-end)
+    end
+)
 end)
 
 
@@ -2098,36 +2206,43 @@ end)
 
 local Toggle1 = Section2:CreateToggle("Auto Specialization", Settings.Specialization, function(State)
 Settings.Specialization = State
-spawn(function()
-while Settings.Specialization do
-     wait(getgenv().delay)
-    if #Player.Backpack:GetChildren() >= 10 then
-        for i, v in pairs(Player.Backpack:GetChildren()) do
-            if Player.PlayerValues.Specialization.Value ~= Settings.Specializations then
-            if v.ClassName == "Tool" and v:FindFirstChild("SpecializationTool") and v.Name ~= Settings.Specializations  then
-                v.Parent = Character
-                v:Destroy()
-            elseif v.ClassName == "Tool" and v:FindFirstChild("SpecializationTool") and v.Name == Settings.Specializations  then
-                game.StarterGui:SetCore(
-                    "SendNotification",
-                    {
-                        Title = "Found One",
-                        Text = "Check your inventory plz"
-                    }
-                )
-                v.Parent = Character
-                ReplicatedStorage.RemoteEvents.SpecializationRemote:FireServer()
-                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
-                Settings.Specialization = false
+spawn(
+    function()
+        while Settings.Specialization do
+            wait(getgenv().delay)
+            if #Player.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(Player.Backpack:GetChildren()) do
+                    if Player.PlayerValues.Specialization.Value ~= Settings.Specializations then
+                        if
+                            v.ClassName == "Tool" and v:FindFirstChild("SpecializationTool") and
+                                v.Name ~= Settings.Specializations
+                         then
+                            v.Parent = Character
+                            v:Destroy()
+                        elseif
+                            v.ClassName == "Tool" and v:FindFirstChild("SpecializationTool") and
+                                v.Name == Settings.Specializations
+                         then
+                            game.StarterGui:SetCore(
+                                "SendNotification",
+                                {
+                                    Title = "Found One",
+                                    Text = "Check your inventory plz"
+                                }
+                            )
+                            v.Parent = Character
+                            ReplicatedStorage.RemoteEvents.SpecializationRemote:FireServer()
+                            ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                            Settings.Specialization = false
+                        end
+                    end
+                end
+            else
+                ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
             end
-            end
-    end
-    else
-        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
         end
-end
-
-end)
+    end
+)
 end)
 
 local Dropdown1 = Section2:CreateDropdown("Specializations", Specializations, function(String)
@@ -2138,72 +2253,88 @@ end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress E", Settings.E, function(State)
 Settings.E = State
-spawn(function()
-while Settings.E do 
-    wait(getgenv().delay2)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
-end 
-end)
+spawn(
+    function()
+        while Settings.E do
+            wait(getgenv().delay2)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, "E", false, uwu)
+        end
+    end
+)
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress R", Settings.R, function(State)
 Settings.R = State
-spawn(function()
-while Settings.R do 
-    wait(getgenv().delay2)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"R",false,uwu)
-end 
-end)
+spawn(
+    function()
+        while Settings.R do
+            wait(getgenv().delay2)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, "R", false, uwu)
+        end
+    end
+)
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress X", Settings.X, function(State)
 Settings.X = State
-spawn(function()
-while Settings.X do 
-    wait(getgenv().delay2)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"X",false,uwu)
-end 
-end)
+spawn(
+    function()
+        while Settings.X do
+            wait(getgenv().delay2)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, "X", false, uwu)
+        end
+    end
+)
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress C", Settings.C, function(State)
 Settings.C = State
-spawn(function()
-while Settings.C do 
-    wait(getgenv().delay2)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"C",false,uwu)
-end 
-end)
+spawn(
+    function()
+        while Settings.C do
+            wait(getgenv().delay2)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, "C", false, uwu)
+        end
+    end
+)
+
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress Y", Settings.Y, function(State)
 Settings.Y = State
-spawn(function()
-while Settings.Y do 
-    wait(getgenv().delay2)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"Y",false,uwu)
-end 
-end)
+spawn(
+    function()
+        while Settings.Y do
+            wait(getgenv().delay2)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, "Y", false, uwu)
+        end
+    end
+)
+
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress V", Settings.V, function(State)
 Settings.V = State
-spawn(function()
-while Settings.V do 
-    wait(getgenv().delay2)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"V",false,uwu)
-end 
-end)
+spawn(
+    function()
+        while Settings.V do
+            wait(getgenv().delay2)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, "V", false, uwu)
+        end
+    end
+)
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress T", Settings.T, function(State)
 Settings.T = State
-spawn(function()
-while Settings.T do 
-    wait(getgenv().delay2)
-game:GetService('VirtualInputManager'):SendKeyEvent(true,"T",false,uwu)
-end 
-end)
+spawn(
+    function()
+        while Settings.T do
+            wait(getgenv().delay2)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, "T", false, uwu)
+        end
+    end
+)
 end)
 
 
@@ -2211,37 +2342,40 @@ local Toggle1 = Section2:CreateToggle("Streamer Mode", Settings.Name, function(S
 Settings.Name = State
 Settings.FakeName = "OkButWhoAsked"
 for i, v in next, game:GetDescendants() do
-    pcall(function()
-    if v.ClassName == "TextLabel" and Settings.Name then
-        if string.find(v.Text, Player.Name) then
-            v.Text = v.Text:gsub(Player.Name, Settings.FakeName)
-        end
-        v:GetPropertyChangedSignal("Text"):Connect(
-            function()
-                v.Text = v.Text:gsub(Player.Name, Settings.FakeName)
+    pcall(
+        function()
+            if v.ClassName == "TextLabel" and Settings.Name then
+                if string.find(v.Text, Player.Name) then
+                    v.Text = v.Text:gsub(Player.Name, Settings.FakeName)
+                end
+                v:GetPropertyChangedSignal("Text"):Connect(
+                    function()
+                        v.Text = v.Text:gsub(Player.Name, Settings.FakeName)
+                    end
+                )
             end
-        )
-    end
-    end)
+        end
+    )
 end
 
 game.DescendantAdded:Connect(
     function(v)
-        pcall(function()
-        if v.ClassName == "TextLabel" and Settings.Name then
-            v:GetPropertyChangedSignal("Text"):Connect(
-                function()
-                    v.Text = v.Text:gsub(Player.Name, Settings.FakeName)
+        pcall(
+            function()
+                if v.ClassName == "TextLabel" and Settings.Name then
+                    v:GetPropertyChangedSignal("Text"):Connect(
+                        function()
+                            v.Text = v.Text:gsub(Player.Name, Settings.FakeName)
+                        end
+                    )
+                    if string.find(v.Text, Player.Name) then
+                        v.Text = v.Text:gsub(Player.Name, Settings.FakeName)
+                    end
                 end
-            )
-            if string.find(v.Text, Player.Name) then
-                v.Text = v.Text:gsub(Player.Name, Settings.FakeName)
             end
-        end
-        end)
+        )
     end
 )
-
 end)
 
 
@@ -2253,22 +2387,24 @@ end
 end)
 local Toggle1 = Section1:CreateToggle("Make It Rain Cash", Settings.MakeItRain, function(State)
 Settings.MakeItRain = State
-spawn(function()
-while wait(getgenv().delay2) and Settings.MakeItRain do
-    pcall(
-        function()
-            for i, v in pairs(game.Players:GetPlayers()) do
-                if v ~= Player then
-                    ReplicatedStorage.RemoteEvents.CommandsRemote:FireServer(
-                        "!pay " .. v.Name .. " " .. Settings.Amount
-                    )
+Settings.MakeItRain = State
+spawn(
+    function()
+        while wait(getgenv().delay2) and Settings.MakeItRain do
+            pcall(
+                function()
+                    for i, v in pairs(game.Players:GetPlayers()) do
+                        if v ~= Player then
+                            ReplicatedStorage.RemoteEvents.CommandsRemote:FireServer(
+                                "!pay " .. v.Name .. " " .. Settings.Amount
+                            )
+                        end
+                    end
                 end
-            end
+            )
         end
-    )
-end
-
-end)
+    end
+)
 end)
 
 Toggle1:AddToolTip("Warning this uses your cash use it wisely")
@@ -2279,14 +2415,19 @@ end)
 local Toggle1 = Section1:CreateToggle("Anti Leveling", nil, function(State)
 Settings.AntiLeveling = State
 local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(...)
-    local Args = {...}
-    local Self = Args[1]
-    if getnamecallmethod()== "FireServer" and tostring(Self)== "LevelingRemote" and Settings.AntiLeveling then
+OldNameCall =
+    hookmetamethod(
+    game,
+    "__namecall",
+    function(...)
+        local Args = {...}
+        local Self = Args[1]
+        if getnamecallmethod() == "FireServer" and tostring(Self) == "LevelingRemote" and Settings.AntiLeveling then
             return nil
+        end
+        return OldNameCall(...)
     end
-    return OldNameCall(...)
-end)
+)
 end)
 Toggle1:AddToolTip("Makes you not able to level up")
 
@@ -2324,18 +2465,22 @@ local words = {"V.G Hub Best","Autofarming with V.G hub makes this game ten time
 
 local Toggle1 = Section2:CreateToggle("SS Jump Mobs", Settings.UU, function(State)
 Settings.UU = State
-spawn(function()
-while Settings.UU do
-    pcall(function()
-    wait(1)
-    for i, v in pairs(Live:GetChildren()) do
-        if v:IsA("Model") then
-            v.Humanoid.Jump = true
+spawn(
+    function()
+        while Settings.UU do
+            pcall(
+                function()
+                    wait(1)
+                    for i, v in pairs(Live:GetChildren()) do
+                        if v:IsA("Model") then
+                            v.Humanoid.Jump = true
+                        end
+                    end
+                end
+            )
         end
     end
-    end)
-end
-end)
+)
 end)
 
 
@@ -2346,12 +2491,12 @@ Settings.Go = State
 for i, v in ipairs(Live:GetChildren()) do
     if v:IsA("Model") then
         if Settings.Go then
-        for i, v in ipairs(v:GetChildren()) do
-            if v:IsA("BasePart") and v.Anchored == false then
-                Float(v)
-            elseif v:IsA("Humanoid") then
-                v.PlatformStand = true
-            end
+            for i, v in ipairs(v:GetChildren()) do
+                if v:IsA("BasePart") and v.Anchored == false then
+                    Float(v)
+                elseif v:IsA("Humanoid") then
+                    v.PlatformStand = true
+                end
             end
         end
     end
@@ -2359,45 +2504,57 @@ end
 
 Live.ChildAdded:Connect(
     function()
-for i, v in ipairs(Live:GetChildren()) do
-    if v:IsA("Model") then
-        if Settings.Go then
-        for i, v in ipairs(v:GetChildren()) do
-            if v:IsA("BasePart") and v.Anchored == false then
-                Float(v)
-            elseif v:IsA("Humanoid") then
-                v.PlatformStand = true
-            end
+        for i, v in ipairs(Live:GetChildren()) do
+            if v:IsA("Model") then
+                if Settings.Go then
+                    for i, v in ipairs(v:GetChildren()) do
+                        if v:IsA("BasePart") and v.Anchored == false then
+                            Float(v)
+                        elseif v:IsA("Humanoid") then
+                            v.PlatformStand = true
+                        end
+                    end
+                end
             end
         end
     end
-end
+)
+end)
+local Toggle1 = Section2:CreateToggle("SS Sit Mobs", Settings.UU1, function(State)
+Settings.UU1 = State
+spawn(
+    function()
+        while Settings.UU1 do
+            pcall(
+                function()
+                    wait(1)
+                    for i, v in pairs(Live:GetChildren()) do
+                        if v:IsA("Model") then
+                            v.Humanoid.Sit = true
+                        end
+                    end
+                end
+            )
+        end
     end
 )
 
 end)
-local Toggle1 = Section2:CreateToggle("SS Sit Mobs", Settings.UU1, function(State)
-Settings.UU1 = State
-spawn(function()
-while Settings.UU1 do
-    pcall(function()
-    wait(1)
-    for i, v in pairs(Live:GetChildren()) do
-        if v:IsA("Model") then
-            v.Humanoid.Sit = true
-        end
-    end
-    end)
-end
-end)
-end)
 
 local Toggle1 = Section2:CreateToggle("Spam Chat", nil, function(State)
 Settings.Spam = State
-spawn(function()
-while Settings.Spam do wait(5)
-ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(words[math.random(#words)],"All")
-end end) end)
+spawn(
+    function()
+        while Settings.Spam do
+            wait(5)
+            ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+                words[math.random(#words)],
+                "All"
+            )
+        end
+    end
+)
+end)
 
 local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
 Settings.Go = State
@@ -2419,7 +2576,7 @@ RunService.Stepped:connect(
 
 end)
 
-Section1:CreateTextBox("Fast GiveItem", "UserName Here", false, function(String)
+Section2:CreateTextBox("Teleport To Player", "UserName Here", false, function(String)
 for i, v in pairs(game:GetService("Players"):GetPlayers()) do
     if
         string.find(v.Name, String) or v.Name:lower():match(String) or v.Name:upper():match(String) or
@@ -2427,7 +2584,7 @@ for i, v in pairs(game:GetService("Players"):GetPlayers()) do
             v.DisplayName:lower():match(String) or
             v.DisplayName:upper():match(String)
      then
-        ReplicatedStorage.RemoteEvents.CommandsRemote:FireServer("!giveitem " .. tostring(v))
+        Teleport(Character.HumanoidRootPart,v.Character.HumanoidRootPart.CFrame,true)
     end
 end
 
