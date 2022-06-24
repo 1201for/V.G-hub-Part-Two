@@ -101,7 +101,7 @@ game.Players.LocalPlayer.Character.ChildAdded:Connect(
         end
     end
 )
-game.Players.LocalPlayer.Character.ChildRemoving:Connect(
+game.Players.LocalPlayer.Character.ChildRemoved:Connect(
     function(v)
         if v:IsA("Tool") then
             game.Players.LocalPlayer.Character.Tool.Value = false
