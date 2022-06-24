@@ -73,6 +73,42 @@ function c()
     end
 end
 
+
+local Equiped = Instance.new("BoolValue")
+Equiped.Parent = game.Players.LocalPlayer.Character
+Equiped.Name = "Tool"
+game.Players.LocalPlayer.CharacterAdded:Connect(
+    function()
+        wait(2)
+        local Equiped = Instance.new("BoolValue")
+        Equiped.Parent = game.Players.LocalPlayer.Character
+        Equiped.Name = "Tool"
+    end
+)
+local Equiped = function(A)
+    if A:IsA("Tool") then
+        game.Players.LocalPlayer.Character.Tool.Value = true
+        wait(1)
+        game.Players.LocalPlayer.Character.Animate.Disabled = true
+        game.Players.LocalPlayer.Character.Animate.Disabled = false
+    end
+end
+
+game.Players.LocalPlayer.Character.ChildAdded:Connect(
+    function(v)
+        if v:IsA("Tool") then
+            Equiped(v)
+        end
+    end
+)
+game.Players.LocalPlayer.Character.ChildRemoving:Connect(
+    function(v)
+        if v:IsA("Tool") then
+            game.Players.LocalPlayer.Character.Tool.Value = false
+        end
+    end
+)
+
 code = {}
 for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
     table.insert(code, v.Name)
