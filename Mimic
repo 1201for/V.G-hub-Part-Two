@@ -17,6 +17,17 @@ for i,v in pairs(game.workspace:GetChildren()) do
     end
 end
 
+
+local OldNameCall = nil
+OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
+    local Args = {...}
+    local Self = Args[1]
+    if getnamecallmethod() == "FireServer" and tostring(self) == "RemoteEvent" and Args[1]:match("Key") then
+            return 
+    end
+    return OldNameCall(self, table.unpack(Args))
+end)
+
 game:GetService("RunService").RenderStepped:Connect(
     function()
         pcall(function()
