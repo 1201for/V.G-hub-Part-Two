@@ -7,7 +7,7 @@ repeat wait() until game:IsLoaded() wait()
 game:GetService("Players").LocalPlayer.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-pcall(function()
+
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(A,...)
     local Args = {...}
@@ -40,7 +40,7 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     end
     return OldNameCall(A, B, ...)
 end)
-end)
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -83,10 +83,10 @@ local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     local Args = {...}
     local Self = Args[1]
-    if getnamecallmethod() == "FireServer" and tostring(self) == "RemoteEvent" and Args[1]:match("OriginalDamage") and getgenv().yea then
+    if getnamecallmethod() == "FireServer" and self:IsA("RemoteEvent") and Args[3]:match("OriginalDamage") and getgenv().yea then
             return 
     end
-    return OldNameCall(self, table.unpack(Args))
+    return OldNameCall(self, unpack(Args))
 end)
 end)
 
