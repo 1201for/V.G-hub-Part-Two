@@ -4,18 +4,6 @@ local Config = {
 	Keybind = Enum.KeyCode.RightControl
 }
 
-function SwitchToKnife()
-game:GetService("VirtualInputManager"):SendKeyEvent(true, 51, false, game)
-game:GetService("VirtualInputManager"):SendKeyEvent(false, 51, false, game)	
-end
-
-function NoGui()
-game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
-game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
-game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
-end
-
 local OldNameCall
 OldNameCall = hookmetamethod(game, "__newindex", function(A, B, ...)
     if not checkcaller()  and (B == "WalkSpeed" or B == "JumpPower") then
@@ -258,11 +246,15 @@ for i,v in next, getconnections(v.Changed) do
 v:Disable()
 end
 end
+
+local function Go(i, v)
+    return (v - i).Unit * 1000
+end
 -- dont ask about the code above thats The3Bakers kill all it dosen't work anymore
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
-local Tab1 = Window:CreateTab("Typical Colors 2")
+local Tab1 = Window:CreateTab("Arsenal")
 local Tab2 = Window:CreateTab("UI Settings")
 
 local Section1 = Tab1:CreateSection("")
@@ -302,33 +294,6 @@ local Colorpicker3 = Section1:CreateColorpicker("Circle Color", function(Color)
 end)
 
 
-local Toggle1 = Section1:CreateToggle("SilentAim", nil, function(State)
-getgenv().SilentAim = State
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
-function ClosestPlayerToCurser()
-    local MaxDistance, Closest = math.huge
-    for i,v in pairs(Players.GetPlayers(Players)) do
-        if v ~= LocalPlayer and v.Team ~= LocalPlayer.Team and v.Character then
-            local H = v.Character.FindFirstChild(v.Character, "Head")
-            if H then 
-                local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
-                if Vis then
-                    local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
-                    local Dist = (A2 - A1).Magnitude
-                    if Dist < MaxDistance and Dist <= 2500 then
-                        MaxDistance = Dist
-                        Closest = v
-                    end
-                end
-            end
-        end
-    end
-    return Closest
-end
-loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G_Hub_Extras/main/RayCast_Method"))()
-end)
 
 
 
