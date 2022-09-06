@@ -35,36 +35,11 @@ Table = {
     "Unusual Arrow",
     "Spoofy Arrow"
 }
-
-
-
-
-
-
-local function getNearestItem()
-    local TargetDistance = math.huge
-    local Target
-    for i, v in pairs(game.Workspace:GetChildren()) do
-        if table.find(Table, v.Name) and v.Handle.Transparency ~= 1 and v:FindFirstChildOfClass("MeshPart") then
-            local Mag =
-                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
-                v:FindFirstChildOfClass("MeshPart").Position).Magnitude
-            if Mag < TargetDistance then
-                TargetDistance = Mag
-                Target = v:FindFirstChildOfClass("MeshPart")
-            end
-        elseif table.find(Table, v.Name) and v.Handle.Transparency ~= 1 and v:FindFirstChildOfClass("Part") then
-            local Mag =
-                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v:FindFirstChildOfClass("Part").Position).Magnitude
-            if Mag < TargetDistance then
-                TargetDistance = Mag
-                Target = v:FindFirstChildOfClass("Part")
-            end
-        end
-    end
-    return Target
-end
 pcall(function()
+NewTable = {}
+for i, v in pairs(Table) do
+    table.insert(NewTable, v)
+end
 Npc = {}
 for i, v in pairs(game.workspace:GetChildren()) do
     if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("circle") then
@@ -73,9 +48,11 @@ for i, v in pairs(game.workspace:GetChildren()) do
 end
 
 
+
+
 game:GetService("RunService").Stepped:connect(function()
 game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"):WaitForChild("Nametag"):remove()
-
+end)
 local Part = Instance.new('Part',workspace)
 Part.Name = "Apple"
 Part.Size = Vector3.new(9e9,0,9e9)
@@ -83,8 +60,6 @@ Part.Anchored = true
 Part.Transparency = 0
 Part.CFrame =  CFrame.new(-96, -116, 153) 
 end)
-end)
-getgenv().Tween = 300
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/im-retarded-3"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -106,55 +81,25 @@ game:GetService("RunService").Stepped:connect(
     end
 )
 
-while wait(1) and n do
+while wait() and n do
     pcall(
         function()
-            local Time =
-                (getNearestItem().CFrame.p + Vector3.new(0, 3, 0) -
-                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().Tween
-            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-            local Tween =
-                game:GetService("TweenService"):Create(
-                game.Players.LocalPlayer.Character.HumanoidRootPart,
-                Info,
-                {CFrame = CFrame.new(getNearestItem().CFrame.p + Vector3.new(0, 5, 0))}
-            )
-            Tween:Play()
-            wait(0.5)
-            fireproximityprompt(getNearestItem().Parent.ProximityPrompt)
-            if  getNearestItem() == nil then 
-                   local Time =
-                (Vector3.new(-96, -115, 153) -
-                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().Tween
-            local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-            local Tween =
-                game:GetService("TweenService"):Create(
-                game.Players.LocalPlayer.Character.HumanoidRootPart,
-                Info,
-                {CFrame = CFrame.new(Vector3.new(-96, -115, 153))}
-            )
-            Tween:Play()
-            
-        end
+            for i, v in pairs(game.Workspace:GetChildren()) do
+                if v:FindFirstChildWhichIsA("ProximityPrompt") and v:FindFirstChild("SpawnedItem") then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                        v:GetModelCFrame() * CFrame.new(0, 3, 0)
+                    fireproximityprompt(v.ProximityPrompt, 1)
+                elseif not v or v == nil then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-96, -115, 153)
+                end
+            end
         end
     )
 end
-end)
 
-local Slider2 = Section1:CreateSlider("Tween Speed", 0,1000,nil,false, function(Value)
-getgenv().Tween = Value
 end)
 local Button1 = Section1:CreateButton("GoTo Selected NPC", function()
-local Time =
-    (game.Workspace[Npc].HumanoidRootPart.Position + Vector3.new(0, 5, 0) -
-    game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude / getgenv().Tween
-local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-local Tween =
-    game:GetService("TweenService"):Create(
-    game.Players.LocalPlayer.Character.HumanoidRootPart,
-    Info,
-    {CFrame = CFrame.new(game.Workspace[Npc].HumanoidRootPart.Position + Vector3.new(0, 5, 0))}
-)
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace[Npc].HumanoidRootPart.CFrame * CFrame.new(0,5,0)
 end)
 
 local Dropdown1 = Section1:CreateDropdown("Select NPC")
@@ -170,77 +115,23 @@ end
 local Toggle1 = Section1:CreateToggle("Auto Invis", nil, function(State)
 fssss = State
 
-local Save = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame.p
+local Save = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
 if fssss then
-    local Time =
-        (Vector3.new(-468, -17, -220) - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
-        getgenv().Tween
-    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-    local Tween =
-        game:GetService("TweenService"):Create(
-        game.Players.LocalPlayer.Character.HumanoidRootPart,
-        Info,
-        {CFrame = CFrame.new(Vector3.new(-468, -17, -220))}
-    )
-    Tween:Play()
-    wait(0.5)
-    Invis()
-    wait(0.5)
-    local Time =
-        (Vector3.new(-468, -17, -220) - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
-        getgenv().Tween
-    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-    local Tween =
-        game:GetService("TweenService"):Create(
-        game.Players.LocalPlayer.Character.HumanoidRootPart,
-        Info,
-        {CFrame = CFrame.new(Vector3.new(Save))}
-    )
-    Tween:Play()
+
+Invis() 
 end
 game.Players.LocalPlayer.CharacterAdded:Connect(
-    function()
-        pcall(
-            function()
-                local Save = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame.p
-                repeat
-                    wait()
-                until game.Players.LocalPlayer.Character
-                if fssss then
-                    local Time =
-                        (Vector3.new(-468, -17, -220) - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
-                        getgenv().Tween
-                    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-                    local Tween =
-                        game:GetService("TweenService"):Create(
-                        game.Players.LocalPlayer.Character.HumanoidRootPart,
-                        Info,
-                        {CFrame = CFrame.new(Vector3.new(-468, -17, -220))}
-                    )
-                    Tween:Play()
-                    wait(0.5)
-                    Invis()
-                    wait(0.5)
-                    local Time =
-                        (Vector3.new(-468, -17, -220) - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude /
-                        getgenv().Tween
-                    local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-                    local Tween =
-                        game:GetService("TweenService"):Create(
-                        game.Players.LocalPlayer.Character.HumanoidRootPart,
-                        Info,
-                        {CFrame = CFrame.new(Vector3.new(Save))}
-                    )
-                    Tween:Play()
-                end
-            end
-        )
+    function() pcall(function()
+        repeat
+            wait()
+        until game.Players.LocalPlayer.Character
+        if fssss then
+            Invis()
+        end
+        end)
     end
 )
 end)
-
-
-
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 
@@ -597,4 +488,5 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
+
 
