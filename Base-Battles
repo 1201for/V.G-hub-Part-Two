@@ -161,45 +161,6 @@ game.Lighting.Changed:connect(
 )
 end)
 
-local Toggle1 = Section1:CreateToggle("Silent Aim", nil, function(State)
-getgenv().SilentAim = State
-local Players = Players
-local LocalPlayer = Player
-local Mouse = LocalPlayer:GetMouse()
-function ClosestPlayerToCurser()
-    local MaxDistance, Closest = math.huge
-    for i,v in pairs(Players.GetPlayers(Players)) do
-        if v ~= LocalPlayer  and v.Character then
-            local H = v.Character.FindFirstChild(v.Character, "HumanoidRootPart")
-            if H and H.Nametag.Arrow.ImageColor3 ~= Color3.fromRGB(34, 255, 143) then 
-                local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
-                if Vis then
-                    local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
-                    local Dist = (A2 - A1).Magnitude
-                    if Dist < MaxDistance and Dist <= 2500 then
-                        MaxDistance = Dist
-                        Closest = v
-                    end
-                end
-            end
-        end
-    end
-    return Closest
-end
-local OldNameCall = nil
-OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
-    local Args = {...}
-    if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  getgenv().SilentAim  then
-        local GivemeHead = ClosestPlayerToCurser()
-        if GivemeHead then
-            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.Character.HumanoidRootPart.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
-            return OldNameCall(self, unpack(Args))
-        end
-    end
-    return OldNameCall(self, ...)
-end)
-end)
-
 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 ESP.Overrides.GetColor = function(v) 
