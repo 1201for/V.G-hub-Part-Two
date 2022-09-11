@@ -1,4 +1,3 @@
-
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
@@ -216,20 +215,35 @@ end)
 local Toggle1 = Section1:CreateToggle("HitBox Extender", nil, function(State)
 getgenv().On = State
 
-RunService.Stepped:connect(function()
-     pcall(function() if getgenv().On then
-    for _, v in pairs(game.Players:GetPlayers()) do
-        if v ~= Player and v.Character and v.Character.HumanoidRootPart.Nametag.Arrow.ImageColor3 ~= Color3.fromRGB(34, 255, 143) then
-            v.Character.HumanoidRootPart.CanCollide = false
-            v.Character.HumanoidRootPart.Material = "Neon"
-            v.Character.HumanoidRootPart.Transparency = 0.5
-            v.Character.HumanoidRootPart.Size = Vector3.new(getgenv().Head, getgenv().Head, getgenv().Head)
-            v.Character.HumanoidRootPart.Size = Vector3.new(getgenv().Head, getgenv().Head, getgenv().Head)
-        end
+RunService.Stepped:connect(
+    function()
+        pcall(
+            function()
+                if getgenv().On then
+                    for _, v in pairs(game.Players:GetPlayers()) do
+                        if
+                            v ~= Player and v.Character and
+                                v.Character.HumanoidRootPart.Nametag.Arrow.ImageColor3 ~= Color3.fromRGB(34, 255, 143)
+                         then
+                            v.Character.Head.CanCollide = false
+                            v.Character.Head.Material = "Neon"
+                            v.Character.Head.Transparency = 0.5
+                            v.Character.Head.Size = Vector3.new(getgenv().Head, getgenv().Head, getgenv().Head)
+                            v.Character.HumanoidRootPart.Size =
+                                Vector3.new(getgenv().Head, getgenv().Head, getgenv().Head)
+                        end
+                    end
+                for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                    if v:IsA("BasePart") then
+                        v.CanCollide = false
+                    end
+                end
+                end
+            end
+        )
     end
-    end 
-end)
-end)
+)
+
 end)
 
 local Slider3 = Section1:CreateSlider("HitBox Size",0,50,nil,false, function(Value)
