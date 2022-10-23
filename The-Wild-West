@@ -64,8 +64,6 @@ for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
             if i == false then
                 return
             end
-            v:Fire(...)
-            print(v)
         end
     )
 end
