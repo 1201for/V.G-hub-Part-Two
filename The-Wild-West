@@ -1,12 +1,27 @@
 
+local Get = function(A)
+    return game:GetService(A)
+end 
+local Players = Get("Players")
+local ReplicatedStorage = Get("ReplicatedStorage")
+local VirtualUser = Get("VirtualUser")
+local HttpService = Get("HttpService")
+local ScriptContext = Get("ScriptContext")
+local Workspace = Get("Workspace")
+local RunService = Get("RunService")
+local UserInputService = Get("UserInputService")
+local Lighting = Get("Lighting")
+local Player = Players.LocalPlayer
+local wait = task.wait
+local spawn = task.spawn
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightControl
 }
 repeat wait() until game:IsLoaded() wait()
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+Player.Idled:connect(function()
+VirtualUser:ClickButton2(Vector2.new())
 end)
 
 local Name = "TheWildWest.json"
@@ -25,13 +40,13 @@ if
         end
     )
  then
-    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Des))
+    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Des))
 end
 
-Settings = game:service "HttpService":JSONDecode(readfile("V.G Hub//" .. Name))
+Settings = HttpService:JSONDecode(readfile("V.G Hub//" .. Name))
 
 local function Save()
-    writefile("V.G Hub//" .. Name, game:service "HttpService":JSONEncode(Settings))
+    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
 end
 
 
@@ -39,26 +54,26 @@ for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
     v:Disable()
     game:GetService("ScriptContext").Error:Connect(
         function(...)
-            local Arg = {...}
+            local Args = {...}
             local i, v =
                 pcall(
                 function()
-                    return Arg[3].Name
+                    return Args[3].Name
                 end
             )
             if i == false then
                 return
             end
             v:Fire(...)
+            print(v)
         end
     )
 end
-
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     local Args = {...}
     local Self = Args[1]
-    if getnamecallmethod()=="FireServer" and self.Name == "ErrorLoggerRemote"or self.Name == 'ACDTResponse' then
+    if getnamecallmethod()=="FireServer" and (self.Name == "ErrorLoggerRemote"or self.Name == 'ACDTResponse') then
         return wait(math.huge)
     end
     return OldNameCall(self, ...)
@@ -67,21 +82,20 @@ end)
 
 function FreeForAll(v)
     if Settings.AimBot.FreeForAll == false then
-        if game.Players.LocalPlayer.Team == v.Team then return false
+        if Player.Team == v.Team then return false
         else return true end
     else return true end
 end
-repeat wait() until game.Players.LocalPlayer.Character
-
-local Utils = require(game:GetService("ReplicatedStorage").Modules.Utils.Utils)
-local Rich = require(game:GetService("ReplicatedStorage").Modules.Character.PlayerCharacter)
-local R =  require(game:GetService("ReplicatedStorage").Modules.Load)("Ragdolls")
-local Animal = require(game:GetService("ReplicatedStorage").Modules.Load)("Animal")
-local AnimalRiding = require(game:GetService("ReplicatedStorage").Modules.Load)("AnimalRiding")
+repeat wait() until Player.Character
+local Utils = require(ReplicatedStorage.Modules.Utils.Utils)
+local Rich = require(ReplicatedStorage.Modules.Character.PlayerCharacter)
+local R =  require(ReplicatedStorage.Modules.Character.Ragdolls)
+local Animal = require(ReplicatedStorage.Modules.World.WildLife.WildLife.Animal)
+local AnimalRiding = require(ReplicatedStorage.Modules.UI.Wildlife.AnimalRiding)
 
 Keys = {}
 OreDeposits = {}
-for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits:GetChildren()) do
+for i, v in pairs(Workspace["WORKSPACE_Interactables"].Mining.OreDeposits:GetChildren()) do
     if v.ClassName == "Folder" and v:FindFirstChildOfClass("Model") then
         table.insert(OreDeposits, v.Name)
     end
@@ -89,8 +103,8 @@ end
 
 local function GetOwner()
     local Target
-    for i, v in ipairs(game:GetService("Workspace")["WORKSPACE_Entities"].Animals:GetChildren()) do
-        if v.ClassName == "Model" and v:FindFirstChild("Owner") and v.Owner.Value == game.Players.LocalPlayer then
+    for i, v in ipairs(Workspace["WORKSPACE_Entities"].Animals:GetChildren()) do
+        if v.ClassName == "Model" and v:FindFirstChild("Owner") and v.Owner.Value == Player then
             Target = v
         end
     end
@@ -107,9 +121,9 @@ Circle.NumSides = 1000
 Circle.Filled = false
 Circle.Transparency = 1
 
-game:GetService("RunService").RenderStepped:Connect(
+RunService.RenderStepped:Connect(
     function()
-        local Mouse = game:GetService("UserInputService"):GetMouseLocation()
+        local Mouse = UserInputService:GetMouseLocation()
         Circle.Position = Vector2.new(Mouse.X, Mouse.Y)
     end
 )
@@ -125,7 +139,7 @@ local Shoot = false
 
 function FreeForAll(v)
     if Settings.AimBot.FreeForAll == false or Settings.T.AimBot.FreeForAll == false then
-        if game.Players.LocalPlayer.Team == v.Team then
+        if Player.Team == v.Team then
             return false
         else
             return true
@@ -137,15 +151,15 @@ end
 
 function NotObstructing(i, v)
     if Settings.AimBot.WallCheck then
-        c = workspace.CurrentCamera.CFrame.p
+        c = Workspace.CurrentCamera.CFrame.p
         a = Ray.new(c, i - c)
-        f = workspace:FindPartOnRayWithIgnoreList(a, v)
+        f = Workspace:FindPartOnRayWithIgnoreList(a, v)
         return f == nil
     else
         return true
     end
 end
-game:GetService("UserInputService").InputBegan:Connect(
+UserInputService.InputBegan:Connect(
     function(v)
         if v.UserInputType == Enum.UserInputType.MouseButton2 then
             Shoot = true
@@ -153,7 +167,7 @@ game:GetService("UserInputService").InputBegan:Connect(
     end
 )
 
-game:GetService("UserInputService").InputEnded:Connect(
+UserInputService.InputEnded:Connect(
     function(v)
         if v.UserInputType == Enum.UserInputType.MouseButton2 then
             Shoot = false
@@ -164,24 +178,24 @@ game:GetService("UserInputService").InputEnded:Connect(
 function GetClosestToCuror()
     Closest = math.huge
     Target = nil
-    for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+    for _, v in pairs(Players:GetPlayers()) do
         if FreeForAll(v) then
             if
-                v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and
+                v ~= Player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") and
                     v.Character:FindFirstChild("Humanoid") and
                     v.Character.Humanoid.Health ~= 0
              then
-                Point, OnScreen = workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                Point, OnScreen = Workspace.CurrentCamera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
                 if
                     OnScreen and
                         NotObstructing(
                             v.Character.HumanoidRootPart.Position,
-                            {game.Players.LocalPlayer.Character, v.Character}
+                            {Player.Character, v.Character}
                         )
                  then
                     Distance =
                         (Vector2.new(Point.X, Point.Y) -
-                        Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)).magnitude
+                        Vector2.new(Player:GetMouse().X, Player:GetMouse().Y)).magnitude
                     if Distance <= Settings.FOV then
                         Closest = Distance
                         Target = v
@@ -194,7 +208,7 @@ function GetClosestToCuror()
 end
 
 
-game:GetService("UserInputService").InputEnded:connect(
+UserInputService.InputEnded:connect(
     function(v)
         if v.KeyCode == Enum.UserInputType.MouseButton2 and Settings.T.Toggle then
             Aim = false
@@ -202,15 +216,15 @@ game:GetService("UserInputService").InputEnded:connect(
     end
 )
 
-game:GetService("RunService").RenderStepped:Connect(
+RunService.RenderStepped:Connect(
     function() pcall(function()
         if Settings.AimBot.Enabled == false or Shoot == false then
             return
         end
         ClosestPlayer = GetClosestToCuror()
         if ClosestPlayer then
-            local Mouse = game:GetService("UserInputService"):GetMouseLocation()
-            local TargetPos = game.workspace.Camera:WorldToViewportPoint(ClosestPlayer.Character.HumanoidRootPart.Position)
+            local Mouse = UserInputService:GetMouseLocation()
+            local TargetPos = Workspace.Camera:WorldToViewportPoint(ClosestPlayer.Character.HumanoidRootPart.Position)
             mousemoverel(
                 (TargetPos.X - Mouse.X) * Settings.Smoothness,
                 (TargetPos.Y - Mouse.Y) * Settings.Smoothness
@@ -228,23 +242,23 @@ Settings = {
 }
 
 local Aim = false
-game:GetService("UserInputService").InputBegan:connect(
+UserInputService.InputBegan:connect(
     function(v)
         if v.UserInputType == Enum.UserInputType.MouseButton2 and Settings.Toggle then
             Aim = true
             while Aim do
                 wait()
                 if
-                    game:GetService("Players").LocalPlayer:GetMouse().Target and
-                        game:GetService("Players"):FindFirstChild(
-                            game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name
+                    Player:GetMouse().Target and
+                        Players:FindFirstChild(
+                            Player:GetMouse().Target.Parent.Name
                         )
                  then
                     local Person =
-                        game:GetService("Players"):FindFirstChild(
-                        game:GetService("Players").LocalPlayer:GetMouse().Target.Parent.Name
+                        Players:FindFirstChild(
+                        Player:GetMouse().Target.Parent.Name
                     )
-                    if Person.Team ~= game:GetService("Players").LocalPlayer.Team or not Settings.TeamCheck then
+                    if Person.Team ~= Player.Team or not Settings.TeamCheck then
                         if Settings.Delay > 0 then
                             wait(0.01)
                         end
@@ -274,10 +288,10 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("Auto Sprint", Settings.WalkFast, function(State)
 Settings.WalkFast = State
-game:GetService("RunService").Stepped:Connect(
+RunService.Stepped:Connect(
     function()
         if Settings.WalkFast then
-            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 25
+            Player.Character.Humanoid.WalkSpeed = 25
         end
     end
 )
@@ -286,24 +300,24 @@ end)
 local Toggle1 = Section1:CreateToggle("FullBright", Settings.FullBright, function(State)
 Settings.FullBright = State
         if Settings.FullBright then
-            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
-            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
-            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
+            Lighting.Ambient = Color3.new(1, 1, 1)
+            Lighting.ColorShift_Bottom = Color3.new(1, 1, 1)
+            Lighting.ColorShift_Top = Color3.new(1, 1, 1)
         else
-            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
-            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
-            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
+            Lighting.Ambient = Color3.new(0, 0, 0)
+            Lighting.ColorShift_Bottom = Color3.new(0, 0, 0)
+            Lighting.ColorShift_Top = Color3.new(0, 0, 0)
         end
-game.Lighting.Changed:connect(
+Lighting.Changed:connect(
     function()
         if Settings.FullBright then
-            game:GetService("Lighting").Ambient = Color3.new(1, 1, 1)
-            game:GetService("Lighting").ColorShift_Bottom = Color3.new(1, 1, 1)
-            game:GetService("Lighting").ColorShift_Top = Color3.new(1, 1, 1)
+            Lighting.Ambient = Color3.new(1, 1, 1)
+            Lighting.ColorShift_Bottom = Color3.new(1, 1, 1)
+            Lighting.ColorShift_Top = Color3.new(1, 1, 1)
         else
-            game:GetService("Lighting").Ambient = Color3.new(0, 0, 0)
-            game:GetService("Lighting").ColorShift_Bottom = Color3.new(0, 0, 0)
-            game:GetService("Lighting").ColorShift_Top = Color3.new(0, 0, 0)
+            Lighting.Ambient = Color3.new(0, 0, 0)
+            Lighting.ColorShift_Bottom = Color3.new(0, 0, 0)
+            Lighting.ColorShift_Top = Color3.new(0, 0, 0)
         end
     end
 )
@@ -343,9 +357,9 @@ local Toggle1 = Section1:CreateToggle("Spam DuelRequests", Settings.Hentai, func
 Settings.Hentai = State
 spawn(function()
 while wait() and Settings.Hentai do
-    for i, v in pairs(game.Players:GetPlayers()) do wait(0.2)
-        if v ~= game.Players.LocalPlayer then
-            game:GetService("ReplicatedStorage").Communication.Events.DuelRequest:FireServer(v)
+    for i, v in pairs(Players:GetPlayers()) do wait(0.2)
+        if v ~= Player then
+            ReplicatedStorage.Communication.Events.DuelRequest:FireServer(v)
         end
     end
 end
@@ -354,7 +368,7 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Invis Character CS", Settings.Invis, function(State)
 Settings.Invis = State
-for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+for i, v in pairs(Player.Character:GetDescendants()) do
     if v:IsA("BasePart") then
         if Settings.Invis then
             v.Transparency = 1
@@ -363,9 +377,9 @@ for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
         end
     end
 end
-game.Players.LocalPlayer.CharacterAdded:Connect(function()
-repeat wait() until game.Players.LocalPlayer.Character.Humanoid
-for i, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+Player.CharacterAdded:Connect(function()
+repeat wait() until Player.Character.Humanoid
+for i, v in pairs(Player.Character:GetDescendants()) do
     if v:IsA("BasePart") then
         if Settings.Invis then
             v.Transparency = 1
@@ -379,8 +393,8 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Player Silent Aim", nil, function(State)
 Settings.SilentAim = State
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+local Players = Players
+local LocalPlayer = Player
 local Mouse = LocalPlayer:GetMouse()
 function ClosestPlayerToCurser()
     local MaxDistance, Closest = math.huge
@@ -388,7 +402,7 @@ function ClosestPlayerToCurser()
         if v ~= LocalPlayer  and v.Character and Settings.TeamCheck and v.Team ~= LocalPlayer.Team then
             local H = v.Character.FindFirstChild(v.Character, "Head")
             if H then 
-                local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
+                local Pos, Vis = Workspace.CurrentCamera.WorldToScreenPoint(Workspace.CurrentCamera, H.Position)
                 if Vis then
                     local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
                     local Dist = (A2 - A1).Magnitude
@@ -408,7 +422,7 @@ OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
     if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  Settings.SilentAim  then
         local GivemeHead = ClosestPlayerToCurser()
         if GivemeHead and GivemeHead.Character and GivemeHead.Character.FindFirstChild(GivemeHead.Character, "UpperTorso") then
-            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.Character.UpperTorso.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
+            Args[1] = Ray.new(Workspace.CurrentCamera.CFrame.Position, (GivemeHead.Character.UpperTorso.Position - Workspace.CurrentCamera.CFrame.Position).Unit * 1000)
             return OldNameCall(self, unpack(Args))
         end
     end
@@ -422,22 +436,19 @@ Settings.TeamCheck = State
 end)
 local Toggle1 = Section1:CreateToggle("Animal Silent Aim", Settings.SilentAnimalAim, function(State)
 Settings.SilentAnimalAim = State
-
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
-local Animal = game.Workspace.WORKSPACE_Entities.Animals
+local Mouse = Player:GetMouse()
+local Animals = game:GetService("Workspace")["WORKSPACE_Entities"].Animals
 function ClosestAnimalToCurser()
     local MaxDistance, Closest = math.huge
-    for i,v in pairs(Animal.GetChildren(Animal)) do
+    for i,v in pairs(Animals.GetChildren(Animals)) do
         if v.PrimaryPart  then
-            local H = v.FindFirstChild(v, "Body")
+            local H = v.FindFirstChild(v, "Head")
             if H then 
-                local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
+                local Pos, Vis = Workspace.CurrentCamera.WorldToScreenPoint(Workspace.CurrentCamera, H.Position)
                 if Vis then
                     local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
                     local Dist = (A2 - A1).Magnitude
-                    if Dist < MaxDistance and Dist <= 2500 then
+                    if Dist < MaxDistance and Dist <= math.huge then
                         MaxDistance = Dist
                         Closest = v
                     end
@@ -447,29 +458,28 @@ function ClosestAnimalToCurser()
     end
  return Closest
 end
+
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
     local Args = {...}
-    if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and  Settings.SilentAnimalAim  then
+    if getnamecallmethod() == "FindPartOnRayWithIgnoreList" and not checkcaller() and Settings.SilentAnimalAim then
         local GivemeHead = ClosestAnimalToCurser()
-        if GivemeHead and GivemeHead.PrimaryPart and GivemeHead.FindFirstChild(GivemeHead, "Body") then
-            Args[1] = Ray.new(workspace.CurrentCamera.CFrame.Position, (GivemeHead.PrimaryPart.Position - workspace.CurrentCamera.CFrame.Position).Unit * 1000)
+        if GivemeHead and GivemeHead.PrimaryPart and GivemeHead.FindFirstChild(GivemeHead, "Head") then
+            Args[1] = Ray.new(Workspace.CurrentCamera.CFrame.Position, (GivemeHead.Head.Position - Workspace.CurrentCamera.CFrame.Position).Unit * 1000)
             return OldNameCall(self, unpack(Args))
         end
     end
     return OldNameCall(self, ...)
 end)
-
-
 end)
 
 
 
 local Toggle1 = Section1:CreateToggle("Anti Ragdoll", Settings.AntiRagDoll, function(State)
 Settings.AntiRagDoll = State
-A = hookfunction(Rich.Ragdoll, function(...)
-    if Settings.AntiRagDoll and game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 then
-        return;
+A = hookfunction(Rich.CreateRagdollForce, function(...)
+    if Settings.AntiRagDoll and Player.Character.Humanoid.Health ~= 0 then
+        return wait(9e9)
     end
     return A(...)
 end)
@@ -481,7 +491,7 @@ Fuck =
     hookfunction(
     Animal.Mount,
     function(...)
-        if Settings.InfiniteBoosts then
+        if Settings.InfiniteBoosts and Player.Character.Humanoid.Health ~= 0  then
             Fuck(...)
             local RidingAnimal = AnimalRiding.GetRidingAnimal()
             RidingAnimal.MaxBoosts = math.huge
@@ -495,7 +505,7 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Anti Hosile Animals", Settings.Kok, function(State)
 Settings.Kok = State
-for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Entities"].Animals:GetChildren()) do
+for i, v in pairs(Workspace["WORKSPACE_Entities"].Animals:GetChildren()) do
     if v:IsA("Model") then pcall(function()
         if Settings.Kok then
             v.Target:remove()
@@ -503,7 +513,7 @@ for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Entities"].Animals:Get
         end end)
     end
 end
-game:GetService("Workspace")["WORKSPACE_Entities"].Animal.ChildAdded:Connect(
+Workspace["WORKSPACE_Entities"].Animals.ChildAdded:Connect(
     function(v)
         if v:IsA("Model") then pcall(function()
             if Settings.Kok then
@@ -518,7 +528,7 @@ end)
 local Toggle1 = Section1:CreateToggle("InstantBreakFree", Settings.InstantBreakFree, function(State)
 Settings.InstantBreakFree = State
     System = hookfunction(R.EnterRagdoll, function(...)
-    if Settings.InstantBreakFree then
+    if Settings.InstantBreakFree and Player.Character:WaitForChild("Humanoid").Health ~= 0 then
             local Start = tick()
             repeat
                 wait()
@@ -532,16 +542,14 @@ end)
 local Toggle1 = Section1:CreateToggle("AutoGetUp", Settings.AutoGetUp, function(State)
 Settings.AutoGetUp = State
 Y = hookfunction(R.EnterRagdoll, function(...)
-    if Settings.AutoGetUp then
-        coroutine.resume(coroutine.create(function()
+    if Settings.AutoGetUp and Player.Character:WaitForChild("Humanoid").Health ~= 0 then
             local Start = tick()
-            repeat
-                wait()
-            until Rich:CanGetUp() or Start - tick() > 2
-            if Rich.IsRagdolledSelf then
+        repeat
+            wait()
+        until Rich:CanGetUp() or Start - tick() > 2
+        if Rich.IsRagdolledSelf then
                 Rich:GetUp()
-            end
-        end))
+        end
     end
     return Y(...)
 end)
@@ -572,28 +580,6 @@ OldNameCall = hookmetamethod(game, "__namecall", function(...)
     end
     return OldNameCall(...)
 end) 
-end)
-local Toggle1 = Section1:CreateToggle("Animal AntiRagdoll", Settings.AntiAnimalRagdoll, function(State)
-Settings.AntiAnimalRagdoll = State
-Animal.Ragdoll = function(...)
-    if Settings.AntiAnimalRagdoll then
-        return;
-    end
-    return Core["Animal-Ragdoll"](...)
-end
-end)
-
-local Toggle1 = Section2:CreateToggle("NoRecoil", Settings.NoRecoil, function(State)
-Settings.NoRecoil = State
-for i, v in pairs(getgc(true)) do
-    if type(v) == "table" and rawget(v, "BaseRecoil") then
-        if Settings.NoRecoil then
-        v.BaseRecoil = 0
-        else
-        v.BaseRecoil = 1
-        end 
-    end
-end
 end)
 
 local Toggle1 = Section2:CreateToggle("NoSpread", Settings.NOSpread, function(State)
@@ -633,9 +619,9 @@ end)
 local Toggle1 = Section2:CreateToggle("Anti Grass", Settings.Grass, function(State)
 Settings.Grass = State
 if Settings.Grass then
-    sethiddenproperty(workspace.Terrain, "Decoration", false)
+    sethiddenproperty(Workspace.Terrain, "Decoration", false)
 else
-    sethiddenproperty(workspace.Terrain, "Decoration", true)
+    sethiddenproperty(Workspace.Terrain, "Decoration", true)
 end
 end)
 
@@ -650,7 +636,7 @@ end)
 spawn(
     function()
         while wait(1) do
-            for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Geometry"]:GetChildren()) do
+            for i, v in pairs(Workspace["WORKSPACE_Geometry"]:GetChildren()) do
                 if v:FindFirstChild("Trees") then
                     for i, v in pairs(v.Trees:GetChildren()) do
                         if v.ClassName == "Model" and v:FindFirstChild("Leaves") then
@@ -683,15 +669,15 @@ local Toggle1 = Section2:CreateToggle("Instant Cook Meat", Settings.Cook, functi
 Settings.Cook = State
 spawn(function()
 while wait(1) and Settings.Cook do
-    for i, v in pairs(game:GetService("Workspace")["WORKSPACE_Interactables"].Placeables:GetChildren()) do
-        if v.ClassName == "Model" and v.Owner.Value == game.Players.LocalPlayer then
+    for i, v in pairs(Workspace["WORKSPACE_Interactables"].Placeables:GetChildren()) do
+        if v.ClassName == "Model" and v.Owner.Value == Player then
             wait(0.5)
             repeat
                 wait()
             until v.Center or Settings.Cook
-            game:GetService("ReplicatedStorage").Communication.Events.StartCookingAtCampFire:FireServer(v.Center)
-            game:GetService("ReplicatedStorage").Communication.Events.CookFood:FireServer(v.Center)
-            game:GetService("ReplicatedStorage").Communication.Events.StopCookingAtCampFire:FireServer(v.Center)
+            ReplicatedStorage.Communication.Events.StartCookingAtCampFire:FireServer(v.Center)
+            ReplicatedStorage.Communication.Events.CookFood:FireServer(v.Center)
+            ReplicatedStorage.Communication.Events.StopCookingAtCampFire:FireServer(v.Center)
         end
     end
 end
@@ -700,13 +686,13 @@ end)
 
 local Toggle1 = Section2:CreateToggle("Anti Rain", Settings.Rain, function(State)
 Settings.Rain = State
-local save = game:GetService("ReplicatedStorage").GlobalWeather.RainPercent.Value
-game:GetService("RunService").Stepped:Connect(
+local save = ReplicatedStorage.GlobalWeather.RainPercent.Value
+RunService.Stepped:Connect(
     function()
         if Settings.Rain then
-            game:GetService("ReplicatedStorage").GlobalWeather.RainPercent.Value = 0
+            ReplicatedStorage.GlobalWeather.RainPercent.Value = 0
         else
-            game:GetService("ReplicatedStorage").GlobalWeather.RainPercent.Value = save
+            ReplicatedStorage.GlobalWeather.RainPercent.Value = save
         end
     end
 )
@@ -729,7 +715,7 @@ end)
 local Toggle1 = Section2:CreateToggle("Ore Esp", Settings.Ore, function(State)
 Settings.Ore = State
 ESP.Ore = Settings.Ore
-ESP:AddObjectListener(game:GetService("Workspace")["WORKSPACE_Interactables"].Mining.OreDeposits, {
+ESP:AddObjectListener(Workspace["WORKSPACE_Interactables"].Mining.OreDeposits, {
     Color = Color3.new(20, 255, 228),
     Type = "Model",
     PrimaryPart = function(v)
@@ -742,7 +728,7 @@ ESP:AddObjectListener(game:GetService("Workspace")["WORKSPACE_Interactables"].Mi
     end,
     Validator = function(v)
     if v:FindFirstChildWhichIsA("BasePart").Name:match("Ore") then
-        return not game.Players:GetPlayerFromCharacter(v) and v:FindFirstChildWhichIsA("BasePart").Name:match("Ore")
+        return not Players:GetPlayerFromCharacter(v) and v:FindFirstChildWhichIsA("BasePart").Name:match("Ore")
     end end,
     CustomName = function(v)
         return v:FindFirstChildWhichIsA("BasePart").Name:match("Ore")
@@ -755,7 +741,7 @@ local Toggle1 = Section2:CreateToggle("Animal Esp", Settings.Animal, function(St
 
 Settings.Animal = State
 ESP.Animal = Settings.Animal
-ESP:AddObjectListener(game.Workspace.WORKSPACE_Entities.Animals, {
+ESP:AddObjectListener(game:GetService("Workspace")["WORKSPACE_Entities"].Animals, {
     Color = Color3.new(20, 255, 228),
     Type = "Model",
     PrimaryPart = function(v)
@@ -768,7 +754,7 @@ ESP:AddObjectListener(game.Workspace.WORKSPACE_Entities.Animals, {
     end,
     Validator = function(v)
     if v.ClassName == "Model" and v:FindFirstChildWhichIsA("BasePart") and not v.Name:match("Horse") then
-        return not game.Players:GetPlayerFromCharacter(v) and v
+        return not Players:GetPlayerFromCharacter(v) and v
     end end,
     CustomName = function(v)
         return v.Name
@@ -798,7 +784,7 @@ end)
 
 
 local Button1 = Section2:CreateButton("Anti Lag", function()
-for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+for _, v in pairs(Workspace:GetDescendants()) do
     if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then --- i stole this from the actual game LOL >-<
         v.Material = Enum.Material.SmoothPlastic
         if v:IsA("Texture") then
@@ -874,7 +860,7 @@ function TPReturner()
                 pcall(function()
                     writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
                     wait()
-                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, Player)
                 end)
                 wait(4)
             end
@@ -897,7 +883,7 @@ end
 Teleport() 
 end)
 local Button1 = Section2:CreateButton("Rejoin", function()
-game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
+game:GetService("TeleportService"):Teleport(game.PlaceId, Player) end)
 
 local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
 	Window:Toggle(State)
