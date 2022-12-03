@@ -33,14 +33,14 @@ repeat
     wait()
     if PlayButton.Visible then
         for i,v in pairs(getconnections(PlayButton.MouseButton1Click)) do
-            v.Function()
+            v:Fire()
         end 
     end 
 until Baby and Baby.Visible or Player.Character:FindFirstChild("HumanoidRootPart") and Workspace.Camera.CameraSubject == Player.Character:WaitForChild("Humanoid")
 
 if Baby.Visible then
     for i,v in pairs(getconnections(Baby.MouseButton1Click)) do
-        v.Function()
+        v:Fire()
     end 
 end 
 
