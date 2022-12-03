@@ -26,27 +26,24 @@ Player.Idled:connect(
         game:GetService("VirtualUser"):ClickButton2(Vector2.new())
     end
 )
-
--- Check 1
+local NewsApp = Player.PlayerGui:FindFirstChild("NewsApp")
+local PlayButton = NewsApp.EnclosingFrame.MainFrame.Contents.PlayButton
+local Baby = Player.PlayerGui.DialogApp.Dialog.RoleChooserDialog.Baby
 repeat
     wait()
-    if Player.PlayerGui:WaitForChild("NewsApp").EnclosingFrame.MainFrame.Contents.PlayButton.Visible then
-        firesignal(
-            Player.PlayerGui:WaitForChild("NewsApp").EnclosingFrame.MainFrame.Contents.PlayButton.MouseButton1Click
-        )
-    end
-until not Player.PlayerGui:WaitForChild("NewsApp").Enabled or
-    Player.PlayerGui:FindFirstChild("NewsApp") and Player and
-        Player.PlayerGui:WaitForChild("NewsApp").EnclosingFrame.MainFrame.Contents.PlayButton.Visible and
-        game:IsLoaded()
+    if PlayButton.Visible then
+        for i,v in pairs(getconnections(PlayButton.MouseButton1Click)) do
+            v.Function()
+        end 
+    end 
+until Baby and Baby.Visible or Player.Character:FindFirstChild("HumanoidRootPart") and Workspace.Camera.CameraSubject == Player.Character:WaitForChild("Humanoid")
 
-if Player.PlayerGui.DialogApp.Dialog.RoleChooserDialog.Baby.Visible then
-    firesignal(Player.PlayerGui.DialogApp.Dialog.RoleChooserDialog.Baby.MouseButton1Click)
-end
--- Check 2
-repeat
-    wait()
-until Player.Character and Workspace.Camera.CameraSubject == Player.Character:WaitForChild("Humanoid")
+if Baby.Visible then
+    for i,v in pairs(getconnections(Baby.MouseButton1Click)) do
+        v.Function()
+    end 
+end 
+
 
 local Name = "Adopt me" .. " " .. Player.Name .. ".json"
 
@@ -74,6 +71,8 @@ local function Save()
     writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
 end
 
+
+
 StarterGui:SetCore(
     "SendNotification",
     {
@@ -81,31 +80,30 @@ StarterGui:SetCore(
         Text = "Added check for when your fully loaded in when executed please load into the game fully for script to execute"
     }
 )
-repeat
-    wait()
-until game:IsLoaded() and
-    RunService.RenderStepped:connect(
-        function()
-            pcall(
-                function()
-                    for i, v in ipairs(Workspace.Interiors:GetChildren()) do
-                        if v.ClassName == "Model" and v.Name:match("MainMap") then
-                            wait()
-                            v.Name = "MainMap"
-                        end
-                    end
-                    for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
-                        v.Name = string.gsub(v.Name, Players.LocalPlayer.Name .."/","")
-                        v.Name = string.gsub(v.Name,"%d+" .. "/","")
-                        v.Name = string.gsub(v.Name,"nil" .. "/true/","")
-                    end
-                    if Workspace:FindFirstChild("ServerSidedMapSeats") then
-                        Workspace.ServerSidedMapSeats:remove()
+
+
+RunService.RenderStepped:connect(
+    function()
+        pcall(
+            function()
+                for i, v in ipairs(Workspace.Interiors:GetChildren()) do
+                    if v.ClassName == "Model" and v.Name:match("MainMap") then
+                        wait()
+                        v.Name = "MainMap"
                     end
                 end
-            )
-        end
-    )
+                for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
+                    v.Name = string.gsub(v.Name, Players.LocalPlayer.Name .. "/", "")
+                    v.Name = string.gsub(v.Name, "%d+" .. "/", "")
+                    v.Name = string.gsub(v.Name, "nil" .. "/true/", "")
+                end
+                if Workspace:FindFirstChild("ServerSidedMapSeats") then
+                    Workspace.ServerSidedMapSeats:remove()
+                end
+            end
+        )
+    end
+)
 
 local getupvalue = getupvalue or debug.getupvalue
 local getconstant = getconstant or debug.getconstant
@@ -118,12 +116,9 @@ local get_thread_identity = get_thread_context
 local set_thread_context = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
 local set_thread_identity = set_thread_context
 
-local sign = math.sign
-local sinh = math.sinh
-local sqrt = math.sqrt
-
 local Remotes = {}
-local Loader = require(ReplicatedStorage:WaitForChild("Fsys")).load
+local Inventorys = ReplicatedStorage.ClientDB.Inventory
+local InventoryGiftsSubDB = require(Inventorys.InventoryGiftsSubDB)
 wait(1)
 
 do
@@ -298,7 +293,6 @@ local Stores = {
     "WinterCastle"
 }
 
-local ClientData = Loader("ClientData")
 local Neon = {}
 local Spec = {}
 Settings.Key = {}
@@ -312,6 +306,8 @@ for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_d
     table.insert(List, Key)
     table.sort(List, key)
 end
+
+
 
 for i, v in pairs(debug.getupvalue(require(ReplicatedStorage.Fsys).load("RouterClient").init, 4)) do
     v.Name = i
@@ -887,30 +883,40 @@ StarterGui:SetCore(
         Text = "PetFarm must be off when turning this on "
     }
 )
-spawn(function()
-while Settings.SwitchOutFullyGrown  do
-    wait()
-    repeat wait() until Settings.PetFarm
-    local Inventory = ClientData.get("inventory") or {}
-    local Pets = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or {}
-    if Pets[tostring(PetID)] then
-        if Pets[(PetID)]["properties"]["age"] < 6 then
-        else
-            for i, v in pairs(Pets) do
-                if v["properties"]["age"] < 6 then
-                    PetID = v.unique
+spawn(
+    function()
+        while Settings.SwitchOutFullyGrown do
+            pcall(
+                function()
+                    wait()
+                    repeat
+                        wait()
+                    until Settings.PetFarm
+                    local Pets =
+                        require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or
+                        {}
+                    if Pets[tostring(PetID)] then
+                        if Pets[(PetID)]["properties"]["age"] < 6 then
+                        else
+                            for i, v in pairs(Pets) do
+                                if v["properties"]["age"] < 6 then
+                                    PetID = v.unique
+                                end
+                            end
+                        end
+                    else
+                        for i, v in pairs(Pets) do
+                            if v["properties"]["age"] < 6 then
+                                PetID = v.unique
+                            end
+                        end
+                    end
                 end
-            end
-        end
-    else
-        for i, v in pairs(Pets) do
-            if v["properties"]["age"] < 6 then
-                PetID = v.unique
-            end
+            )
         end
     end
-end
-end)
+)
+
 end)
 
 local Toggle434 = Section1:CreateToggle("Ginger Bread Farm", Settings.Start, function(State)
@@ -945,30 +951,36 @@ StarterGui:SetCore(
 spawn(
     function()
         while Settings.SwitchOutEgg do
-            wait()
-            repeat wait() until Settings.PetFarm
-            local Pets = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or {}
-            if Pets[tostring(PetID)] then
-                if Pets[(PetID)]["id"]:match("egg") and not Pets[(PetID)]["id"]:match("basic_egg") then
-                else
-                    for i, v in pairs(Pets) do
-                        if v["id"]:match("egg")  and not v["id"]:match("basic_egg") then
-                            PetID = v.unique
+            pcall(
+                function()
+                    wait()
+                    repeat
+                        wait()
+                    until Settings.PetFarm
+                    local Pets =
+                        require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or
+                        {}
+                    if Pets[tostring(PetID)] then
+                        if Pets[(PetID)]["id"]:match("egg") and not Pets[(PetID)]["id"]:match("basic_egg") then
+                        else
+                            for i, v in pairs(Pets) do
+                                if v["id"]:match("egg") and not v["id"]:match("basic_egg") then
+                                    PetID = v.unique
+                                end
+                            end
+                        end
+                    else
+                        for i, v in pairs(Pets) do
+                            if v["id"]:match("egg") and not v["id"]:match("basic_egg") then
+                                PetID = v.unique
+                            end
                         end
                     end
                 end
-            else
-                for i, v in pairs(Pets) do
-                    if v["id"]:match("egg") and not v["id"]:match("basic_egg") then
-                        PetID = v.unique
-                    end
-                end
-            end
+            )
         end
     end
 )
-
-
 
 end)
 
@@ -1077,13 +1089,13 @@ end)
 local Button1 = Section2:CreateButton("Teleport MainMap", function()
 Workspace.Gravity = 0
 GoToMainMap()
-Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.MainMap.Doors["Neighborhood/MainDoor"].WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
+Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model").Doors["Neighborhood/MainDoor"].WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
 Player.Character.HumanoidRootPart.CFrame = CFrame.new(-247.35408, 17.3820152, -1518.88879)  Workspace.Gravity = 196.2 
 end)
 
 
 local Button1 = Section2:CreateButton("SS Infinite Money", function()
-local Player = Player.LocalPlayer
+local Player = Players.LocalPlayer
 local Kick = Player.Kick
 Kick(Player,"You are most likely banned if you wish to appeal go to https://playadopt.me/support/")
 wait(5)
