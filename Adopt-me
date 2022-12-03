@@ -1073,7 +1073,10 @@ end)
 local Dropdown = Section2:CreateDropdown("Locations", Stores, function(Name)
 	Settings.Locations = Name
 end)
-
+local Button1 = Section2:CreateButton("Buy Apple And Water", function()
+    ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "apple", {})
+    ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "water", {})
+end)
 local Button1 = Section2:CreateButton("Go to Selected Location", function()
 Workspace.Gravity = 0
 GoToStore(Settings.Locations)
@@ -1603,4 +1606,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
