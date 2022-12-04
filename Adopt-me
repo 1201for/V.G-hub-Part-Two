@@ -378,6 +378,16 @@ end)
 
 local Toggle2 = Section1:CreateToggle("Auto SnowBall", Settings.Cand, function(State)
 Settings.Cand = State
+
+local throw_snowbal = nil
+local shovel_tool_prepare_snowball = nil
+for i,v in pairs(getgc(true)) do
+    if type(v) == "function" and getinfo(v).name == "throw_snowball" then
+        throw_snowbal = v 
+    elseif type(v) == "function" and getinfo(v).name == "shovel_tool_prepare_snowball" then
+        shovel_tool_prepare_snowball = v
+    end 
+end 
 RunService.RenderStepped:connect(
     function()
         if Settings.Cand and not Settings.PetFarm then
@@ -413,7 +423,8 @@ spawn(
                         if DodgeballMinigameInterior.is_game_in_progress() and Workspace.Interiors:FindFirstChild("WinterCastle") then 
                             for i,v in pairs(Players:GetPlayers()) do
                                 if v ~= Player then
-                                    ReplicatedStorage.API:FindFirstChild("WinterEventAPI/SnowballHit"):FireServer(Workspace.Snowball, v, v.Character.HumanoidRootPart.Position, v.Character.HumanoidRootPart.Velocity);
+                                    shovel_tool_prepare_snowball()
+                                    throw_snowbal()
                                 end 
                             end 
                         end 
