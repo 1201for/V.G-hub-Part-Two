@@ -815,7 +815,7 @@ a = {
         GoToMainMap()
         Player.Character.HumanoidRootPart.CFrame =
             CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position + Vector3.new(0,-20,0)) 
+            Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position + Vector3.new(0,-10,0)) 
         wait()
         repeat
             wait()
@@ -842,7 +842,7 @@ a = {
         Player.Character.HumanoidRootPart.CFrame =
             CFrame.new(
             Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position +
-                Vector3.new(0, -15, 0)
+                Vector3.new(0, -10, 0)
         )
         wait()
         repeat
