@@ -45,7 +45,7 @@ if Baby.Visible then
 end 
 
 
-local Name = "Adopt me" .. " " .. Player.Name .. ".json"
+local Name = "Ad" .. " " .. Player.Name .. ".json"
 
 Des = {}
 if makefolder then
