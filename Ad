@@ -421,12 +421,9 @@ spawn(
                                 Workspace.Interiors.WinterCastle.DodgeballMinigame.JoinZone.Collider.CFrame
                         end 
                         if DodgeballMinigameInterior.is_game_in_progress() and Workspace.Interiors:FindFirstChild("WinterCastle") then 
-                            for i,v in pairs(Players:GetPlayers()) do
-                                if v ~= Player then
+                        
                                     shovel_tool_prepare_snowball()
                                     throw_snowbal()
-                                end 
-                            end 
                         end 
                     end 
                 end)
