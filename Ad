@@ -805,7 +805,7 @@ a = {
     end,
     ["school"] = function(c)
         GoToStore("School")
-        Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.School.BuyIndicators["teachers_apple"].CFrame * CFrame.new(0,0,0)
+        Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.School.BuyIndicators["teachers_apple"].CFrame
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments 
@@ -815,7 +815,7 @@ a = {
         GoToMainMap()
         Player.Character.HumanoidRootPart.CFrame =
             CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position)
+            Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position + Vector3.new(0,5,0))
         wait()
         repeat
             wait()
@@ -828,8 +828,7 @@ a = {
         wait()
         Player.Character.HumanoidRootPart.CFrame =
             CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("Campsite"):WaitForChild("CampsiteOrigin").Position +
-                Vector3.new(0, 0, 0)
+            Workspace:WaitForChild("StaticMap"):WaitForChild("Campsite"):WaitForChild("CampsiteOrigin").Position + Vector3.new(0,5,0)
         )
         wait()
         repeat
@@ -841,8 +840,7 @@ a = {
         GoToMainMap()
         Player.Character.HumanoidRootPart.CFrame =
             CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position +
-                Vector3.new(0, 0, 0)
+            Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position  + Vector3.new(0,5,0)
         )
         wait()
         repeat
