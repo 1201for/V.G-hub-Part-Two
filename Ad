@@ -51,26 +51,7 @@ end
 local Table = {6152116144, 185655149}
 local Set = setfpscap
 
-UserInputService.WindowFocusReleased:Connect(
-    function()
-        if Settings.Render then
-            RunService:Set3dRenderingEnabled(false)
-            if table.find(Table, game.PlaceId) then
-                Set(30)
-            else
-                Set(5)
-            end
-        end 
-    end
-)
-UserInputService.WindowFocused:Connect(
-    function()
-        if Settings.Render then
-            RunService:Set3dRenderingEnabled(true)
-            Set(100)
-        end 
-    end
-)
+
 
  
 
@@ -336,7 +317,26 @@ for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_d
     table.sort(List, key)
 end
 
-
+UserInputService.WindowFocusReleased:Connect(
+    function()
+        if Settings.Render then
+            RunService:Set3dRenderingEnabled(false)
+            if table.find(Table, game.PlaceId) then
+                Set(30)
+            else
+                Set(5)
+            end
+        end 
+    end
+)
+UserInputService.WindowFocused:Connect(
+    function()
+        if Settings.Render then
+            RunService:Set3dRenderingEnabled(true)
+            Set(100)
+        end 
+    end
+)
 
 for i, v in pairs(debug.getupvalue(require(ReplicatedStorage.Fsys).load("RouterClient").init, 4)) do
     v.Name = i
@@ -413,15 +413,7 @@ end)
 local Toggle2 = Section1:CreateToggle("Auto SnowBall", Settings.Cand, function(State)
 Settings.Cand = State
 
-local throw_snowbal = nil
-local shovel_tool_prepare_snowball = nil
-for i,v in pairs(getgc(true)) do
-    if type(v) == "function" and getinfo(v).name == "throw_snowball" then
-        throw_snowbal = v 
-    elseif type(v) == "function" and getinfo(v).name == "shovel_tool_prepare_snowball" then
-        shovel_tool_prepare_snowball = v
-    end 
-end 
+
 RunService.RenderStepped:connect(
     function()
         if Settings.Cand and not Settings.PetFarm then
@@ -439,9 +431,12 @@ spawn(
         while wait(1) do
             pcall(function()
                     if Settings.Cand and not Settings.PetFarm then
+                        
                         local DodgeballMinigameInterior = require(ReplicatedStorage.ClientModules.Game.Minigames.DodgeballMinigameInterior)
-                        if
-                           not DodgeballMinigameInterior.is_game_in_progress() and not Workspace.Interiors:FindFirstChild("WinterCastle") and
+                        local IceBridgeMinigameInterior = require(ReplicatedStorage.ClientModules.Game.Minigames.IceBridgeMinigameInterior)
+                        local Conpare = string.gsub(DodgeballMinigameInterior.get_join_timer_display_string_now(), "%D", "")
+                        local Conpare2 = string.gsub(IceBridgeMinigameInterior.get_join_timer_display_string_now(), "%D", "")
+                        if not Workspace.Interiors:FindFirstChild("WinterCastle") and
                                 wait()
                          then
                             GoToStore("WinterCastle")
@@ -450,17 +445,21 @@ spawn(
                                 CFrame.new(0, 0, -6)
                             )
                          end 
-                        if not DodgeballMinigameInterior.is_game_in_progress() and Workspace.Interiors:FindFirstChild("WinterCastle") then
+                         if Workspace.Interiors:FindFirstChild("WinterCastle") then
+                        if not DodgeballMinigameInterior.is_game_in_progress() and Conpare < Conpare2 then
                             Player.Character.HumanoidRootPart.CFrame =
                                 Workspace.Interiors.WinterCastle.DodgeballMinigame.JoinZone.Collider.CFrame
                         end 
-                        if DodgeballMinigameInterior.is_game_in_progress() and Workspace.Interiors:FindFirstChild("WinterCastle") then 
-                            for i,v in pairs(Players:GetPlayers()) do
-                                if v ~= Player then
-                                    shovel_tool_prepare_snowball()
-                                    throw_snowbal()
-                                end 
-                            end 
+                        if DodgeballMinigameInterior.is_game_in_progress()  then 
+                            DodgeballMinigameInterior.shovel_tool_prepare_snowball()
+                            DodgeballMinigameInterior.throw_snowbal()
+                        end 
+                        if not IceBridgeMinigameInterior.is_game_in_progress() and Conpare2 < Conpare then
+                            Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.WinterCastle.IceBridgeMinigame.JoinZone.Collider.CFrame
+                        end 
+                        if IceBridgeMinigameInterior.is_game_in_progress() then
+                            IceBridgeMinigameInterior.complete_player_game()
+                        end 
                         end 
                     end 
                 end)
