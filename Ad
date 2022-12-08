@@ -26,6 +26,9 @@ Player.Idled:connect(
         game:GetService("VirtualUser"):ClickButton2(Vector2.new())
     end
 )
+
+
+
 local NewsApp = Player.PlayerGui:FindFirstChild("NewsApp")
 local PlayButton = NewsApp.EnclosingFrame.MainFrame.Contents.PlayButton
 local Baby = Player.PlayerGui.DialogApp.Dialog.RoleChooserDialog.Baby
@@ -44,6 +47,32 @@ if Baby.Visible then
     end 
 end 
 
+
+local Table = {6152116144, 185655149}
+local Set = setfpscap
+
+UserInputService.WindowFocusReleased:Connect(
+    function()
+        if Settings.Render then
+            RunService:Set3dRenderingEnabled(false)
+            if table.find(Table, game.PlaceId) then
+                Set(30)
+            else
+                Set(5)
+            end
+        end 
+    end
+)
+UserInputService.WindowFocused:Connect(
+    function()
+        if Settings.Render then
+            RunService:Set3dRenderingEnabled(true)
+            Set(100)
+        end 
+    end
+)
+
+ 
 
 local Name = "Adopt me" .. " " .. Player.Name .. ".json"
 
@@ -376,6 +405,11 @@ spawn(function()
 end)
 end)
 
+
+local Toggle2 = Section1:CreateToggle("CPU Usage Improver", Settings.Render, function(State)
+    Settings.Render = State
+end)
+
 local Toggle2 = Section1:CreateToggle("Auto SnowBall", Settings.Cand, function(State)
 Settings.Cand = State
 
@@ -421,9 +455,12 @@ spawn(
                                 Workspace.Interiors.WinterCastle.DodgeballMinigame.JoinZone.Collider.CFrame
                         end 
                         if DodgeballMinigameInterior.is_game_in_progress() and Workspace.Interiors:FindFirstChild("WinterCastle") then 
-                        
+                            for i,v in pairs(Players:GetPlayers()) do
+                                if v ~= Player then
                                     shovel_tool_prepare_snowball()
                                     throw_snowbal()
+                                end 
+                            end 
                         end 
                     end 
                 end)
@@ -802,7 +839,7 @@ a = {
     end,
     ["school"] = function(c)
         GoToStore("School")
-        Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.School.BuyIndicators["teachers_apple"].CFrame
+        Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.School.BuyIndicators["teachers_apple"].CFrame * CFrame.new(0,0,0)
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments 
@@ -812,7 +849,7 @@ a = {
         GoToMainMap()
         Player.Character.HumanoidRootPart.CFrame =
             CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position + Vector3.new(0,5,0))
+            Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position)
         wait()
         repeat
             wait()
@@ -825,7 +862,8 @@ a = {
         wait()
         Player.Character.HumanoidRootPart.CFrame =
             CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("Campsite"):WaitForChild("CampsiteOrigin").Position + Vector3.new(0,5,0)
+            Workspace:WaitForChild("StaticMap"):WaitForChild("Campsite"):WaitForChild("CampsiteOrigin").Position +
+                Vector3.new(0, 0, 0)
         )
         wait()
         repeat
@@ -837,7 +875,8 @@ a = {
         GoToMainMap()
         Player.Character.HumanoidRootPart.CFrame =
             CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position  + Vector3.new(0,5,0)
+            Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position +
+                Vector3.new(0, 0, 0)
         )
         wait()
         repeat
