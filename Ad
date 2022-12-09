@@ -619,7 +619,7 @@ spawn(
                         local Number = 0
                         for i, v in pairs(Neon) do
                             for i, x in pairs(
-                                require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data[Player.Name].inventory.pets) do
+                                require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
                                 if string.find(x.id, v) and x.properties.age == 6 then
                                     Number = Number + 1
                                     table.insert(Spec, x.unique)
