@@ -129,6 +129,56 @@ local set_thread_identity = set_thread_context
 local Remotes = {}
 local Inventorys = ReplicatedStorage.ClientDB.Inventory
 local InventoryGiftsSubDB = require(Inventorys.InventoryGiftsSubDB)
+
+local Stores = {
+    "CoffeeShop",
+    "Supermarket",
+    "PizzaShop",
+    "ToyShop",
+    "Obbies",
+    "Neighborhood",
+    "CampingShop",
+    "AutoShop",
+    "Nursery",
+    "Cave",
+    "IceCream",
+    "PotionShop",
+    "SkyCastle",
+    "Hospital",
+    "HatShop",
+    "PetShop",
+    "School",
+    "BabyShop",
+    "HotSpringHouse",
+    "SafetyHub",
+    "DebugInterior",
+    "VIP",
+    "Salon",
+    "SpleefMinigame",
+    "SimonSaysMinigame",
+    "WinterCastle"
+}
+
+local Baths = {
+    "StylishShower",
+    "CheapBathtub",
+    "ModernShower",
+    "Bathtub",
+    "GingerbreadShower",
+    "HotTub"
+}
+
+local Beds = {
+    "FancyPetBed",
+    "ModernPetBed",
+    "CircularPetBed",
+    "RectangularPetBed",
+    "NormalCrib",
+    "BasicCrib",
+    "RoyalCrib",
+    "PoshCrib",
+}
+
 wait(1)
 
 do
@@ -244,64 +294,32 @@ do
         return false
     end
 
-    function Type(Name)
+    function Bed(Name)
         GoToHome()
         for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
-            if v:FindFirstChildWhichIsA("Model") then
-                if v:FindFirstChildWhichIsA("Model"):FindFirstChild("UseBlocks") then
-                    local Furniture = v:FindFirstChildWhichIsA("Model")
-                    if Furniture.UseBlocks:FindFirstChild("UseBlock") then
-                        if Furniture.UseBlocks:FindFirstChild("UseBlock"):FindFirstChild("Configuration") then
-                            if
-                                Furniture.UseBlocks:FindFirstChild("UseBlock"):FindFirstChild("Configuration"):FindFirstChild(
-                                    "use_id"
-                                )
-                             then
-                                if
-                                    Furniture.UseBlocks:FindFirstChild("UseBlock"):FindFirstChild("Configuration"):FindFirstChild(
-                                        "use_id"
-                                    ).Value == Name
-                                 then
-                                     return v.Name
-                                end
-                            end
-                        end
-                    end
-                end
+            if
+                v:FindFirstChildWhichIsA("Model") and
+                    (table.find(Beds, v:FindFirstChildWhichIsA("Model").Name))
+             then
+                return v.Name 
+            end
+        end
+        return false
+    end
+    function Showers(Name)
+        GoToHome()
+        for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
+            if
+                v:FindFirstChildWhichIsA("Model") and
+                    (table.find(Baths, v:FindFirstChildWhichIsA("Model").Name))
+             then
+                return v.Name 
             end
         end
         return false
     end
 end
 
-local Stores = {
-    "CoffeeShop",
-    "Supermarket",
-    "PizzaShop",
-    "ToyShop",
-    "Obbies",
-    "Neighborhood",
-    "CampingShop",
-    "AutoShop",
-    "Nursery",
-    "Cave",
-    "IceCream",
-    "PotionShop",
-    "SkyCastle",
-    "Hospital",
-    "HatShop",
-    "PetShop",
-    "School",
-    "BabyShop",
-    "HotSpringHouse",
-    "SafetyHub",
-    "DebugInterior",
-    "VIP",
-    "Salon",
-    "SpleefMinigame",
-    "SimonSaysMinigame",
-    "WinterCastle"
-}
 
 local Neon = {}
 local Spec = {}
@@ -672,8 +690,8 @@ if Settings.Key then
     AilmentFurnitues["generic_crib"] = nil
     while not AilmentFurnitues["generic_crib"] do
         wait()
-        AilmentFurnitues["generic_crib"] = Type("generic_crib")
-        AilmentFurnitues["generic_shower"] = Type("generic_shower")
+        AilmentFurnitues["generic_crib"] = Bed()
+        AilmentFurnitues["generic_shower"] = Showers()
     end
     ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
     Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
