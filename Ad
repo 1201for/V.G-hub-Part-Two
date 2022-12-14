@@ -27,7 +27,9 @@ Player.Idled:connect(
     end
 )
 
-
+for i,v in pairs(getconnections(Player.Idled)) do
+    v:Disable()
+end 
 
 local NewsApp = Player.PlayerGui:FindFirstChild("NewsApp")
 local PlayButton = NewsApp:WaitForChild("EnclosingFrame").MainFrame.Contents.PlayButton
@@ -178,147 +180,163 @@ local Beds = {
     "RoyalCrib",
     "PoshCrib",
 }
+local Tasks = {
+    "hungry",
+    "sleepy",
+    "thirsty",
+    "bored",
+    "dirty",
+    "camping",
+    "sick",
+    "school",
+    "hot_spring",
+    "salon",
+    "pizza_party"
+}
 
-wait(1)
+local Egg = {
+    "japan_2022_egg",
+    "cracked_egg",
+    "regular_pet_egg",
+    "royal_egg"
+}
 
-do
-    local Location
-    for i, v in pairs(getgc()) do
-        if type(v) == "function" then
-            if getfenv(v).script == ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
-                if table.find(getconstants(v), "LocationAPI/SetLocation") then
-                    Location = v
-                    break
-                end
+local Part = Instance.new("Part")
+Part.Name = "P"
+Part.Size = Vector3.new(9e9,0,9e9)
+Part.Anchored = true 
+Part.Transparency = 0.5 
+Part.CFrame = CFrame.new(5000,5000,5000)
+Part.Parent = Workspace
+
+local Location = nil
+for i, v in pairs(getgc(true)) do
+    if type(v) == "function" then
+        if getfenv(v).script == ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
+            if table.find(getconstants(v), "LocationAPI/SetLocation") then
+                Location = v
+                break
             end
         end
     end
-    wait(0.5)
-    local function SetLocation(a, b, c)
-        local k = get_thread_identity()
-        set_thread_identity(2)
-        Location(a, b, c)
-        set_thread_identity(k)
-    end
-    function Home()
-        if Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model") then
-            return Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model").Name
-        else
-            return false
-        end
-    end
-
-    function Store()
-        if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
-            if
-                (Workspace.Interiors:FindFirstChildWhichIsA("Model").Name ~= "MainMap") and
-                    (Workspace.Interiors:FindFirstChildWhichIsA("Model").Name ~= "Neighborhood")
-             then
-                return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
-            else
-                return false
-            end
-        else
-            return false
-        end
-    end
-
-    function MainMap()
-        if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
-            if Workspace.Interiors:FindFirstChildWhichIsA("Model").Name == "MainMap" then
-                return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
-            else
-                return false
-            end
-        else
-            return false
-        end
-    end
-
-    function Neighborhood()
-        if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
-            if Workspace.Interiors:FindFirstChildWhichIsA("Model").Name == "Neighborhood" then
-                return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
-            else
-                return false
-            end
-        else
-            return false
-        end
-    end
-
-    function GoToStore(Name)
-        if Store() == Name then
-            return true
-        end
-        SetLocation(Name, "MainDoor", {})
-        while Store() ~= Name do
-            wait()
-        end
-        if Home() then
-            return true
-        end
-        return false
-    end
-
-    function GoToHome()
-        SetLocation("housing", "MainDoor", {["house_owner"] = Player})
-        while not Home() do
-            wait()
-        end
-        if Home() then
-            return true
-        end
-        return false
-    end
-
-    function GoToNeighborhood()
-        SetLocation("Neighborhood", "MainDoor", {})
-        while not Neighborhood() do
-            wait()
-        end
-        if Neighborhood() then
-            return true
-        end
-        return false
-    end
-
-    function GoToMainMap()
-        SetLocation("MainMap", "Neighborhood/MainDoor", {})
-        while not MainMap() do
-            wait()
-        end
-        if MainMap() then
-            return true
-        end
-        return false
-    end
-
-    function Bed(Name)
-        GoToHome()
-        for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
-            if
-                v:FindFirstChildWhichIsA("Model") and
-                    (table.find(Beds, v:FindFirstChildWhichIsA("Model").Name))
-             then
-                return v.Name 
-            end
-        end
-        return false
-    end
-    function Showers(Name)
-        GoToHome()
-        for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
-            if
-                v:FindFirstChildWhichIsA("Model") and
-                    (table.find(Baths, v:FindFirstChildWhichIsA("Model").Name))
-             then
-                return v.Name 
-            end
-        end
+end
+local function SetLocation(A, B, C)
+    set_thread_identity(2)
+    local O = get_thread_identity()
+    Location(A, B, C)
+    set_thread_identity(O)
+end
+function Home()
+    if Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model") then
+        return Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model").Name
+    else
         return false
     end
 end
+
+function Store()
+    if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
+        if
+            (Workspace.Interiors:FindFirstChildWhichIsA("Model").Name ~= "MainMap") and
+                (Workspace.Interiors:FindFirstChildWhichIsA("Model").Name ~= "Neighborhood")
+         then
+            return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
+        else
+            return false
+        end
+    else
+        return false
+    end
+end
+
+function MainMap()
+    if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
+        if Workspace.Interiors:FindFirstChildWhichIsA("Model").Name == "MainMap" then
+            return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
+        else
+            return false
+        end
+    else
+        return false
+    end
+end
+
+function Neighborhood()
+    if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
+        if Workspace.Interiors:FindFirstChildWhichIsA("Model").Name == "Neighborhood" then
+            return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
+        else
+            return false
+        end
+    else
+        return false
+    end
+end
+
+function GoToStore(Name)
+    if Store() == Name then
+        return true
+    end
+    SetLocation(Name, "MainDoor", {})
+    while Store() ~= Name do
+        wait()
+    end
+    if Home() then
+        return true
+    end
+    return false
+end
+
+function GoToHome()
+    SetLocation("housing", "MainDoor", {["house_owner"] = Player})
+    while not Home() do
+        wait()
+    end
+    if Home() then
+        return true
+    end
+    return false
+end
+
+function GoToNeighborhood()
+    SetLocation("Neighborhood", "MainDoor", {})
+    while not Neighborhood() do
+        wait()
+    end
+    if Neighborhood() then
+        return true
+    end
+    return false
+end
+
+function GoToMainMap()
+    SetLocation("MainMap", "Neighborhood/MainDoor", {})
+    while not MainMap() do
+        wait()
+    end
+    if MainMap() then
+        return true
+    end
+    return false
+end
+
+function Bed(Name)
+    GoToHome()
+    for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
+        if v:FindFirstChildWhichIsA("Model") and (table.find(Beds, v:FindFirstChildWhichIsA("Model").Name)) then
+            return v.Name
+        end
+    end
+end
+function Showers(Name)
+    GoToHome()
+    for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
+        if v:FindFirstChildWhichIsA("Model") and (table.find(Baths, v:FindFirstChildWhichIsA("Model").Name)) then
+            return v.Name
+        end
+    end
+end
+
 
 
 local Neon = {}
@@ -395,7 +413,7 @@ local Section2 = Tab1:CreateSection("Second Section")
 local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 --local Section5 = Tab2:CreateSection("Misc")
-local Tasks = {"hungry","sleepy","thirsty","bored","dirty","camping","sick","school","hot_spring","salon","pizza_party"}
+
 -------------
 local Toggle1 = Section1:CreateToggle("AutoFarm Baby", Settings.BabyFarm, function(State)
 Settings.BabyFarm = State
@@ -412,7 +430,7 @@ spawn(function()
             function()
                 for i,v in pairs(Tasks) do
                     if Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChild(v) then
-                        ReplicatedStorage.API["MonitorAPI/AddAdditive"]:FireServer(v, 1)
+                        ReplicatedStorage.API["MonitorAPI/AddAdditive"]:FireServer(v, 100)
                     end
                 end 
             end
@@ -665,25 +683,24 @@ local AilmentFurnitues = {}
 
 local Toggle2 = Section1:CreateToggle("PetFarm", Settings.PetFarm, function(State)
 Settings.PetFarm = State
-spawn(function()
-local Part = Instance.new("Part", Workspace)
-Part.Name = "poopy"
-Part.Size = Vector3.new(9e9, 0, 9e9)
-Part.Anchored = true
-Part.Transparency = 1
+
 RunService.RenderStepped:connect(
     function()
         if Settings.PetFarm then
             pcall(function()
                 Player.Character.Humanoid:ChangeState(11)
-                Part.CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
+                Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
             end)
         end
     end
 )
+
+
 if not Settings.PetFarm then
     Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
 end 
+
+
 
 if Settings.Key then
     PetID = Settings.Key.unique
@@ -696,24 +713,8 @@ if Settings.Key then
     ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
     Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
 end
-end)
-end)
 
 
--------------
-function holdPet()
-    while not Pet:FindFirstChild("BabyWeld") do
-        ReplicatedStorage.API["AdoptAPI/HoldBaby"]:FireServer(Pet)
-        wait()
-    end
-end
-
-function ejectPet()
-    while Pet:FindFirstChild("BabyWeld") do
-        ReplicatedStorage.API["AdoptAPI/EjectBaby"]:FireServer(Pet)
-        wait()
-    end
-end
 local a
 a = {
     ["sleepy"] = function(c)
@@ -774,7 +775,6 @@ a = {
         end
     end,
     ["thirsty"] = function(c)
-        if Settings.PetFarm then
             ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "tea", {})
             local Foods =
                 require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
@@ -795,8 +795,7 @@ a = {
             )
             wait(2)
             ReplicatedStorage.API["PetAPI/ConsumeFoodItem"]:FireServer(Tea)
-        end
-    end,
+        end,
     ["dirty"] = function(c)
         while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait(5) do
             wait()
@@ -819,7 +818,7 @@ a = {
                 end
             )
         end
-        while wait() do
+        while wait() and Settings.PetFarm do
             ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
             Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
             if Pet then
@@ -862,30 +861,28 @@ a = {
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["school"] = function(c)
+        repeat
+            wait()
         GoToStore("School")
         Player.Character.HumanoidRootPart.CFrame =
             Workspace.Interiors.School.BuyIndicators["teachers_apple"].CFrame * CFrame.new(0, 0, 0)
-        repeat
-            wait()
+        
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["hot_spring"] = function(c)
         repeat
             wait()
-            if Settings.PetFarm then
-                GoToMainMap()
-                Player.Character.HumanoidRootPart.CFrame =
+            GoToMainMap()
+            Player.Character.HumanoidRootPart.CFrame =
                     CFrame.new(
-                    Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position
+                    Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position + Vector3.new(0,5,0)
                 )
-                wait()
-            end
+            wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["camping"] = function(c)
-        if Settings.PetFarm then
-            repeat
-                wait(5)
+        repeat
+            wait(5)
                 GoToMainMap()
 
                 Player.Character.HumanoidRootPart.CFrame =
@@ -893,20 +890,17 @@ a = {
                     CFrame.new(0, 5, 0)
 
                 wait()
-            until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-        end
+        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["bored"] = function(c)
         repeat
             wait(5)
-            if Settings.PetFarm then
                 GoToMainMap()
                 Player.Character.HumanoidRootPart.CFrame =
                     CFrame.new(
                     Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position +
                         Vector3.new(0, 4, 0)
                 )
-            end
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end
 }
@@ -914,18 +908,16 @@ a = {
 
 spawn(
     function()
-        while RunService.RenderStepped:Wait() do
+        while wait() and Settings.PetFarm do
             pcall(function()
-            if Settings.PetFarm then
                 local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
                 if Ailment then
                     local Name = Ailment.Name
-                    if a[Name] then
+                    if a[Name] and wait() then
                         a[Name](Ailment)
-                        wait(5)
                     end
                 end
-                if Pet then
+                if Pet and wait() then
                     if Pet.Parent ~= Workspace.Pets then
                         ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
                         Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
@@ -935,12 +927,11 @@ spawn(
                     Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                 end
                 wait(1)
-            end
             end)
         end
     end
 )
-
+end)
 local Dropdown = Section1:CreateDropdown("Pets", List, function(Name)
 	Settings.Key = PetsShow[Name]
 end)
@@ -1076,8 +1067,6 @@ elseif not Settings.Family then
     ReplicatedStorage.API["FamilyAPI/LeaveFamily"]:InvokeServer()
 end 
 end)
-
-Egg = {"japan_2022_egg","cracked_egg","regular_pet_egg","royal_egg"}
 
 local Toggle1 = Section1:CreateToggle("Fly Ride All Pets", Settings.FlyPets, function(State)
 Settings.FlyPets = State
