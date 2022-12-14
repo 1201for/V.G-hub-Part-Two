@@ -883,8 +883,7 @@ a = {
         GoToMainMap()
 
         Player.Character.HumanoidRootPart.CFrame =
-            Workspace:FindFirstChild("StaticMap"):FindFirstChild("Campsite"):FindFirstChild("CampsiteOrigin").CFrame *
-            CFrame.new(0, 5, 0)
+             CFrame.new(Workspace:FindFirstChild("StaticMap"):FindFirstChild("Campsite"):FindFirstChild("CampsiteOrigin").Position + Vector3.new(0,5,0))
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
