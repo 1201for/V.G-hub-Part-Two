@@ -738,7 +738,7 @@ a = {
                 end
             )
         end
-
+    spawn(function()
         while wait() do
             ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
             Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
@@ -748,6 +748,7 @@ a = {
                 end
             end
         end
+    end)
     end,
     ["hungry"] = function(c)
         if Settings.PetFarm then
@@ -818,6 +819,7 @@ a = {
                 end
             )
         end
+        spawn(function()
         while wait() and Settings.PetFarm do
             ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
             Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
@@ -827,6 +829,7 @@ a = {
                 end
             end
         end
+        end)
     end,
     ["pizza_party"] = function(c)
         repeat
