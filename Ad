@@ -494,7 +494,7 @@ spawn(
                             Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.WinterCastle.IceBridgeMinigame.JoinZone.Collider.CFrame
                         end 
                         if IceBridgeMinigameInterior.is_game_in_progress() then
-                            IceBridgeMinigameInterior.complete_player_game()
+                            IceBridgeMinigameInterior.complete_Player_game()
                         end 
                         end 
                     end 
@@ -643,9 +643,8 @@ spawn(
             do
                 pcall(
                     function()
-                        local Neon = {}
                         for i, v in pairs(
-                            require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets
+                            require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets
                         ) do
                             if v.properties.age == 6 then
                                 table.insert(Neon, v.id)
@@ -655,28 +654,32 @@ spawn(
                         local Number = 0
                         for i, v in pairs(Neon) do
                             for i, x in pairs(
-                                require(game.ReplicatedStorage.ClientModules.Core.ClientData).get_data[Player.Name].inventory.pets) do
+                                require(ReplicatedStorage.ClientModules.Core.ClientData).get_data[Player.Name].inventory.pets
+                            ) do
                                 if string.find(x.id, v) and x.properties.age == 6 then
                                     Number = Number + 1
                                     table.insert(Spec, x.unique)
-                                    if Number == 4 and wait(3) then
+                                    if Number == 4 then
                                         ReplicatedStorage.API:FindFirstChild("PetAPI/DoNeonFusion"):InvokeServer(
                                             {unpack(Spec)}
                                         )
                                         Number = 0
                                         table.clear(Spec)
+                                        table.clear(Neon)
+                                    else
+                                        table.clear(Spec)
+                                        table.clear(Neon)
                                     end
                                 end
                             end
                         end
-                        table.clear(Spec)
-                        table.clear(Neon)
                     end
                 )
             end
         end
     end
 )
+
 end)
 local AilmentFurnitues = {}
 
@@ -714,31 +717,30 @@ if Settings.Key then
     Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
 end
 
-
 local a
 a = {
     ["sleepy"] = function(c)
-        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait(5) do
+        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
             wait()
             spawn(
                 function()
-                    GoToHome()
-                    wait()
-                    Player.Character.HumanoidRootPart.CFrame =
-                        Workspace:WaitForChild("HouseInteriors"):WaitForChild("blueprint"):FindFirstChildWhichIsA(
-                        "Model"
-                    ).Doors.MainDoor.WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
-                    ReplicatedStorage.API["HousingAPI/ActivateFurniture"]:InvokeServer(
-                        Player,
-                        AilmentFurnitues["generic_crib"],
-                        "UseBlock",
-                        {["cframe"] = Player.Character:FindFirstChild("HumanoidRootPart").CFrame},
-                        Pet
+                    pcall(
+                        function()
+                            ReplicatedStorage.API["HousingAPI/ActivateFurniture"]:InvokeServer(
+                                Player,
+                                AilmentFurnitues["generic_crib"],
+                                "UseBlock",
+                                {
+                                    ["cframe"] = Player.Character.HumanoidRootPart.CFrame
+                                },
+                                Pet
+                            )
+                        end
                     )
                 end
             )
         end
-    spawn(function()
+
         while wait() do
             ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
             Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
@@ -748,7 +750,6 @@ a = {
                 end
             end
         end
-    end)
     end,
     ["hungry"] = function(c)
         if Settings.PetFarm then
@@ -776,51 +777,50 @@ a = {
         end
     end,
     ["thirsty"] = function(c)
-            ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "tea", {})
-            local Foods =
-                require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
-            local Tea
-            for i, v in pairs(Foods) do
-                if v.id == "tea" then
-                    Tea = v.unique
-                    break
-                end
+        ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "tea", {})
+        local Foods =
+            require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
+        local Tea
+        for i, v in pairs(Foods) do
+            if v.id == "tea" then
+                Tea = v.unique
+                break
             end
-            if not Tea then
-                return
-            end
+        end
+        if not Tea then
+            return
+        end
 
-            ReplicatedStorage.API["PetObjectAPI/CreatePetObject"]:InvokeServer(
-                "__Enum_PetObjectCreatorType_2",
-                {["unique_id"] = Tea}
-            )
-            wait(2)
-            ReplicatedStorage.API["PetAPI/ConsumeFoodItem"]:FireServer(Tea)
-        end,
+        ReplicatedStorage.API["PetObjectAPI/CreatePetObject"]:InvokeServer(
+            "__Enum_PetObjectCreatorType_2",
+            {["unique_id"] = Tea}
+        )
+        wait(2)
+        ReplicatedStorage.API["PetAPI/ConsumeFoodItem"]:FireServer(Tea)
+    end,
     ["dirty"] = function(c)
-        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait(5) do
+        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
             wait()
             spawn(
                 function()
-                    GoToHome()
-                    wait()
-                    Player.Character.HumanoidRootPart.CFrame =
-                        Workspace:WaitForChild("HouseInteriors"):WaitForChild("blueprint"):FindFirstChildWhichIsA(
-                        "Model"
-                    ).Doors.MainDoor.WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
-                    wait()
-                    ReplicatedStorage.API["HousingAPI/ActivateFurniture"]:InvokeServer(
-                        Player,
-                        AilmentFurnitues["generic_shower"],
-                        "UseBlock",
-                        {["cframe"] = Player.Character.HumanoidRootPart.CFrame},
-                        Pet
+                    pcall(
+                        function()
+                            ReplicatedStorage.API["HousingAPI/ActivateFurniture"]:InvokeServer(
+                                Player,
+                                AilmentFurnitues["generic_shower"],
+                                "UseBlock",
+                                {
+                                    ["cframe"] = Player.Character.HumanoidRootPart.CFrame
+                                },
+                                Pet
+                            )
+                        end
                     )
                 end
             )
         end
-        spawn(function()
-        while wait() and Settings.PetFarm do
+
+        while wait() do
             ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
             Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
             if Pet then
@@ -829,32 +829,27 @@ a = {
                 end
             end
         end
-        end)
     end,
     ["pizza_party"] = function(c)
+        GoToStore("PizzaShop")
+        Player.Character.HumanoidRootPart.CFrame =
+            Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
         repeat
             wait()
-            GoToStore("PizzaShop")
-            Player.Character.HumanoidRootPart.CFrame =
-                Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(
-                CFrame.new(0, 0, -6)
-            )
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["salon"] = function(c)
+        GoToStore("Salon")
+        Player.Character.HumanoidRootPart.CFrame =
+            Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
         repeat
             wait()
-            GoToStore("Salon")
-            Player.Character.HumanoidRootPart.CFrame =
-                Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(
-                CFrame.new(0, 0, -6)
-            )
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["sick"] = function(c)
+        ReplicatedStorage.API["MonitorAPI/HealWithDoctor"]:FireServer()
         repeat
             wait()
-            ReplicatedStorage.API["MonitorAPI/HealWithDoctor"]:FireServer()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["adoption_party"] = function(c)
@@ -864,49 +859,49 @@ a = {
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["school"] = function(c)
-        repeat
-            wait()
         GoToStore("School")
         Player.Character.HumanoidRootPart.CFrame =
             Workspace.Interiors.School.BuyIndicators["teachers_apple"].CFrame * CFrame.new(0, 0, 0)
-        
+        repeat
+            wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["hot_spring"] = function(c)
+        GoToMainMap()
+        Player.Character.HumanoidRootPart.CFrame =
+            CFrame.new(
+            Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position +
+                Vector3.new(0, 5, 0)
+        )
+        wait()
+
         repeat
-            wait()
-            GoToMainMap()
-            Player.Character.HumanoidRootPart.CFrame =
-                    CFrame.new(
-                    Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position + Vector3.new(0,5,0)
-                )
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["camping"] = function(c)
+        GoToMainMap()
+
+        Player.Character.HumanoidRootPart.CFrame =
+            Workspace:FindFirstChild("StaticMap"):FindFirstChild("Campsite"):FindFirstChild("CampsiteOrigin").CFrame *
+            CFrame.new(0, 5, 0)
         repeat
-            wait(5)
-                GoToMainMap()
-
-                Player.Character.HumanoidRootPart.CFrame =
-                    Workspace:FindFirstChild("StaticMap"):FindFirstChild("Campsite"):FindFirstChild("CampsiteOrigin").CFrame *
-                    CFrame.new(0, 5, 0)
-
-                wait()
+            wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["bored"] = function(c)
+        GoToMainMap()
+        Player.Character.HumanoidRootPart.CFrame =
+            CFrame.new(
+            Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position +
+                Vector3.new(0, 4, 0)
+        )
         repeat
-            wait(5)
-                GoToMainMap()
-                Player.Character.HumanoidRootPart.CFrame =
-                    CFrame.new(
-                    Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position +
-                        Vector3.new(0, 4, 0)
-                )
+            wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end
 }
+
 
 
 spawn(
@@ -1221,7 +1216,7 @@ local Toggle1 = Section1:CreateToggle("Enable Esp", Settings.Esp, function(State
     Settings.Esp = State
     ESP:Toggle(Settings.Esp)
 end)
-local Toggle1 = Section1:CreateToggle("PLayer Esp", Settings.PlayerEsp, function(State)
+local Toggle1 = Section1:CreateToggle("Player Esp", Settings.PlayerEsp, function(State)
     Settings.PlayerEsp = State
     ESP.Players = Settings.PlayerEsp
 end)
