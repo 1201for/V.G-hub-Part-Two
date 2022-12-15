@@ -956,17 +956,17 @@ spawn(
                         require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or
                         {}
                     if Pets[tostring(PetID)] then
-                        if Pets[(PetID)]["properties"]["age"] == 6 then
+                        if Pets[(PetID)]["properties"]["age"] ~= 6 then
                         else
                             for i, v in pairs(Pets) do
-                                if v["properties"]["age"] == 6 then
+                                if v["properties"]["age"] ~= 6 then
                                     PetID = v.unique
                                 end
                             end
                         end
                     else
                         for i, v in pairs(Pets) do
-                            if v["properties"]["age"] == 6 then
+                            if v["properties"]["age"] ~= 6 then
                                 PetID = v.unique
                             end
                         end
