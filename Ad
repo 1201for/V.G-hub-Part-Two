@@ -170,6 +170,16 @@ local Baths = {
     "HotTub"
 }
 
+local FreeFoods = {
+    "ham_vip",
+    "water_vip",
+    "chocolate_milk_vip",
+    "popcorn_vip",
+    "marshmallow_on_a_stick",
+    "healing_apple",
+    "teachers_apple",
+}
+
 local Beds = {
     "FancyPetBed",
     "ModernPetBed",
@@ -198,9 +208,26 @@ local Egg = {
     "japan_2022_egg",
     "cracked_egg",
     "regular_pet_egg",
-    "royal_egg"
+    "royal_egg",
+    "retired_egg"
 }
 
+local gifts = {
+    "smallgift",
+    "biggift",
+    "massivegift",
+    "legend_hat_2022_simple_chest",
+    "legend_hat_2022_regal_chest"
+}
+local Obbys = {
+    "miniworld",
+    "coastal_climb",
+    "shipwreck_bay",
+    "ancient_ruins",
+    "lonelypeak",
+    "pyramid",
+    "tinyisles"
+}
 local Part = Instance.new("Part")
 Part.Name = "P"
 Part.Size = Vector3.new(9e9,0,9e9)
@@ -233,7 +260,13 @@ function Home()
         return false
     end
 end
-
+function PersonHome()
+    if Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model") then
+        return Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model").Name
+    else
+        return false
+    end
+end 
 function Store()
     if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
         if
@@ -320,6 +353,16 @@ function GoToMainMap()
     return false
 end
 
+function GoToPersonsHouse(Name)
+    SetLocation("housing","MainDoor",{["house_owner"] = Players[Name]})
+    while not PersonHome() do
+        wait()
+    end 
+    if PersonHome() then
+        return true 
+    end 
+    return false
+end 
 function Bed(Name)
     GoToHome()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
@@ -883,7 +926,7 @@ a = {
         GoToMainMap()
 
         Player.Character.HumanoidRootPart.CFrame =
-             CFrame.new(Workspace:FindFirstChild("StaticMap"):FindFirstChild("Campsite"):FindFirstChild("CampsiteOrigin").Position + Vector3.new(0,5,0))
+             CFrame.new(Workspace:WaitForChild("StaticMap"):WaitForChild("Campsite"):WaitForChild("CampsiteOrigin").Position + Vector3.new(0,5,0))
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
@@ -996,7 +1039,6 @@ end)
 end)
 
 
-gifts = {"smallgift","biggift","massivegift","legend_hat_2022_simple_chest","legend_hat_2022_regal_chest"}
 
 local Toggle4832 = Section1:CreateToggle("Switch Out Eggs", Settings.SwitchOutEgg, function(State)
 Settings.SwitchOutEgg = State
@@ -1095,8 +1137,7 @@ while Settings.DoDoPants1 do wait()
 ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("pets",Settings.Egg,{})
 end end)
 
-local Obbys = {"miniworld","coastal_climb","shipwreck_bay","ancient_ruins","lonelypeak","pyramid","tinyisles"
-}
+
 
 local Button1 = Section1:CreateButton("Grab Bagdes", function()
 for i,v in pairs(Obbys) do wait(0.5)
@@ -1129,18 +1170,26 @@ end)
 end)
 
 local Dropdown = Section2:CreateDropdown("Locations", Stores, function(Name)
-	Settings.Locations = Name
+    Workspace.Gravity = 0
+    GoToStore(Name)
+    Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA('Model').PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
+    Workspace.Gravity = 196.2
 end)
-local Button1 = Section2:CreateButton("Buy Apple And Water", function()
-    ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "apple", {})
-    ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "water", {})
+
+
+
+Section2:CreateTextBox("Teleport To Said Users House", "UserName Here", false, function(String)
+for i,v in pairs(Players:GetPlayers()) do
+    if v.Name == (String) or v.Name:find(String) or v.DisplayName == String or v.DisplayName:find(String) then
+        Workspace.Gravity = 0 
+        GoToPersonsHouse(v.Name)
+    
+        Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+        Workspace.Gravity = 196.2
+    end 
+end 
 end)
-local Button1 = Section2:CreateButton("Go to Selected Location", function()
-Workspace.Gravity = 0
-GoToStore(Settings.Locations)
-Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA('Model').PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
-Workspace.Gravity = 196.2
-end)
+
 local Button1 = Section2:CreateButton("Teleport Home", function()
 Workspace.Gravity = 0
 GoToHome() wait()
@@ -1150,8 +1199,21 @@ end)
 local Button1 = Section2:CreateButton("Teleport MainMap", function()
 Workspace.Gravity = 0
 GoToMainMap()
-Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model").Doors["Neighborhood/MainDoor"].WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
+Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model"):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
 Player.Character.HumanoidRootPart.CFrame = CFrame.new(-247.35408, 17.3820152, -1518.88879)  Workspace.Gravity = 196.2 
+end)
+local Toggle1 = Section2:CreateToggle("Auto Buy Free Food", Settings.JoYes, function(State)
+Settings.JoYes = State
+spawn(function()
+    while Settings.JoYes and wait() do
+        pcall(function()
+            ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", Settings.Food, {})
+        end)
+    end 
+end)
+end)
+local Dropdown = Section2:CreateDropdown("Free Foods", FreeFoods, function(Name)
+    Settings.Food = Name
 end)
 
 
@@ -1181,6 +1243,9 @@ RunService.Stepped:connect(
 )
 
 end)
+
+
+
 
 local TextBox1 = Section2:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
     Settings.Fps = Value
