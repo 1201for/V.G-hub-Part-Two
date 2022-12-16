@@ -489,7 +489,34 @@ local Toggle2 = Section1:CreateToggle("CPU Usage Improver", Settings.Render, fun
     Settings.Render = State
 end)
 
-local Toggle2 = Section1:CreateToggle("Auto SnowBall", Settings.Cand, function(State)
+local Toggle = Section1:CreateToggle("Crash Server", Settings.Crash, function(State)
+Settings.Crash = State
+RunService.RenderStepped:Connect(function()
+    if Settings.Crash then
+        ReplicatedStorage.API["TeamAPI/ChooseTeam"]:InvokeServer("Parents", true) print("Baby")
+        ReplicatedStorage.API["TeamAPI/ChooseTeam"]:InvokeServer("Babies", true) print("Parent")
+    end 
+end)
+end)
+
+local Toggle = Section1:CreateToggle("Auto Claim Quests", Settings.FK, function(State)
+Settings.FK = State
+spawn(function()
+    while wait() and Settings.FK do 
+        pcall(function()
+            for i, v in pairs(Player.PlayerGui.QuestApp.Board.Body.Contents.ScrollingFrame:GetChildren()) do
+                if v:FindFirstChild("Body") then
+                    ReplicatedStorage.API:FindFirstChild("QuestAPI/ClaimQuest"):InvokeServer(tostring(v.Body:GetAttribute("QuestId")))
+                end
+            end
+        end)
+    end 
+end)
+end)
+
+
+
+local Toggle2 = Section1:CreateToggle("Auto Join Winter Minigames", Settings.Cand, function(State)
 Settings.Cand = State
 
 
