@@ -768,7 +768,7 @@ RunService.RenderStepped:connect(
     end
 )
 
-
+spawn(function()
 if not Settings.PetFarm then
     Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
 end 
@@ -998,6 +998,7 @@ spawn(
         end
     end
 )
+end)
 end)
 local Dropdown = Section1:CreateDropdown("Pets", List, function(Name)
 	Settings.Key = PetsShow[Name]
