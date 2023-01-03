@@ -239,7 +239,7 @@ Part.Parent = Workspace
 local Location = nil
 for i, v in pairs(getgc(true)) do
     if type(v) == "function" then
-        if getfenv(v).script == ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
+        if getfenv(v).script.name == "InteriorsM" then
             if table.find(getconstants(v), "LocationAPI/SetLocation") then
                 Location = v
                 break
@@ -250,7 +250,9 @@ end
 local function SetLocation(A, B, C)
     set_thread_identity(2)
     local O = get_thread_identity()
-    Location(A, B, C)
+    pcall(function()
+        Location(A, B, C)
+    end)
     set_thread_identity(O)
 end
 function Home()
