@@ -239,7 +239,7 @@ Part.Parent = Workspace
 local Location = nil
 for i, v in pairs(getgc(true)) do
     if type(v) == "function" then
-        if getfenv(v).script.name == "InteriorsM" then
+        if getfenv(v).script == ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
             if table.find(getconstants(v), "LocationAPI/SetLocation") then
                 Location = v
                 break
@@ -250,9 +250,7 @@ end
 local function SetLocation(A, B, C)
     set_thread_identity(2)
     local O = get_thread_identity()
-    pcall(function()
-        Location(A, B, C)
-    end)
+    Location(A, B, C)
     set_thread_identity(O)
 end
 function Home()
@@ -419,7 +417,7 @@ UserInputService.WindowFocused:Connect(
     end
 )
 
-for i, v in pairs(debug.getupvalue(require(ReplicatedStorage.Fsys).load("RouterClient").init, 4)) do
+for i, v in pairs(getupvalue(require(ReplicatedStorage.Fsys).load("RouterClient").init, 4)) do
     v.Name = i
 end
 pcall(
@@ -428,23 +426,6 @@ pcall(
     end
 )
 
-local FlyPets = function(A)
-    pcall(
-        function()
-            for i, v in pairs(
-                require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets
-            ) do
-                if A then
-                    v.properties.rideable = true
-                    v.properties.flyable = true
-                elseif not A then
-                    v.properties.rideable = false
-                    v.properties.flyable = false
-                end
-            end
-        end
-    )
-end
 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
@@ -1139,12 +1120,24 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Fly Ride All Pets", Settings.FlyPets, function(State)
 Settings.FlyPets = State
-if Settings.FlyPets then
-    FlyPets(true)
-elseif not Settings.FlyPets then
-    FlyPets(false)
-end
+
+spawn(function()
+    while wait() and Settings.FlyPets do
+        pcall(function()
+            for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
+                if Settings.FlyPets then
+                    v.properties.rideable = true
+                    v.properties.flyable = true
+                elseif not Settings.FlyPets then
+                    v.properties.rideable = false
+                    v.properties.flyable = false
+                end
+            end
+        end)
+    end 
 end)
+end)
+
 
 local Dropdown = Section1:CreateDropdown("Eggs", Egg, function(Name)
 	Settings.Egg = Name
@@ -1191,7 +1184,7 @@ while Settings.System do
         pcall(
             function()
                 ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(Gift)
-                game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                ReplicatedStorage.API:FindFirstChild("ShopAPI/OpenGift"):InvokeServer(Gift)
             end
         )
     end
