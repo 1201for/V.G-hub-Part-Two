@@ -17,13 +17,14 @@ local TeleportService = game:GetService("TeleportService")
 local Debris = game:GetService("Debris")
 local StarterGui = game:GetService("StarterGui")
 local Workspace = game:GetService("Workspace")
+local VirtualUser = game:GetService("VirtualUser")
 
 local Player = Players.LocalPlayer
 local wait = task.wait
 
 Player.Idled:connect(
     function()
-        game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+        VirtualUser:ClickButton2(Vector2.new())
     end
 )
 
@@ -32,23 +33,26 @@ for i,v in pairs(getconnections(Player.Idled)) do
 end 
 
 local NewsApp = Player.PlayerGui:FindFirstChild("NewsApp")
-local PlayButton = NewsApp:WaitForChild("EnclosingFrame").MainFrame.Contents.PlayButton
+local PlayButton = NewsApp:WaitForChild("EnclosingFrame"):WaitForChild("MainFrame").Contents.PlayButton
 local Baby = Player.PlayerGui.DialogApp.Dialog.RoleChooserDialog.Baby
-repeat
-    wait()
-    if PlayButton.Visible then
+
+spawn(function()
+    while PlayButton.Visible do wait()
         for i,v in pairs(getconnections(PlayButton.MouseButton1Click)) do
             v:Fire()
         end 
     end 
-until Baby and Baby.Visible or Player.Character:FindFirstChild("HumanoidRootPart") and Workspace.Camera.CameraSubject == Player.Character:WaitForChild("Humanoid")
-
-if Baby.Visible then
-    for i,v in pairs(getconnections(Baby.MouseButton1Click)) do
-        v:Fire()
+end)
+spawn(function()
+    while Baby.Visible do wait()
+        if Baby.Visible then
+            for i,v in pairs(getconnections(Baby.MouseButton1Click)) do
+                v:Fire()
+            end 
+        end 
     end 
-end 
-
+end)
+    
 
 local Table = {6152116144, 185655149}
 local Set = setfpscap
