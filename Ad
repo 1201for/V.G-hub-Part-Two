@@ -701,7 +701,6 @@ end)
 
 
 
-
 local Toggle2 = Section1:CreateToggle("Auto Neon", Settings.Neon, function(State)
 Settings.Neon = State
 spawn(
@@ -1247,6 +1246,20 @@ spawn(function()
     end 
 end)
 end)
+
+local Toggle = Section1:CreateToggle("Auto Buy Hotbog/Lemon From Selected Player", nil, function(State)
+Settings.Lomo = State
+spawn(function()
+    while wait() and Settings.Lomo do 
+        pcall(function()
+            ReplicatedStorage.API:FindFirstChild("RefreshmentStandAPI/BuyRefreshment"):InvokeServer("hotdog_stand",Settings.Playt)
+            ReplicatedStorage.API:FindFirstChild("RefreshmentStandAPI/BuyRefreshment"):InvokeServer("lemonade_stand",Settings.Playt)
+        end)
+    end 
+end)
+end)
+
+
 local Toggle = Section1:CreateToggle("Auto Trade Pets To Selected Player", nil, function(State)
 Settings.YouTube = State
 spawn(function()
@@ -1267,7 +1280,7 @@ spawn(function()
 end)
 end)
 
-Section1:CreateTextBox("Auto Trade Person Name", "UserName Here", false, function(String)
+Section1:CreateTextBox("Auto Trade or Auto Buy Person Name", "UserName Here", false, function(String)
 for i,v in pairs(Players:GetPlayers()) do
     if v.Name == (String) or v.Name:find(String) or v.DisplayName == String or v.DisplayName:find(String) then
        Settings.Playt = v
