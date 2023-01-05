@@ -1225,11 +1225,55 @@ ReplicatedStorage.API:FindFirstChild("ShopAPI/BuyItem"):InvokeServer("gifts",Set
 end end)
 local Toggle13322113 = Section1:CreateToggle("Auto Buy Egg", Settings.DoDoPants1, function(State)
 Settings.DoDoPants1 = State
+spawn(function()
 while Settings.DoDoPants1 do wait()
 ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("pets",Settings.Egg,{})
-end end)
+end end) end)
 
 
+local Toggle = Section1:CreateToggle("Auto Accept Auto Trade", Settings.Lololol, function(State)
+Settings.Lololol = State
+spawn(function()
+    while Settings.Lololol do wait()
+        pcall(function()
+            for i,v in pairs(Players:GetPlayers()) do
+                if v ~= Player then
+                    ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptOrDeclineTradeRequest"):InvokeServer(v,true)
+                end 
+            end 
+            ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptNegotiation"):FireServer()
+            ReplicatedStorage.API:FindFirstChild("TradeAPI/ConfirmTrade"):FireServer()
+        end)
+    end 
+end)
+end)
+local Toggle = Section1:CreateToggle("Auto Trade Pets To Selected Player", nil, function(State)
+Settings.YouTube = State
+spawn(function()
+    while Settings.YouTube and wait(1) do
+        pcall(function()
+            if not Player.PlayerGui.TradeApp.Frame.Visible then
+                ReplicatedStorage.API:FindFirstChild("TradeAPI/SendTradeRequest"):FireServer(Settings.Playt)
+            end 
+            if Player.PlayerGui.TradeApp.Frame.Visible then
+                for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
+                    ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+                end 
+                ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptNegotiation"):FireServer()
+                ReplicatedStorage.API:FindFirstChild("TradeAPI/ConfirmTrade"):FireServer()
+            end 
+        end)
+    end 
+end)
+end)
+
+Section1:CreateTextBox("Auto Trade Person Name", "UserName Here", false, function(String)
+for i,v in pairs(Players:GetPlayers()) do
+    if v.Name == (String) or v.Name:find(String) or v.DisplayName == String or v.DisplayName:find(String) then
+       Settings.Playt = v
+    end 
+end 
+end)
 
 local Button1 = Section1:CreateButton("Grab Bagdes", function()
 for i,v in pairs(Obbys) do wait(0.5)
