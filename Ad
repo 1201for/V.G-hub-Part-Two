@@ -232,6 +232,9 @@ local Obbys = {
     "pyramid",
     "tinyisles"
 }
+
+local PP = {}
+
 local Part = Instance.new("Part")
 Part.Name = "P"
 Part.Size = Vector3.new(9e9,0,9e9)
@@ -393,13 +396,22 @@ local PetID
 local Pet
 local PetsShow = {}
 local List = {}
+local JoJo = {}
+local GGO = {}
 for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
     local Key = tostring(v["id"]) .. " - " .. tostring(v["properties"]["age"]) .. " years old"
     PetsShow[Key] = v
     table.insert(List, Key)
     table.sort(List, key)
-end
 
+end
+for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
+    if not table.find(JoJo,tostring(v["id"])) then
+        local Key2 = tostring(v["id"])
+        GGO[Key2] = v 
+        table.insert(JoJo,Key2)
+    end 
+end 
 UserInputService.WindowFocusReleased:Connect(
     function()
         if Settings.Render then
@@ -480,7 +492,6 @@ local Toggle = Section1:CreateToggle("Crash Server", Settings.Crash, function(St
 Settings.Crash = State
 RunService.RenderStepped:Connect(function()
     if Settings.Crash then
-        ReplicatedStorage.API["TeamAPI/ChooseTeam"]:InvokeServer("Parents", true) print("Baby")
         ReplicatedStorage.API["TeamAPI/ChooseTeam"]:InvokeServer("Babies", true) print("Parent")
     end 
 end)
@@ -502,7 +513,7 @@ end)
 end)
 
 
-
+--[[
 local Toggle2 = Section1:CreateToggle("Auto Join Winter Minigames", Settings.Cand, function(State)
 Settings.Cand = State
 
@@ -559,7 +570,7 @@ spawn(
             end 
         end
     )
-end)
+end)]]--
 --[[
 local S = {
     "SimonSaysMinigame",
@@ -738,6 +749,8 @@ spawn(
 )
 
 end)
+
+
 local AilmentFurnitues = {}
 
 
@@ -988,7 +1001,7 @@ spawn(
 end)
 end)
 local Dropdown = Section1:CreateDropdown("Pets", List, function(Name)
-	Settings.Key = PetsShow[Name]
+    Settings.Key = PetsShow[Name]
 end)
 
 
@@ -1036,7 +1049,7 @@ spawn(
 )
 
 end)
-
+--[[
 local Toggle434 = Section1:CreateToggle("Ginger Bread Farm", Settings.Start, function(State)
 Settings.Start = State
 spawn(function()
@@ -1052,6 +1065,9 @@ spawn(function()
     end
 end)
 end)
+
+]]-- 
+
 
 
 
@@ -1099,6 +1115,55 @@ spawn(
     end
 )
 
+end)
+
+local Toggle2 = Section1:CreateToggle("Switch Out Pet Species", Settings.True, function(State)
+Settings.True = State
+
+StarterGui:SetCore(
+    "SendNotification",
+    {
+        Title = "Warning",
+        Text = "PetFarm must be off when turning this on "
+    }
+)
+spawn(
+    function()
+        while Settings.True do
+            pcall(
+                function()
+                    wait()
+                    repeat
+                        wait()
+                    until Settings.PetFarm
+                    local Pets =
+                        require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or
+                        {}
+                    if Pets[tostring(PetID)] then
+                        if Pets[(PetID)] then
+                        else
+                            for i, v in pairs(Pets) do
+                                if v["id"] == Settings.sp then
+                                    PetID = v.unique
+                                end
+                            end
+                        end
+                    else
+                        for i, v in pairs(Pets) do
+                            if v["id"] == Settings.sp then
+                                PetID = v.unique
+                            end
+                        end
+                    end
+                end
+            )
+        end
+    end
+)
+end)
+
+local Dropdown = Section1:CreateDropdown("Select Pet Species", JoJo, function(Name)
+    Settings.sp = Name
 end)
 
 local Toggle188908 = Section1:CreateToggle("Auto Heal Others", Settings.HealOthers, function(State)
