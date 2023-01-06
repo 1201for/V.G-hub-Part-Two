@@ -52,7 +52,9 @@ spawn(function()
         end 
     end 
 end)
-    
+if Workspace:FindFirstChild("ServerSidedMapSeats") then
+    Workspace.ServerSidedMapSeats:Destroy()
+end
 
 local Table = {6152116144, 185655149}
 local Set = setfpscap
@@ -98,28 +100,24 @@ StarterGui:SetCore(
 )
 
 
-RunService.RenderStepped:connect(
-    function()
-        pcall(
-            function()
-                for i, v in ipairs(Workspace.Interiors:GetChildren()) do
-                    if v.ClassName == "Model" and v.Name:match("MainMap") then
-                        wait()
-                        v.Name = "MainMap"
-                    end
-                end
-                for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
-                    v.Name = string.gsub(v.Name, Players.LocalPlayer.Name .. "/", "")
-                    v.Name = string.gsub(v.Name, "%d+" .. "/", "")
-                    v.Name = string.gsub(v.Name, "nil" .. "/true/", "")
-                end
-                if Workspace:FindFirstChild("ServerSidedMapSeats") then
-                    Workspace.ServerSidedMapSeats:remove()
-                end
-            end
-        )
-    end
-)
+
+game.RunService.Stepped:connect(function()
+    pcall(function()
+        for i,v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
+                for i,S in pairs(Players:GetPlayers()) do
+                    v.Name = string.gsub(v.Name, S.Name .. "/", "")
+                end 
+                v.Name = string.gsub(v.Name, "%d+" .. "/", "")
+                v.Name = string.gsub(v.Name, "nil" .. "/true/", "")
+        end 
+        for i,v in pairs(Workspace.Interiors:GetChildren()) do
+            if v:IsA("Model") and v.Name:match("MainMap") then
+                v.Name = "MainMap"
+            end 
+        end 
+    end)
+end)
+
 
 local getupvalue = getupvalue or debug.getupvalue
 local getconstant = getconstant or debug.getconstant
@@ -231,6 +229,11 @@ local Obbys = {
     "lonelypeak",
     "pyramid",
     "tinyisles"
+}
+
+local RetardedBullShit = {
+    "CashRegister",
+    "GoldenCashRegister"
 }
 
 local PP = {}
@@ -378,6 +381,14 @@ function Bed(Name)
         end
     end
 end
+function Cash()
+    for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
+        if v:FindFirstChildWhichIsA("Model") and (table.find(RetardedBullShit, v:FindFirstChildWhichIsA("Model").Name)) then
+            return v.Name
+        end
+    end
+end
+
 function Showers(Name)
     GoToHome()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
@@ -1250,7 +1261,7 @@ spawn(function()
 end)
 end)
 
-local Toggle = Section1:CreateToggle("Auto Buy Hotbog/Lemon From Selected Player", nil, function(State)
+local Toggle = Section1:CreateToggle("Auto Buy From Selected Player", nil, function(State)
 Settings.Lomo = State
 spawn(function()
     while wait() and Settings.Lomo do 
@@ -1263,6 +1274,26 @@ end)
 end)
 
 
+local Toggle = Section1:CreateToggle("Auto Money To Selected Player", nil, function(State)
+Settings.IDCANYMORE = State
+    spawn(function()
+        while wait() and Settings.IDCANYMORE do 
+            pcall(function()
+                local Is 
+                if not Is then
+                    Workspace.Gravity = 0 
+                    GoToPersonsHouse(tostring(Settings.Playt))
+                    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+                    Workspace.Gravity = 196.2 wait(2)
+                    Is = Cash()
+                end 
+                if Is then
+                    ReplicatedStorage.API:FindFirstChild("HousingAPI/ActivateFurniture"):InvokeServer(Settings.Playt,Cash(),"UseBlock",50,Player.Character)
+                end
+            end)
+        end 
+    end)
+end)
 local Toggle = Section1:CreateToggle("Auto Trade Pets To Selected Player", nil, function(State)
 Settings.YouTube = State
 spawn(function()
