@@ -37,14 +37,14 @@ local PlayButton = NewsApp:WaitForChild("EnclosingFrame"):WaitForChild("MainFram
 local Baby = Player.PlayerGui.DialogApp.Dialog.RoleChooserDialog.Baby
 
 spawn(function()
-    while PlayButton.Visible do wait()
+    while PlayButton.Visible do wait(1)
         for i,v in pairs(getconnections(PlayButton.MouseButton1Click)) do
             v:Fire()
         end 
     end 
 end)
 spawn(function()
-    while Baby.Visible do wait()
+    while Baby.Visible do wait(1)
         if Baby.Visible then
             for i,v in pairs(getconnections(Baby.MouseButton1Click)) do
                 v:Fire()
@@ -442,6 +442,9 @@ pcall(
     end
 )
 
+if Settings.Petsd == nil then
+    Settings.Petsd = "Pets"
+end
 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
@@ -1269,8 +1272,15 @@ spawn(function()
                 ReplicatedStorage.API:FindFirstChild("TradeAPI/SendTradeRequest"):FireServer(Settings.Playt)
             end 
             if Player.PlayerGui.TradeApp.Frame.Visible then
-                for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
-                    ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+                if Settings.Petsd == "Pets" then
+                    for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
+                        ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+                    end
+                end 
+                if Settings.Petsd == "Gifts" then
+                    for i,v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.gifts) do
+                        ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+                    end 
                 end 
                 ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptNegotiation"):FireServer()
                 ReplicatedStorage.API:FindFirstChild("TradeAPI/ConfirmTrade"):FireServer()
@@ -1288,6 +1298,9 @@ for i,v in pairs(Players:GetPlayers()) do
 end 
 end)
 
+local Dropdown = Section2:CreateDropdown("Auto Trade Options", {"Pets","Gifts"}, function(Name)
+    Settings.Petsd = Name 
+end)
 local Button1 = Section1:CreateButton("Grab Bagdes", function()
 for i,v in pairs(Obbys) do wait(0.5)
     ReplicatedStorage.API["MinigameAPI/FinishObby"]:FireServer(v)
