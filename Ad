@@ -1298,8 +1298,21 @@ for i,v in pairs(Players:GetPlayers()) do
 end 
 end)
 
-local Dropdown = Section2:CreateDropdown("Auto Trade Options", {"Pets","Gifts"}, function(Name)
+local Dropdown = Section1:CreateDropdown("Auto Trade Options", {"Pets","Gifts"}, function(Name)
     Settings.Petsd = Name 
+end)
+
+local Button1 = Section1:CreateButton("Grab Trading Linence", function()
+GoToStore("SafetyHub")
+ReplicatedStorage.API:FindFirstChild("TradeAPI/BeginQuiz"):FireServer()
+
+for i,v in pairs(getgc(true)) do
+    if type(v) == "table" and rawget(v,"question_index") then
+        for i,v in pairs(v.quiz) do
+            ReplicatedStorage.API:FindFirstChild("TradeAPI/AnswerQuizQuestion"):FireServer(v.answer)
+        end 
+    end 
+end 
 end)
 local Button1 = Section1:CreateButton("Grab Bagdes", function()
 for i,v in pairs(Obbys) do wait(0.5)
