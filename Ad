@@ -3,6 +3,7 @@ local Config = {
     Color = Color3.fromRGB(255, 128, 64),
     Keybind = Enum.KeyCode.RightControl
 }
+repeat wait() until game:IsLoaded()
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -58,8 +59,6 @@ end
 
 local Table = {6152116144, 185655149}
 local Set = setfpscap
-
-
 
  
 
@@ -498,8 +497,39 @@ end)
 end)
 
 
+local Toggle434 = Section1:CreateToggle("Auto Invis", Settings.Invis, function(State)
+Settings.Invis = State
+    spawn(function()
+        while Settings.Invis do wait()
+            pcall(function()
+                if Player.Character:FindFirstChild("LowerTorso") then
+                    Player.Character:FindFirstChild("LowerTorso"):FindFirstChild("Root"):Destroy()
+                end 
+            end)
+        end
+    end)
+end)
+
 local Toggle2 = Section1:CreateToggle("CPU Usage Improver", Settings.Render, function(State)
     Settings.Render = State
+end)
+
+local Toggle2 = Section1:CreateToggle("Low Render/ HideParts", Settings.Hide, function(State)
+Settings.Hide = State
+
+for i,v in pairs(game:GetService("Workspace").Interiors:GetDescendants()) do
+    if v:IsA("BasePart") and Settings.Hide then
+        v.Transparency = 1 
+    elseif v:IsA("BasePart") and not Settings.Hide then
+        v.Transparency = 0 
+    end 
+end 
+
+game:GetService("Workspace").Interiors.DescendantAdded:Connect(function(v)
+    if v:IsA('BasePart') and Settings.Hide then
+        v.Transparency = 1 
+    end 
+end)
 end)
 
 local Toggle = Section1:CreateToggle("Crash Server", Settings.Crash, function(State)
@@ -1256,6 +1286,10 @@ spawn(function()
             end 
             ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptNegotiation"):FireServer()
             ReplicatedStorage.API:FindFirstChild("TradeAPI/ConfirmTrade"):FireServer()
+            for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
+                v.Function()
+                v:Fire()
+            end 
         end)
     end 
 end)
@@ -1268,6 +1302,10 @@ spawn(function()
         pcall(function()
             ReplicatedStorage.API:FindFirstChild("RefreshmentStandAPI/BuyRefreshment"):InvokeServer("hotdog_stand",Settings.Playt)
             ReplicatedStorage.API:FindFirstChild("RefreshmentStandAPI/BuyRefreshment"):InvokeServer("lemonade_stand",Settings.Playt)
+            for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
+                v.Function()
+                v:Fire()
+            end 
         end)
     end 
 end)
@@ -1289,6 +1327,10 @@ Settings.IDCANYMORE = State
                 end 
                 if Is then
                     ReplicatedStorage.API:FindFirstChild("HousingAPI/ActivateFurniture"):InvokeServer(Settings.Playt,Cash(),"UseBlock",50,Player.Character)
+                    for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
+                        v.Function()
+                        v:Fire()
+                    end 
                 end
             end)
         end 
@@ -1315,6 +1357,10 @@ spawn(function()
                 end 
                 ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptNegotiation"):FireServer()
                 ReplicatedStorage.API:FindFirstChild("TradeAPI/ConfirmTrade"):FireServer()
+                for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
+                    v.Function()
+                    v:Fire()
+                end 
             end 
         end)
     end 
