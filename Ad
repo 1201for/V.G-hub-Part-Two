@@ -754,16 +754,10 @@ spawn(
             do
                 pcall(
                     function()
-                        for i, v in pairs(
+                        local Number = 0
+                        for d, v in pairs(
                             require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets
                         ) do
-                            if v.properties.age == 6 then
-                                table.insert(Neon, v.id)
-                            end
-                        end
-
-                        local Number = 0
-                        for i, v in pairs(Neon) do
                             for i, x in pairs(
                                 require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets
                             ) do
@@ -776,10 +770,8 @@ spawn(
                                         )
                                         Number = 0
                                         table.clear(Spec)
-                                        table.clear(Neon)
                                     else
                                         table.clear(Spec)
-                                        table.clear(Neon)
                                     end
                                 end
                             end
