@@ -539,7 +539,7 @@ RunService.RenderStepped:Connect(function()
         ReplicatedStorage.API["TeamAPI/ChooseTeam"]:InvokeServer("Babies", true) print("Parent")
     end 
 end)
-end)
+end)--[[
 
 local Toggle = Section1:CreateToggle("Auto Claim Quests", Settings.FK, function(State)
 Settings.FK = State
@@ -556,7 +556,7 @@ spawn(function()
 end)
 end)
 
-
+]]--
 --[[
 local Toggle2 = Section1:CreateToggle("Auto Join Winter Minigames", Settings.Cand, function(State)
 Settings.Cand = State
