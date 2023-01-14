@@ -547,7 +547,7 @@ spawn(function()
     while wait() and Settings.FK do 
         pcall(function()
             for i, v in pairs(Player.PlayerGui.QuestApp.Board.Body.Contents.ScrollingFrame:GetChildren()) do
-                if v:FindFirstChild("Body") and wait(2) then
+                if v:FindFirstChild("Body") and v.Body.Reward:FindFirstChild("Amount") and wait(2) then
                     ReplicatedStorage.API:FindFirstChild("QuestAPI/ClaimQuest"):InvokeServer(tostring(v.Body:GetAttribute("QuestId")))
                 end
             end
