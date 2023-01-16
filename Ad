@@ -801,7 +801,6 @@ RunService.RenderStepped:connect(
         if Settings.PetFarm then
             pcall(function()
                 Player.Character.Humanoid:ChangeState(11)
-                Player.Character.HumanoidRootPart.Anchored = true
                 Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
             end)
         end
