@@ -274,8 +274,8 @@ end
 function Store()
     if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
         if
-            (Workspace.Interiors:FindFirstChildWhichIsA("Model").Name ~= "MainMap") and
-                (Workspace.Interiors:FindFirstChildWhichIsA("Model").Name ~= "Neighborhood")
+            string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"MainMap") and
+                string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"Neighborhood")
          then
             return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
         else
@@ -300,7 +300,7 @@ end
 
 function Neighborhood()
     if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
-        if Workspace.Interiors:FindFirstChildWhichIsA("Model").Name == "Neighborhood" then
+        if string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"Neighborhood") then
             return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
         else
             return false
