@@ -552,13 +552,7 @@ end)
 
 local Toggle2 = Section1:CreateToggle("Auto Collect Lanterns", Settings.Eh, function(State)
 Settings.Eh = State
-RunService.Stepped:Connect(
-    function()
-        if Settings.Eh then
-            Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
-        end
-    end
-)
+
 
 spawn(
     function()
