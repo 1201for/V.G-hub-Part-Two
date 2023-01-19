@@ -561,9 +561,7 @@ end)
 spawn(function()
     while Settings.Eh do wait()
         pcall(function()
-            if string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"MainMap") then
-                local Prize = Workspace.Interiors:FindFirstChildWhichIsA("Model")
-            end 
+            local Prize = Workspace.Interiors:FindFirstChildWhichIsA("Model")
             local LanternHunt = require(ReplicatedStorage.ClientModules.Game.Minigames.LanternHuntClient)
             if Prize:FindFirstChild("Event").LanternHunt.JoinZone.Collider and not LanternHunt.is_game_in_progress() then
                 Player.Character:FindFirstChild("HumanoidRootPart").CFrame = Prize:FindFirstChild("Event").LanternHunt.JoinZone.Collider.CFrame
