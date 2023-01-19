@@ -561,6 +561,9 @@ end)
 spawn(function()
     while Settings.Eh do wait()
         pcall(function()
+            if not Workspace.Interiors:FindFirstChildWhichIsA("Model") or  not string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"MainMap") then
+                GoToMainMap()
+            end 
             local Prize = Workspace.Interiors:FindFirstChildWhichIsA("Model")
             local LanternHunt = require(ReplicatedStorage.ClientModules.Game.Minigames.LanternHuntClient)
             if Prize:FindFirstChild("Event").LanternHunt.JoinZone.Collider and not LanternHunt.is_game_in_progress() then
@@ -569,11 +572,10 @@ spawn(function()
             if Prize:FindFirstChild("Event").LanternHunt.JoinZone.Collider and LanternHunt.is_game_in_progress() then
                 for i,v in pairs(Workspace.StaticMap.LanternSpawnLocations:GetChildren()) do
                     for i,v in pairs(v:GetChildren()) do
-                        if v:IsA("Model") then
-                            ReplicatedStorage.API:FindFirstChild("EventAPI/LanternHuntCollectLantern"):FireServer(v:FindFirstChildWhichIsA("BasePart").Name)
+                            ReplicatedStorage.API:FindFirstChild("EventAPI/LanternHuntCollectLantern"):FireServer(v.Name)
                         end 
                     end 
-                end 
+               
             end 
         end)
     end 
