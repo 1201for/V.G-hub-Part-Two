@@ -552,34 +552,44 @@ end)
 
 local Toggle2 = Section1:CreateToggle("Auto Collect Lanterns", Settings.Eh, function(State)
 Settings.Eh = State
-RunService.Stepped:Connect(function()
-    if Settings.Eh then
-        Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
-    end 
-end)
+RunService.Stepped:Connect(
+    function()
+        if Settings.Eh then
+            Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
+        end
+    end
+)
 
-spawn(function()
-    while Settings.Eh do wait()
-        pcall(function()
-            if not Workspace.Interiors:FindFirstChildWhichIsA("Model") or  not string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"MainMap") then
-                GoToMainMap()
-            end 
-            local Prize = Workspace.Interiors:FindFirstChildWhichIsA("Model")
-            local LanternHunt = require(ReplicatedStorage.ClientModules.Game.Minigames.LanternHuntClient)
-            if Prize:FindFirstChild("Event").LanternHunt.JoinZone.Collider and not LanternHunt.is_game_in_progress() then
-                Player.Character:FindFirstChild("HumanoidRootPart").CFrame = Prize:FindFirstChild("Event").LanternHunt.JoinZone.Collider.CFrame
-            end 
-            if Prize:FindFirstChild("Event").LanternHunt.JoinZone.Collider and LanternHunt.is_game_in_progress() then
-                for i,v in pairs(Workspace.StaticMap.LanternSpawnLocations:GetChildren()) do
-                    for i,v in pairs(v:GetChildren()) do
-                            ReplicatedStorage.API:FindFirstChild("EventAPI/LanternHuntCollectLantern"):FireServer(v.Name)
-                        end 
-                    end 
-               
-            end 
-        end)
-    end 
-end)
+spawn(
+    function()
+        while Settings.Eh do
+            wait()
+            pcall(
+                function()
+                    local LanternHunt = require(ReplicatedStorage.ClientModules.Game.Minigames.LanternHuntClient)
+                    if not LanternHunt.is_game_in_progress() then
+                        Player.Character:FindFirstChild("HumanoidRootPart").CFrame =
+                            Workspace.Interiors:FindFirstChildWhichIsA("Model"):FindFirstChild("Event").LanternHunt.JoinZone.Collider.CFrame
+                    end
+                    if LanternHunt.is_game_in_progress() then
+                        for i, v in pairs(Workspace:GetChildren()) do
+                            if v.Name == "LanternAsset" then
+                                Player.Character.HumanoidRootPart.CFrame = v:GetModelCFrame()
+                            end
+                        end
+                    end
+                    if
+                        not Workspace.Interiors:FindFirstChildWhichIsA("Model") or
+                            not string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name, "MainMap")
+                     then
+                        GoToMainMap()
+                    end
+                end
+            )
+        end
+    end
+)
+
 end)
 --[[
 local Toggle2 = Section1:CreateToggle("Auto Join Winter Minigames", Settings.Cand, function(State)
