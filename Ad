@@ -567,7 +567,7 @@ spawn(
                     end
                     if LanternHunt.is_game_in_progress() then
                         for i, v in pairs(Workspace:GetChildren()) do
-                            if v.Name == "LanternAsset" then
+                            if v.Name == "LanternAsset" then wait(0.5)
                                 Player.Character.HumanoidRootPart.CFrame = v:GetModelCFrame()
                             end
                         end
@@ -889,7 +889,7 @@ a = {
     end,
     ["hungry"] = function(c)
         if Settings.PetFarm then
-            ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "apple", {}) wait(3)
+            ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "apple", {})
             wait()
             local Foods =
                 require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
@@ -914,7 +914,7 @@ a = {
         end
     end,
     ["thirsty"] = function(c)
-        ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "tea", {}) wait(2)
+        ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "tea", {})
         local Foods =
             require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
         local Tea
