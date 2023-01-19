@@ -889,7 +889,7 @@ a = {
     end,
     ["hungry"] = function(c)
         if Settings.PetFarm then
-            ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "apple", {})
+            ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "apple", {}) wait(3)
             wait()
             local Foods =
                 require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
@@ -914,7 +914,7 @@ a = {
         end
     end,
     ["thirsty"] = function(c)
-        ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "tea", {})
+        ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "tea", {}) wait(2)
         local Foods =
             require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
         local Tea
