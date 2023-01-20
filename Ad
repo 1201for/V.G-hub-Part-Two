@@ -99,20 +99,6 @@ StarterGui:SetCore(
 )
 
 
-
-game.RunService.Stepped:connect(function()
-    pcall(function()
-        for i,v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
-                for i,S in pairs(Players:GetPlayers()) do
-                    v.Name = string.gsub(v.Name, S.Name .. "/", "")
-                end 
-                v.Name = string.gsub(v.Name, "%d+" .. "/", "")
-                v.Name = string.gsub(v.Name, "nil" .. "/true/", "")
-        end 
-    end)
-end)
-
-
 local getupvalue = getupvalue or debug.getupvalue
 local getconstant = getconstant or debug.getconstant
 
@@ -273,8 +259,7 @@ function PersonHome()
 end 
 function Store()
     if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
-        if
-            string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"MainMap") and
+        if not string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"MainMap") and not
                 string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"Neighborhood")
          then
             return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
@@ -371,14 +356,18 @@ function Bed(Name)
     GoToHome()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(Beds, v:FindFirstChildWhichIsA("Model").Name)) then
-            return v.Name
+            local String = string.split(v.Name,"true/")[2]
+            print(String)
+            return String
         end
     end
 end
 function Cash()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(RetardedBullShit, v:FindFirstChildWhichIsA("Model").Name)) then
-            return v.Name
+            local String = string.split(v.Name,"true/")[2]
+            print(String)
+            return String
         end
     end
 end
@@ -387,7 +376,9 @@ function Showers(Name)
     GoToHome()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(Baths, v:FindFirstChildWhichIsA("Model").Name)) then
-            return v.Name
+            local String = string.split(v.Name,"true/")[2]
+            print(String)
+            return String
         end
     end
 end
@@ -567,7 +558,7 @@ spawn(
                     end
                     if LanternHunt.is_game_in_progress() then
                         for i, v in pairs(Workspace:GetChildren()) do
-                            if v.Name == "LanternAsset" then wait(0.5)
+                            if v.Name == "LanternAsset" then
                                 Player.Character.HumanoidRootPart.CFrame = v:GetModelCFrame()
                             end
                         end
@@ -1464,7 +1455,7 @@ end)
 local Dropdown = Section2:CreateDropdown("Locations", Stores, function(Name)
     Workspace.Gravity = 0
     GoToStore(Name)
-    Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA('Model').PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
+    Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA('Model').Doors.MainDoor.WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
     Workspace.Gravity = 196.2
 end)
 
