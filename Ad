@@ -545,30 +545,35 @@ local Toggle2 = Section1:CreateToggle("Auto Collect Lanterns", Settings.Eh, func
 Settings.Eh = State
 
 
+
+
 spawn(
     function()
         while Settings.Eh do
             wait()
             pcall(
                 function()
-                    local LanternHunt = require(ReplicatedStorage.ClientModules.Game.Minigames.LanternHuntClient)
-                    if not LanternHunt.is_game_in_progress() then
-                        Player.Character:FindFirstChild("HumanoidRootPart").CFrame =
-                            Workspace.Interiors:FindFirstChildWhichIsA("Model"):FindFirstChild("Event").LanternHunt.JoinZone.Collider.CFrame
-                    end
-                    if LanternHunt.is_game_in_progress() then
-                        for i, v in pairs(Workspace:GetChildren()) do
-                            if v.Name == "LanternAsset" then
-                                Player.Character.HumanoidRootPart.CFrame = v:GetModelCFrame()
-                            end
-                        end
-                    end
                     if
                         not Workspace.Interiors:FindFirstChildWhichIsA("Model") or
                             not string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name, "MainMap")
                      then
                         GoToMainMap()
                     end
+                    local LanternHunt = require(ReplicatedStorage.ClientModules.Game.Minigames.LanternHuntClient)
+                    if not LanternHunt.is_game_in_progress() then
+                        Player.Character:FindFirstChild("HumanoidRootPart").CFrame =
+                            Workspace.Interiors:FindFirstChildWhichIsA("Model"):FindFirstChild("Event").LanternHunt.JoinZone.Ring.CFrame
+                    end
+                    if LanternHunt.is_game_in_progress() then
+                        for i,v in pairs(Workspace.StaticMap.LanternSpawnLocations:GetChildren()) do
+                            for i,v in pairs(v:GetChildren()) do
+                                if v:IsA("BasePart") then 
+                                    ReplicatedStorage.API:FindFirstChild("EventAPI/LanternHuntCollectLantern"):FireServer(v.Name)
+                                end 
+                            end 
+                        end 
+                    end
+                    
                 end
             )
         end
