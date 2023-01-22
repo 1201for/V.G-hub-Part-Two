@@ -1007,7 +1007,7 @@ a = {
         GoToMainMap()
         wait(1)
         Player.Character.HumanoidRootPart.CFrame =
-            Workspace.StaticMap.HotSpring.HotSpringOrigin.CFrame
+            Workspace.StaticMap.HotSpring.HotSpringOrigin.CFrame * CFrame.new(Workspace.StaticMap.HotSpring.HotSpringOrigin.Position + Vector3.new(0,5,0))
     
         repeat
             wait()
@@ -1016,7 +1016,7 @@ a = {
     ["camping"] = function(c)
         GoToMainMap()
         wait(1)
-        Player.Character.HumanoidRootPart.CFrame = Workspace.StaticMap.Campsite.CampsiteOrigin.CFrame
+        Player.Character.HumanoidRootPart.CFrame = Workspace.StaticMap.Campsite.CampsiteOrigin.CFrame * CFrame.new(Workspace.StaticMap.Campsite.CampsiteOrigin.Position + Vector3.new(0,5,0))
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
@@ -1025,7 +1025,7 @@ a = {
         GoToMainMap()
         wait(1)
         Player.Character.HumanoidRootPart.CFrame =
-            Workspace.StaticMap.Park.BoredAilmentTarget.CFrame
+            Workspace.StaticMap.Park.BoredAilmentTarget.CFrame * CFrame.new(0,5,0)
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
