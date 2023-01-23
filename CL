@@ -1,4 +1,3 @@
-
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
@@ -11,7 +10,7 @@ end)
 Fuck = {}
 for i, v in pairs(game:GetService("ReplicatedStorage").Enemy:GetChildren()) do
     for i, v in pairs(v:GetChildren()) do
-        if v:IsA("Model") then
+        if v:IsA("Model") and not table.find(Fuck,v.Name) then
             table.insert(Fuck, v.Name)
         end
     end
@@ -43,7 +42,7 @@ local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self, ...)
     local Args = {...}
     local Self = Args[1]
-            if self.Name == "Damage" and Args[1] == game.Players.LocalPlayer.Character and getgenv().Loops  then
+            if self.Name == "DamageNew" and Args[1] == game.Players.LocalPlayer.Character and getgenv().Loops  then
                 return nil
         end
     return OldNameCall(self, unpack(Args))
@@ -66,7 +65,13 @@ getgenv().Hentai = State
 game:GetService("RunService").Stepped:connect(
     function()
         if getgenv().Hentai then
-            game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
+            for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if v:IsA("BasePart") then
+                    v.velocity = Vector3.new(0,0,0)
+                    v.CanCollide = false
+                    Workspace.Gravity = 0
+                end 
+            end 
         end
     end
 )
@@ -534,4 +539,3 @@ local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value
 	Window:SetTileScale(Value)
 end)
 Slider4:SetValue(0.5)
-
