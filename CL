@@ -10,6 +10,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
 local Player = Players.LocalPlayer
 Player.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
@@ -90,27 +92,28 @@ local Section3 = Tab2:CreateSection("Menu")
 local Section4 = Tab2:CreateSection("Background")
 
 
-local Toggle1 = Section1:CreateToggle("Auto Mob", Setting.Heanti, function(State)
-Setting.Heanti = State
+local Toggle1 = Section1:CreateToggle("Auto Mob", Settings.Heanti, function(State)
+Settings.Heanti = State
 
 game:GetService("RunService").Stepped:connect(
     function()
-        if Setting.Heanti then
+        if not Settings.Heanti then
+            Workspace.Gravity = 196.2
+        end
+        if Settings.Heanti then
             for i,v in pairs(Player.Character:GetChildren()) do
                 if v:IsA("BasePart") then
-                    v.velocity = Vector3.new(0,0,0)
                     v.CanCollide = false
                     Workspace.Gravity = 0
+                    
                 end 
             end 
         end
-        if not Settings.Heanti then
-            Workspace.Gravity = 196.2
-        end 
+         
     end
 )
 spawn(function()
-while Setting.Heanti do
+while Settings.Heanti do
     wait(1)
     pcall(
         function()
@@ -136,13 +139,10 @@ end
 end)
  end)
 
-local Dropdown1 = Section1:CreateDropdown("Select Mob")
-Dropdown1:AddToolTip("Select Mob")
-for i,v in next, Settings.Fuck do
-Dropdown1:AddOption(v, function(String)
-Settings.Fuck = String
+
+local Dropdown = Section1:CreateDropdown("Mobs", Fuck, function(Name)
+	Settings.Fuck = Name
 end)
-end 
 
 
 local Toggle1 = Section1:CreateToggle("Auto Stats", Settings.Moan, function(State)
@@ -150,19 +150,15 @@ Settings.Moan = State
 spawn(function()
 while Settings.Moan do 
     wait()
-    ReplicatedStorage.Remotes.StatsChange:FireServer(Stats)
+    ReplicatedStorage.Remotes.StatsChange:FireServer(Settings.Stat)
 end
 end)
 end)
 
-local Dropdown1 = Section1:CreateDropdown("Select Stat")
-Dropdown1:AddToolTip("Select Stat")
-for i,v in next, Stats do
-Dropdown1:AddOption(v, function(String)
-Stats = String
-end)
-end 
 
+local Dropdown = Section1:CreateDropdown("Stat", Stats, function(Name)
+	Settings.Stat = Name
+end)
 
 local Toggle1 = Section1:CreateToggle("FullBright", Settings.FB, function(State)
 Settings.FB = State
