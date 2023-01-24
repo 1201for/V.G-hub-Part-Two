@@ -32,13 +32,16 @@ Player.Idled:connect(
 for i,v in pairs(getconnections(Player.Idled)) do
     v:Disable()
 end 
+repeat wait() until Player.PlayerGui:FindFirstChild("NewsApp") and Player.PlayerGui.NewsApp:FindFirstChild("EnclosingFrame") and Player.PlayerGui.NewsApp.EnclosingFrame:FindFirstChild("MainFrame") and Player.PlayerGui.NewsApp.EnclosingFrame.MainFrame:FindFirstChild("Contents") and Player.PlayerGui.NewsApp.EnclosingFrame.MainFrame.Contents:FindFirstChild("PlayButton")
+
 
 local NewsApp = Player.PlayerGui:FindFirstChild("NewsApp")
-local PlayButton = NewsApp:WaitForChild("EnclosingFrame"):WaitForChild("MainFrame").Contents.PlayButton
+local PlayButton = NewsApp:FindFirstChild("EnclosingFrame"):FindFirstChild("MainFrame").Contents.PlayButton
 local Baby = Player.PlayerGui.DialogApp.Dialog.RoleChooserDialog.ChooseParent
 
 spawn(function()
-    while PlayButton.Visible do wait(1)
+    while NewsApp.Enabled do wait(4)
+        
         for i,v in pairs(getconnections(PlayButton.MouseButton1Click)) do
             v:Fire()
         end 
