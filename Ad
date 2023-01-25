@@ -34,27 +34,19 @@ for i,v in pairs(getconnections(Player.Idled)) do
 end 
 repeat wait() until Player.PlayerGui:FindFirstChild("NewsApp") and Player.PlayerGui.NewsApp:FindFirstChild("EnclosingFrame") and Player.PlayerGui.NewsApp.EnclosingFrame:FindFirstChild("MainFrame") and Player.PlayerGui.NewsApp.EnclosingFrame.MainFrame:FindFirstChild("Contents") and Player.PlayerGui.NewsApp.EnclosingFrame.MainFrame.Contents:FindFirstChild("PlayButton")
 
-
-local NewsApp = Player.PlayerGui:FindFirstChild("NewsApp")
-local PlayButton = NewsApp:FindFirstChild("EnclosingFrame"):FindFirstChild("MainFrame").Contents.PlayButton
-local Baby = Player.PlayerGui.DialogApp.Dialog.RoleChooserDialog.ChooseParent
-
-spawn(function()
-    while NewsApp.Enabled do wait(4)
-        
-        for i,v in pairs(getconnections(PlayButton.MouseButton1Click)) do
-            v:Fire()
-        end 
-    end 
-end)
-spawn(function()
-    while Baby.Visible do wait(1)
-        if Baby.Visible then
-            for i,v in pairs(getconnections(Baby.MouseButton1Click)) do
+RunService.Stepped:Connect(function()
+    pcall(function()
+        if Player.PlayerGui:FindFirstChild("NewsApp").Enabled then
+            for i,v in pairs(getconnections(Player.PlayerGui:FindFirstChild("NewsApp"):FindFirstChild("EnclosingFrame"):FindFirstChild("MainFrame"):FindFirstChild("Contents"):FindFirstChild("PlayButton").MouseButton1Click)) do
                 v:Fire()
             end 
         end 
-    end 
+        if Player.PlayerGui.DialogApp.Dialog.RoleChooserDialog.ChooseParent.Visible then
+            for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.RoleChooserDialog.ChooseParent.MouseButton1Click)) do
+                v:Fire()
+            end 
+        end 
+    end)
 end)
 if Workspace:FindFirstChild("ServerSidedMapSeats") then
     Workspace.ServerSidedMapSeats:Destroy()
@@ -230,7 +222,7 @@ Part.CFrame = CFrame.new(5000,5000,5000)
 Part.Parent = Workspace
 
 local Location = nil
-for i, v in pairs(getgc(true)) do
+for i, v in pairs(getgc()) do
     if type(v) == "function" then
         if getfenv(v).script == ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
             if table.find(getconstants(v), "LocationAPI/SetLocation") then
@@ -302,7 +294,9 @@ function GoToStore(Name)
     if Store() == Name then
         return true
     end
+    Workspace.Gravity = 0
     SetLocation(Name, "MainDoor", {})
+    Workspace.Gravity = 196.2
     while Store() ~= Name do
         wait()
     end
@@ -316,19 +310,25 @@ function GoToHome()
     SetLocation("housing", "MainDoor", {["house_owner"] = Player})
     while not Home() do
         wait()
+        Workspace.Gravity = 0
     end
     if Home() then
-        return true
+        Workspace.Gravity = 196.2
+        return true 
     end
-    return false
+    
+    return false 
+    
 end
 
 function GoToNeighborhood()
     SetLocation("Neighborhood", "MainDoor", {})
     while not Neighborhood() do
         wait()
+        Workspace.Gravity = 0
     end
     if Neighborhood() then
+        Workspace.Gravity = 196.2
         return true
     end
     return false
@@ -337,9 +337,11 @@ end
 function GoToMainMap()
     SetLocation("MainMap", "Neighborhood/MainDoor", {})
     while not MainMap() do
+        Workspace.Gravity = 0
         wait()
     end
     if MainMap() then
+        Workspace.Gravity = 196.2
         return true
     end
     return false
@@ -348,9 +350,11 @@ end
 function GoToPersonsHouse(Name)
     SetLocation("housing","MainDoor",{["house_owner"] = Players[Name]})
     while not PersonHome() do
+        Workspace.Gravity = 0
         wait()
     end 
     if PersonHome() then
+        Workspace.Gravity = 196.2
         return true 
     end 
     return false
@@ -822,7 +826,6 @@ RunService.RenderStepped:connect(
     function()
         if Settings.PetFarm then
             pcall(function()
-                Player.Character.Humanoid:ChangeState(11)
                 Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
             end)
         end
@@ -832,7 +835,6 @@ RunService.RenderStepped:connect(
 spawn(function()
 if not Settings.PetFarm then
     Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
-    Player.Character.HumanoidRootPart.Anchored = false
 end 
 
 
@@ -1002,24 +1004,31 @@ a = {
     end,
     ["hot_spring"] = function(c)
         GoToMainMap()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(-606, 20, -1432)
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        repeat wait() until Workspace:FindFirstChild("StaticMap"):FindFirstChild("HotSpring")
+        Player.Character.HumanoidRootPart.CFrame =
+            
+            CFrame.new(
+            Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position +
+                Vector3.new(0, 5, 0)
+        )
+
     end,
     ["camping"] = function(c)
         GoToMainMap()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(-22, 17, -1060)
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        repeat wait() until Workspace:FindFirstChild("StaticMap"):FindFirstChild("Campsite")
+        Player.Character.HumanoidRootPart.CFrame =
+             CFrame.new(Workspace:WaitForChild("StaticMap"):WaitForChild("Campsite"):WaitForChild("CampsiteOrigin").Position + Vector3.new(0,5,0))
+
     end,
     ["bored"] = function(c)
         GoToMainMap()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(-400, 17, -1757)
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        repeat wait() until Workspace:FindFirstChild("StaticMap"):FindFirstChild("Park")
+        Player.Character.HumanoidRootPart.CFrame =
+            CFrame.new(
+            Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position +
+                Vector3.new(0, 4, 0)
+        )
+
     end
 }
 
