@@ -1002,35 +1002,23 @@ a = {
     end,
     ["hot_spring"] = function(c)
         GoToMainMap()
-        repeat wait() until Workspace:FindFirstChild("StaticMap"):FindFirstChild("HotSpring")
-        repeat wait()
-        Player.Character.HumanoidRootPart.CFrame =
-            
-            CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position +
-                Vector3.new(0, 5, 0)
-        )
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(-606, 20, -1432)
+        repeat
+            wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["camping"] = function(c)
         GoToMainMap()
-        repeat wait() until Workspace:FindFirstChild("StaticMap"):FindFirstChild("Campsite")
-        repeat wait()
-        Player.Character.HumanoidRootPart.CFrame =
-             CFrame.new(Workspace:WaitForChild("StaticMap"):WaitForChild("Campsite"):WaitForChild("CampsiteOrigin").Position + Vector3.new(0,5,0))
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(-22, 17, -1060)
+        repeat
+            wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["bored"] = function(c)
         GoToMainMap()
-        repeat wait() until Workspace:FindFirstChild("StaticMap"):FindFirstChild("Park")
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(-400, 17, -1757)
         repeat
             wait()
-        
-        Player.Character.HumanoidRootPart.CFrame =
-            CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position +
-                Vector3.new(0, 4, 0)
-        )
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end
 }
