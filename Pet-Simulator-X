@@ -1,3 +1,4 @@
+
 local Config = {
     WindowName = "V.G Hub",
 	Color = Color3.fromRGB(255,128,64),
@@ -9,19 +10,18 @@ local Workspace = Get.Workspace
 local RunService = Get.RunService
 local ReplicatedStorage = Get.ReplicatedStorage
 local HttpService = Get.HttpService
+local RunService = Get.RunService
 local Player = Players.LocalPlayer
+local Coins = Workspace["__THINGS"].Coins
 local wait = task.wait 
 local spawn = task.spawn
-local Library = require(ReplicatedStorage.Framework.Library)
-local Network = Library.Network
+local Client = require(ReplicatedStorage.Library.Client)
+local Orbs = getsenv(Player.PlayerScripts.Scripts.Game.Orbs)
+local Lootbags = getsenv(Player.PlayerScripts.Scripts.Game.Lootbags)
+debug.setupvalue(Client.Network.Invoke, 1, function() return true end)
+debug.setupvalue(Client.Network.Fire, 1, function() return true end)
 
-local Save = Library.Save.Get()
-local Pets = Save.Pets 
-local Eggs = Library.Directory.Eggs
-local Areas = Library.Directory.Areas
-local Things = Workspace["__THINGS"]
-
-local Name = "PSX.json"
+local Name = "PS.json"
 
 Des = {}
 if makefolder then
@@ -46,20 +46,10 @@ local function Save()
     writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
 end
 
-local Pet = {}
-spawn(function()
-    while wait() do
-    for i,v in pairs(Pets) do
-        if rawget(v,"e") and not table.find(Pet,v.uid) then
-            table.insert(Pet,v.uid)
-        end 
-    end 
-    end 
-end)
 local Egg = {}
 for i,v in pairs(Eggs) do
-    if not table.find(Egg,v.Name) then
-        table.insert(Egg,v.Name)
+    if not table.find(Egg,v) then
+        table.insert(Egg,i)
     end 
 end 
 local Areas = {}
@@ -67,13 +57,15 @@ for i,v in pairs(Areas) do
     table.insert(Areas,v)
 end 
 
+
+
 local function getNearestCoin()
     local TargetDistance = math.huge
     local Target
-    for i, v in ipairs(Things.Coins:GetChildren()) do
+    for i, v in ipairs(Coins:GetChildren()) do
         if v:FindFirstChild("Coin") then
             local Mag =
-                (Player.Character.HumanoidRootPart.Position -
+                (Get.Players.LocalPlayer.Character.HumanoidRootPart.Position -
                 v:FindFirstChild("Coin").Position).Magnitude
             if Mag < TargetDistance then
                 TargetDistance = Mag
@@ -84,37 +76,6 @@ local function getNearestCoin()
     return Target
 end
 
-local Collect = function()
-    for i,v in pairs(Things.Orbs:GetChildren()) do
-        Network.Fire(".3",{v.Name})
-    end 
-end 
-local Collect2 = function()
-    for i,v in pairs(Things.Lootbags:GetChildren()) do
-        Network.Fire("S",v:GetAttribute("ID"),v.CFrame.Position)
-        v.CFrame = Player.Character.HumanoidRootPart.CFrame
-    end 
-end 
-local Break = function(I, V)
-    Network.Invoke('5', I:GetAttribute("ID"), V)
-    for i,v in next, V do 
-        Network.Fire('1', v, 'Coin', I:GetAttribute("ID"))
-        Network.Fire('7', I:GetAttribute("ID"), v)
-        wait()
-    end
-end
-local BuyEgg = function(V)
-    if V then
-        Network.Invoke("F",V,false,false)
-    end 
-end 
-
-local Enchant = function(V)
-    if V  then
-        Network.Invoke(".b",V)
-    end 
-    return V 
-end
 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
@@ -130,19 +91,23 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("AutoFarm", Settings.Cum, function(State)
 Settings.Cum = State
-spawn(
-    function()
-        while wait() and Settings.Cum do
-            pcall(
-                function()
-                    Break(getNearestCoin(), Pet)
-                    Collect()
-                    Collect2()
-                end
-            )
-        end
-    end
-)
+RunService.RenderStepped:Connect(function()
+    pcall(function()
+        if Settings.Cum then
+        local Pets = Client.PetCmds.GetEquipped() 
+        for K,O in pairs(Pets) do
+            Client.Network.Invoke('Join Coin', getNearestCoin().Name, {O.uid})
+            Client.Network.Fire('Farm Coin', getNearestCoin().Name, O.uid)
+            for i,v in pairs(Workspace["__THINGS"].Orbs:GetChildren()) do
+                v.CFrame = Player.Character:GetModelCFrame()
+            end 
+            for i,v in pairs(Workspace["__THINGS"].Lootbags:GetChildren()) do
+                v.CFrame = Player.Character:GetModelCFrame()
+            end
+        end 
+        end 
+    end)
+end)
 
 end)
 
@@ -158,19 +123,6 @@ for Index, Value in pairs(getgc(true)) do
     end
 end)
 
-
-local Toggle1 = Section1:CreateToggle("AutoBuy Egg", Settings.Tes, function(State)
-Settings.Tes = State
-spawn(function()
-    while Settings.Tes do wait()
-        BuyEgg(Settings.Egg)
-    end
-end)
-end)
-
-local Dropdown1 = Section1:CreateDropdown("Eggs", Egg, function(Name)
-    Settings.Egg = Name
-end)
 local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
 Settings.Go = State
 RunService.Stepped:connect(
