@@ -46,11 +46,12 @@ RunService.Stepped:Connect(function()
                 v:Fire()
             end 
         end 
+        if Workspace:FindFirstChild("ServerSidedMapSeats") then
+            Workspace.ServerSidedMapSeats:Destroy()
+        end
     end)
 end)
-if Workspace:FindFirstChild("ServerSidedMapSeats") then
-    Workspace.ServerSidedMapSeats:Destroy()
-end
+
 
 local Table = {6152116144, 185655149}
 local Set = setfpscap
