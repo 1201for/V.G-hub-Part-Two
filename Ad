@@ -773,52 +773,34 @@ end)
 
 
 
-
+local Neons = {}
 
 
 local Toggle2 = Section1:CreateToggle("Auto Neon", Settings.Neon, function(State)
 Settings.Neon = State
-spawn(
-    function()
-        while Settings.Neon do
-            wait(2)
-            do
-                pcall(
-                    function()
-
-                        local Number = 0
-                       for i, v in pairs(
-                            require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets
-                        ) do
-                            for i, x in pairs(
-                                require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets
-                            ) do
-                                if string.find(x.id, v) and x.properties.age == 6 then
-                                    Number = Number + 1
-                                    table.insert(Spec, x.unique)
-                                    if Number == 4 then
-                                        ReplicatedStorage.API:FindFirstChild("PetAPI/DoNeonFusion"):InvokeServer(
-                                            {unpack(Spec)}
-                                        )
-                                        Number = 0
-                                        table.clear(Spec)
-                                    end
-                                end
-                            end
-                        end
-                    end
-                )
-            end
-        end
-    end
-)
-
+spawn(function()
+    while Settings.Neon and wait() do
+        pcall(function()
+            local N = 0
+            for i,v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                local Old = v.id
+                if string.find(Old,v.id) and v.properties.age == 6 then
+                    N = N + 1
+                    table.insert(Neons, v.unique) 
+                    if N == 4 then
+                        ReplicatedStorage.API:FindFirstChild("PetAPI/DoNeonFusion"):InvokeServer({unpack(Neons)})
+                        table.clear(Neons)
+                        N = 0
+                    end 
+                end 
+            end 
+        end)
+    end 
+end)
 end)
 
 
 local AilmentFurnitues = {}
-
-
 local Toggle2 = Section1:CreateToggle("PetFarm", Settings.PetFarm, function(State)
 Settings.PetFarm = State
 
