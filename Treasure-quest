@@ -125,7 +125,7 @@ game:GetService("RunService").Stepped:connect(
         )
     end
 )
-
+spawn(function()
 while Settings.H do
     wait()
     pcall(
@@ -158,7 +158,7 @@ while Settings.H do
         end
     )
 end
-
+end)
 end)
 local Toggle1 = Section1:CreateToggle("Collect Medkits", Settings.Med, function(State)
 Settings.Med = State
