@@ -46,12 +46,11 @@ RunService.Stepped:Connect(function()
                 v:Fire()
             end 
         end 
-        if Workspace:FindFirstChild("ServerSidedMapSeats") then
-            Workspace.ServerSidedMapSeats:Destroy()
-        end
     end)
 end)
-
+if Workspace:FindFirstChild("ServerSidedMapSeats") then
+    Workspace.ServerSidedMapSeats:Destroy()
+end
 
 local Table = {6152116144, 185655149}
 local Set = setfpscap
@@ -845,7 +844,7 @@ a = {
                         function()
                             ReplicatedStorage.API["HousingAPI/ActivateFurniture"]:InvokeServer(
                                 Player,
-                                AilmentFurnitues["generic_crib"],
+                                Bed(),
                                 "UseBlock",
                                 {
                                     ["cframe"] = Player.Character.HumanoidRootPart.CFrame
@@ -926,7 +925,7 @@ a = {
                         function()
                             ReplicatedStorage.API["HousingAPI/ActivateFurniture"]:InvokeServer(
                                 Player,
-                                AilmentFurnitues["generic_shower"],
+                                Showers(),
                                 "UseBlock",
                                 {
                                     ["cframe"] = Player.Character.HumanoidRootPart.CFrame
@@ -980,7 +979,7 @@ a = {
     ["school"] = function(c)
         GoToStore("School")
         Player.Character.HumanoidRootPart.CFrame =
-            Workspace.Interiors.School.BuyIndicators["teachers_apple"].CFrame * CFrame.new(0, 0, 0)
+            Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
