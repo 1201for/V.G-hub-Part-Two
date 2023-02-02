@@ -237,6 +237,7 @@ local function SetLocation(A, B, C)
     local O = get_thread_identity()
     Location(A, B, C)
     set_thread_identity(O)
+    return A,B,C
 end
 function Home()
     if Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model") then
