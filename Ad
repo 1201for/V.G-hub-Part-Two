@@ -307,10 +307,10 @@ function GoToStore(Name)
 end
 
 function GoToHome()
+    Workspace.Gravity = 0
     SetLocation("housing", "MainDoor", {["house_owner"] = Player})
     while not Home() do
         wait()
-        Workspace.Gravity = 0
     end
     if Home() then
         Workspace.Gravity = 196.2
@@ -322,10 +322,10 @@ function GoToHome()
 end
 
 function GoToNeighborhood()
+    Workspace.Gravity = 0
     SetLocation("Neighborhood", "MainDoor", {})
     while not Neighborhood() do
         wait()
-        Workspace.Gravity = 0
     end
     if Neighborhood() then
         Workspace.Gravity = 196.2
@@ -335,9 +335,9 @@ function GoToNeighborhood()
 end
 
 function GoToMainMap()
+    Workspace.Gravity = 0
     SetLocation("MainMap", "Neighborhood/MainDoor", {})
     while not MainMap() do
-        Workspace.Gravity = 0
         wait()
     end
     if MainMap() then
@@ -348,9 +348,9 @@ function GoToMainMap()
 end
 
 function GoToPersonsHouse(Name)
+    Workspace.Gravity = 0
     SetLocation("housing","MainDoor",{["house_owner"] = Players[Name]})
     while not PersonHome() do
-        Workspace.Gravity = 0
         wait()
     end 
     if PersonHome() then
