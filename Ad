@@ -588,7 +588,7 @@ RunService.RenderStepped:connect(
     function()
         if Settings.PetFarm then
             pcall(function()
-                Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Player.Character.HumanoidRootPart.Position + Vector3.new(0,-5,0))
+                Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
                 Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
             end)
         end
