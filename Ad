@@ -855,7 +855,7 @@ a = {
         end
 
         while wait() do
-            ReplicatedStorage["ToolAPI/Unequip"]:InvokeServer(PetID)
+            ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
             Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
             if Pet then
                 if Pet.Parent then
