@@ -18,6 +18,9 @@ local Player = Players.LocalPlayer
 local wait = task.wait
 local spawn = task.spawn
 
+local Trinkets = Workspace:FindFirstChild("Trinkets", true)
+local Living = Workspace:FindFirstChild("Living", true)
+
 
 local Name = "Wisteria.json"
 
@@ -47,7 +50,7 @@ end
 
 
 repeat wait() until game:IsLoaded() wait()
-Players.LocalPlayer.Idled:connect(function()
+Player.Idled:connect(function()
     VirtualUser:ClickButton2(Vector2.new())
 end)
 
@@ -84,7 +87,7 @@ local Toggle1 = Section1:CreateToggle("Auto Meditae", Settings.StopIt, function(
 Settings.StopIt = State
 
 --[[while Settings.StopIt do wait()
-Players.LocalPlayer.Character.Humanoid:MoveTo(Vector3.new(-1546, 84, -119))
+Player.Character.Humanoid:MoveTo(Vector3.new(-1546, 84, -119))
 for i,v in pairs(Workspace.Settings.StopIting:GetChildren())do
 if v.Name == "Boulder" then
 fireclickdetector(v.ClickDetector)
@@ -102,7 +105,7 @@ while Settings.StopIt do
         function()
             VirtualInputManager:SendKeyEvent(
                 true,
-                Players.LocalPlayer.PlayerGui.Meditation.Frame.Key.Text,
+                Player.PlayerGui.Meditation.Frame.Key.Text,
                 false,
                 game
             )
@@ -116,11 +119,11 @@ Settings.Fish = State
 spawn(function()
 while Settings.Fish do wait()
     pcall(function()
-Players.LocalPlayer.Backpack.Fishing:FireServer({won=true,Done=true})
+Player.Backpack.Fishing:FireServer({won=true,Done=true})
 fireclickdetector(Workspace.SellShop["Barrel of Fish"].ClickPart.ClickDetector, 1)
-for i,v in pairs(Players.LocalPlayer.Backpack:GetChildren()) do
+for i,v in pairs(Player.Backpack:GetChildren()) do
 if table.find(feshy,v.Name) then
-v.Parent = Players.LocalPlayer.Character
+v.Parent = Player.Character
 wait()
 v:Destroy()
 end
@@ -133,53 +136,22 @@ end)
 
 
 
+
 local Toggle1 = Section1:CreateToggle("Kill Aura", Settings.Hod, function(State)
 Settings.Hod = State
 spawn(function()
-while Settings.Hod do
-    wait(0.5)
-    pcall(function()
-    Players.LocalPlayer.Character.Scripts.Sheath:FireServer(true)
-    for i, v in ipairs(Workspace.Living:GetChildren()) do
-        if
-            v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and v.Name ~= Players.LocalPlayer.Name and
-                v.Name ~= "cegberry"
-         then
-            local Root = Players.LocalPlayer.Character.HumanoidRootPart
-            local RootTwo = v.HumanoidRootPart
-            if (Root.Position - RootTwo.Position).Magnitude < 50 then
-                ReplicatedStorage.Events.Attack:FireServer({},ReplicatedStorage.Styles.Katana.Vulnerable, 69420, 69420, false)
-            end
-        end
-    end
-    end)
-end
-end)
-end)
-
-local Toggle1 = Section1:CreateToggle("Auto Trinkets", Settings.HSs, function(State)
-Settings.HSs = State
-spawn(function()
-
-while Settings.HSs do
-    wait()
-    pcall(
-        function()
-            for i, v in pairs(Workspace.Trinkets:GetChildren()) do
-                if v:IsA("MeshPart") then
-                    v.CFrame = Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-                    fireclickdetector(v.ClickDetector)
-                    fireclickdetector(Workspace.SellShop.SellTrinkets.ClickDetector)
-                    for i,v in pairs(Players.LocalPlayer.Backpack:GetChildren()) do
-                    if v:IsA("Tool") and  v:FindFirstChild("FakeTitle") then
-                    v.Parent = Players.LocalPlayer.Character
-                    v:remove()
-                    end end 
-                end
-            end
-        end
-    )
-end
+    while wait() and Settings.Hod do 
+        pcall(function()
+            for i,v in pairs(Living:GetChildren()) do
+                local Humanoid = v:FindFirstChildWhichIsA("Humanoid", true)
+                if Humanoid and Humanoid.Health ~= 0 and v.Name ~= Player and v and v:IsA("Model") then
+                    if (Player.Character:FindFirstChild("HumanoidRootPart", true).Position - v:FindFirstChild("HumanoidRootPart", true)).Magnitude < 50 then
+                        ReplicatedStorage.Events.Attack({},ReplicatedStorage.Styles.Fists:FindFirstChild("Auto Attacks"):FindFirstChild(math.random(1,5)),9420,9420,true,true,true)
+                    end 
+                end 
+            end 
+        end)
+    end 
 end)
 end)
 
@@ -189,9 +161,9 @@ spawn(function()
 while wait() do
     pcall(function()
     if Settings.HSsSD then
-        Players.LocalPlayer.Character.Status.Attackspeed.Value = 3
+        Player.Character.Status.Attackspeed.Value = 3
     else
-        Players.LocalPlayer.Character.Status.Attackspeed.Value = 1
+        Player.Character.Status.Attackspeed.Value = 1
     end
     end)
 end
@@ -333,7 +305,7 @@ local Toggle1 = Section2:CreateToggle("H Fly", Settings.Sex2, function(State)
 Settings.Sex2 = State
 local Max = 0
 local Players = game.Players
-local LP = Players.LocalPlayer
+local LP = Player
 local Mouse = LP:GetMouse()
 Mouse.KeyDown:connect(
     function(k)
