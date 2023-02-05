@@ -719,16 +719,12 @@ a = {
     end,
     ["pizza_party"] = function(c)
         GoToStore("PizzaShop")
-        Player.Character.HumanoidRootPart.CFrame =
-            Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["salon"] = function(c)
         GoToStore("Salon")
-        Player.Character.HumanoidRootPart.CFrame =
-            Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
