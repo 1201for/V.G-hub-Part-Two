@@ -853,16 +853,9 @@ a = {
                 end)
             end)
         end
-
-        while wait() do
-            ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
-            Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
-            if Pet then
-                if Pet.Parent then
-                    break
-                end
-            end
-        end
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
+        Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
     end,
     ['hungry'] = function(c)
         ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'pizza', {})
@@ -933,15 +926,9 @@ a = {
             end)
         end
 
-        while wait() do
-            ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
-            Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
-            if Pet then
-                if Pet.Parent then
-                    break
-                end
-            end
-        end
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
+        Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
     end,
     ['sick'] = function(c)
         repeat wait() ReplicatedStorage:FindFirstChild("MonitorAPI/HealWithDoctor",true):FireServer() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
