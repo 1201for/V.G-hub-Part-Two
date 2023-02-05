@@ -809,6 +809,7 @@ RunService.RenderStepped:connect(
     function()
         if Settings.PetFarm then
             pcall(function()
+                Player.Character:FindFirstChild("Humanoid",true):ChangeState(11)
                 Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
             end)
         end
@@ -1026,7 +1027,6 @@ a = {
 spawn(
     function()
         while wait() and Settings.PetFarm do
-            pcall(function()
                 local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
                 if Ailment then
                     local Name = Ailment.Name
@@ -1044,7 +1044,6 @@ spawn(
                     Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                 end
                 wait(1)
-            end)
         end
     end
 )
