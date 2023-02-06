@@ -237,7 +237,6 @@ local function SetLocation(A, B, C)
     set_thread_identity(2)
     Location(A, B, C)
     set_thread_identity(O)
-    return A, B, C
 end
 function Home()
     if Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model") then
@@ -365,7 +364,6 @@ function Bed(Name)
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(Beds, v:FindFirstChildWhichIsA("Model").Name)) then
             local String = string.split(v.Name,"true/")[2]
-            print(String)
             return String
         end
     end
@@ -374,7 +372,6 @@ function Cash()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(RetardedBullShit, v:FindFirstChildWhichIsA("Model").Name)) then
             local String = string.split(v.Name,"true/")[2]
-            print(String)
             return String
         end
     end
@@ -385,7 +382,6 @@ function Showers(Name)
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(Baths, v:FindFirstChildWhichIsA("Model").Name)) then
             local String = string.split(v.Name,"true/")[2]
-            print(String)
             return String
         end
     end
@@ -629,7 +625,7 @@ a = {
                 end)
             end)
         end
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        repeat wait(3) until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
         ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
         Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
     end,
@@ -702,7 +698,7 @@ a = {
             end)
         end
 
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        repeat wait(3) until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
         ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
         Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
     end,
@@ -750,8 +746,8 @@ a = {
 spawn(
     function()
         while wait() and Settings.PetFarm do
-
-                local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
+            pcall(function()
+                local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame",true)
                 if Ailment then
                     local Name = Ailment.Name
                     if a[Name]then
@@ -767,7 +763,7 @@ spawn(
                     ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
                     Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                 end
-     
+            end)
         end
     end
 )
