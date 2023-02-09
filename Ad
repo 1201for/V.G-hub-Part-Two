@@ -41,7 +41,7 @@ RunService.Stepped:Connect(function()
                 v:Fire()
             end 
         end 
-        if Player.PlayerGui:FindFirstChild("ChooseParent",true):GetFullName() then
+        if Player.PlayerGui:FindFirstChild("ChooseParent",true) then
             for i,v in pairs(getconnections(Player.PlayerGui:FindFirstChild("ChooseParent",true).MouseButton1Click)) do
                 v:Fire()
             end 
@@ -295,9 +295,9 @@ function GoToStore(Name)
     if Store() == Name then
         return true
     end
-    Workspace.Gravity = 0
+    
     SetLocation(Name, "MainDoor", {})
-    Workspace.Gravity = 196.2
+    
     while Store() ~= Name do
         wait()
     end
@@ -311,10 +311,10 @@ function GoToHome()
     SetLocation("housing", "MainDoor", {["house_owner"] = Player})
     while not Home() do
         wait()
-        Workspace.Gravity = 0
+        
     end
     if Home() then
-        Workspace.Gravity = 196.2
+        
         return true 
     end
     
@@ -326,10 +326,10 @@ function GoToNeighborhood()
     SetLocation("Neighborhood", "MainDoor", {})
     while not Neighborhood() do
         wait()
-        Workspace.Gravity = 0
+        
     end
     if Neighborhood() then
-        Workspace.Gravity = 196.2
+        
         return true
     end
     return false
@@ -338,11 +338,11 @@ end
 function GoToMainMap()
     SetLocation("MainMap", "Neighborhood/MainDoor", {})
     while not MainMap() do
-        Workspace.Gravity = 0
+        
         wait()
     end
     if MainMap() then
-        Workspace.Gravity = 196.2
+        
         return true
     end
     return false
@@ -351,11 +351,11 @@ end
 function GoToPersonsHouse(Name)
     SetLocation("housing","MainDoor",{["house_owner"] = Players[Name]})
     while not PersonHome() do
-        Workspace.Gravity = 0
+        
         wait()
     end 
     if PersonHome() then
-        Workspace.Gravity = 196.2
+        
         return true 
     end 
     return false
@@ -450,6 +450,11 @@ pcall(
 if Settings.Petsd == nil then
     Settings.Petsd = "Pets"
 end
+
+
+local Noclip = function(A)
+    return A:ChangeState(11)
+end 
 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
@@ -549,230 +554,6 @@ end)
 end)
 
 
-local Toggle2 = Section1:CreateToggle("Auto Collect Lanterns", Settings.Eh, function(State)
-Settings.Eh = State
-
-spawn(
-    function()
-        while Settings.Eh do
-            wait()
-            pcall(
-                function()
-                    if
-                        not Workspace.Interiors:FindFirstChildWhichIsA("Model") or
-                            not string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name, "MainMap")
-                     then
-                        GoToMainMap()
-                    end
-                    local LanternHunt = require(ReplicatedStorage.ClientModules.Game.Minigames.LanternHuntClient)
-                    if not LanternHunt.is_game_in_progress() then
-                        Player.Character:FindFirstChild("HumanoidRootPart").CFrame =
-                            Workspace.Interiors:FindFirstChildWhichIsA("Model"):FindFirstChild("Event").LanternHunt.JoinZone.Ring.CFrame
-                    end
-                    if LanternHunt.is_game_in_progress() then
-                        for i,v in pairs(Workspace.StaticMap.LanternSpawnLocations:GetChildren()) do
-                            for i,v in pairs(v:GetChildren()) do
-                                if v:IsA("BasePart") then 
-                                    ReplicatedStorage.API:FindFirstChild("EventAPI/LanternHuntCollectLantern"):FireServer(v.Name)
-                                end 
-                            end 
-                        end 
-                    end
-                    
-                end
-            )
-        end
-    end
-)
-
-end)
---[[
-local Toggle2 = Section1:CreateToggle("Auto Join Winter Minigames", Settings.Cand, function(State)
-Settings.Cand = State
-
-
-RunService.RenderStepped:connect(
-    function()
-        if Settings.Cand and not Settings.PetFarm then
-            pcall(
-                function()
-                    Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
-                end
-            )
-        end
-    end
-)
-
-spawn(
-    function()
-        while wait(1) do
-            pcall(function()
-                    if Settings.Cand and not Settings.PetFarm then
-                        
-                        local DodgeballMinigameInterior = require(ReplicatedStorage.ClientModules.Game.Minigames.DodgeballMinigameInterior)
-                        local IceBridgeMinigameInterior = require(ReplicatedStorage.ClientModules.Game.Minigames.IceBridgeMinigameInterior)
-                        local Conpare = string.gsub(DodgeballMinigameInterior.get_join_timer_display_string_now(), "%D", "")
-                        local Conpare2 = string.gsub(IceBridgeMinigameInterior.get_join_timer_display_string_now(), "%D", "")
-                        if not Workspace.Interiors:FindFirstChild("WinterCastle") and
-                                wait()
-                         then
-                            GoToStore("WinterCastle")
-                            Player.Character.HumanoidRootPart.CFrame =
-                                Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(
-                                CFrame.new(0, 0, -6)
-                            )
-                         end 
-                         if Workspace.Interiors:FindFirstChild("WinterCastle") then
-                        if not DodgeballMinigameInterior.is_game_in_progress() and Conpare < Conpare2 then
-                            Player.Character.HumanoidRootPart.CFrame =
-                                Workspace.Interiors.WinterCastle.DodgeballMinigame.JoinZone.Collider.CFrame
-                        end 
-                        if DodgeballMinigameInterior.is_game_in_progress()  then 
-                            DodgeballMinigameInterior.shovel_tool_prepare_snowball()
-                            DodgeballMinigameInterior.throw_snowbal()
-                        end 
-                        if not IceBridgeMinigameInterior.is_game_in_progress() and Conpare2 < Conpare then
-                            Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.WinterCastle.IceBridgeMinigame.JoinZone.Collider.CFrame
-                        end 
-                        if IceBridgeMinigameInterior.is_game_in_progress() then
-                            IceBridgeMinigameInterior.complete_Player_game()
-                        end 
-                        end 
-                    end 
-                end)
-            end 
-        end
-    )
-end)]]--
---[[
-local S = {
-    "SimonSaysMinigame",
-    "SpleefMinigame"
-}
-local Toggle2 = Section1:CreateToggle("Auto Candy", Settings.Candy, function(State)
-Settings.Candy = State
-
-RunService.RenderStepped:connect(
-    function()
-        if Settings.Candy and not Settings.PetFarm then
-            pcall(
-                function()
-                    Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState(11)
-                end
-            )
-        end
-    end
-)
-spawn(
-    function()
-        while wait(1) do
-            pcall(function()
-                    if Settings.Candy and not Settings.PetFarm then
-                        local SpleefMinigame = require(ReplicatedStorage.ClientModules.Game.Minigames.SpleefMinigameInterior)
-                        local SimonSaysMinigame = require(ReplicatedStorage.ClientModules.Game.Interiors.SimonSaysMinigameInterior)
-                        local HideAndSeek = require(ReplicatedStorage.ClientModules.Game.Interiors.HideAndSeekInterior)
-                        Player.Character.HumanoidRootPart.Anchored = true
-                        local Conpare = string.gsub(SimonSaysMinigame.get_join_timer_display_string_now(), "%D", "")
-                        local Conpare2 = string.gsub(SpleefMinigame.get_join_timer_display_string_now(), "%D", "")
-                        local Conpare3 = string.gsub(HideAndSeek.get_join_timer_display_string_now(), "%D", "")
-                        if
-                            Conpare < Conpare2 and Conpare < Conpare3 and not SimonSaysMinigame.is_game_in_progress() and
-                                not Workspace.Interiors:FindFirstChild("SimonSaysMinigame") and
-                                wait()
-                         then
-                            GoToStore("SimonSaysMinigame")
-                            Player.Character.HumanoidRootPart.CFrame =
-                                Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(
-                                CFrame.new(0, 0, -6)
-                            )
-                        elseif
-                            Conpare2 < Conpare and Conpare2 < Conpare3 and not SpleefMinigame.is_game_in_progress() and
-                                not Workspace.Interiors:FindFirstChild("SpleefMinigame") and
-                                wait()
-                         then
-                            GoToStore("SpleefMinigame")
-                            Player.Character.HumanoidRootPart.CFrame =
-                                Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(
-                                CFrame.new(0, 0, -6)
-                            )
-                        elseif
-                            Conpare3 < Conpare and Conpare3 < Conpare2 and
-                                not Workspace.Interiors:FindFirstChild("HideAndSeekInterior") and Settings.HideAndSeek
-                         then
-                            GoToStore("HideAndSeekInterior")
-                            Player.Character.HumanoidRootPart.CFrame =
-                                Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(
-                                CFrame.new(0, 0, -6)
-                            )
-                        end
-
-                        if
-                            not SimonSaysMinigame.is_game_in_progress() and
-                                Workspace.Interiors:FindFirstChild("SimonSaysMinigame") and
-                                wait()
-                         then
-                            Player.Character.HumanoidRootPart.CFrame =
-                                Workspace.Interiors.SimonSaysMinigame.Minigame.JoinZone.Collider.CFrame
-                        elseif
-                            not SpleefMinigame.is_game_in_progress() and
-                                Workspace.Interiors:FindFirstChild("SpleefMinigame") and
-                                wait()
-                                
-                         then
-                            Player.Character.HumanoidRootPart.CFrame =
-                                Workspace.Interiors.SpleefMinigame.Minigame.JoinZone.Collider.CFrame
-                         elseif Workspace.Interiors:FindFirstChild("HideAndSeekInterior") then
-                           Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors.HideAndSeekInterior.HideAndSeekJoinZone.Collider.CFrame
-                            wait()
-                        end
-                        if
-                            Workspace.Interiors:FindFirstChild("SimonSaysMinigame") and Workspace.Interiors.SimonSaysMinigame:FindFirstChild("CenterIsland").Block and
-                                SimonSaysMinigame.is_game_in_progress() and
-                                wait(1)
-                         then
-                            Player.Character.HumanoidRootPart.CFrame =
-                                Workspace.Interiors.SimonSaysMinigame.CenterIsland.Block.CFrame
-                        elseif
-                            Workspace.Interiors:FindFirstChild("SpleefMinigame") and
-                                SpleefMinigame.is_game_in_progress() and
-                                wait(1)
-                         then
-                            Player.Character.HumanoidRootPart.CFrame =
-                                Workspace.Interiors.SpleefMinigame.Minigame.SpleefRoot.CFrame
-                        elseif
-                            Workspace.Interiors:FindFirstChild("HideAndSeekInterior") and not SimonSaysMinigame.is_game_in_progress() and
-                                not SpleefMinigame.is_game_in_progress() and Settings.HideAndSeek
-                         then
-                             
-                            for i, v in pairs(
-                                Workspace.Interiors.HideAndSeekInterior.Map.Visual.SetDressingHidingSpots:GetChildren()
-                            ) do
-                                if v:IsA("Model") and v.Name == "Crate" then
-                                    wait(1)
-                                    Player.Character.HumanoidRootPart.CFrame =
-                                        v:FindFirstChildWhichIsA("BasePart").CFrame
-                                end
-                            end
-                        end
-                    end
-                    if not Settings.Candy then
-                        Player.Character.HumanoidRootPart.Anchored = false
-                    end
-                    end)
-        end
-    end
-)
-
-end)
-local Toggle2 = Section1:CreateToggle("Add HideAndSeek", Settings.HideAndSeek, function(State)
-    Settings.HideAndSeek = State
-end)
-
-
-]]---
--- Script generated by SimpleSpy - credits to exx#9394
-
-
 
 local Neons = {}
 
@@ -810,6 +591,7 @@ RunService.RenderStepped:connect(
         if Settings.PetFarm then
             pcall(function()
                 Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
+                Noclip(Player.Character:FindFirstChildWhichIsA("Humanoid"))
             end)
         end
     end
@@ -820,87 +602,80 @@ if not Settings.PetFarm then
     Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
 end 
 
+spawn(function()
+    while wait(20) and Settings.PetFarm do
+        pcall(function()
+            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+        end)
+    end 
+end)
 
 
 if Settings.Key then
     PetID = Settings.Key.unique
-    AilmentFurnitues["generic_crib"] = nil
-    while not AilmentFurnitues["generic_crib"] do
-        wait()
-        AilmentFurnitues["generic_crib"] = Bed()
-        AilmentFurnitues["generic_shower"] = Showers()
-    end
     ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
     Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
 end
 
 local a
 a = {
-    ["sleepy"] = function(c)
-        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
+    ['sleepy'] = function(c)
+        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait(3) do
             wait()
-            spawn(
-                function()
-                    pcall(
-                        function()
-                            ReplicatedStorage.API["HousingAPI/ActivateFurniture"]:InvokeServer(
-                                Player,
-                                Bed(),
-                                "UseBlock",
-                                {
-                                    ["cframe"] = Player.Character.HumanoidRootPart.CFrame
-                                },
-                                Pet
-                            )
-                        end
-                    )
-                end
-            )
+            spawn(function()
+                pcall(function()
+                    ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {
+                        ['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame
+                    }, Pet)
+                end)
+            end)
         end
-
-        while wait() do
-            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-            if Pet then
-                if Pet.Parent then
-                    break
-                end
-            end
-        end
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
+        Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
     end,
-    ["hungry"] = function(c)
-        if Settings.PetFarm then
-            ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "apple", {})
-            wait()
-            local Foods =
-                require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
-            local Apple
-            for i, v in pairs(Foods) do
-                if v.id == "apple" then
-                    Apple = v.unique
-                    break
-                end
-            end
-            if not Apple then
-                return
-            end
+    ['hungry'] = function(c)
+        ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'pizza', {})
 
-            ReplicatedStorage.API["PetObjectAPI/CreatePetObject"]:InvokeServer(
-                "__Enum_PetObjectCreatorType_2",
-                {["unique_id"] = Apple}
-            )
-            wait(2)
-            ReplicatedStorage.API["PetAPI/ConsumeFoodItem"]:FireServer(Apple)
-            repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-        end
-    end,
-    ["thirsty"] = function(c)
-        ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", "tea", {})
+        ReplicatedStorage:FindFirstChild("ToolAPI/BakeItem",true):InvokeServer()
+
+        while Player.Character:FindFirstChild('PizzaTool') do wait() end
+        while not Player.Character:FindFirstChild('PizzaTool') do wait() end
+
         local Foods =
             require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
-        local Tea
+
+        local Pizza
+
         for i, v in pairs(Foods) do
-            if v.id == "tea" then
+            if v.id == 'pizza' then
+                Pizza = v.unique
+                break
+            end
+        end
+        if not Pizza then
+            return
+        end
+        wait(2)
+        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {
+            ["unique_id"] = Pizza
+        })
+
+        ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Pizza)
+
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+    end,
+    ['thirsty'] = function(c)
+        ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'tea', {})
+
+        local Foods =
+            require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
+
+        local Tea
+
+        for i, v in pairs(Foods) do
+            if v.id == 'tea' then
                 Tea = v.unique
                 break
             end
@@ -908,120 +683,71 @@ a = {
         if not Tea then
             return
         end
-
-        ReplicatedStorage.API["PetObjectAPI/CreatePetObject"]:InvokeServer(
-            "__Enum_PetObjectCreatorType_2",
-            {["unique_id"] = Tea}
-        )
         wait(2)
-        ReplicatedStorage.API["PetAPI/ConsumeFoodItem"]:FireServer(Tea)
+        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {
+            ["unique_id"] = Tea
+        })
+
+        ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Tea)
+
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ["dirty"] = function(c)
-        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
+    ['dirty'] = function(c)
+        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait(3) do
             wait()
-            spawn(
-                function()
-                    pcall(
-                        function()
-                            ReplicatedStorage.API["HousingAPI/ActivateFurniture"]:InvokeServer(
-                                Player,
-                                Showers(),
-                                "UseBlock",
-                                {
-                                    ["cframe"] = Player.Character.HumanoidRootPart.CFrame
-                                },
-                                Pet
-                            )
-                        end
-                    )
-                end
-            )
+            spawn(function()
+                pcall(function()
+                    ReplicatedStorage:FindFirstChild("HousingAPI/ActivateFurniture",true):InvokeServer(Player, Showers(), 'UseBlock', {
+                        ['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame
+                    }, Pet)
+                end)
+            end)
         end
 
-        while wait() do
-            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-            if Pet then
-                if Pet.Parent then
-                    break
-                end
-            end
-        end
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
+        Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
+    end,
+    ['sick'] = function(c)
+        repeat wait() ReplicatedStorage:FindFirstChild("MonitorAPI/HealWithDoctor",true):FireServer() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+    end,
+    ['adoption_party'] = function(c)
+        GoToStore('Nursery')
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+    end,
+    ['school'] = function(c)
+        GoToStore('School')
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["pizza_party"] = function(c)
         GoToStore("PizzaShop")
-        Player.Character.HumanoidRootPart.CFrame =
-            Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ["salon"] = function(c)
         GoToStore("Salon")
-        Player.Character.HumanoidRootPart.CFrame =
-            Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
         repeat
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ["sick"] = function(c)
-        ReplicatedStorage.API["MonitorAPI/HealWithDoctor"]:FireServer()
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-    ["adoption_party"] = function(c)
-        GoToStore("Nursery")
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-    ["school"] = function(c)
-        GoToStore("School")
-        Player.Character.HumanoidRootPart.CFrame =
-            Workspace.Interiors:FindFirstChildWhichIsA("Model").PrimaryPart.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-    ["hot_spring"] = function(c)
+    ['hot_spring'] = function(c)
         GoToMainMap()
-        repeat wait() until Workspace:FindFirstChild("StaticMap"):FindFirstChild("HotSpring")
-        Player.Character.HumanoidRootPart.CFrame =
-            
-            CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position +
-                Vector3.new(0, 5, 0)
-        )
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position + Vector3.new(0, 5, 0))
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ["camping"] = function(c)
+    ['camping'] = function(c)
         GoToMainMap()
-        repeat wait() until Workspace:FindFirstChild("StaticMap"):FindFirstChild("Campsite")
-        Player.Character.HumanoidRootPart.CFrame =
-             CFrame.new(Workspace:WaitForChild("StaticMap"):WaitForChild("Campsite"):WaitForChild("CampsiteOrigin").Position + Vector3.new(0,5,0))
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(workspace:WaitForChild("StaticMap"):WaitForChild("Campsite"):WaitForChild("CampsiteOrigin").Position + Vector3.new(0, 5, 0))
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ["bored"] = function(c)
+    ['bored'] = function(c)
         GoToMainMap()
-        repeat wait() until Workspace:FindFirstChild("StaticMap"):FindFirstChild("Park")
-        Player.Character.HumanoidRootPart.CFrame =
-            CFrame.new(
-            Workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position +
-                Vector3.new(0, 4, 0)
-        )
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position + Vector3.new(0, 5, 0))
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+    end,
 }
-
-
+      
 
 spawn(
     function()
@@ -1030,11 +756,11 @@ spawn(
                 local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
                 if Ailment then
                     local Name = Ailment.Name
-                    if a[Name] and wait() then
+                    if a[Name]then
                         a[Name](Ailment)
                     end
                 end
-                if Pet and wait() then
+                if Pet  then
                     if Pet.Parent ~= Workspace.Pets then
                         ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
                         Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
@@ -1043,13 +769,14 @@ spawn(
                     ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
                     Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                 end
-                wait(1)
             end)
         end
     end
 )
 end)
 end)
+  
+
 local Dropdown = Section1:CreateDropdown("Pets", List, function(Name)
     Settings.Key = PetsShow[Name]
 end)
@@ -1327,10 +1054,10 @@ Settings.IDCANYMORE = State
             pcall(function()
                 local Is 
                 if not Is then
-                    Workspace.Gravity = 0 
+                     
                     GoToPersonsHouse(tostring(Settings.Playt))
                     Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
-                    Workspace.Gravity = 196.2 wait(2)
+                     wait(2)
                     Is = Cash()
                 end 
                 if Is then
@@ -1444,10 +1171,10 @@ end)
 end)
 
 local Dropdown = Section2:CreateDropdown("Locations", Stores, function(Name)
-    Workspace.Gravity = 0
+    
     GoToStore(Name)
     Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA('Model').Doors.MainDoor.WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
-    Workspace.Gravity = 196.2
+    
 end)
 
 
@@ -1455,26 +1182,26 @@ end)
 Section2:CreateTextBox("Teleport To Said Users House", "UserName Here", false, function(String)
 for i,v in pairs(Players:GetPlayers()) do
     if v.Name == (String) or v.Name:find(String) or v.DisplayName == String or v.DisplayName:find(String) then
-        Workspace.Gravity = 0 
+         
         GoToPersonsHouse(v.Name)
     
         Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
-        Workspace.Gravity = 196.2
+        
     end 
 end 
 end)
 
 local Button1 = Section2:CreateButton("Teleport Home", function()
-Workspace.Gravity = 0
+
 GoToHome() wait()
 Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
-Workspace.Gravity = 196.2
+
 end)
 local Button1 = Section2:CreateButton("Teleport MainMap", function()
-Workspace.Gravity = 0
+
 GoToMainMap()
 Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model"):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
-Player.Character.HumanoidRootPart.CFrame = CFrame.new(-247.35408, 17.3820152, -1518.88879)  Workspace.Gravity = 196.2 
+Player.Character.HumanoidRootPart.CFrame = CFrame.new(-247.35408, 17.3820152, -1518.88879)   
 end)
 local Toggle1 = Section2:CreateToggle("Auto Buy Free Food", Settings.JoYes, function(State)
 Settings.JoYes = State
