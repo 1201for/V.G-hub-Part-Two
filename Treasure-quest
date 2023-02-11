@@ -85,10 +85,21 @@ local function GetClosestt()
     end
     return Target
 end
- local Script = require(Player.PlayerScripts.Shared.Client.CombatController)
-Attack = Script.BasicAttack
-Ability = Script.UseAbility
-getgenv().speed = 50
+
+local Noclip = function(A)
+    return A:ChangeState(11)
+end 
+
+local Tween = function(A,B,C)
+    if A and B and C then
+        return TweenService:Create(A,TweenInfo.new((B.Position + Vector3.new(0,0,-2) - A.Position).magnitude / C, Enum.EasingStyle.Linear),{CFrame = CFrame.new(B.Position + Vector3.new(0,0,-2))}):Play()
+    end 
+end 
+local Script = require(Player.PlayerScripts.Shared.Client.CombatController)
+local ScriptFunction = Script.BasicAttack
+local ScriptFunction2 = Script.UseAbility
+
+speed = 50
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -109,6 +120,8 @@ ReplicatedStorage.Lobby.Remotes.ClaimDailyReward:FireServer()
 ReplicatedStorage.Lobby.Remotes.ClaimTreasureReward:FireServer()
 end)
 end
+
+
 local Toggle1 = Section1:CreateToggle("Auto Mobs", Settings.H, function(State)
 Settings.H = State
 
@@ -117,98 +130,73 @@ game:GetService("RunService").Stepped:connect(
         pcall(
             function()
                 if Settings.H then
-                    Attack(Script)
-                    Ability(Script, GetClosestt().PrimaryPart.Position)
-                    Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+                    ScriptFunction(Script)
+                    ScriptFunction2(Script, GetClosestt().PrimaryPart.Position)
+                    Noclip(Player.Character:WaitForChild("Humanoid"))
                 end
             end
         )
     end
 )
 spawn(function()
-while Settings.H do
-    wait()
-    pcall(
-        function()
-                ReplicatedStorage.Dungeon.Remotes.StartDungeon:FireServer()
-                ReplicatedStorage.Dungeon.Remotes.StartDungeon:FireServer()
-                ReplicatedStorage.Shared.Remotes.Data.ClaimPrizes:FireServer()
-                local v = Workspace:GetDescendants()
-                for h = 1, #v do
-                    local v = v[h]
-                    if v.Name == "FinishRoom" and v:FindFirstChild("Hitbox") and v.Hitbox:FindFirstChild("Part") then
-                        firetouchinterest(Player.Character.HumanoidRootPart, v.Hitbox.Part, 0)
-                    end
-                end
-            repeat
-                wait()
+    while wait() and Settings.H do 
+        pcall(function()
+            ReplicatedStorage.Dungeon.Remotes.StartDungeon:FireServer()
+            ReplicatedStorage.Dungeon.Remotes.StartDungeon:FireServer()
+            ReplicatedStorage.Shared.Remotes.Data.ClaimPrizes:FireServer()
+            for i,v in pairs(Workspace:GetChildren()) do
+                if v:FindFirstChild("FinishRoom",true)and v:FindFirstChild("FinishRoom",true):FindFirstChild("Hitbox",true) then
+                    firetouchinterest(Player.Character:FindFirstChild("HumanoidRootPart",true),v:FindFirstChild("FinishRoom",true):FindFirstChild("Hitbox",true):FindFirstChild("Part",true),0)
+                    firetouchinterest(Player.Character:FindFirstChild("HumanoidRootPart",true),v:FindFirstChild("FinishRoom",true):FindFirstChild("Hitbox",true):FindFirstChild("Part",true),1)
+                end 
+            end 
+            if GetClosestt():FindFirstChildWhichIsA("Humanoid",true).Health ~= 0 then
+                Tween(Player.Character:FindFirstChild("HumanoidRootPart",true),GetClosestt().HumanoidRootPart,speed)
+            end 
+       end)
+    end
+end)
+end)
 
-                local Time =
-                    (GetClosestt().HumanoidRootPart.Position + Vector3.new(0,0,-2) -
-                    Player.Character.HumanoidRootPart.Position).magnitude / getgenv().speed
-                local Info = TweenInfo.new(Time, Enum.EasingStyle.Linear)
-                local Tween =
-                    game:GetService("TweenService"):Create(
-                    Player.Character.HumanoidRootPart,
-                    Info,
-                    {CFrame = CFrame.new(GetClosestt().HumanoidRootPart.Position + Vector3.new(0,0,-2))}
-                )
-                Tween:Play()
-            until GetClosestt():FindFirstChildOfClass("Humanoid").Health == 0
-        end
-    )
-end
-end)
-end)
+        
+ 
 local Toggle1 = Section1:CreateToggle("Collect Medkits", Settings.Med, function(State)
 Settings.Med = State
-Workspace:WaitForChild("Ignore").ChildAdded:Connect(
-    function(v)
-        if Settings.Med then
-            if v.Name == "Medkit" and v:WaitForChild("TouchInterest", 5) then
-                repeat
-                    wait(0.2)
-                until pcall(
-                    function()
-                        return Player.Character.Humanoid.Health < Player.Character.Humanoid.MaxHealth
-                    end
-                )
-                pcall(
-                    function()
-                        firetouchinterest(Player.Character.HumanoidRootPart, v, 0)
-                        firetouchinterest(Player.Character.HumanoidRootPart, v, 1)
-                    end
-                )
+spawn(function()
+    while wait() and Settings.Med do
+        pcall(function()
+            for i,v in pairs(Workspace.Ignore:GetChildren()) do
+                if v.Name == "Medkit" and v:FindFirstChildWhichIsA("TouchTransmitter",true) then
+                    if Player.Character.Humanoid.Health < Player.Character.Humanoid.MaxHealth then
+                        firetouchinterest(Player.Character:FindFirstChild("HumanoidRootPart",true), v, 0)
+                        firetouchinterest(Player.Character:FindFirstChild("HumanoidRootPart",true), v, 1)
+                    end 
+                end 
             end
-        end
-    end
-)
-
+        end)
+    end 
+end)
 end)
 local Slider3 = Section1:CreateSlider("Tween Speed",0,100,nil,false, function(Value)
-	getgenv().speed = Value
+	speed = Value
 end)
+
+
+
 
 local Toggle1 = Section1:CreateToggle("Collect Treasure", Settings.Treasure, function(State)
 Settings.Treasure = State
 spawn(function()
-while Settings.Treasure do
-    wait()
-    local v = Workspace:GetDescendants()
-    for h = 1, #v do
-        local v = v[h]
-        if Treasure then
-            if v.Name == "Chest" and v:FindFirstChild("Hitbox") and v.Hitbox:FindFirstChild("TouchInterest") then
-                pcall(
-                    function()
-                        firetouchinterest(Player.Character.HumanoidRootPart, v.Hitbox, 0)
-                        firetouchinterest(Player.Character.HumanoidRootPart, v.Hitbox, 1)
-                    end
-                )
-            end
-        end
-    end
-end
+    while wait() and Settings.Treasure do 
+        pcall(function()
+            for i,v in pairs(Workspace:GetDescendants()) do
+                if v.Name == "Chest"  then
+                    firetouchinterest(Player.Character:FindFirstChild("HumanoidRootPart",true),v:FindFirstChild("Hitbox"),0)
+                    firetouchinterest(Player.Character:FindFirstChild("HumanoidRootPart",true),v:FindFirstChild("Hitbox"),1)
+                end 
+            end 
+        end)
+    end 
 end)
 end)
 
