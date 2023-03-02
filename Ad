@@ -182,11 +182,11 @@ local Tasks = {
 }
 
 local Egg = {
-    "japan_2022_egg",
     "cracked_egg",
     "regular_pet_egg",
     "royal_egg",
-    "retired_egg"
+    "retired_egg",
+    "seasia_2023_egg"
 }
 
 local gifts = {
