@@ -603,7 +603,7 @@ if not Settings.PetFarm then
 end 
 
 spawn(function()
-    while wait(20) and Settings.PetFarm do
+    while wait(20) and Settings.PetFarm and Settings.Refresh do
         pcall(function()
             ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
             Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
@@ -781,6 +781,10 @@ local Dropdown = Section1:CreateDropdown("Pets", List, function(Name)
     Settings.Key = PetsShow[Name]
 end)
 
+
+local Toggle434 = Section1:CreateToggle("Auto Refresh PetFarm", Settings.Refresh, function(State)
+    Settings.Refresh = State
+end)
 
 local Toggle434 = Section1:CreateToggle("Switch Out when full grown", Settings.SwitchOutFullyGrown, function(State)
 Settings.SwitchOutFullyGrown = State
