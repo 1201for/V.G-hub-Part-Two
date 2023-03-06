@@ -15,9 +15,11 @@ local Player = Players.LocalPlayer
 local Coins = Workspace["__THINGS"].Coins
 local wait = task.wait 
 local spawn = task.spawn
+repeat wait() until ReplicatedStorage:FindFirstChild("Library",true)
 local Client = require(ReplicatedStorage.Library.Client)
-local Orbs = getsenv(Player.PlayerScripts.Scripts.Game.Orbs)
-local Lootbags = getsenv(Player.PlayerScripts.Scripts.Game.Lootbags)
+local Frame = require(ReplicatedStorage:FindFirstChild("Framework"):FindFirstChild("Library"))
+local Orbs = getsenv(Player.PlayerScripts:FindFirstChild("Orbs",true))
+local Lootbags = getsenv(Player.PlayerScripts:FindFirstChild("Lootbags",true))
 debug.setupvalue(Client.Network.Invoke, 1, function() return true end)
 debug.setupvalue(Client.Network.Fire, 1, function() return true end)
 
@@ -45,18 +47,7 @@ Settings = HttpService:JSONDecode(readfile("V.G Hub//" .. Name))
 local function Save()
     writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
 end
-
-local Egg = {}
-for i,v in pairs(Eggs) do
-    if not table.find(Egg,v) then
-        table.insert(Egg,i)
-    end 
-end 
-local Areas = {}
-for i,v in pairs(Areas) do
-    table.insert(Areas,v)
-end 
-
+Frame.Signal.Fire("Fireworks Animation")
 
 
 local function getNearestCoin()
@@ -76,7 +67,24 @@ local function getNearestCoin()
     return Target
 end
 
-
+local Location = nil
+local get_thread_identity = get_thread_context or getthreadcontext or getidentity or syn.get_thread_identity
+local set_thread_identity = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
+for i,v in pairs(getgc()) do
+    if type(v) == "function" and getinfo(v).name == "ActuallyTeleport" then
+        Teleport = v 
+        break
+    end 
+end 
+Teleport2 = function(A)
+    if A then
+        local O = get_thread_identity()
+        set_thread_identity(2)
+        Teleport(A)
+        set_thread_identity(O)
+    end 
+    return A 
+end 
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
@@ -91,22 +99,26 @@ local Section4 = Tab2:CreateSection("Background")
 
 local Toggle1 = Section1:CreateToggle("AutoFarm", Settings.Cum, function(State)
 Settings.Cum = State
-RunService.RenderStepped:Connect(function()
-    pcall(function()
-        if Settings.Cum then
-        local Pets = Client.PetCmds.GetEquipped() 
-        for K,O in pairs(Pets) do
-            Client.Network.Invoke('Join Coin', getNearestCoin().Name, {O.uid})
-            Client.Network.Fire('Farm Coin', getNearestCoin().Name, O.uid)
-            for i,v in pairs(Workspace["__THINGS"].Orbs:GetChildren()) do
-                v.CFrame = Player.Character:GetModelCFrame()
+spawn(function()
+    while wait(0.1) do
+        pcall(function()
+            if Settings.Cum then
+            local Pets = Client.PetCmds.GetEquipped() 
+                for K,O in pairs(Pets) do
+                    Client.Network.Invoke('Join Coin', getNearestCoin().Name, {O.uid})
+                    Client.Network.Fire('Farm Coin', getNearestCoin().Name, O.uid)
+                    for i,v in pairs(Workspace["__THINGS"].Orbs:GetChildren()) do
+                        v.CFrame = Player.Character:GetModelCFrame()
+                    end 
+                    for i,v in pairs(Workspace["__THINGS"].Lootbags:GetChildren()) do
+                        v.CFrame = Player.Character:GetModelCFrame()
+                    end
+                end 
+            else
+                return Client.Network.Invoke("Redeem Rank Rewards"), Client.Network.Invoke("Redeem Free Gift", i), Frame.Signal.Fire("Fireworks Animation")
             end 
-            for i,v in pairs(Workspace["__THINGS"].Lootbags:GetChildren()) do
-                v.CFrame = Player.Character:GetModelCFrame()
-            end
-        end 
-        end 
-    end)
+        end)
+    end 
 end)
 
 end)
