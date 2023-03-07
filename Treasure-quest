@@ -1,3 +1,4 @@
+repeat wait() until game:IsLoaded()
 local ReplicatedStorage = Get.ReplicatedStorage
 local Players = Get.Players
 local RunService = Get.RunService
@@ -143,6 +144,8 @@ spawn(function()
         pcall(function()
             ReplicatedStorage.Dungeon.Remotes.StartDungeon:FireServer()
             ReplicatedStorage.Dungeon.Remotes.StartDungeon:FireServer()
+            ReplicatedStorage.Dungeon.Remotes.StartWaveDefense:FireServer()
+
             ReplicatedStorage.Shared.Remotes.Data.ClaimPrizes:FireServer()
             for i,v in pairs(Workspace:GetChildren()) do
                 if v:FindFirstChild("FinishRoom",true)and v:FindFirstChild("FinishRoom",true):FindFirstChild("Hitbox",true) then
