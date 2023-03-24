@@ -581,59 +581,34 @@ spawn(function()
 end)
 end)
 
-
-local AilmentFurnitues = {}
-local Toggle2 = Section1:CreateToggle("PetFarm", Settings.PetFarm, function(State)
-Settings.PetFarm = State
-
-RunService.RenderStepped:connect(
-    function()
-        if Settings.PetFarm then
-            pcall(function()
-                Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
-                Noclip(Player.Character:FindFirstChildWhichIsA("Humanoid"))
-            end)
-        end
-    end
-)
-
-spawn(function()
-if not Settings.PetFarm then
-    Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
-end 
-
-spawn(function()
-    while wait(20) and Settings.PetFarm and Settings.Refresh do
-        pcall(function()
-            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-        end)
-    end 
-end)
-
-
-if Settings.Key then
-    PetID = Settings.Key.unique
-    ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-    Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-end
-
 local a
 a = {
-    ['sleepy'] = function(c)
-        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait(3) do
-            wait()
+    ['dirty'] = function(c)
+        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
             spawn(function()
-                pcall(function()
-                    ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {
-                        ['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame
-                    }, Pet)
-                end)
+                GoToHome()
+                Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+                wait(3)
+                ReplicatedStorage:FindFirstChild("HousingAPI/ActivateFurniture",true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame}, Pet)
+            end)
+        end
+
+        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+    end,
+    ['sleepy'] = function(c)
+        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait() do
+            spawn(function()
+                GoToHome()
+                Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+                wait(3)
+                ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
             end)
         end
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-        ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
-        Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
+        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
     end,
     ['hungry'] = function(c)
         ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'pizza', {})
@@ -643,11 +618,9 @@ a = {
         while Player.Character:FindFirstChild('PizzaTool') do wait() end
         while not Player.Character:FindFirstChild('PizzaTool') do wait() end
 
-        local Foods =
-            require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
+        local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
 
         local Pizza
-
         for i, v in pairs(Foods) do
             if v.id == 'pizza' then
                 Pizza = v.unique
@@ -692,22 +665,7 @@ a = {
 
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ['dirty'] = function(c)
-        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait(3) do
-            wait()
-            spawn(function()
-                pcall(function()
-                    ReplicatedStorage:FindFirstChild("HousingAPI/ActivateFurniture",true):InvokeServer(Player, Showers(), 'UseBlock', {
-                        ['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame
-                    }, Pet)
-                end)
-            end)
-        end
-
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-        ReplicatedStorage:FindFirstChild("ToolAPI/Unequip",true):InvokeServer(PetID)
-        Pet = ReplicatedStorage:FindFirstChild("ToolAPI/Equip",true):InvokeServer(PetID)
-    end,
+    
     ['sick'] = function(c)
         repeat wait() ReplicatedStorage:FindFirstChild("MonitorAPI/HealWithDoctor",true):FireServer() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
@@ -747,12 +705,48 @@ a = {
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
 }
-      
+    
+local AilmentFurnitues = {}
+local Toggle2 = Section1:CreateToggle("PetFarm", Settings.PetFarm, function(State)
+Settings.PetFarm = State
+
+RunService.RenderStepped:connect(
+    function()
+        if Settings.PetFarm then
+            pcall(function()
+                Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
+                Noclip(Player.Character:FindFirstChildWhichIsA("Humanoid"))
+            end)
+        end
+    end
+)
+
+
+
+spawn(function()
+if not Settings.PetFarm then
+    Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
+end 
+
+spawn(function()
+    while wait(20) and Settings.PetFarm and Settings.Refresh do
+        pcall(function()
+            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+        end)
+    end 
+end)
+
+
+if Settings.Key then
+    PetID = Settings.Key.unique
+    ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+    Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+end
 
 spawn(
     function()
         while wait() and Settings.PetFarm do
-            pcall(function()
                 local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
                 if Ailment then
                     local Name = Ailment.Name
@@ -769,13 +763,13 @@ spawn(
                     ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
                     Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                 end
-            end)
         end
     end
 )
 end)
 end)
-  
+
+
 
 local Dropdown = Section1:CreateDropdown("Pets", List, function(Name)
     Settings.Key = PetsShow[Name]
@@ -804,9 +798,7 @@ spawn(
                     repeat
                         wait()
                     until Settings.PetFarm
-                    local Pets =
-                        require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or
-                        {}
+                    local Pets = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or {}
                     if Pets[tostring(PetID)] then
                         if Pets[(PetID)]["properties"]["age"] ~= 6 then
                         else
@@ -829,6 +821,24 @@ spawn(
     end
 )
 
+end)
+local Toggle4832 = Section1:CreateToggle("Auto Spring Fest", Settings.Started, function(State)
+Settings.Started = State
+
+
+            local GameStarted = GetFunction("is_game_in_progress")
+            local IsInGame = GetFunction("is_participating")
+            spawn(function()
+        while wait() and Settings.Started do
+                    pcall(function()
+                    if not GameStarted() and not IsInGame() and Workspace.Interiors:FindFirstChild("FashionMinigame", true) then
+                        GoToStore("FashionMinigame")
+                        Teleport(Player.Character.HumanoidRootPart, Workspace.Interiors.FashionMinigame.Minigame.JoinZone.Ring.CFrame, true)
+                    elseif GameStarted() then
+                        wait()
+                    end 
+                    end)
+   end end)
 end)
 --[[
 local Toggle434 = Section1:CreateToggle("Ginger Bread Farm", Settings.Start, function(State)
@@ -871,9 +881,7 @@ spawn(
                     repeat
                         wait()
                     until Settings.PetFarm
-                    local Pets =
-                        require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or
-                        {}
+                    local Pets = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or {}
                     if Pets[tostring(PetID)] then
                         if Pets[(PetID)]["id"]:match("egg") and not Pets[(PetID)]["id"]:match("basic_egg") then
                         else
