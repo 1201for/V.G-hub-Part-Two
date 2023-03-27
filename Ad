@@ -1,28 +1,4 @@
-local Config = {
-    WindowName = "V.G Hub",
-    Color = Color3.fromRGB(255, 128, 64),
-    Keybind = Enum.KeyCode.RightControl
-}
-repeat wait() until game:IsLoaded()
-
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ReplicatedFirst = game:GetService("ReplicatedFirst")
-local UserInputService = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
-local TweenService = game:GetService("TweenService")
-local Lighting = game:GetService("Lighting")
-local CoreGui = game:GetService("CoreGui")
-local HttpService = game:GetService("HttpService")
-local TeleportService = game:GetService("TeleportService")
-local Debris = game:GetService("Debris")
-local StarterGui = game:GetService("StarterGui")
-local Workspace = game:GetService("Workspace")
 local VirtualUser = game:GetService("VirtualUser")
-
-local Player = Players.LocalPlayer
-local wait = task.wait
-
 Player.Idled:connect(
     function()
         VirtualUser:ClickButton2(Vector2.new())
@@ -31,21 +7,20 @@ Player.Idled:connect(
 
 for i,v in pairs(getconnections(Player.Idled)) do
     v:Disable()
-end 
+end
 repeat wait() until Player.PlayerGui:FindFirstChild("PlayButton",true)
-
 RunService.Stepped:Connect(function()
     pcall(function()
         if Player.PlayerGui:FindFirstChild("NewsApp",true).Enabled then
             for i,v in pairs(getconnections(Player.PlayerGui:FindFirstChild("PlayButton",true).MouseButton1Click)) do
                 v:Fire()
-            end 
-        end 
+            end
+        end
         if Player.PlayerGui:FindFirstChild("ChooseParent",true) then
             for i,v in pairs(getconnections(Player.PlayerGui:FindFirstChild("ChooseParent",true).MouseButton1Click)) do
                 v:Fire()
-            end 
-        end 
+            end
+        end
         if Workspace:FindFirstChild("ServerSidedMapSeats") then
             Workspace.ServerSidedMapSeats:Destroy()
         end
@@ -54,49 +29,8 @@ end)
 
 local Table = {6152116144, 185655149}
 local Set = setfpscap
-
- 
-
-local Name = "Adopt me" .. " " .. Player.Name .. ".json"
-
-Des = {}
-if makefolder then
-    makefolder("V.G Hub")
-end
-
-local Settings
-
-if
-    not pcall(
-        function()
-            readfile("V.G Hub//" .. Name)
-        end
-    )
- then
-    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Des))
-end
-if readfile("V.G Hub//" .. Name) then
-    Settings = HttpService:JSONDecode(readfile("V.G Hub//" .. Name))
-end
-
-local function Save()
-    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
-end
-
-
-
-StarterGui:SetCore(
-    "SendNotification",
-    {
-        Title = "Warning",
-        Text = "Added check for when your fully loaded in when executed please load into the game fully for script to execute"
-    }
-)
-
-
 local getupvalue = getupvalue or debug.getupvalue
 local getconstant = getconstant or debug.getconstant
-
 local getconstants = getconstants or debug.getconstants
 local getgc = getgc or get_gc_objects or debug.getgc
 local getreg = getreg or getregistry or debug.getregistry
@@ -104,7 +38,6 @@ local get_thread_context = get_thread_context or getthreadcontext or getidentity
 local get_thread_identity = get_thread_context
 local set_thread_context = set_thread_context or setthreadcontext or setidentity or syn.set_thread_identity
 local set_thread_identity = set_thread_context
-
 local Remotes = {}
 local Inventorys = ReplicatedStorage.ClientDB.Inventory
 local InventoryGiftsSubDB = require(Inventorys.InventoryGiftsSubDB)
@@ -176,12 +109,13 @@ local Tasks = {
     "camping",
     "sick",
     "school",
-    "hot_spring",
+    "pool_party",
     "salon",
     "pizza_party"
 }
 
-local Egg = {
+
+local Eggs = {
     "cracked_egg",
     "regular_pet_egg",
     "royal_egg",
@@ -216,8 +150,8 @@ local PP = {}
 local Part = Instance.new("Part")
 Part.Name = "P"
 Part.Size = Vector3.new(9e9,0,9e9)
-Part.Anchored = true 
-Part.Transparency = 0.5 
+Part.Anchored = true
+Part.Transparency = 0.5
 Part.CFrame = CFrame.new(5000,5000,5000)
 Part.Parent = Workspace
 
@@ -226,38 +160,39 @@ for i, v in pairs(getgc()) do
     if type(v) == "function" then
         if getfenv(v).script == ReplicatedStorage.ClientModules.Core.InteriorsM.InteriorsM then
             if table.find(getconstants(v), "LocationAPI/SetLocation") then
+                repeat wait() until v ~= nil
                 Location = v
                 break
             end
         end
     end
 end
-local function SetLocation(A, B, C)
+
+local SetLocation = function(A, B, C)
     local O = get_thread_identity()
     set_thread_identity(2)
     Location(A, B, C)
     set_thread_identity(O)
-    return A, B, C
 end
-function Home()
+local Home = function()
     if Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model") then
         return Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model").Name
     else
         return false
     end
 end
-function PersonHome()
+local PersonHome = function()
     if Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model") then
         return Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA("Model").Name
     else
         return false
     end
-end 
-function Store()
+end
+local Store = function()
     if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
         if not string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"MainMap") and not
-                string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"Neighborhood")
-         then
+            string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"Neighborhood")
+        then
             return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
         else
             return false
@@ -267,7 +202,7 @@ function Store()
     end
 end
 
-function MainMap()
+local MainMap = function()
     if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
         if string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"MainMap") then
             return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
@@ -279,7 +214,7 @@ function MainMap()
     end
 end
 
-function Neighborhood()
+local Neighborhood = function()
     if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
         if string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"Neighborhood") then
             return Workspace.Interiors:FindFirstChildWhichIsA("Model").Name
@@ -291,13 +226,13 @@ function Neighborhood()
     end
 end
 
-function GoToStore(Name)
+local GoToStore = function(Name)
     if Store() == Name then
         return true
     end
-    
+
     SetLocation(Name, "MainDoor", {})
-    
+
     while Store() ~= Name do
         wait()
     end
@@ -307,60 +242,60 @@ function GoToStore(Name)
     return false
 end
 
-function GoToHome()
+local GoToHome = function()
     SetLocation("housing", "MainDoor", {["house_owner"] = Player})
     while not Home() do
         wait()
-        
+
     end
     if Home() then
-        
-        return true 
+
+        return true
     end
-    
-    return false 
-    
+
+    return false
+
 end
 
-function GoToNeighborhood()
+local GoToNeighborhood = function()
     SetLocation("Neighborhood", "MainDoor", {})
     while not Neighborhood() do
         wait()
-        
+
     end
     if Neighborhood() then
-        
+
         return true
     end
     return false
 end
 
-function GoToMainMap()
+local GoToMainMap = function()
     SetLocation("MainMap", "Neighborhood/MainDoor", {})
     while not MainMap() do
-        
+
         wait()
     end
     if MainMap() then
-        
+
         return true
     end
     return false
 end
 
-function GoToPersonsHouse(Name)
+local GoToPersonsHouse = function(Name)
     SetLocation("housing","MainDoor",{["house_owner"] = Players[Name]})
     while not PersonHome() do
-        
+
         wait()
-    end 
+    end
     if PersonHome() then
-        
-        return true 
-    end 
+
+        return true
+    end
     return false
-end 
-function Bed(Name)
+end
+local Bed = function(Name)
     GoToHome()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(Beds, v:FindFirstChildWhichIsA("Model").Name)) then
@@ -370,7 +305,7 @@ function Bed(Name)
         end
     end
 end
-function Cash()
+local Cash = function()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(RetardedBullShit, v:FindFirstChildWhichIsA("Model").Name)) then
             local String = string.split(v.Name,"true/")[2]
@@ -380,7 +315,7 @@ function Cash()
     end
 end
 
-function Showers(Name)
+local Showers = function(Name)
     GoToHome()
     for i, v in pairs(Workspace.HouseInteriors.furniture:GetChildren()) do
         if v:FindFirstChildWhichIsA("Model") and (table.find(Baths, v:FindFirstChildWhichIsA("Model").Name)) then
@@ -392,10 +327,11 @@ function Showers(Name)
 end
 
 
-
+local Neons = {}
+local AilmentFurnitues = {}
 local Neon = {}
 local Spec = {}
-Settings.Key = {}
+local Key = {}
 local PetID
 local Pet
 local PetsShow = {}
@@ -403,104 +339,105 @@ local List = {}
 local JoJo = {}
 local GGO = {}
 for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
-    local Key = tostring(v["id"]) .. " - " .. tostring(v["properties"]["age"]) .. " years old"
-    PetsShow[Key] = v
-    table.insert(List, Key)
-    table.sort(List, key)
-
+    local key = tostring(v["id"]) .. " - " .. tostring(v["properties"]["age"]) .. " years old"
+    if not table.find(List, Key) then
+        print(key)
+        PetsShow[key] = v
+        table.insert(List, key)
+        table.sort(List)
+    end
 end
 for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
     if not table.find(JoJo,tostring(v["id"])) then
         local Key2 = tostring(v["id"])
-        GGO[Key2] = v 
+        GGO[Key2] = v
         table.insert(JoJo,Key2)
         table.sort(JoJo)
-    end 
-end 
-UserInputService.WindowFocusReleased:Connect(
-    function()
-        if Settings.Render then
-            RunService:Set3dRenderingEnabled(false)
-            if table.find(Table, game.PlaceId) then
-                Set(30)
-            else
-                Set(5)
-            end
-        end 
     end
-)
-UserInputService.WindowFocused:Connect(
-    function()
-        if Settings.Render then
-            RunService:Set3dRenderingEnabled(true)
-            Set(100)
-        end 
+end
+
+UserInputService.WindowFocusReleased:Connect(function()
+    if Render then
+        RunService:Set3dRenderingEnabled(false)
+        if table.find(Table, game.PlaceId) then
+            Set(30)
+        else
+            Set(5)
+        end
     end
-)
+end)
+UserInputService.WindowFocused:Connect(function()
+    if Render then
+        RunService:Set3dRenderingEnabled(true)
+        Set(100)
+    end
+end)
 
 for i, v in pairs(getupvalue(require(ReplicatedStorage.Fsys).load("RouterClient").init, 4)) do
     v.Name = i
 end
-pcall(
-    function()
-        ReplicatedStorage.API:FindFirstChild("DailyLoginAPI/ClaimDailyReward"):InvokeServer()
-    end
-)
-
-if Settings.Petsd == nil then
-    Settings.Petsd = "Pets"
-end
+pcall(function()
+    ReplicatedStorage.API:FindFirstChild("DailyLoginAPI/ClaimDailyReward"):InvokeServer()
+end)
 
 
-local Noclip = function(A)
-    return A:ChangeState(11)
-end 
+local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
+local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+local Window = Library:CreateWindow({
+    Title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
+    Center = true, 
+    AutoShow = true,
+})
 
+local Tabs = {
+    Main = Window:AddTab('Main'), 
+    Misc = Window:AddTab("Misc"),
+    Events = Window:AddTab("Events"),
+    ['UI Settings'] = Window:AddTab('UI Settings'),
+}
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
-local Window = Library:CreateWindow(Config, CoreGui)
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox('AutoFarms')
+local LeftGroupBox2 = Tabs.Main:AddLeftGroupbox("Quick Helper")
+local RightGroupBox = Tabs.Main:AddRightGroupbox('Quick Misc')
+local RightGroupBox2 = Tabs.Main:AddRightGroupbox("Teleports")
 
-local Tab1 = Window:CreateTab("Adopt Me")
-local Tab2 = Window:CreateTab("UI Settings")
+local LeftBox = Tabs.Misc:AddLeftGroupbox('Groupbox')
+local RightBox = Tabs.Misc:AddRightGroupbox('Groupbox')
 
-local Section1 = Tab1:CreateSection("")
-local Section2 = Tab1:CreateSection("Second Section")
-local Section3 = Tab2:CreateSection("Menu")
-local Section4 = Tab2:CreateSection("Background")
---local Section5 = Tab2:CreateSection("Misc")
+local LeftEventGroupBox = Tabs.Events:AddLeftGroupbox('AutoFarms')
 
--------------
-local Toggle1 = Section1:CreateToggle("AutoFarm Baby", Settings.BabyFarm, function(State)
-Settings.BabyFarm = State
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+LeftGroupBox:AddToggle('BabyFarm', {Text = 'BabyFarm', Default = false,Tooltip = ''})
+Toggles.BabyFarm:OnChanged(function(State)
+BabyFarm = Toggles.BabyFarm.Value
 spawn(function()
-if Settings.BabyFarm then
+if BabyFarm then
     ReplicatedStorage.API["TeamAPI/ChooseTeam"]:InvokeServer("Babies", true)
 end 
-if not Settings.BabyFarm then 
+if not BabyFarm then 
     ReplicatedStorage.API["TeamAPI/ChooseTeam"]:InvokeServer("Parents", true)
 end 
 spawn(function()
-    while wait(1) and Settings.BabyFarm do 
-        pcall(
-            function()
-                for i,v in pairs(Tasks) do
-                    if Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChild(v) and wait(1) then
-                        ReplicatedStorage.API["MonitorAPI/AddAdditive"]:FireServer(v, 100)
-                    end
-                end 
-            end
-        )
-        end 
-    end
-)
+    while wait(1) and BabyFarm do 
+        pcall(function()
+            for i,v in pairs(Player.PlayerGui.AilmentsMonitorApp.Ailments:GetChildren()) do
+                wait(.1)
+                ReplicatedStorage.API["MonitorAPI/AddAdditive"]:FireServer(v.Name, math.random(1,100))
+            end 
+        end)
+    end 
+end)
 end)
 end)
 
-
-local Toggle434 = Section1:CreateToggle("Auto Invis", Settings.Invis, function(State)
-Settings.Invis = State
+RightGroupBox:AddToggle('AutoInvis', {Text = 'Auto Invis', Default = false,Tooltip = ''})
+Toggles.AutoInvis:OnChanged(function(State)
+Invis = Toggles.AutoInvis.Value
     spawn(function()
-        while Settings.Invis do wait()
+        while Invis do wait()
             pcall(function()
                 if Player.Character:FindFirstChild("LowerTorso") then
                     Player.Character:FindFirstChild("LowerTorso"):FindFirstChild("Root"):Destroy()
@@ -510,42 +447,45 @@ Settings.Invis = State
     end)
 end)
 
-local Toggle2 = Section1:CreateToggle("CPU Usage Improver", Settings.Render, function(State)
-    Settings.Render = State
+RightGroupBox:AddToggle('CPU', {Text = 'CPU Usage Improver', Default = false,Tooltip = ''})
+Toggles.CPU:OnChanged(function(State)
+    Render = Toggles.CPU.Value
 end)
 
-local Toggle2 = Section1:CreateToggle("Low Render/ HideParts", Settings.Hide, function(State)
-Settings.Hide = State
+RightGroupBox:AddToggle('Hide', {Text = 'Low Render', Default = false,Tooltip = ''})
+Toggles.Hide:OnChanged(function(State)
+Hide = Toggles.Hide.Value
 
 for i,v in pairs(game:GetService("Workspace").Interiors:GetDescendants()) do
-    if v:IsA("BasePart") and Settings.Hide then
+    if v:IsA("BasePart") and Hide then
         v.Transparency = 1 
-    elseif v:IsA("BasePart") and not Settings.Hide then
-        v.Transparency = 0 
     end 
 end 
 
 game:GetService("Workspace").Interiors.DescendantAdded:Connect(function(v)
-    if v:IsA('BasePart') and Settings.Hide then
+    if v:IsA('BasePart') and Hide then
         v.Transparency = 1 
     end 
 end)
 end)
 
-local Toggle = Section1:CreateToggle("Crash Server", Settings.Crash, function(State)
-Settings.Crash = State
+RightGroupBox:AddToggle('Crash', {Text = 'Crash Server', Default = false,Tooltip = ''})
+Toggles.Crash:OnChanged(function(State)
+Crash = Toggles.Crash.Value
 RunService.RenderStepped:Connect(function()
-    if Settings.Crash then
-        ReplicatedStorage.API["TeamAPI/ChooseTeam"]:InvokeServer("Babies", true) print("Parent")
+    if Crash then
+        for i=1,50 do
+            ReplicatedStorage.API["TeamAPI/ChooseTeam"]:InvokeServer("Babies", true)
+        end 
     end 
 end)
-
 end)
 
-local Toggle = Section1:CreateToggle("Auto Claim Quests", Settings.FK, function(State)
-Settings.FK = State
+LeftGroupBox:AddToggle('FK', {Text = 'Auto Claim Quest', Default = false,Tooltip = ''})
+Toggles.FK:OnChanged(function(State)
+FK = Toggles.FK.Value
 spawn(function()
-    while wait() and Settings.FK do 
+    while wait() and FK do 
         pcall(function()
             ReplicatedStorage.API:FindFirstChild("QuestAPI/ClaimQuest"):InvokeServer(tostring(Player.PlayerGui.QuestApp.Board.Body.Contents.ScrollingFrame.QuestTemplate.Body:GetAttribute("QuestId")))
         end)
@@ -553,127 +493,109 @@ spawn(function()
 end)
 end)
 
+LeftGroupBox:AddToggle('Neon', {Text = 'Auto Neon', Default = false,Tooltip = ''})
+Toggles.Neon:OnChanged(function(State)
+    Neon = State
+    spawn(function()
+        while Neon and wait() do
+            pcall(function()
+                local N = 0
+                for i,v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
+                    local Old = v.id
+                    if string.find(Old,v.id) and v.properties.age == 6 then
+                        N = N + 1
+                        table.insert(Neons, v.unique)
+                        if N == 4 then
+                            ReplicatedStorage.API:FindFirstChild("PetAPI/DoNeonFusion"):InvokeServer({unpack(Neons)})
+                            table.clear(Neons)
+                            N = 0
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+end)
+        
+local a = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/PetFarm/Pet"))()
+
+LeftGroupBox:AddDropdown('Pets', {Values = List, Default = 1, Multi = false, Text = 'Pets', Tooltip = ''})
+
+Options.Pets:OnChanged(function()
+    Key = PetsShow[Options.Pets.Value]
+    print(Key, Key.unique)
+end)
 
 
-local Neons = {}
-
-
-local Toggle2 = Section1:CreateToggle("Auto Neon", Settings.Neon, function(State)
-Settings.Neon = State
-spawn(function()
-    while Settings.Neon and wait() do
-        pcall(function()
-            local N = 0
-            for i,v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[game.Players.LocalPlayer.Name].inventory.pets) do
-                local Old = v.id
-                if string.find(Old,v.id) and v.properties.age == 6 then
-                    N = N + 1
-                    table.insert(Neons, v.unique) 
-                    if N == 4 then
-                        ReplicatedStorage.API:FindFirstChild("PetAPI/DoNeonFusion"):InvokeServer({unpack(Neons)})
-                        table.clear(Neons)
-                        N = 0
-                    end 
+local a = {
+    ["sleepy"] = function(c)
+        spawn(function()
+            while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
+                if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                    ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
                 end 
             end 
         end)
-    end 
-end)
-end)
-
-local a
-a = {
-    ['dirty'] = function(c)
-        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
-            spawn(function()
-                GoToHome()
-                Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
-                wait(3)
-                ReplicatedStorage:FindFirstChild("HousingAPI/ActivateFurniture",true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame}, Pet)
-            end)
-        end
-
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        repeat wait(0) until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
         ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
         Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
     end,
-    ['sleepy'] = function(c)
-        while c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and wait() do
-            spawn(function()
-                GoToHome()
-                Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
-                wait(3)
-                ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
-            end)
-        end
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+    ["dirty"] = function(c)
+        spawn(function()
+            while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
+                if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                    ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
+                end
+            end
+        end)
+        repeat wait(0) until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
         ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
         Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
     end,
-    ['hungry'] = function(c)
+    ["hungry"] = function(c)
         ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'pizza', {})
-
         ReplicatedStorage:FindFirstChild("ToolAPI/BakeItem",true):InvokeServer()
-
-        while Player.Character:FindFirstChild('PizzaTool') do wait() end
-        while not Player.Character:FindFirstChild('PizzaTool') do wait() end
-
+        repeat wait() until Player.Character:FindFirstChild('PizzaTool', true)
         local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
-
-        local Pizza
-        for i, v in pairs(Foods) do
-            if v.id == 'pizza' then
+        local Pizza = nil 
+        for i,v in pairs(Foods) do
+            if v.id == "pizza" then
                 Pizza = v.unique
                 break
-            end
+            end 
         end
-        if not Pizza then
-            return
-        end
-        wait(2)
-        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {
-            ["unique_id"] = Pizza
-        })
-
+        if not Pizza then 
+            return 
+        end 
+        wait(1)
+        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = Pizza})
         ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Pizza)
-
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ['thirsty'] = function(c)
+    ["thirsty"] = function(c)
         ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'tea', {})
-
-        local Foods =
-            require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
-
-        local Tea
-
-        for i, v in pairs(Foods) do
-            if v.id == 'tea' then
-                Tea = v.unique
+        local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
+        local tea = nil 
+        for i,v in pairs(Foods) do
+            if v.id == "tea" then
+                tea = v.unique
                 break
-            end
+            end 
         end
-        if not Tea then
-            return
-        end
-        wait(2)
-        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {
-            ["unique_id"] = Tea
-        })
-
-        ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Tea)
-
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+        if not tea then 
+            return 
+        end 
+        wait(1)
+        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = tea})
+        ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(tea)
     end,
-    
-    ['sick'] = function(c)
-        repeat wait() ReplicatedStorage:FindFirstChild("MonitorAPI/HealWithDoctor",true):FireServer() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+    ["sick"] = function(c) 
+        repeat wait(0) ReplicatedStorage:FindFirstChild("MonitorAPI/HealWithDoctor",true):FireServer() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ['adoption_party'] = function(c)
+    ["adoption_party"] = function(c)
         GoToStore('Nursery')
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ['school'] = function(c)
+    ["school"] = function(c)
         GoToStore('School')
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
@@ -689,118 +611,101 @@ a = {
             wait()
         until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ['hot_spring'] = function(c)
+    ["pool_party"] = function(c)
         GoToMainMap()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(workspace:WaitForChild("StaticMap"):WaitForChild("HotSpring"):WaitForChild("HotSpringOrigin").Position + Vector3.new(0, 5, 0))
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace:WaitForChild("StaticMap"):FindFirstChild("HotSpringOrigin", true).Position + Vector3.new(0, 5, 0))
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
-    ['camping'] = function(c)
+    ["camping"] = function(c)
         GoToMainMap()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(workspace:WaitForChild("StaticMap"):WaitForChild("Campsite"):WaitForChild("CampsiteOrigin").Position + Vector3.new(0, 5, 0))
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace:WaitForChild("StaticMap", 9e9):FindFirstChild("CampsiteOrigin", true).Position + Vector3.new(0, 5, 0))
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
     ['bored'] = function(c)
         GoToMainMap()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(workspace:WaitForChild("StaticMap"):WaitForChild("Park"):WaitForChild("BoredAilmentTarget").Position + Vector3.new(0, 5, 0))
+        Player.Character.HumanoidRootPart.CFrame = CFrame.new(workspace:WaitForChild("StaticMap", 9e9):FindFirstChild("BoredAilmentTarget", true).Position + Vector3.new(0, 5, 0))
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
 }
-    
-local AilmentFurnitues = {}
-local Toggle2 = Section1:CreateToggle("PetFarm", Settings.PetFarm, function(State)
-Settings.PetFarm = State
 
-RunService.RenderStepped:connect(
-    function()
-        if Settings.PetFarm then
+
+LeftGroupBox:AddToggle('Pet', {Text = 'PetFarm', Default = false,Tooltip = ''})
+Toggles.Pet:OnChanged(function(State)
+    PetFarm = Toggles.Pet.Value
+
+    RunService.RenderStepped:connect(function()
+        if PetFarm then
             pcall(function()
                 Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
-                Noclip(Player.Character:FindFirstChildWhichIsA("Humanoid"))
+                NoClip(Player.Character:FindFirstChildWhichIsA("Humanoid"))
             end)
         end
+    end)
+
+
+    if Key then
+        PetID = Key.unique
+        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
     end
-)
+    spawn(function()
+        while wait(20) and PetFarm and Refresh do
+            pcall(function()
+                ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+                Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+            end)
+        end
+    end)
 
-
-
-spawn(function()
-if not Settings.PetFarm then
-    Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
-end 
-
-spawn(function()
-    while wait(20) and Settings.PetFarm and Settings.Refresh do
-        pcall(function()
-            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-        end)
-    end 
-end)
-
-
-if Settings.Key then
-    PetID = Settings.Key.unique
-    ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-    Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-end
-
-spawn(
-    function()
-        while wait() and Settings.PetFarm do
-                local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
-                if Ailment then
-                    local Name = Ailment.Name
-                    if a[Name]then
-                        a[Name](Ailment)
+    spawn(
+        function()
+            while wait() and PetFarm do
+                pcall(function()
+                    local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
+                    if Ailment then
+                        local Name = Ailment.Name
+                        if a[Name]then
+                            a[Name](Ailment)
+                            print(a[Name](Ailment))
+                        end
                     end
-                end
-                if Pet  then
-                    if Pet.Parent ~= Workspace.Pets then
+                    if Pet.Parent  then
+                        if Pet.Parent ~= Workspace.Pets then
+                            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+                            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+                        end
+                    else
                         ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
                         Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                     end
-                else
-                    ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-                    Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-                end
+                end)
+            end
         end
-    end
-)
-end)
+    )
 end)
 
-
-
-local Dropdown = Section1:CreateDropdown("Pets", List, function(Name)
-    Settings.Key = PetsShow[Name]
-end)
-
-
-local Toggle434 = Section1:CreateToggle("Auto Refresh PetFarm", Settings.Refresh, function(State)
-    Settings.Refresh = State
-end)
-
-local Toggle434 = Section1:CreateToggle("Switch Out when full grown", Settings.SwitchOutFullyGrown, function(State)
-Settings.SwitchOutFullyGrown = State
-StarterGui:SetCore(
-    "SendNotification",
-    {
-        Title = "Warning",
-        Text = "PetFarm must be off when turning this on "
-    }
-)
-spawn(
-    function()
-        while Settings.SwitchOutFullyGrown do
-            pcall(
-                function()
-                    wait()
-                    repeat
+LeftGroupBox:AddToggle('SwitchOut', {Text = 'SwitchOutFullyGrown', Default = false,Tooltip = ''})
+Toggles.SwitchOut:OnChanged(function(State)
+    SwitchOutFullyGrown = Toggles.SwitchOut.Value
+    spawn(
+        function()
+            while SwitchOutFullyGrown do
+                pcall(
+                    function()
                         wait()
-                    until Settings.PetFarm
-                    local Pets = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or {}
-                    if Pets[tostring(PetID)] then
-                        if Pets[(PetID)]["properties"]["age"] ~= 6 then
+                        repeat
+                            wait()
+                        until PetFarm
+                        local Pets = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or {}
+                        if Pets[tostring(PetID)] then
+                            if Pets[(PetID)]["properties"]["age"] ~= 6 then
+                            else
+                                for i, v in pairs(Pets) do
+                                    if v["properties"]["age"] ~= 6 then
+                                        PetID = v.unique
+                                    end
+                                end
+                            end
                         else
                             for i, v in pairs(Pets) do
                                 if v["properties"]["age"] ~= 6 then
@@ -808,79 +713,26 @@ spawn(
                                 end
                             end
                         end
-                    else
-                        for i, v in pairs(Pets) do
-                            if v["properties"]["age"] ~= 6 then
-                                PetID = v.unique
-                            end
-                        end
                     end
-                end
-            )
+                )
+            end
         end
-    end
-)
-
-end)
-local Toggle4832 = Section1:CreateToggle("Auto Spring Fest", Settings.Started, function(State)
-Settings.Started = State
-
-
-            local GameStarted = GetFunction("is_game_in_progress")
-            local IsInGame = GetFunction("is_participating")
-            spawn(function()
-        while wait() and Settings.Started do
-                    pcall(function()
-                    if not GameStarted() and not IsInGame() and Workspace.Interiors:FindFirstChild("FashionMinigame", true) then
-                        GoToStore("FashionMinigame")
-                        Teleport(Player.Character.HumanoidRootPart, Workspace.Interiors.FashionMinigame.Minigame.JoinZone.Ring.CFrame, true)
-                    elseif GameStarted() then
-                        wait()
-                    end 
-                    end)
-   end end)
-end)
---[[
-local Toggle434 = Section1:CreateToggle("Ginger Bread Farm", Settings.Start, function(State)
-Settings.Start = State
-spawn(function()
-    while wait() and Settings.Start do
-        pcall(function()
-            for i,v in pairs(ReplicatedStorage.Resources.IceSkating.GingerbreadMarkers:GetChildren()) do
-                if v:IsA("BasePart") then
-                    ReplicatedStorage.API:FindFirstChild("WinterEventAPI/PickUpGingerbread"):InvokeServer(v.Name)
-                end 
-            end 
-            ReplicatedStorage.API:FindFirstChild("WinterEventAPI/RedeemPendingGingerbread"):FireServer()
-        end)
-    end
-end)
+    )
 end)
 
-]]-- 
+LeftGroupBox:AddToggle('SwitchOutEgg', {Text = 'SwitchOutEgg', Default = false,Tooltip = ''})
+Toggles.SwitchOutEgg:OnChanged(function(State)
+SwitchOutEgg = Toggles.SwitchOutEgg.Value
 
-
-
-
-local Toggle4832 = Section1:CreateToggle("Switch Out Eggs", Settings.SwitchOutEgg, function(State)
-Settings.SwitchOutEgg = State
-
-StarterGui:SetCore(
-    "SendNotification",
-    {
-        Title = "Warning",
-        Text = "PetFarm must be off when turning this on "
-    }
-)
 spawn(
     function()
-        while Settings.SwitchOutEgg do
+        while SwitchOutEgg do
             pcall(
                 function()
                     wait()
                     repeat
                         wait()
-                    until Settings.PetFarm
+                    until PetFarm
                     local Pets = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or {}
                     if Pets[tostring(PetID)] then
                         if Pets[(PetID)]["id"]:match("egg") and not Pets[(PetID)]["id"]:match("basic_egg") then
@@ -906,8 +758,9 @@ spawn(
 
 end)
 
-local Toggle2 = Section1:CreateToggle("Switch Out Pet Species", Settings.True, function(State)
-Settings.True = State
+LeftGroupBox:AddToggle('Species', {Text = 'Switch Out Pet Species', Default = false,Tooltip = ''})
+Toggles.Species:OnChanged(function(State)
+True = Toggles.Species.Value
 
 StarterGui:SetCore(
     "SendNotification",
@@ -918,13 +771,13 @@ StarterGui:SetCore(
 )
 spawn(
     function()
-        while Settings.True do
+        while True do
             pcall(
                 function()
                     wait()
                     repeat
                         wait()
-                    until Settings.PetFarm
+                    until PetFarm
                     local Pets =
                         require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets or
                         {}
@@ -932,14 +785,14 @@ spawn(
                         if Pets[(PetID)] and Pets[(PetID)]["properties"]["age"] ~= 6 then
                         else
                             for i, v in pairs(Pets) do
-                                if v["id"] == Settings.sp and v["properties"]["age"] ~= 6 then
+                                if v["id"] == sp and v["properties"]["age"] ~= 6 then
                                     PetID = v.unique
                                 end
                             end
                         end
                     else
                         for i, v in pairs(Pets) do
-                            if v["id"] == Settings.sp and v["properties"]["age"] ~= 6 then
+                            if v["id"] == sp and v["properties"]["age"] ~= 6 then
                                 PetID = v.unique
                             end
                         end
@@ -951,15 +804,12 @@ spawn(
 )
 end)
 
-local Dropdown = Section1:CreateDropdown("Select Pet Species", JoJo, function(Name)
-    Settings.sp = Name
-end)
-
-local Toggle188908 = Section1:CreateToggle("Auto Heal Others", Settings.HealOthers, function(State)
-Settings.HealOthers = State
+LeftGroupBox:AddToggle('Heal', {Text = 'Heal Others', Default = false,Tooltip = ''})
+Toggles.Heal:OnChanged(function(State)
+HealOthers = Toggles.Heal.Value
 spawn(
     function()
-        while Settings.HealOthers do
+        while HealOthers do
             wait(2)
             ReplicatedStorage.API["MonitorAPI/HealWithDoctor"]:FireServer()
         end
@@ -967,113 +817,152 @@ spawn(
 )
 end)
 
-local Toggle1 = Section1:CreateToggle("No Baby PickUp", nil, function(State)
-Settings.Family = State
-if Settings.Family then
+RightGroupBox:AddToggle('Family', {Text = 'No Baby Pick Up', Default = false,Tooltip = ''})
+Toggles.Family:OnChanged(function(State)
+Family = Toggles.Family.Value
+if Family then
     ReplicatedStorage.API["FamilyAPI/CreateFamily"]:InvokeServer() 
-elseif not Settings.Family then
+elseif not Family then
     ReplicatedStorage.API["FamilyAPI/LeaveFamily"]:InvokeServer()
 end 
 end)
 
-local Toggle1 = Section1:CreateToggle("Fly Ride All Pets", Settings.FlyPets, function(State)
-Settings.FlyPets = State
-
+RightGroupBox:AddToggle('Family3', {Text = 'Auto Fly Pets', Default = false,Tooltip = ''})
+Toggles.Family3:OnChanged(function(State)
+FlyPets = Toggles.Family3.Value
+local Torment = false
 spawn(function()
-    while wait() and Settings.FlyPets do
+    while wait() and FlyPets do
         pcall(function()
             for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
-                if Settings.FlyPets then
+                if FlyPets then
                     v.properties.rideable = true
                     v.properties.flyable = true
-                elseif not Settings.FlyPets then
+                    Torment = true
+                elseif not FlyPets and Torment then
                     v.properties.rideable = false
                     v.properties.flyable = false
+                    Torment = false
                 end
             end
         end)
     end 
 end)
 end)
-
-
-local Dropdown = Section1:CreateDropdown("Eggs", Egg, function(Name)
-	Settings.Egg = Name
-end)
-
-local Dropdown = Section1:CreateDropdown("Gift", gifts, function(Name)
-	Settings.gifts = Name
-end)
-
-
-
-local Toggle13322113 = Section1:CreateToggle("Auto Buy Gifts", Settings.DoDoPants, function(State)
-Settings.DoDoPants = State
-spawn(function()
-while Settings.DoDoPants do wait()
-ReplicatedStorage.API:FindFirstChild("ShopAPI/BuyItem"):InvokeServer("gifts",Settings.gifts,{})
-end end) end)
-local Toggle13322113 = Section1:CreateToggle("Auto Buy Egg", Settings.DoDoPants1, function(State)
-Settings.DoDoPants1 = State
-spawn(function()
-while Settings.DoDoPants1 do wait()
-ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("pets",Settings.Egg,{})
-end end) end)
-
-
-local Toggle = Section1:CreateToggle("Auto Accept Auto Trade", Settings.Lololol, function(State)
-Settings.Lololol = State
-spawn(function()
-    while Settings.Lololol do wait()
-        pcall(function()
-            for i,v in pairs(Players:GetPlayers()) do
-                if v ~= Player then
-                    ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptOrDeclineTradeRequest"):InvokeServer(v,true)
-                end 
-            end 
-            ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptNegotiation"):FireServer()
-            ReplicatedStorage.API:FindFirstChild("TradeAPI/ConfirmTrade"):FireServer()
-            for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
-                v.Function()
-                v:Fire()
-            end 
-        end)
-    end 
-end)
-end)
-
-local Toggle = Section1:CreateToggle("Auto Buy From Selected Player", nil, function(State)
-Settings.Lomo = State
-spawn(function()
-    while wait() and Settings.Lomo do 
-        pcall(function()
-            ReplicatedStorage.API:FindFirstChild("RefreshmentStandAPI/BuyRefreshment"):InvokeServer("hotdog_stand",Settings.Playt)
-            ReplicatedStorage.API:FindFirstChild("RefreshmentStandAPI/BuyRefreshment"):InvokeServer("lemonade_stand",Settings.Playt)
-            for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
-                v.Function()
-                v:Fire()
-            end 
-        end)
-    end 
-end)
-end)
-
-
-local Toggle = Section1:CreateToggle("Auto Money To Selected Player", nil, function(State)
-Settings.IDCANYMORE = State
+RightGroupBox:AddToggle('FWdsd', {Text = 'Auto Buy Eggs', Default = false,Tooltip = ''})
+Toggles.FWdsd:OnChanged(function(State)
+    Loll = Toggles.FWdsd.Value
     spawn(function()
-        while wait() and Settings.IDCANYMORE do 
+        while Loll and wait() do
+            pcall(function()
+                wait(1)
+                ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("pets",Egg,{})
+            end)
+        end 
+    end)
+end)
+RightGroupBox:AddToggle('FWdsd2', {Text = 'Auto Buy Gifts', Default = false,Tooltip = ''})
+Toggles.FWdsd2:OnChanged(function(State)
+    Loll = Toggles.FWdsd2.Value
+    spawn(function()
+        while Loll and wait() do
+            pcall(function()
+                wait(1)
+                ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("gifts",Gifts,{})
+            end)
+        end 
+    end)
+end)
+
+LeftGroupBox2:AddToggle('FW44dsd', {Text = 'Auto Open Gifts', Default = false,Tooltip = ''})
+Toggles.FW44dsd:OnChanged(function(State)
+    System = Toggles.FW44dsd.Value
+    spawn(function()
+        while System do
+            wait(2)
+            local gifts = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.gifts or {}
+            local GiftTable
+            local GiftID
+            local Gift
+        
+            for i, v in pairs(gifts) do
+                Gift = v.unique
+        
+                pcall(function()
+                    ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(Gift)
+                    ReplicatedStorage.API:FindFirstChild("ShopAPI/OpenGift"):InvokeServer(Gift)
+                end)
+            end
+        end
+    end)
+end)
+
+RightGroupBox:AddDropdown('Eggs', {Values = Eggs, Default = 1, Multi = false, Text = 'Eggs', Tooltip = ''})
+
+Options.Eggs:OnChanged(function()
+    Egg = Options.Eggs.Value
+end)
+
+RightGroupBox:AddDropdown('Gifts', {Values = gifts, Default = 1, Multi = false, Text = 'Gifts', Tooltip = ''})
+
+Options.Gifts:OnChanged(function()
+    Gifts = Options.Gifts.Value
+end)
+
+LeftGroupBox2:AddToggle('Trade', {Text = 'Auto Accept Trade"', Default = false,Tooltip = ''})
+Toggles.Trade:OnChanged(function(State)
+    Trade = Toggles.Trade.Value
+    spawn(function()
+        while Trade do wait()
+            pcall(function()
+                for i,v in pairs(Players:GetPlayers()) do
+                    if v ~= Player then
+                        ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptOrDeclineTradeRequest"):InvokeServer(v,true)
+                    end 
+                end 
+                ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptNegotiation"):FireServer()
+                ReplicatedStorage.API:FindFirstChild("TradeAPI/ConfirmTrade"):FireServer()
+                for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
+                    v.Function()
+                    v:Fire()
+                end 
+            end)
+        end 
+    end)
+end)
+
+LeftGroupBox2:AddToggle('Buy', {Text = 'AutoBuy From Player"', Default = false,Tooltip = ''})
+Toggles.Buy:OnChanged(function(State)
+    Buy = Toggles.Buy.Value
+    spawn(function()
+    while wait() and Buy do 
+        pcall(function()
+            ReplicatedStorage.API:FindFirstChild("RefreshmentStandAPI/BuyRefreshment"):InvokeServer("hotdog_stand",Playt)
+            ReplicatedStorage.API:FindFirstChild("RefreshmentStandAPI/BuyRefreshment"):InvokeServer("lemonade_stand",Playt)
+            for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
+                v.Function()
+                v:Fire()
+            end 
+        end)
+    end 
+end)
+
+LeftGroupBox2:AddToggle('Transfer', {Text = 'Transfer Money To Said Player"', Default = false,Tooltip = ''})
+Toggles.Transfer:OnChanged(function(State)
+    Sus = Toggles.Transfer.Value 
+    spawn(function()
+        while wait() and Sus do 
             pcall(function()
                 local Is 
                 if not Is then
                      
-                    GoToPersonsHouse(tostring(Settings.Playt))
+                    GoToPersonsHouse(tostring(Playt))
                     Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
                      wait(2)
                     Is = Cash()
                 end 
                 if Is then
-                    ReplicatedStorage.API:FindFirstChild("HousingAPI/ActivateFurniture"):InvokeServer(Settings.Playt,Cash(),"UseBlock",50,Player.Character)
+                    ReplicatedStorage.API:FindFirstChild("HousingAPI/ActivateFurniture"):InvokeServer(Playt,Cash(),"UseBlock",50,Player.Character)
                     for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
                         v.Function()
                         v:Fire()
@@ -1083,309 +972,250 @@ Settings.IDCANYMORE = State
         end 
     end)
 end)
-local Toggle = Section1:CreateToggle("Auto Trade Pets To Selected Player", nil, function(State)
-Settings.YouTube = State
-spawn(function()
-    while Settings.YouTube and wait(1) do
-        pcall(function()
-            if not Player.PlayerGui.TradeApp.Frame.Visible then
-                ReplicatedStorage.API:FindFirstChild("TradeAPI/SendTradeRequest"):FireServer(Settings.Playt)
-            end 
-            if Player.PlayerGui.TradeApp.Frame.Visible then
-                if Settings.Petsd == "Pets" then
-                    for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
-                        ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
-                    end
+
+LeftGroupBox2:AddToggle('TransferPet', {Text = 'Transfer Pets To Said Player"', Default = false,Tooltip = ''})
+Toggles.TransferPet:OnChanged(function(State)
+    TransferPet = Toggles.TransferPet.Value 
+    spawn(function()
+        while TransferPet and wait(1) do
+            pcall(function()
+                if not Player.PlayerGui.TradeApp.Frame.Visible then
+                    ReplicatedStorage.API:FindFirstChild("TradeAPI/SendTradeRequest"):FireServer(Playt)
                 end 
-                if Settings.Petsd == "GrownPets" then
-                    for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
-                        if v["properties"]["age"] == 6 then
+                if Player.PlayerGui.TradeApp.Frame.Visible then
+                    if Petsd == "Pets" then
+                        for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
+                            ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+                        end
+                    end 
+                    if Petsd == "GrownPets" then
+                        for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
+                            if v["properties"]["age"] == 6 then
+                                ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+                            end 
+                        end
+                    end 
+                    if Petsd == "Eggs" then
+                        for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
+                            if v["id"]:find("egg") and not v["id"]:find("_2022") then
+                                ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+                            end 
+                        end
+                    end 
+                    if Petsd == "Gifts" then
+                        for i,v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.gifts) do
                             ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
                         end 
-                    end
-                end 
-                if Settings.Petsd == "Eggs" then
-                    for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
-                        if v["id"]:find("egg") and not v["id"]:find("_2022") then
-                            ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
-                        end 
-                    end
-                end 
-                if Settings.Petsd == "Gifts" then
-                    for i,v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.gifts) do
-                        ReplicatedStorage.API:FindFirstChild("TradeAPI/AddItemToOffer"):FireServer(v.unique)
+                    end 
+                    ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptNegotiation"):FireServer()
+                    ReplicatedStorage.API:FindFirstChild("TradeAPI/ConfirmTrade"):FireServer()
+                    for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
+                        v.Function()
+                        v:Fire()
                     end 
                 end 
-                ReplicatedStorage.API:FindFirstChild("TradeAPI/AcceptNegotiation"):FireServer()
-                ReplicatedStorage.API:FindFirstChild("TradeAPI/ConfirmTrade"):FireServer()
-                for i,v in pairs(getconnections(Player.PlayerGui.DialogApp.Dialog.NormalDialog.Buttons.ButtonTemplate.MouseButton1Click)) do
-                    v.Function()
-                    v:Fire()
-                end 
-            end 
-        end)
-    end 
-end)
+            end)
+        end 
+    end)
 end)
 
-Section1:CreateTextBox("Auto Trade or Auto Buy Person Name", "UserName Here", false, function(String)
-for i,v in pairs(Players:GetPlayers()) do
+LeftGroupBox2:AddInput('NFt', {Default = 'UserName',Numeric = false,Finished = false,Text = 'Select Player',Tooltip = nil,Placeholder = 'WalkSpeed',})
+Options.NFt:OnChanged(function(String)
+    for i,v in pairs(Players:GetPlayers()) do
     if v.Name == (String) or v.Name:find(String) or v.DisplayName == String or v.DisplayName:find(String) then
-       Settings.Playt = v
+       Playt = v
     end 
 end 
 end)
-
-local Dropdown = Section1:CreateDropdown("Auto Trade Options", {"Pets","Gifts","GrownPets","Eggs"}, function(Name)
-    Settings.Petsd = Name 
 end)
 
-local Button1 = Section1:CreateButton("Grab Trading Linence", function()
-GoToStore("SafetyHub")
-ReplicatedStorage.API:FindFirstChild("TradeAPI/BeginQuiz"):FireServer()
+LeftGroupBox2:AddDropdown('Method', {Values = {"Pets","Gifts","GrownPets","Eggs"}, Default = 1, Multi = false, Text = 'Transfer Items', Tooltip = ''})
 
-for i,v in pairs(getgc(true)) do
-    if type(v) == "table" and rawget(v,"question_index") then
-        for i,v in pairs(v.quiz) do
-            ReplicatedStorage.API:FindFirstChild("TradeAPI/AnswerQuizQuestion"):FireServer(v.answer)
+Options.Method:OnChanged(function()
+    Petsd = Options.Method.Value
+end)
+
+
+LeftBox:AddButton('Grab Trading Linence', function()
+    ReplicatedStorage.API:FindFirstChild("TradeAPI/BeginQuiz"):FireServer()
+    for i,v in pairs(getgc(true)) do
+        if type(v) == "table" and rawget(v,"question_index") then
+            for i,v in pairs(v.quiz) do
+                ReplicatedStorage.API:FindFirstChild("TradeAPI/AnswerQuizQuestion"):FireServer(v.answer)
+            end 
         end 
     end 
-end 
-end)
-local Button1 = Section1:CreateButton("Grab Bagdes", function()
-for i,v in pairs(Obbys) do wait(0.5)
-    ReplicatedStorage.API["MinigameAPI/FinishObby"]:FireServer(v)
-end 
 end)
 
-local Toggle13322113 = Section1:CreateToggle("Auto Open Gifts", Settings.System, function(State)
-Settings.System = State
-spawn(function()
-while Settings.System do
-    wait(2)
-    local gifts = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.gifts or {}
-    local GiftTable
-    local GiftID
-    local Gift
-
-    for i, v in pairs(gifts) do
-        Gift = v.unique
-
-        pcall(
-            function()
-                ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(Gift)
-                ReplicatedStorage.API:FindFirstChild("ShopAPI/OpenGift"):InvokeServer(Gift)
-            end
-        )
-    end
-end
-end)
-end)
-
-local Dropdown = Section2:CreateDropdown("Locations", Stores, function(Name)
-    
-    GoToStore(Name)
-    Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA('Model').Doors.MainDoor.WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
-    
-end)
-
-
-
-Section2:CreateTextBox("Teleport To Said Users House", "UserName Here", false, function(String)
-for i,v in pairs(Players:GetPlayers()) do
-    if v.Name == (String) or v.Name:find(String) or v.DisplayName == String or v.DisplayName:find(String) then
-         
-        GoToPersonsHouse(v.Name)
-    
-        Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
-        
+LeftBox:AddButton('Give Badges', function()
+    for i,v in pairs(Obbys) do wait(0.5)
+        ReplicatedStorage.API["MinigameAPI/FinishObby"]:FireServer(v)
     end 
-end 
 end)
 
-local Button1 = Section2:CreateButton("Teleport Home", function()
 
-GoToHome() wait()
-Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
-
+RightGroupBox2:AddInput('NFt', {Default = 'UserName',Numeric = false,Finished = false,Text = 'Select Player',Tooltip = nil,Placeholder = 'WalkSpeed',})
+Options.NFt:OnChanged(function(String)
+    for i,v in pairs(Players:GetPlayers()) do
+        if v.Name == (String) or v.Name:find(String) or v.DisplayName == String or v.DisplayName:find(String) then
+            GoToPersonsHouse(v.Name)
+            Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+        end 
+    end 
 end)
-local Button1 = Section2:CreateButton("Teleport MainMap", function()
 
-GoToMainMap()
-Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model"):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
-Player.Character.HumanoidRootPart.CFrame = CFrame.new(-247.35408, 17.3820152, -1518.88879)   
+RightGroupBox2:AddDropdown('Stores', {Values = Stores, Default = 0, Multi = false, Text = 'Locations', Tooltip = ''})
+
+Options.Stores:OnChanged(function()
+    pcall(function()
+        GoToStore(Options.Stores.Value)
+        Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA('Model').Doors.MainDoor.WorkingParts.TouchToEnter.CFrame:ToWorldSpace(CFrame.new(0, 0, -6))
+    end)
 end)
-local Toggle1 = Section2:CreateToggle("Auto Buy Free Food", Settings.JoYes, function(State)
-Settings.JoYes = State
-spawn(function()
-    while Settings.JoYes and wait() do
+
+local Button = RightGroupBox2:AddButton('Teleport Home', function()
+    GoToHome()
+    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+end)
+
+local Button2 = Button:AddButton('Teleport MainMap', function()
+    GoToMainMap()
+    Player.Character.HumanoidRootPart.CFrame = Workspace.Interiors:FindFirstChildWhichIsA("Model"):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6))
+    Player.Character.HumanoidRootPart.CFrame = CFrame.new(-247.35408, 17.3820152, -1518.88879) 
+end)
+
+RightGroupBox:AddToggle('JoYes', {Text = 'Auto Free Food"', Default = false,Tooltip = ''})
+Toggles.JoYes:OnChanged(function(State)
+    Sus = Toggles.JoYes.Value 
+    spawn(function()
+        while JoYes and wait() do
+            pcall(function()
+                ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", Food, {})
+            end)
+        end 
+    end)
+end)
+
+RightGroupBox:AddDropdown('Foods', {Values = FreeFoods, Default = 0, Multi = false, Text = 'Free Foods', Tooltip = ''})
+
+Options.Foods:OnChanged(function()
+    Food = Options.Foods.Value
+end)
+
+LeftEventGroupBox:AddToggle('Spring', {Text = 'Spring event', Default = false,Tooltip = ''})
+Toggles.Spring:OnChanged(function(State)
+    Spring = Toggles.Spring.Value
+    get_join_timer_display_string_now = ScriptFunction("get_join_timer_display_string_now",ReplicatedStorage.ClientModules.Game.InteriorHelpers.FashionMinigameInterior)
+    is_game_in_progress = ScriptFunction("is_game_in_progress",ReplicatedStorage.ClientModules.Game.InteriorHelpers.FashionMinigameInterior)
+    
+    RenderStepped:Connect(function()
         pcall(function()
-            ReplicatedStorage.API["ShopAPI/BuyItem"]:InvokeServer("food", Settings.Food, {})
+            if Spring then
+                NoClip(Player.Character:FindFirstChildWhichIsA("Humanoid", true))
+            end 
         end)
-    end 
-end)
-end)
-local Dropdown = Section2:CreateDropdown("Free Foods", FreeFoods, function(Name)
-    Settings.Food = Name
+    end)
+    spawn(function()
+        while wait() and Spring do 
+            pcall(function()
+                
+                if is_game_in_progress() and 
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
+LeftBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = ''})
+Toggles.ESP1:OnChanged(function(State)
+ESP:Toggle(Toggles.ESP1.Value)
 end)
 
-
-local Button1 = Section2:CreateButton("SS Infinite Money", function()
-local Player = Players.LocalPlayer
-local Kick = Player.Kick
-Kick(Player,"You are most likely banned if you wish to appeal go to https://playadopt.me/support/")
-wait(5)
-Kick(Player,"You fell for it didn't you LOL")
-wait(3)
-Kick(Player,"What A Fool")
-wait(3)
-game:Shutdown()
+LeftBox:AddToggle('ESP2', {Text = 'Esp Players', Default = false,Tooltip = ''})
+Toggles.ESP2:OnChanged(function(State)
+ESP.Players = Toggles.ESP2.Value
 end)
-local Toggle1 = Section2:CreateToggle("Enable WalkSpeed/JumpPower", Settings.Go, function(State)
-Settings.Go = State
-RunService.Stepped:connect(
-    function()
-        if Settings.Go then
-            Player.Character:WaitForChild("Humanoid").WalkSpeed = Settings.WalkSpeed
-            Player.Character:WaitForChild("Humanoid").JumpPower = Settings.JumpPower
-            if not UserInputService.WindowFocusReleased then
-                setfpscap(Settings.Fps)
-            end
-        end
-    end
-)
 
+LeftBox:AddToggle('ESP3', {Text = 'Esp Tracers', Default = false,Tooltip = ''})
+Toggles.ESP3:OnChanged(function(State)
+ESP.Tracers = Toggles.ESP3.Value
+end)
+
+LeftBox:AddToggle('ESP4', {Text = 'Esp Names', Default = false,Tooltip = ''})
+Toggles.ESP4:OnChanged(function(State)
+ESP.EspNames = Toggles.ESP4.Value
+end)
+
+LeftBox:AddToggle('ESP5', {Text = 'Esp Boxes', Default = false,Tooltip = ''})
+Toggles.ESP5:OnChanged(function(State)
+ESP.Boxes = Toggles.ESP5.Value
 end)
 
 
-
-
-local TextBox1 = Section2:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
-    Settings.Fps = Value
+LeftBox:AddToggle('SSS1', {Text = 'Player Loop WalkSpeed/JumpPower', Default =  Toggle,Tooltip = 'This is a tooltip'})
+Toggles.SSS1:OnChanged(function(State)
+    Toggle = State 
+    Toggles.SSS1.Value = Toggle
+    Stepped:Connect(function()
+        pcall(function()
+            if Toggle then
+                Player.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = WalkSpeed
+                Player.Character:FindFirstChildWhichIsA("Humanoid").JumpPower = JumpPower
+            end 
+        end)
+    end)
 end)
 
-local TextBox1 = Section2:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
-    Settings.WalkSpeed = Value
-end)
-local TextBox1 = Section2:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
-    Settings.JumpPower = Value
-end)
-
-local TextBox1 = Section2:CreateTextBox("Seconds Until ServerHop", "Only numbers", true, function(Value)
-    Settings.Seconds = Value
+LeftBox:AddInput('SSF2', {Default = 'WalkSpeed',Numeric = true,Finished = false,Text = 'WalkSpeed',Tooltip = 'Numbers Only',Placeholder = 'WalkSpeed',})
+Options.SSF2:OnChanged(function(State)
+    WalkSpeed = State
+    Options.SSF2.Value = WalkSpeed
 end)
 
+LeftBox:AddInput('SSF3', {Default = 'JumpPower',Numeric = true,Finished = false,Text = 'JumpPower',Tooltip = 'Numbers Only',Placeholder = 'JumpPower',})
 
+Options.SSF3:OnChanged(function(State)
+    JumpPower = State
+    Options.SSF3.Value = JumpPower
+end)
 
-local Toggle1 = Section2:CreateToggle("Infinite Jump", Settings.InfiniteJump, function(State)
-Settings.InfiniteJump = State
+LeftBox:AddToggle('SSS4', {Text = 'Infinite Jump',Default =  InfiniteJump,Tooltip = 'This is a tooltip', 
+})
+
+Toggles.SSS4:OnChanged(function(State)
+InfiniteJump = State
+Toggles.SSS4.Value = InfiniteJump
 UserInputService.JumpRequest:connect(
     function()
-        if Settings.InfiniteJump then
+        if InfiniteJump then
             Player.Character:FindFirstChildWhichIsA("Humanoid"):ChangeState("Jumping")
         end
     end
 )
 end)
 
-local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
-local Toggle1 = Section1:CreateToggle("Enable Esp", Settings.Esp, function(State)
-    Settings.Esp = State
-    ESP:Toggle(Settings.Esp)
-end)
-local Toggle1 = Section1:CreateToggle("Player Esp", Settings.PlayerEsp, function(State)
-    Settings.PlayerEsp = State
-    ESP.Players = Settings.PlayerEsp
-end)
-local Toggle1 = Section1:CreateToggle("Tracers Esp", Settings.Tracers, function(State)
-    Settings.Tracers = State
-    ESP.Tracers = Settings.Tracers
-end)
-local Toggle1 = Section1:CreateToggle("Name Esp", Settings.EspNames, function(State)
-    ESP.Names = Settings.EspNames
-    Settings.EspNames = State
-end)
-local Toggle1 = Section1:CreateToggle("Boxes Esp", Settings.Boxes, function(State)
-    Settings.Boxes = State
-    ESP.Boxes = Settings.Boxes
-end)
-
-local Toggle1 = Section2:CreateToggle("Invisicam", Settings.Sorry, function(State)
-Settings.Sorry = State
-if Settings.Sorry then
-    Player.DevCameraOcclusionMode = "Invisicam"
-else
-    Player.DevCameraOcclusionMode = "Zoom"
-end
-end)
-
-
-local Toggle1 = Section2:CreateToggle("N Noclip", Settings.Sex1, function(State)
-noclips = false
-Settings.Sex1 = State
-Player:GetMouse().KeyDown:connect(
-    function(v)
-        if v == "n" then
-            if Settings.Sex1 then
-                noclips = not noclips
-                for i, v in pairs(Player.Character:GetChildren()) do
-                    if v:IsA("BasePart") then
-                        v.CanCollide = false
-                    end
-                end
-            end
-        end
-    end
-)
-RunService.Stepped:connect(
-    function()
+LeftBox:AddToggle('SSS5', {Text = 'N NoClip',Default =  Sex2,Tooltip = 'This is a tooltip'})
+Toggles.SSS5:OnChanged(function(State)
+    Sex2 = State
+    Toggles.SSS5.Value = Sex2
+    RunService.Stepped:connect(function(v)
         if noclips then
-            for i, v in pairs(Player.Character:GetChildren()) do
-                if v:IsA("BasePart") then
-                    v.CanCollide = false
-                end
-            end
+            pcall(function()
+                NoClip2(Player.Character)
+            end)
         end
-    end
-)
-
+    end)
 end)
 
-local Toggle1 = Section2:CreateToggle("G Noclip", Settings.Sex, function(State)
-Settings.Sex = State
-noclip = false
-RunService.Stepped:connect(
-    function()
-        if noclip then
-            Player.Character.Humanoid:ChangeState(11)
-        end
-    end
-)
-mouse = Player:GetMouse()
-Player:GetMouse().KeyDown:connect(
-    function(v)
-        if v == "g" then
-            if Settings.Sex then
-                noclip = not noclip
-                Player.Character.Humanoid:ChangeState(11)
-            end
-        end
-    end
-)
-end)
-local Toggle1 = Section2:CreateToggle("H Fly", Settings.Sex2, function(State)
-Settings.Sex2 = State
+LeftBox:AddToggle('SSS6', {Text = 'H Fly',Default =  Sex,Tooltip = 'Fly By Pressing H'})
+Toggles.SSS6:OnChanged(function(State)
+Sex = State
+Toggles.SSS6.Value = Sex
 local Max = 0
-local Players = game.Players
 local LP = Players.LocalPlayer
 local Mouse = LP:GetMouse()
 Mouse.KeyDown:connect(
     function(k)
-        if k:lower() == "h" then
+        if k:lower() == "h" and Sex then
             Max = Max + 1
             getgenv().Fly = false
-            if Settings.Sex2 then
-                local T =  LP.Character:FindFirstChildWhichIsA("Humanoid").RigType == Enum.HumanoidRigType.R6 and LP.Character:FindFirstChild("HumanoidRootPart") or LP.Character:FindFirstChildWhichIsA("Humanoid").RigType == Enum.HumanoidRigType.R15 and LP.Character:FindFirstChild("UpperTorso")
+            if Sex then
+                local T = LP.Character:FindFirstChild("UpperTorso",true) or LP.Character:FindFirstChild("HumanoidRootPart",true)
                 local S = {
                     F = 0,
                     B = 0,
@@ -1406,7 +1236,7 @@ Mouse.KeyDown:connect(
                     BodyGyro.P = 9e4
                     BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
                     BodyGyro.cframe = T.CFrame
-                    BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+                    BodyVelocity.velocity = Vector3.new(0, 0, 0)
                     BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
                     spawn(
                         function()
@@ -1414,7 +1244,7 @@ Mouse.KeyDown:connect(
                                 wait()
                                 LP.Character.Humanoid.PlatformStand = true
                                 if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
-                                    SPEED = 200
+                                    SPEED = 500
                                 elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
                                     SPEED = 0
                                 end
@@ -1499,169 +1329,38 @@ Mouse.KeyDown:connect(
 )
 end)
 
-local Button1 = Section2:CreateButton("Anti Lag", function()
-for _, v in pairs(Workspace:GetDescendants()) do
-    if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
-        v.Material = Enum.Material.SmoothPlastic
+LeftBox:AddButton('FPS Booster', function()
+    for i,v in pairs(game:GetDescendants()) do 
         if v:IsA("Texture") then
-            v:Destroy()
-        end
+            v.Texture = ""
+        elseif v:IsA("BasePart") then
+            v.Material = Enum.Material.Wood
+        end 
+    end 
+end)
+
+LeftBox:AddButton('ServerHop', function() ServerHop() end)
+LeftBox:AddButton('Rejoin', function() 
+    local Success, ErrorMessage = pcall(function()
+        Rejoin()
+    end)
+    if ErrorMessage and not Success then
+        warn(ErrorMessage)
+    elseif Success and not ErrorMessage then
+        print(Success)
     end
-end
 end)
+-- I set NoUI so it does not show up in the keybinds menu
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = "RightControl", NoUI = true, Text = 'Menu keybind' }) 
 
-local Button1 = Section2:CreateButton("Teleport to RandomPlayer", function()
-local randomPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
+Library.ToggleKeybind = Options.MenuKeybind 
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
 
-Player.Character.HumanoidRootPart.CFrame =
-    CFrame.new(
-    Vector3.new(
-        randomPlayer.Character.Head.Position.X,
-        randomPlayer.Character.Head.Position.Y,
-        randomPlayer.Character.Head.Position.Z
-    )
-)
-end)
-local Button1 = Section2:CreateButton("Lag Switch F3", function()
-local ass = false
-local bitch = settings()
-
-game:service "UserInputService".InputEnded:connect(
-    function(i)
-        if i.KeyCode == Enum.KeyCode.F3 then
-            ass = not ass
-            bitch.Network.IncomingReplicationLag = ass and 10 or 0
-        end
-    end
-)
-end) 
-
-local Button1 = Section2:CreateButton("ServerHop", function()
-local PlaceID = game.PlaceId
-local AllIDs = {}
-local foundAnything = ""
-local actualHour = os.date("!*t").hour
-local Deleted = false
-local File = pcall(function()
-    AllIDs = HttpService:JSONDecode(readfile("NotSameServers.json"))
-end)
-if not File then
-    table.insert(AllIDs, actualHour)
-    writefile("NotSameServers.json", HttpService:JSONEncode(AllIDs))
-end
-function TPReturner()
-    local Site;
-    if foundAnything == "" then
-        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
-    else
-        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
-    end
-    local ID = ""
-    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
-        foundAnything = Site.nextPageCursor
-    end
-    local num = 0;
-    for i,v in pairs(Site.data) do
-        local Possible = true
-        ID = tostring(v.id)
-        if tonumber(v.maxPlayers) > tonumber(v.playing) then
-            for _,Existing in pairs(AllIDs) do
-                if num ~= 0 then
-                    if ID == tostring(Existing) then
-                        Possible = false
-                    end
-                else
-                    if tonumber(actualHour) ~= tonumber(Existing) then
-                        local delFile = pcall(function()
-                            delfile("NotSameServers.json")
-                            AllIDs = {}
-                            table.insert(AllIDs, actualHour)
-                        end)
-                    end
-                end
-                num = num + 1
-            end
-            if Possible == true then
-                table.insert(AllIDs, ID)
-                wait()
-                pcall(function()
-                    writefile("NotSameServers.json", HttpService:JSONEncode(AllIDs))
-                    wait()
-                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, Player)
-                end)
-                wait(4)
-            end
-        end
-    end
-end
-
-function Tween()
-    while wait() do
-        pcall(function()
-            TPReturner()
-            if foundAnything ~= "" then
-                TPReturner()
-            end
-        end)
-    end
-end
-
--- If you'd like to use a script before server hopping (Like a Automatic Chest collector you can put the Tween() after it collected everything.
-Tween() 
-end)
-local Button1 = Section2:CreateButton("Rejoin", function()
-game:GetService("TeleportService"):Teleport(game.PlaceId, Player) end)
-
-
-local Button1 = Section2:CreateButton("Save Settings", function()
-Save()
-end)
-local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
-	Window:Toggle(State)
-end)
-Toggle3:CreateKeybind(tostring(Config.Keybind):gsub("Enum.KeyCode.", ""), function(Key)
-	Config.Keybind = Enum.KeyCode[Key]
-end)
-Toggle3:SetState(true)
-Section3:CreateLabel("Credits DekuDimz#7960")
-Section3:CreateLabel("Credits AlexR32#3232 Ui")
-Section3:CreateLabel("Credits Applebee")
-local Colorpicker3 = Section3:CreateColorpicker("UI Color", function(Color)
-	Window:ChangeColor(Color)
-end)
-Colorpicker3:UpdateColor(Config.Color)
-
--- credits to jan for patterns
-local Dropdown3 = Section4:CreateDropdown("Image", {"Default","Hearts","Abstract","Hexagon","Circles","Lace With Flowers","Floral"}, function(Name)
-	if Name == "Default" then
-		Window:SetBackground("2151741365")
-	elseif Name == "Hearts" then
-		Window:SetBackground("6073763717")
-	elseif Name == "Abstract" then
-		Window:SetBackground("6073743871")
-	elseif Name == "Hexagon" then
-		Window:SetBackground("6073628839")
-	elseif Name == "Circles" then
-		Window:SetBackground("6071579801")
-	elseif Name == "Lace With Flowers" then
-		Window:SetBackground("6071575925")
-	elseif Name == "Floral" then
-		Window:SetBackground("5553946656")
-	end
-end)
-Dropdown3:SetOption("Default")
-
-local Colorpicker4 = Section4:CreateColorpicker("Color", function(Color)
-	Window:SetBackgroundColor(Color)
-end)
-Colorpicker4:UpdateColor(Color3.new(1,1,1))
-
-local Slider3 = Section4:CreateSlider("Transparency",0,1,nil,false, function(Value)
-	Window:SetBackgroundTransparency(Value)
-end)
-Slider3:SetValue(0)
-
-local Slider4 = Section4:CreateSlider("Tile Scale",0,1,nil,false, function(Value)
-	Window:SetTileScale(Value)
-end)
-Slider4:SetValue(0.5)
+SaveManager:IgnoreThemeSettings() 
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' }) 
+ThemeManager:SetFolder('V.G Hub')
+SaveManager:SetFolder("V.G Hub/" .. game.PlaceId)
+SaveManager:BuildConfigSection(Tabs['UI Settings']) 
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
