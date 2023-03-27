@@ -1102,24 +1102,7 @@ Options.Foods:OnChanged(function()
     Food = Options.Foods.Value
 end)
 
-LeftEventGroupBox:AddToggle('Spring', {Text = 'Spring event', Default = false,Tooltip = ''})
-Toggles.Spring:OnChanged(function(State)
-    Spring = Toggles.Spring.Value
-    get_join_timer_display_string_now = ScriptFunction("get_join_timer_display_string_now",ReplicatedStorage.ClientModules.Game.InteriorHelpers.FashionMinigameInterior)
-    is_game_in_progress = ScriptFunction("is_game_in_progress",ReplicatedStorage.ClientModules.Game.InteriorHelpers.FashionMinigameInterior)
-    
-    RenderStepped:Connect(function()
-        pcall(function()
-            if Spring then
-                NoClip(Player.Character:FindFirstChildWhichIsA("Humanoid", true))
-            end 
-        end)
-    end)
-    spawn(function()
-        while wait() and Spring do 
-            pcall(function()
-                
-                if is_game_in_progress() and 
+ 
 local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Karrot-Esp"))()
 LeftBox:AddToggle('ESP1', {Text = 'Esp Toggle', Default = false,Tooltip = ''})
 Toggles.ESP1:OnChanged(function(State)
