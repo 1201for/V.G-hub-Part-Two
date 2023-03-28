@@ -532,6 +532,8 @@ local a = {
         spawn(function()
             while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
                 if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                    GoToHome()
+                    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
                     ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
                 end 
             end 
@@ -544,6 +546,8 @@ local a = {
         spawn(function()
             while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
                 if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                    GoToHome()
+                    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
                     ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
                 end
             end
@@ -558,7 +562,7 @@ local a = {
         repeat wait() until Player.Character:FindFirstChild('PizzaTool', true)
         local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
         local Pizza = nil 
-        for i,v in pairs(Foods) do
+        for i,v in pairs(Foods) do wait(1)
             if v.id == "pizza" then
                 Pizza = v.unique
                 break
@@ -569,13 +573,14 @@ local a = {
         end 
         wait(1)
         ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = Pizza})
+        wait(1)
         ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Pizza)
     end,
     ["thirsty"] = function(c)
         ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'tea', {})
         local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
         local tea = nil 
-        for i,v in pairs(Foods) do
+        for i,v in pairs(Foods) do wait(1)
             if v.id == "tea" then
                 tea = v.unique
                 break
@@ -586,6 +591,7 @@ local a = {
         end 
         wait(1)
         ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = tea})
+        wait(1)
         ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(tea)
     end,
     ["sick"] = function(c) 
@@ -660,7 +666,7 @@ Toggles.Pet:OnChanged(function(State)
     spawn(
         function()
             while wait() and PetFarm do
-                pcall(function()
+                
                     local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
                     if Ailment then
                         local Name = Ailment.Name
@@ -678,7 +684,7 @@ Toggles.Pet:OnChanged(function(State)
                         ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
                         Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                     end
-                end)
+                
             end
         end
     )
