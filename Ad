@@ -379,7 +379,121 @@ end
 pcall(function()
     ReplicatedStorage.API:FindFirstChild("DailyLoginAPI/ClaimDailyReward"):InvokeServer()
 end)
-
+        if Key then
+            PetID = Key.unique
+            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+        end
+        local a = {
+            ["sleepy"] = function(c)
+                spawn(function()
+                    while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
+                        if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                            GoToHome()
+                            Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+                            ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
+                        end
+                    end
+                end)
+                repeat wait(0) until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+                ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+                Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+            end,
+            ["dirty"] = function(c)
+                spawn(function()
+                    while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
+                        if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                            GoToHome()
+                            Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
+                            ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
+                        end
+                    end
+                end)
+                repeat wait(0) until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+                ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+                Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+            end,
+            ["hungry"] = function(c)
+                if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                    ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'pizza', {})
+                    ReplicatedStorage:FindFirstChild("ToolAPI/BakeItem",true):InvokeServer()
+                    repeat wait() until Player.Character:FindFirstChild('PizzaTool', true)
+                    local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
+                    local Pizza = nil 
+                    for i,v in pairs(Foods) do wait(1)
+                        if v.id == "pizza" then
+                            Pizza = v.unique
+                            break
+                        end 
+                    end
+                    if not Pizza then 
+                        return 
+                    end 
+                    wait(1)
+                    ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = Pizza})
+                    wait(1)
+                    ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Pizza)
+                end 
+            end,
+            ["thirsty"] = function(c)
+                if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                    ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'tea', {})
+                    local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
+                    local tea = nil 
+                    for i,v in pairs(Foods) do wait(1)
+                        if v.id == "tea" then
+                            tea = v.unique
+                            break
+                        end 
+                    end
+                    if not tea then 
+                        return 
+                    end 
+                    wait(1)
+                    ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = tea})
+                    wait(1)
+                    ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(tea)
+                end 
+            end,
+            ["sick"] = function(c) 
+                repeat wait(0) ReplicatedStorage:FindFirstChild("MonitorAPI/HealWithDoctor",true):FireServer() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+            end,
+            ["adoption_party"] = function(c)
+                GoToStore('Nursery')
+                repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+            end,
+            ["school"] = function(c)
+                GoToStore('School')
+                repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+            end,
+            ["pizza_party"] = function(c)
+                GoToStore("PizzaShop")
+                repeat
+                    wait()
+                until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+            end,
+            ["salon"] = function(c)
+                GoToStore("Salon")
+                repeat
+                    wait()
+                until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+            end,
+            ["pool_party"] = function(c)
+                GoToMainMap()
+                Player.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Workspace").StaticMap.Pool.PoolOrigin.Position + Vector3.new(0, 5, 0))
+                repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+            end,
+            ["camping"] = function(c)
+                GoToMainMap()
+                Player.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Workspace").StaticMap.Campsite.CampsiteOrigin.Position + Vector3.new(0, 5, 0))
+                repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+            end,
+            ['bored'] = function(c)
+                GoToMainMap()
+                Player.Character.HumanoidRootPart.CFrame = CFrame.new(game:GetService("Workspace").StaticMap.Park.AilmentTarget.Position + Vector3.new(0, 5, 0))
+                repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
+            end,
+        }
 
 local repo = 'https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/'
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
@@ -517,8 +631,6 @@ Toggles.Neon:OnChanged(function(State)
     end)
 end)
         
-local a = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/Games/PetFarm/Pet"))()
-
 LeftGroupBox:AddDropdown('Pets', {Values = List, Default = 1, Multi = false, Text = 'Pets', Tooltip = ''})
 
 Options.Pets:OnChanged(function()
@@ -538,13 +650,6 @@ Toggles.Pet:OnChanged(function(State)
             end)
         end
     end)
-
-
-    if Key then
-        PetID = Key.unique
-        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-    end
     spawn(function()
         while wait(20) and PetFarm and Refresh do
             pcall(function()
@@ -553,127 +658,17 @@ Toggles.Pet:OnChanged(function(State)
             end)
         end
     end)
-
-local a = {
-    ["sleepy"] = function(c)
-        while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
-            if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
-                pcall(function()
-                    GoToHome()
-                    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
-                    ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
-                end)
-            end
-        end
-        repeat wait(0) until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-    end,
-    ["dirty"] = function(c)
-        while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
-            if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
-                pcall(function()
-                    GoToHome()
-                    Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
-                    ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
-                end)
-            end
-        end
-        repeat wait(0) until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-    end,
-    ["hungry"] = function(c)
-        ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'pizza', {})
-        ReplicatedStorage:FindFirstChild("ToolAPI/BakeItem",true):InvokeServer()
-        repeat wait() until Player.Character:FindFirstChild('PizzaTool', true)
-        local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
-        local Pizza = nil 
-        for i,v in pairs(Foods) do wait(1)
-            if v.id == "pizza" then
-                Pizza = v.unique
-                break
-            end 
-        end
-        if not Pizza then 
-            return 
-        end 
-        wait(1)
-        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = Pizza})
-        wait(1)
-        ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(Pizza)
-    end,
-    ["thirsty"] = function(c)
-        ReplicatedStorage:FindFirstChild("ShopAPI/BuyItem",true):InvokeServer('food', 'tea', {})
-        local Foods = require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.food or {}
-        local tea = nil 
-        for i,v in pairs(Foods) do wait(1)
-            if v.id == "tea" then
-                tea = v.unique
-                break
-            end 
-        end
-        if not tea then 
-            return 
-        end 
-        wait(1)
-        ReplicatedStorage:FindFirstChild("PetObjectAPI/CreatePetObject",true):InvokeServer("__Enum_PetObjectCreatorType_2", {["unique_id"] = tea})
-        wait(1)
-        ReplicatedStorage:FindFirstChild("PetAPI/ConsumeFoodItem",true):FireServer(tea)
-    end,
-    ["sick"] = function(c) 
-        repeat wait(0) ReplicatedStorage:FindFirstChild("MonitorAPI/HealWithDoctor",true):FireServer() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-    ["adoption_party"] = function(c)
-        GoToStore('Nursery')
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-    ["school"] = function(c)
-        GoToStore('School')
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-    ["pizza_party"] = function(c)
-        GoToStore("PizzaShop")
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-    ["salon"] = function(c)
-        GoToStore("Salon")
-        repeat
-            wait()
-        until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-    ["pool_party"] = function(c)
-        GoToMainMap()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace:WaitForChild("StaticMap"):FindFirstChild("HotSpringOrigin", true).Position + Vector3.new(0, 5, 0))
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-    ["camping"] = function(c)
-        GoToMainMap()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(Workspace:WaitForChild("StaticMap", 9e9):FindFirstChild("CampsiteOrigin", true).Position + Vector3.new(0, 5, 0))
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-    ['bored'] = function(c)
-        GoToMainMap()
-        Player.Character.HumanoidRootPart.CFrame = CFrame.new(workspace:WaitForChild("StaticMap", 9e9):FindFirstChild("BoredAilmentTarget", true).Position + Vector3.new(0, 5, 0))
-        repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
-    end,
-}
-
     spawn(
         function()
             while wait() and PetFarm do
-                pcall(function()
                     local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
                     if Ailment then
                         local Name = Ailment.Name
                         if a[Name]then
                             a[Name](Ailment)
-                            print(a[Name](Ailment))
                         end
                     end
-                    if Pet.Parent  then
+                    if Pet then
                         if Pet.Parent ~= Workspace.Pets then
                             ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
                             Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
@@ -682,7 +677,7 @@ local a = {
                         ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
                         Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
                     end
-                end)
+             
             end
         end
     )
