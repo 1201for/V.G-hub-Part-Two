@@ -526,32 +526,87 @@ Options.Pets:OnChanged(function()
     print(Key, Key.unique)
 end)
 
+LeftGroupBox:AddToggle('Pet', {Text = 'PetFarm', Default = false,Tooltip = ''})
+Toggles.Pet:OnChanged(function(State)
+    PetFarm = Toggles.Pet.Value
+
+    RunService.RenderStepped:connect(function()
+        if PetFarm then
+            pcall(function()
+                Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
+                NoClip(Player.Character:FindFirstChildWhichIsA("Humanoid"))
+            end)
+        end
+    end)
+
+
+    if Key then
+        PetID = Key.unique
+        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+    end
+    spawn(function()
+        while wait(20) and PetFarm and Refresh do
+            pcall(function()
+                ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+                Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+            end)
+        end
+    end)
+
+    spawn(
+        function()
+            while wait() and PetFarm do
+                
+                    local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
+                    if Ailment then
+                        local Name = Ailment.Name
+                        if a[Name]then
+                            a[Name](Ailment)
+                            print(a[Name](Ailment))
+                        end
+                    end
+                    if Pet.Parent  then
+                        if Pet.Parent ~= Workspace.Pets then
+                            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+                            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+                        end
+                    else
+                        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+                        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+                    end
+                
+            end
+        end
+    )
+end)
+
 
 local a = {
     ["sleepy"] = function(c)
-        spawn(function()
-            while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
-                if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+        while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
+            if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                pcall(function()
                     GoToHome()
                     Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
                     ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Bed(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
-                end 
-            end 
-        end)
+                end)
+            end
+        end
         repeat wait(0) until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
         ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
         Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
     end,
     ["dirty"] = function(c)
-        spawn(function()
-            while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
-                if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+        while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
+            if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
+                pcall(function()
                     GoToHome()
                     Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
                     ReplicatedStorage:FindFirstChild('HousingAPI/ActivateFurniture',true):InvokeServer(Player, Showers(), 'UseBlock', {['cframe'] = Player.Character:FindFirstChild("HumanoidRootPart",true).CFrame}, Pet)
-                end
+                end)
             end
-        end)
+        end
         repeat wait(0) until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
         ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
         Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
@@ -634,61 +689,6 @@ local a = {
     end,
 }
 
-
-LeftGroupBox:AddToggle('Pet', {Text = 'PetFarm', Default = false,Tooltip = ''})
-Toggles.Pet:OnChanged(function(State)
-    PetFarm = Toggles.Pet.Value
-
-    RunService.RenderStepped:connect(function()
-        if PetFarm then
-            pcall(function()
-                Workspace["P"].CFrame = Player.Character.HumanoidRootPart.CFrame * CFrame.new(Vector3.new(0,-5,0))
-                NoClip(Player.Character:FindFirstChildWhichIsA("Humanoid"))
-            end)
-        end
-    end)
-
-
-    if Key then
-        PetID = Key.unique
-        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-    end
-    spawn(function()
-        while wait(20) and PetFarm and Refresh do
-            pcall(function()
-                ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-                Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-            end)
-        end
-    end)
-
-    spawn(
-        function()
-            while wait() and PetFarm do
-                
-                    local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
-                    if Ailment then
-                        local Name = Ailment.Name
-                        if a[Name]then
-                            a[Name](Ailment)
-                            print(a[Name](Ailment))
-                        end
-                    end
-                    if Pet.Parent  then
-                        if Pet.Parent ~= Workspace.Pets then
-                            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-                            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-                        end
-                    else
-                        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-                        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-                    end
-                
-            end
-        end
-    )
-end)
 
 LeftGroupBox:AddToggle('SwitchOut', {Text = 'SwitchOutFullyGrown', Default = false,Tooltip = ''})
 Toggles.SwitchOut:OnChanged(function(State)
