@@ -554,34 +554,6 @@ Toggles.Pet:OnChanged(function(State)
         end
     end)
 
-    spawn(
-        function()
-            while wait() and PetFarm do
-                
-                    local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
-                    if Ailment then
-                        local Name = Ailment.Name
-                        if a[Name]then
-                            a[Name](Ailment)
-                            print(a[Name](Ailment))
-                        end
-                    end
-                    if Pet.Parent  then
-                        if Pet.Parent ~= Workspace.Pets then
-                            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-                            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-                        end
-                    else
-                        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
-                        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
-                    end
-                
-            end
-        end
-    )
-end)
-
-
 local a = {
     ["sleepy"] = function(c)
         while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
@@ -688,6 +660,33 @@ local a = {
         repeat wait() until c.Parent ~= Player.PlayerGui.AilmentsMonitorApp.Ailments
     end,
 }
+
+    spawn(
+        function()
+            while wait() and PetFarm do
+                pcall(function()
+                    local Ailment = Player.PlayerGui.AilmentsMonitorApp.Ailments:FindFirstChildWhichIsA("Frame")
+                    if Ailment then
+                        local Name = Ailment.Name
+                        if a[Name]then
+                            a[Name](Ailment)
+                            print(a[Name](Ailment))
+                        end
+                    end
+                    if Pet.Parent  then
+                        if Pet.Parent ~= Workspace.Pets then
+                            ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+                            Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+                        end
+                    else
+                        ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
+                        Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
+                    end
+                end)
+            end
+        end
+    )
+end)
 
 
 LeftGroupBox:AddToggle('SwitchOut', {Text = 'SwitchOutFullyGrown', Default = false,Tooltip = ''})
