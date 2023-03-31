@@ -387,7 +387,7 @@ end)
         local a = {
             ["sleepy"] = function(c)
                 spawn(function()
-                    while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
+                    while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and PetFarm do
                         if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
                             GoToHome()
                             Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
@@ -401,7 +401,7 @@ end)
             end,
             ["dirty"] = function(c)
                 spawn(function()
-                    while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments do
+                    while wait() and c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments and PetFarm do
                         if c.Parent == Player.PlayerGui.AilmentsMonitorApp.Ailments then
                             GoToHome()
                             Player.Character.HumanoidRootPart.CFrame = Workspace.HouseInteriors.blueprint:FindFirstChildWhichIsA('Model'):GetModelCFrame():ToWorldSpace(CFrame.new(0, 0, -6)) 
@@ -558,6 +558,29 @@ Invis = Toggles.AutoInvis.Value
                 end 
             end)
         end
+    end)
+end)
+
+RightGroupBox:AddToggle('SFDH', {Text = 'Auto Spring Fest', Default = false,Tooltip = ''})
+Toggles.SFDH:OnChanged(function(State)
+    Hoe = Toggles.SFDH.Value
+    spawn(function()
+        while wait() and Hoe do
+            pcall(function()
+                local FashionMinigameInterior = require(game:GetService("ReplicatedStorage").ClientModules.Game.InteriorHelpers.FashionMinigameInterior)
+                local FurnitureMinigameInterior = require(game:GetService("ReplicatedStorage").ClientModules.Game.InteriorHelpers.FurnitureMinigameInterior)
+                local String = string.gsub(FashionMinigameInterior.get_join_timer_display_string_now(), "%D","")
+                local String2 = string.gsub(FurnitureMinigameInterior.get_join_timer_display_string_now(), "%D","")
+                if String2 < String and not game:GetService("Workspace").Interiors:FindFirstChild("FurnitureMinigame", true) then
+                    GoToStore("FurnitureMinigame")
+                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame =game:GetService("Workspace").Interiors.FurnitureMinigame.Minigame.JoinZone.Collider.CFrame
+                end 
+                if String < String2 and not game:GetService("Workspace").Interiors:FindFirstChild("FashionMinigame", true) then
+                    GoToStore("FashionMinigame")
+                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = game:GetService("Workspace").Interiors.FashionMinigame.Minigame.JoinZone.Collider.CFrame     
+                end     
+            end)
+        end 
     end)
 end)
 
