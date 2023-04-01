@@ -667,7 +667,6 @@ LeftGroupBox:AddDropdown('Pets', {Values = List, Default = 1, Multi = false, Tex
 
 Options.Pets:OnChanged(function()
     Key = PetsShow[Options.Pets.Value]
-    print(Key, Key.unique)
 end)
 
 LeftGroupBox:AddToggle('Pet', {Text = 'PetFarm', Default = false,Tooltip = ''})
