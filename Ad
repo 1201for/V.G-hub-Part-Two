@@ -379,7 +379,7 @@ end
 pcall(function()
     ReplicatedStorage.API:FindFirstChild("DailyLoginAPI/ClaimDailyReward"):InvokeServer()
 end)
-if Key then
+if Key ~= nil then
     PetID = Key.unique
     ReplicatedStorage.API["ToolAPI/Unequip"]:InvokeServer(PetID)
     Pet = ReplicatedStorage.API["ToolAPI/Equip"]:InvokeServer(PetID)
