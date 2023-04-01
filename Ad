@@ -566,6 +566,11 @@ end)
 RightGroupBox:AddToggle('SFDH', {Text = 'Auto Spring Fest', Default = false,Tooltip = ''})
 Toggles.SFDH:OnChanged(function(State)
     Hoe = Toggles.SFDH.Value
+    RenderStepped:Connect(function()
+        if Hoe then
+            pcall(NoClip(Player.Character:FindFirstChildWhichIsA("Humanoid", true)))
+        end 
+    end)
     spawn(function()
         while wait() and Hoe do
             pcall(function()
@@ -573,20 +578,14 @@ Toggles.SFDH:OnChanged(function(State)
                 local FurnitureMinigameInterior = require(game:GetService("ReplicatedStorage").ClientModules.Game.InteriorHelpers.FurnitureMinigameInterior)
                 local String = string.gsub(FashionMinigameInterior.get_join_timer_display_string_now(), "%D","")
                 local String2 = string.gsub(FurnitureMinigameInterior.get_join_timer_display_string_now(), "%D","")
-                if String2 < String and not FurnitureMinigameInterior.is_game_in_progress() then
+                if String2 < String  then
                     GoToStore("FurnitureMinigame")
                     Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FurnitureMinigame.Minigame.JoinZone.Collider.CFrame
                 end 
-                if String < String2 and not FashionMinigameInterior.is_game_in_progress() then
+                if String < String2 then
                     GoToStore("FashionMinigame")
                     Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FashionMinigame.Minigame.JoinZone.Collider.CFrame     
                 end     
-                if FashionMinigameInterior.is_game_in_progress() then
-                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FashionMinigame.Minigame.JoinZone.Collider.CFrame
-                end 
-                if FurnitureMinigameInterior.is_game_in_progress() then
-                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FashionMinigame.Minigame.JoinZone.Collider.CFrame   
-                end 
             end)
         end 
     end)
