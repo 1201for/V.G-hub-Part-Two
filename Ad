@@ -575,12 +575,18 @@ Toggles.SFDH:OnChanged(function(State)
                 local String2 = string.gsub(FurnitureMinigameInterior.get_join_timer_display_string_now(), "%D","")
                 if String2 < String and not FurnitureMinigameInterior.is_game_in_progress() then
                     GoToStore("FurnitureMinigame")
-                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame =game:GetService("Workspace").Interiors.FurnitureMinigame.Minigame.JoinZone.Collider.CFrame
+                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FurnitureMinigame.Minigame.JoinZone.Collider.CFrame
                 end 
                 if String < String2 and not FashionMinigameInterior.is_game_in_progress() then
                     GoToStore("FashionMinigame")
-                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = game:GetService("Workspace").Interiors.FashionMinigame.Minigame.JoinZone.Collider.CFrame     
+                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FashionMinigame.Minigame.JoinZone.Collider.CFrame     
                 end     
+                if FashionMinigameInterior.is_game_in_progress() then
+                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FashionMinigame.Minigame.JoinZone.Collider.CFrame
+                end 
+                if FurnitureMinigameInterior.is_game_in_progress() then
+                    Player.Character:FindFirstChild("HumanoidRootPart", true).CFrame = Workspace.Interiors.FashionMinigame.Minigame.JoinZone.Collider.CFrame   
+                end 
             end)
         end 
     end)
@@ -855,25 +861,7 @@ end)
 
 RightGroupBox:AddToggle('Family3', {Text = 'Auto Fly Pets', Default = false,Tooltip = ''})
 Toggles.Family3:OnChanged(function(State)
-FlyPets = Toggles.Family3.Value
-local Torment = false
-spawn(function()
-    while wait() and FlyPets do
-        pcall(function()
-            for i, v in pairs(require(ReplicatedStorage.ClientModules.Core.ClientData).get_data()[Player.Name].inventory.pets) do
-                if FlyPets then
-                    v.properties.rideable = true
-                    v.properties.flyable = true
-                    Torment = true
-                elseif not FlyPets and Torment then
-                    v.properties.rideable = false
-                    v.properties.flyable = false
-                    Torment = false
-                end
-            end
-        end)
-    end 
-end)
+
 end)
 RightGroupBox:AddToggle('FWdsd', {Text = 'Auto Buy Eggs', Default = false,Tooltip = ''})
 Toggles.FWdsd:OnChanged(function(State)
