@@ -362,7 +362,7 @@ UserInputService.WindowFocusReleased:Connect(function()
         if table.find(Table, game.PlaceId) then
             Set(30)
         else
-            Set(5)
+            Set(15)
         end
     end
 end)
@@ -568,7 +568,9 @@ Toggles.SFDH:OnChanged(function(State)
     Hoe = Toggles.SFDH.Value
     RenderStepped:Connect(function()
         if Hoe then
-            pcall(NoClip(Player.Character:FindFirstChildWhichIsA("Humanoid", true)))
+            pcall(function()
+                Player.Character:FindFirstChildWhichIsA("Humanoid", true):ChangeState(11)
+            end)
         end 
     end)
     spawn(function()
