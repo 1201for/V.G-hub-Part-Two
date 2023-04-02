@@ -3,9 +3,15 @@ local Config = {
 	Color = Color3.fromRGB(255,128,64),
 	Keybind = Enum.KeyCode.RightControl
 }
+
+
+local VirtualUser = game:GetService("VirtualUser")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+
+
 repeat wait() until game:IsLoaded() wait()
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+Player.Idled:connect(function()
+VirtualUser:ClickButton2(Vector2.new())
 end)
 
 
@@ -18,14 +24,14 @@ OldNameCall = hookmetamethod(game, "__newindex", function(A, B, C)
 end)
 uu = 75
 aa = 0
-getgenv().delay = 2
-getgenv().delay2 = 0
-for i, v in pairs(game:GetService("Workspace").Map2:GetDescendants()) do
+delay = 2
+delay2 = 0
+for i, v in pairs(Workspace.Map2:GetDescendants()) do
 if v.Name == "Beach Chairs" then
 v:remove()
 end end
-local LP = game:GetService("Players").LocalPlayer
-local ts = game:GetService("TweenService")
+local LP = Player
+local ts = TweenService
 local function Tween(part, endpos, speed)
     if part and endpos then
         local Time = (endpos - part.Position).magnitude/speed
@@ -37,29 +43,29 @@ local function Tween(part, endpos, speed)
 end
 
 Quests = {}
-for i, v in pairs(game:GetService("ReplicatedStorage").Quests:GetChildren()) do
+for i, v in pairs(ReplicatedStorage.Quests:GetChildren()) do
     table.insert(Quests, v.Name)
 end
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
-game.Players.LocalPlayer.CharacterAdded:Connect(
+Player.Character.Humanoid.WalkSpeed = 50
+Player.CharacterAdded:Connect(
     function()
         repeat
             wait()
-        until game.Players.LocalPlayer.Character
+        until Player.Character
         wait(3)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 50
+        Player.Character.Humanoid.WalkSpeed = 50
     end
 )
-for i, v in pairs(game.Workspace:GetChildren()) do
-    if v.ClassName == "Part" or v.ClassName == "Script" and  v.Parent == game.Workspace  then
+for i, v in pairs(Workspace:GetChildren()) do
+    if v.ClassName == "Part" or v.ClassName == "Script" and  v.Parent == Workspace  then
         v:remove()
     end
 end
 
 game:GetService("RunService").Stepped:connect(function()
         pcall(function()
-                if game.Players.LocalPlayer.Character.Head:FindFirstChild("Overhead") then
-                    game.Players.LocalPlayer.Character.Head.Overhead:remove()
+                if Player.Character.Head:FindFirstChild("Overhead") then
+                    Player.Character.Head.Overhead:remove()
                 end
             end
         )
@@ -68,55 +74,55 @@ game:GetService("RunService").Stepped:connect(function()
 
 
 function c()
-    for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+    for i, v in pairs(Player.Backpack:GetChildren()) do
         if v.ClassName == "Tool" and v:FindFirstChild("Combat Script") then
-            game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+            Player.Character.Humanoid:EquipTool(v)
         end
     end
 end
 
 
 local Equiped = Instance.new("BoolValue")
-Equiped.Parent = game.Players.LocalPlayer.Character
+Equiped.Parent = Player.Character
 Equiped.Name = "Tool"
-game.Players.LocalPlayer.CharacterAdded:Connect(
+Player.CharacterAdded:Connect(
     function()
         wait(2)
         local Equiped = Instance.new("BoolValue")
-        Equiped.Parent = game.Players.LocalPlayer.Character
+        Equiped.Parent = Player.Character
         Equiped.Name = "Tool"
     end
 )
 local Equiped = function(A)
     if A:IsA("Tool") then
-        game.Players.LocalPlayer.Character.Tool.Value = true
+        Player.Character.Tool.Value = true
         wait(1)
-        game.Players.LocalPlayer.Character.Animate.Disabled = true
-        game.Players.LocalPlayer.Character.Animate.Disabled = false
+        Player.Character.Animate.Disabled = true
+        Player.Character.Animate.Disabled = false
     end
 end
 
-game.Players.LocalPlayer.Character.ChildAdded:Connect(
+Player.Character.ChildAdded:Connect(
     function(v)
         if v:IsA("Tool") then
             Equiped(v)
         end
     end
 )
-game.Players.LocalPlayer.Character.ChildRemoved:Connect(
+Player.Character.ChildRemoved:Connect(
     function(v)
         if v:IsA("Tool") then
-            game.Players.LocalPlayer.Character.Tool.Value = false
+            Player.Character.Tool.Value = false
         end
     end
 )
 
 code = {}
-for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
+for i, v in pairs(Player.Codes:GetDescendants()) do
     table.insert(code, v.Name)
 end
 game:GetService("RunService").Stepped:connect(function()
-        sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 1000)
+        sethiddenproperty(Player, "SimulationRadius", 1000)
     end
 )
 
@@ -395,16 +401,16 @@ system = {
     "Rahgan's Overseer"
 }
 
-local Part = Instance.new("Part", workspace)
+local Part = Instance.new("Part", Workspace)
 Part.Name = "poopy"
 Part.Size = Vector3.new(9e9, 0, 9e9)
 Part.Anchored = true
 Part.Transparency = 1
 
 
-local Vet = game:GetService("VirtualInputManager")
-local Players = game.Players
-local LocalPlayer = Players.LocalPlayer
+local Vet = VirtualInputManager
+local Players = Players
+local LocalPlayer = Player
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/test"))()
 local Window = Library:CreateWindow(Config, game:GetService("CoreGui"))
 
@@ -421,7 +427,7 @@ local Toggle1 = Section1:CreateToggle("Auto Attack", nil, function(State)
 w2 = State
 while w2 do
     wait()
-    game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+    ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
 end
 end)
 local Toggle1 = Section1:CreateToggle("Auto Skills", nil, function(State)
@@ -450,12 +456,12 @@ while yourdumb do
     pcall(function()
             c()
             wait()
-            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+            ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
             LocalPlayer.Character.HumanoidRootPart.CFrame =
-                game:GetService("Workspace").Live["Training dummy"].Torso.CFrame * CFrame.new(-7, 0, 0) * CFrame.Angles(aa, 0, 0)
+                Workspace.Live["Training dummy"].Torso.CFrame * CFrame.new(-7, 0, 0) * CFrame.Angles(aa, 0, 0)
             if not yourdumb then
                 LocalPlayer.Character.HumanoidRootPart.CFrame =
-                game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
+                Workspace.SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0)
             end
         end
     )
@@ -469,7 +475,7 @@ game:GetService("RunService").Stepped:connect(
         pcall(
             function()
                 if Legit then
-                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                    Player.Character.Humanoid:ChangeState(11)
                 end
             end
         )
@@ -481,15 +487,15 @@ spawn(
             wait()
             pcall(
                 function()
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2846, 334, 2919)
-                    game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                    Player.Character.HumanoidRootPart.CFrame = CFrame.new(-2846, 334, 2919)
+                    VirtualUser:ClickButton1(Vector2.new(9e9, 9e9))
                 end
             )
         end
     end
 )
 c()
-game.Players.LocalPlayer.CharacterAdded:Connect(
+Player.CharacterAdded:Connect(
     function()
         repeat
             wait()
@@ -511,16 +517,16 @@ local Toggle1 = Section1:CreateToggle("GodMode", nil, function(State)
 god = State
 game:GetService("RunService").Stepped:connect(function()
 pcall(function()
-        if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("DamageDivider") then
+        if Player.Character.CharacterValues:FindFirstChild("DamageDivider") then
             if god then
-                game.Players.LocalPlayer.Character.CharacterValues:WaitForChild("DamageDivider"):remove()
+                Player.Character.CharacterValues:WaitForChild("DamageDivider"):remove()
             end
         end
         end)
     end
 )
 if not god then
-    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+    Player.Character.Humanoid.Health = 0
 end
 end)
 
@@ -530,16 +536,16 @@ local Toggle1 = Section1:CreateToggle("StatusImmune", nil, function(State)
 gods = State
 game:GetService("RunService").Stepped:connect(function()
 pcall(function()
-        if game.Players.LocalPlayer.Character.CharacterValues:FindFirstChild("StatusImmune") then
+        if Player.Character.CharacterValues:FindFirstChild("StatusImmune") then
             if gods then
-                game.Players.LocalPlayer.Character.CharacterValues.StatusImmune:remove()
+                Player.Character.CharacterValues.StatusImmune:remove()
             end
         end
         end)
     end
 )
 if not gods then
-    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+    Player.Character.Humanoid.Health = 0
 end
 end)
 Toggle1:AddToolTip("Makes your StatusImmune to any stun attack such as fire etc")
@@ -548,9 +554,9 @@ nocool = State
 while wait() do
     wait()
     if nocool then
-        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = -9e9
+        Player.PlayerValues.CooldownReduction.Value = -9e9
     else
-        game:GetService("Players").LocalPlayer.PlayerValues.CooldownReduction.Value = 1
+        Player.PlayerValues.CooldownReduction.Value = 1
     end
 end
 end)
@@ -558,10 +564,10 @@ Toggle1:AddToolTip("Makes Abilitys have no anmation Cooldown")
 
 
 local Toggle1 = Section1:CreateToggle("Player Silent Aim", nil, function(State)
-getgenv().Player = State
+Player = State
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+local Players = Players
+local LocalPlayer = Player
 local Mouse = LocalPlayer:GetMouse()
 function ClosestPlayerToCurser()
     local MaxDistance, Closest = math.huge
@@ -569,7 +575,7 @@ function ClosestPlayerToCurser()
         if v ~= LocalPlayer and v.Character then
             local H = v.Character.FindFirstChild(v.Character, "Head")
             if H then
-                local Pos, Vis = workspace.CurrentCamera.WorldToScreenPoint(workspace.CurrentCamera, H.Position)
+                local Pos, Vis = Workspace.CurrentCamera.WorldToScreenPoint(Workspace.CurrentCamera, H.Position)
                 if Vis then
                     local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
                     local Dist = (A2 - A1).Magnitude
@@ -592,7 +598,7 @@ OldIndex =
     "__index",
     function(self, v, ...)
         if self == Mouse and (v == "Hit" or v == "Target") then
-            if ClosestPlayerToCurser() and getgenv().Player then
+            if ClosestPlayerToCurser() and Player then
                 return ((v == "Hit" and ((ClosestPlayerToCurser().Character.Head.CFrame) or (ClosestPlayerToCurser().Character.Head.CFrame + (ClosestPlayerToCurser().Character.Head.Velocity)))) or
                     (v == "Target" and ClosestPlayerToCurser().Character.Head))
             end
@@ -604,17 +610,17 @@ OldIndex =
 end)
 local Toggle1 = Section1:CreateToggle("Mob Silent Aim", nil, function(State)
 
-getgenv().Mob = State
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+Mob = State
+local Players = Players
+local LocalPlayer = Player
 local Mouse = LocalPlayer:GetMouse()
 function ClosestMobToCurser()
     local MaxDistance, Closest = math.huge
-    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+    for i, v in pairs(Workspace.Live:GetChildren()) do
         if v:IsA("Model")  then
             local H = v:FindFirstChild("Head")
             if H then
-                local Pos, Vis = workspace.CurrentCamera:WorldToScreenPoint(H.Position)
+                local Pos, Vis = Workspace.CurrentCamera:WorldToScreenPoint(H.Position)
                 if Vis then
                     local A1, A2 = Vector2.new(Mouse.X, Mouse.Y), Vector2.new(Pos.X, Pos.Y)
                     local Dist = (A2 - A1).Magnitude
@@ -638,7 +644,7 @@ OldIndex =
     "__index",
     function(self, v, ...)
         if self == Mouse and (v == "Hit" or v == "Target") then
-            if ClosestMobToCurser() and getgenv().Mob then
+            if ClosestMobToCurser() and Mob then
                 return ((v == "Hit" and ((ClosestMobToCurser().Head.CFrame) or (ClosestMobToCurser().Head.CFrame + (ClosestMobToCurser().Head.Velocity)))) or
                     (v == "Target" and ClosestMobToCurser().Head))
             end
@@ -676,7 +682,7 @@ game:GetService("RunService").Stepped:connect(
         pcall(
             function()
                 if system2 then
-                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                    Player.Character.Humanoid:ChangeState(11)
                 end
             end
         )
@@ -689,20 +695,20 @@ spawn(
             wait()
             pcall(
                 function()
-                    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                    for i, v in pairs(Workspace.Live:GetChildren()) do
                         if
                             v:IsA("Model") and v.Name == system and v:FindFirstChildOfClass("Humanoid") and
                                 v.Humanoid.Health > 0
                          then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                v.Torso.CFrame * CFrame.new(0, -uu, 2) * CFrame.Angles(aa, 0, 0)
-                            wait(getgenv().delay2)
+                            Player.Character.HumanoidRootPart.CFrame =
+                                v.Torso.CFrame * CFrame.new(0, -7, 2) 
+                            wait(delay2)
                    
-                            wait(getgenv().delay2)
+                            wait(delay2)
                             if v.Humanoid.Health < v.Humanoid.MaxHealth then
                             v.Humanoid.Health = 0
                             end
-                            wait(getgenv().delay2)
+                            wait(delay2)
                         end
                     end
                 end
@@ -717,9 +723,9 @@ spawn(
             pcall(
                 function()
                     c()
-                    wait(getgenv().delay2)
-                    game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-                    game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                    wait(delay2)
+                    ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                    ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
                 end
             )
         end
@@ -734,22 +740,22 @@ local Dropdown1 = Section1:CreateDropdown("Mobs", system, function(String)
 end)
 
 local Toggle1 = Section1:CreateToggle("Auto Quest", nil, function(State)
-getgenv().System = State
+System = State
 game:GetService("RunService").Stepped:connect(
     function()
         pcall(
             function()
-                if getgenv().System then
-                    game.Players.LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(11)
-                    if game.Players.LocalPlayer.Character.Humanoid.Health == 0 then
-                        game:GetService("ReplicatedStorage").RemoteEvents.ClearQuestRemote:FireServer()
-                        for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if System then
+                    Player.Character:WaitForChild("Humanoid"):ChangeState(11)
+                    if Player.Character.Humanoid.Health == 0 then
+                        ReplicatedStorage.RemoteEvents.ClearQuestRemote:FireServer()
+                        for i, v in pairs(Player.Character:GetChildren()) do
                             if v:IsA("Tool") and v:FindFirstChild("Combat Script") then
-                                v.Parent = game.Players.LocalPlayer.Backpack
+                                v.Parent = Player.Backpack
                             end
                         end
                     end
-                    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                    for i, v in pairs(Workspace.Live:GetChildren()) do
                         if
                             v:FindFirstChild("Quest") and v.Quest.Value == Quest.QuestName.Text and
                                 v:FindFirstChildOfClass("Humanoid") and
@@ -766,29 +772,28 @@ game:GetService("RunService").Stepped:connect(
 
 spawn(
     function()
-        while getgenv().System do
+        while System do
             wait()
-            pcall(
-                function()
+            pcall(function()
                     local Quest =
-                        game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
+                        Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
                         "QuestFrame"
                     )
                     if Quest.Visible == false then
                         repeat
                             wait()
-                        until game.Players.LocalPlayer.Character and
-                            game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
+                        until Player.Character and
+                            Player:WaitForChild("PlayerGui"):WaitForChild("Menu"):WaitForChild(
                                 "QuestFrame"
                             ) and
-                                game.Players.LocalPlayer:WaitForChild("Backpack"):FindFirstChildOfClass("Tool") or
-                            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                                Player:WaitForChild("Backpack"):FindFirstChildOfClass("Tool") or
+                            Player.Character:FindFirstChildOfClass("Tool")
 
-                        game:GetService("ReplicatedStorage").RemoteEvents.ChangeQuestRemote:FireServer(
-                            game:GetService("ReplicatedStorage").Quests:FindFirstChild(Quests)
+                        ReplicatedStorage.RemoteEvents.ChangeQuestRemote:FireServer(
+                            ReplicatedStorage.Quests:FindFirstChild(Quests)
                         )
                     end
-                    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                    for i, v in pairs(Workspace.Live:GetChildren()) do
                         if
                             v:FindFirstChild("Quest") and v.Quest.Value == Quest.QuestName.Text and
                                 v:FindFirstChildOfClass("Humanoid") and
@@ -796,116 +801,115 @@ spawn(
                          then
                             pcall(
                                 function()
-                                    if getgenv().Default1 == "Default" then
+                                    if Default1 == "Default" then
                                         v:WaitForChild("HumanoidRootPart").CFrame =
-                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            Player.Character:WaitForChild("HumanoidRootPart").CFrame *
                                             CFrame.new(0, 0, -2)
-                                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
-                                            game:GetService("Workspace").QuestMarkers[
+                                        Player.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                            Workspace.QuestMarkers[
                                             Quest:WaitForChild("QuestName").Text
                                         ].CFrame *
                                             CFrame.new(0, -uu, 0) *
                                             CFrame.Angles(aa, 0, 0)
                                         Part.CFrame =
-                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            Player.Character:WaitForChild("HumanoidRootPart").CFrame *
                                             CFrame.new(0, -5, 0)
                                     end
-                                    if getgenv().Default1 == "Sky" then
+                                    if Default1 == "Sky" then
                                         v:WaitForChild("HumanoidRootPart").CFrame =
-                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            Player.Character:WaitForChild("HumanoidRootPart").CFrame *
                                             CFrame.new(0, 0, -2)
-                                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
-                                            game:GetService("Workspace").QuestMarkers[
+                                        Player.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                            Workspace.QuestMarkers[
                                             Quest:WaitForChild("QuestName").Text
                                         ].CFrame *
                                             CFrame.new(0, uu, 0) *
                                             CFrame.Angles(aa, 0, 0)
                                         Part.CFrame =
-                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            Player.Character:WaitForChild("HumanoidRootPart").CFrame *
                                             CFrame.new(0, -5, 0)
                                     end
-                                    if getgenv().Default1 == "Fancy" then
-                                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                    if Default1 == "Fancy" then
+                                        Player.Character:WaitForChild("HumanoidRootPart").CFrame =
                                             v:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, -5, 2)
                                         Part.CFrame =
-                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            Player.Character:WaitForChild("HumanoidRootPart").CFrame *
                                             CFrame.new(0, -5, 0)
                                     end
-                                    if getgenv().Default1 == "BeHind" then
-                                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                    if Default1 == "BeHind" then
+                                        Player.Character:WaitForChild("HumanoidRootPart").CFrame =
                                             v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
                                     end
-                                    if getgenv().Default1 == "Crazy" then
+                                    if Default1 == "Crazy" then
                                         wait(0.1)
-                                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
-                                            game:GetService("Workspace").QuestMarkers[
+                                        Player.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                            Workspace.QuestMarkers[
                                             Quest:WaitForChild("QuestName").Text
                                         ].CFrame *
                                             CFrame.new(math.random(100), -uu, math.random(100)) *
                                             CFrame.Angles(aa, 0, 0)
                                         Part.CFrame =
-                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            Player.Character:WaitForChild("HumanoidRootPart").CFrame *
                                             CFrame.new(0, -5, 0)
                                         v.HumanoidRootPart.CFrame =
-                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            Player.Character:WaitForChild("HumanoidRootPart").CFrame *
                                             CFrame.new(0, 0, -3)
                                     end
-                                    if getgenv().Default1 == "Void" then
+                                    if Default1 == "Void" then
                                         repeat
                                             wait()
 
-                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame =
+                                            Player.Character:WaitForChild("HumanoidRootPart").CFrame =
                                                 v.HumanoidRootPart.CFrame * CFrame.new(0, -7, 0)
-                                        until isnetworkowner(v.HumanoidRootPart) or getgenv().System == false
+                                        until isnetworkowner(v.HumanoidRootPart) or System == false
                                         v.HumanoidRootPart.CFrame =
-                                            game:GetService("Workspace").QuestMarkers[
+                                            Workspace.QuestMarkers[
                                             Quest:WaitForChild("QuestName").Text
                                         ].CFrame * CFrame.new(0, 50000, 0)
                                         Part.CFrame =
-                                            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame *
+                                            Player.Character:WaitForChild("HumanoidRootPart").CFrame *
                                             CFrame.new(0, 7, 0)
                                     end
-                                    if getgenv().InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
-                                        wait(getgenv().delay2)
+                                    if InstantKill and v.Humanoid.Health < v.Humanoid.MaxHealth then
+                                        wait(delay2)
                                         v.Humanoid.Health = 0
                                     end
 
-                                    if not getgenv().System then
+                                    if not System then
                                         v.HumanoidRootPart.CFrame =
-                                            game:GetService("Workspace").QuestMarkers[
+                                            Workspace.QuestMarkers[
                                             Quest:WaitForChild("QuestName").Text
                                         ].CFrame *
                                             CFrame.new(0, 50, 0) *
                                             CFrame.Angles(aa, 0, 0)
                                     end
 
-                                    if not getgenv().System then
-                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                                            game:GetService("Workspace").SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
+                                    if not System then
+                                        Player.Character.HumanoidRootPart.CFrame =
+                                            Workspace.SafeZoneIndicator.CFrame * CFrame.new(0, 5, 0) *
                                             CFrame.Angles(aa, 0, 0)
                                     end
                                 end
                             )
                         end
                     end
-                end
-            )
+          end)
         end
     end
 )
 
 spawn(
     function()
-        while getgenv().System do
+        while System do
             wait()
             pcall(
                 function()
                     if
-                        game.Players.LocalPlayer:WaitForChild("Backpack"):FindFirstChildOfClass("Tool") or
-                            game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                        Player:WaitForChild("Backpack"):FindFirstChildOfClass("Tool") or
+                            Player.Character:FindFirstChildOfClass("Tool")
                      then
                         c()
-                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                        ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
                     end
                 end
             )
@@ -918,9 +922,9 @@ end)
 
 
 local Dropdown1 = Section1:CreateDropdown("Quest Modes", {"Default","Fancy","Sky","BeHind","Crazy","Void"}, function(String)
-	getgenv().Default1 = String
+	Default1 = String
 end)
-Dropdown1:SetOption("Fancy")
+Dropdown1:SetOption("Default")
 
 
 local Dropdown1 = Section1:CreateDropdown("Quests", Quests, function(String)
@@ -928,13 +932,13 @@ local Dropdown1 = Section1:CreateDropdown("Quests", Quests, function(String)
 end)
 
 local Toggle1 = Section1:CreateToggle("InstantKill", nil, function(State)
-getgenv().InstantKill = State
+InstantKill = State
 
-while getgenv().InstantKill do
+while InstantKill do
     wait()
     pcall(
         function()
-            for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+            for i, v in pairs(Workspace.Live:GetChildren()) do
                 if v:FindFirstChild("Humanoid") and 
                     v.Humanoid.Health ~= 0 and isnetworkowner(v.HumanoidRootPart) and
                         v.Humanoid.Health < v.Humanoid.MaxHealth
@@ -945,7 +949,7 @@ while getgenv().InstantKill do
         end
     )
 end
-if getgenv().InstantKill then
+if InstantKill then
     game.StarterGui:SetCore(
         "SendNotification",
         {
@@ -957,21 +961,21 @@ end
 
 end)
 
-getgenv().magss = 100
+magss = 100
 local Toggle1 = Section1:CreateToggle("Auto Bring Mob", nil, function(State)
 sexs = State
 while sexs do
     wait(0.5)
     pcall(function()
-            for i, v in ipairs(game:GetService("Workspace").Live:GetChildren()) do
+            for i, v in ipairs(Workspace.Live:GetChildren()) do
                 if v:FindFirstChild("Humanoid") and v.Name ~= "Training dummy" and v.Humanoid.Health > 0 then
-                    local Root = game.Players.LocalPlayer.Character.HumanoidRootPart
+                    local Root = Player.Character.HumanoidRootPart
                     local RootTwo = v.HumanoidRootPart
-                    if (Root.Position - RootTwo.Position).Magnitude < getgenv().magss then
-                        Tween(v.HumanoidRootPart, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.p, 100)
-                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
-                        game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                    if (Root.Position - RootTwo.Position).Magnitude < magss then
+                        Tween(v.HumanoidRootPart, Player.Character.HumanoidRootPart.CFrame.p, 100)
+                        ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                        ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
+                        ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(false, nil, nil)
                     end
                 end
             end
@@ -990,7 +994,7 @@ pcall(
                 Text = "Try one of your gay ugly weak moves unless you use OFA then u cool"
             }
         )
-        game:GetService("Workspace").Effects:remove()
+        Workspace.Effects:remove()
     end
 )
 end)
@@ -998,25 +1002,25 @@ local Slider2 = Section1:CreateSlider("Attack Distance", 0,300,nil,false, functi
 uu = Value
 end)
 local Slider2 = Section1:CreateSlider("Bring Radius", 0,1000,nil,false, function(Value)
-getgenv().magss = Value
+magss = Value
 end)
 
 local Slider2 = Section1:CreateSlider("Attack Angle", 0,360,nil,false, function(Value)
 aa = Value
 end)
 local Slider2 = Section1:CreateSlider("AutoFarm Speed", 0,7,nil,false, function(Value)
-getgenv().delay2 = Value
+delay2 = Value
 end)
 local Button1 = Section1:CreateButton("Redeem Selected Code", function()
-game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(code)
+ReplicatedStorage.RemoteEvents.CodeRemote:FireServer(code)
 end)
 local Dropdown1 = Section1:CreateDropdown("Codes", code, function(String)
 	code = String
 end)
 
 local Button1 = Section1:CreateButton("Redeem All Codes", function()
-for i, v in pairs(game:GetService("Players").LocalPlayer.Codes:GetDescendants()) do
-    game:GetService("ReplicatedStorage").RemoteEvents.CodeRemote:FireServer(v.Name)
+for i, v in pairs(Player.Codes:GetDescendants()) do
+    ReplicatedStorage.RemoteEvents.CodeRemote:FireServer(v.Name)
 end
 end)
 local Toggle1 = Section1:CreateToggle("Stun All Mobs", nil, function(State)
@@ -1025,7 +1029,7 @@ while wait(2) do
     pcall(
         function()
             if stun then
-                for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+                for i, v in pairs(Workspace.Live:GetDescendants()) do
                     if v:FindFirstChild("Humanoid") then
                         v.Humanoid.PlatformStand = true
                     end
@@ -1042,7 +1046,7 @@ spawn(
         game:GetService("RunService").Stepped:connect(
             function()
                 if system3 then
-                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                    Player.Character.Humanoid:ChangeState(11)
                 end
             end
         )
@@ -1051,27 +1055,27 @@ spawn(
             wait()
             pcall(
                 function()
-                    for i, v in pairs(game:GetService("Workspace").Live:GetChildren()) do
+                    for i, v in pairs(Workspace.Live:GetChildren()) do
                         if
                             v:IsA("Model") and v.Name == "KiddStan" or
                                 v.Name == "CrimsonMikami" and v:FindFirstChildOfClass("Humanoid") and
                                     v.Humanoid.Health > 0
                          then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                            Player.Character.HumanoidRootPart.CFrame =
                                 v.Torso.CFrame * CFrame.new(0, -5, 2) * CFrame.Angles(aa, 0, 0)
-                            wait(getgenv().delay2)
+                            wait(delay2)
                             c()
-                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                            ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(
                                 false,
                                 nil,
                                 nil
                             )
-                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                            ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(
                                 false,
                                 nil,
                                 nil
                             )
-                            game:GetService("ReplicatedStorage").RemoteEvents.BladeCombatRemote:FireServer(
+                            ReplicatedStorage.RemoteEvents.BladeCombatRemote:FireServer(
                                 false,
                                 nil,
                                 nil
@@ -1088,38 +1092,38 @@ end)
 
 local Toggle1 = Section1:CreateToggle("Auto use DragonBalls", nil, function(State)
 Dragoon = State
-local K = game:GetService("Players").LocalPlayer.PlayerValues
-local A = game.Players.LocalPlayer
+local K = Player.PlayerValues
+local A = Player
 while Dragoon do
     wait()
     pcall(function()
     if K.DragonBall1.Value == false and A.Backpack:FindFirstChild("One Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["One Star Dragonball"])
-        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
 
     elseif K.DragonBall2.Value == false and A.Backpack:FindFirstChild("Two Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Two Star Dragonball"])
-        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
 
     elseif K.DragonBall3.Value == false and A.Backpack:FindFirstChild("Three Star Dragonball")  then
         A.Character.Humanoid:EquipTool(A.Backpack["Three Star Dragonball"])
-        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
 
     elseif K.DragonBall4.Value == false and A.Backpack:FindFirstChild("Four Star Dragonball")  then
         A.Character.Humanoid:EquipTool(A.Backpack["Four Star Dragonball"])
-        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
 
     elseif K.DragonBall5.Value == false and A.Backpack:FindFirstChild("Five Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Five Star Dragonball"])
-        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
 
     elseif K.DragonBall6.Value == false and A.Backpack:FindFirstChild("Six Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Six Star Dragonball"])
-        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
 
     elseif K.DragonBall7.Value == false and A.Backpack:FindFirstChild("Seven Star Dragonball") then
         A.Character.Humanoid:EquipTool(A.Backpack["Seven Star Dragonball"])
-        game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+        ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
     end
   end)
 end
@@ -1127,15 +1131,15 @@ end)
 
 
 local Button1 = Section2:CreateButton("Find Lucky or Requiem Arrows", function()
-getgenv().LOL = true
-game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+LOL = true
+ReplicatedStorage.RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while getgenv().LOL do
+while LOL do
     wait()
-    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
-        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+    if #Player.Backpack:GetChildren() >= 20 then
+        for i, v in pairs(Player.Backpack:GetChildren()) do
             if not table.find(aka, v.Name) and v.Name:find("Arrow") then
-                v.Parent = game.Players.LocalPlayer.Character
+                v.Parent = Player.Character
                 v:Destroy()
             elseif v.Name:find("Arrow") and table.find(aka, v.Name) then
                 game.StarterGui:SetCore(
@@ -1145,26 +1149,26 @@ while getgenv().LOL do
                         Text = "Check your inventory plz"
                     }
                 )
-                getgenv().LOL = false
+                LOL = false
             end
         end
     else
-        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
     end
 end
 end)
 
 local Button1 = Section2:CreateButton("Find Uchiha Eyeball", function()
-getgenv().LOL = true
-game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+LOL = true
+ReplicatedStorage.RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while getgenv().LOL do
+while LOL do
     wait()
-    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
-    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
-        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+    ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
+    if #Player.Backpack:GetChildren() >= 10 then
+        for i, v in pairs(Player.Backpack:GetChildren()) do
             if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") and not v:FindFirstChild("Combat Script") then
-                v.Parent = game.Players.LocalPlayer.Character
+                v.Parent = Player.Character
                 game.StarterGui:SetCore(
                     "SendNotification",
                     {
@@ -1172,9 +1176,9 @@ while getgenv().LOL do
                         Text = "Check your inventory plz"
                     }
                 )
-                getgenv().LOL = false
+                LOL = false
             elseif  v.ClassName == "Tool" and not v:FindFirstChild("Meshes/Sphere_009") and not v:FindFirstChild("Combat Script") then 
-                v.Parent = game.Players.LocalPlayer.Character
+                v.Parent = Player.Character
                 v:remove()
             end
         end
@@ -1183,19 +1187,19 @@ end
 end)
 
 local Button1 = Section2:CreateButton("Find Legendary Armor", function()
-getgenv().LOL = true
-game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+LOL = true
+ReplicatedStorage.RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while getgenv().LOL do
+while LOL do
     wait()
     pcall(
         function()
-            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
-            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
-                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Armor")
+            if #Player.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(Player.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
                         if v.BagPart.Overhead.Rarity.Text == "Legendary" then
-                            v.Parent = game.Players.LocalPlayer.Character
+                            v.Parent = Player.Character
                             game.StarterGui:SetCore(
                                 "SendNotification",
                                 {
@@ -1203,9 +1207,9 @@ while getgenv().LOL do
                                     Text = "Check your inventory plz"
                                 }
                             )
-                            getgenv().LOL = false
+                            LOL = false
                         elseif v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Rarity.Text == "Rare" then
-                            v.Parent = game.Players.LocalPlayer.Character
+                            v.Parent = Player.Character
                             v:remove()
                         end
                     end
@@ -1217,19 +1221,19 @@ end
 
 end)
 local Button1 = Section2:CreateButton("Find Rare Armor", function()
-getgenv().LOL = true
-game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+LOL = true
+ReplicatedStorage.RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while getgenv().LOL do
+while LOL do
     wait()
     pcall(
         function()
-            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
-            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
-                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Armor")
+            if #Player.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(Player.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
                         if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" then
-                            v.Parent = game.Players.LocalPlayer.Character
+                            v.Parent = Player.Character
                             game.StarterGui:SetCore(
                                 "SendNotification",
                                 {
@@ -1237,9 +1241,9 @@ while getgenv().LOL do
                                     Text = "Check your inventory plz"
                                 }
                             )
-                            getgenv().LOL = false
+                            LOL = false
                         elseif v.BagPart.Overhead.Rarity.Text == "Common" then
-                            v.Parent = game.Players.LocalPlayer.Character
+                            v.Parent = Player.Character
                             v:remove()
                         end
                     end
@@ -1251,19 +1255,19 @@ end
 
 end)
 local Button1 = Section2:CreateButton("Find Rare Accessory", function()
-getgenv().LOL = true
-game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+LOL = true
+ReplicatedStorage.RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while getgenv().LOL do
+while LOL do
     wait()
     pcall(
         function()
-            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
-            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
-                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
+            if #Player.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(Player.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
                         if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" then
-                            v.Parent = game.Players.LocalPlayer.Character
+                            v.Parent = Player.Character
                             game.StarterGui:SetCore(
                                 "SendNotification",
                                 {
@@ -1271,11 +1275,11 @@ while getgenv().LOL do
                                     Text = "Check your inventory plz"
                                 }
                             )
-                            getgenv().LOL = false
+                            LOL = false
                         elseif
                             v.BagPart.Overhead.Rarity.Text == "Common" or v.BagPart.Overhead.Rarity.Text == "Uncommon"
                          then
-                            v.Parent = game.Players.LocalPlayer.Character
+                            v.Parent = Player.Character
                             v:remove()
                         end
                     end
@@ -1287,19 +1291,19 @@ end
 end)
 
 local Button1 = Section2:CreateButton("Find Uncommon Accessory", function()
-getgenv().LOL = true
-game:GetService("ReplicatedStorage").RemoteEvents.ClearInventoryRemote:FireServer()
+LOL = true
+ReplicatedStorage.RemoteEvents.ClearInventoryRemote:FireServer()
 wait(0.5)
-while getgenv().LOL do
+while LOL do
     wait()
     pcall(
         function()
-            game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
-            if #game.Players.LocalPlayer.Backpack:GetChildren() >= 10 then
-                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
+            if #Player.Backpack:GetChildren() >= 10 then
+                for i, v in pairs(Player.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v.Name == "Bag" and v:FindFirstChild("Handle") then
                         if v.BagPart.Overhead.Rarity.Text == "Legendary" or v.BagPart.Overhead.Rarity.Text == "Rare" or v.BagPart.Overhead.Rarity.Text == "Uncommon" then
-                            v.Parent = game.Players.LocalPlayer.Character
+                            v.Parent = Player.Character
                             game.StarterGui:SetCore(
                                 "SendNotification",
                                 {
@@ -1307,11 +1311,11 @@ while getgenv().LOL do
                                     Text = "Check your inventory plz"
                                 }
                             )
-                            getgenv().LOL = false
+                            LOL = false
                         elseif
                             v.BagPart.Overhead.Rarity.Text == "Common" 
                          then
-                            v.Parent = game.Players.LocalPlayer.Character
+                            v.Parent = Player.Character
                             v:remove()
                         end
                     end
@@ -1323,21 +1327,21 @@ end
 end)
 
 local Button1 = Section2:CreateButton("Stop Finding", function()
-getgenv().LOL = false
+LOL = false
 end)
 local Toggle1 = Section2:CreateToggle("Find and Store Lucky/Requiem Arrows", nil, function(State)
-getgenv().LL = State
+LL = State
 
-while getgenv().LL do
+while LL do
     wait()
-    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
-        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+    if #Player.Backpack:GetChildren() >= 20 then
+        for i, v in pairs(Player.Backpack:GetChildren()) do 
             if not table.find(aka, v.Name) and v.Name:find("Arrow") then
                    for a = 1, 13 do
-                    for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                    for j, v in pairs(Player.PlayerValues:GetChildren()) do
                         if v.Name:match("ItemStorage" .. a) and v.Value ~= "" then
                             break end end end 
-                v.Parent = game.Players.LocalPlayer.Character
+                v.Parent = Player.Character
                 v:Destroy()
             elseif v.Name:find("Arrow") and table.find(aka, v.Name) then
                 game.StarterGui:SetCore(
@@ -1347,11 +1351,11 @@ while getgenv().LL do
                         Text = "Putting in inventory"
                     }
                 )
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                Player.Character.Humanoid:EquipTool(v)
                 for i = 1, 13 do
-                    for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                    for j, v in pairs(Player.PlayerValues:GetChildren()) do
                         if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
-                            game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                            ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
                         end
                     end
                 end
@@ -1359,21 +1363,21 @@ while getgenv().LL do
             end
         end
     else
-        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
     end
 end
 end)
 
 local Toggle1 = Section2:CreateToggle("Find and Store Requiem Arrows", nil, function(State)
-getgenv().LL = State
+LL = State
 
-while getgenv().LL do
+while LL do
     wait()
-    if #game.Players.LocalPlayer.Backpack:GetChildren() >= 20 then
-        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+    if #Player.Backpack:GetChildren() >= 20 then
+        for i, v in pairs(Player.Backpack:GetChildren()) do 
             if v.Name ~= "Requiem Arrow" and v:FindFirstChild("Blade") then
             
-                v.Parent = game.Players.LocalPlayer.Character
+                v.Parent = Player.Character
                 v:Destroy()
             elseif  v.Name == "Requiem Arrow" and v:FindFirstChild("Blade") then
                 game.StarterGui:SetCore(
@@ -1383,11 +1387,11 @@ while getgenv().LL do
                         Text = "Putting in inventory"
                     }
                 )
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                Player.Character.Humanoid:EquipTool(v)
                 for i = 1, 13 do
-                    for j, v in pairs(game:GetService("Players").LocalPlayer.PlayerValues:GetChildren()) do
+                    for j, v in pairs(Player.PlayerValues:GetChildren()) do
                         if v.Name:match("ItemStorage" .. i) and v.Value == "" then wait(0.001)
-                            game:GetService("ReplicatedStorage").RemoteEvents.ItemStorageRemote:FireServer(v.Name)
+                            ReplicatedStorage.RemoteEvents.ItemStorageRemote:FireServer(v.Name)
                         end
                     end
                 end
@@ -1395,7 +1399,7 @@ while getgenv().LL do
             end
         end
     else
-        game.ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
     end
 end
 end)
@@ -1404,14 +1408,14 @@ end)
 
 
 local Slider2 = Section2:CreateSlider("Auto Stuff Wait time", 0,7,nil,false, function(Value)
-   getgenv().delay = Value
+   delay = Value
 end)
 Slider2:AddToolTip("Control Delay Time For Auto Applying everything below this")
 local Toggle1 = Section2:CreateToggle("Auto Buy Arrows", nil, function(State)
 deeznuts33 = State
 while deeznuts33 do
     wait(0.3)
-    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
+    ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
 end
 end)
 local Toggle1 = Section2:CreateToggle("Auto Ability", nil, function(State)
@@ -1420,15 +1424,15 @@ while Abily do
     wait(2)
     pcall(
         function()
-            if game.Players.LocalPlayer.PlayerValues.Ability.Value ~= ab1 then
-                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Rokakaka")
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Rokakaka)
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-                wait(getgenv().delay)
-                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Arrow")
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Arrow)
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
-                wait(getgenv().delay)
+            if Player.PlayerValues.Ability.Value ~= ab1 then
+                ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Rokakaka")
+                Player.Character.Humanoid:EquipTool(Player.Backpack.Rokakaka)
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                wait(delay)
+                ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Arrow")
+                Player.Character.Humanoid:EquipTool(Player.Backpack.Arrow)
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
+                wait(delay)
             end
         end
     )
@@ -1444,15 +1448,15 @@ end)
 local Toggle1 = Section2:CreateToggle("Auto Tile", nil, function(State)
 newpaper = State
 while newpaper do
-    wait(getgenv().delay)
+    wait(delay)
     pcall(
         function()
-            if game.Players.LocalPlayer.PlayerValues.Epithet.Value ~= ab3 then
-                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Newspaper") then
-                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Newspaper")
+            if Player.PlayerValues.Epithet.Value ~= ab3 then
+                if not Player.Backpack:FindFirstChild("Newspaper") then
+                    ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Newspaper")
                 end
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Newspaper)
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                Player.Character.Humanoid:EquipTool(Player.Backpack.Newspaper)
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
             end
         end
     )
@@ -1468,15 +1472,15 @@ end)
 local Toggle1 = Section2:CreateToggle("Auto Race", nil, function(State)
 Heart = State
 while Heart do
-    wait(getgenv().delay)
+    wait(delay)
     pcall(
         function()
-            if game.Players.LocalPlayer.PlayerValues.Race.Value ~= ab4 then
-                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Heart") then
-                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Heart")
+            if Player.PlayerValues.Race.Value ~= ab4 then
+                if not Player.Backpack:FindFirstChild("Heart") then
+                    ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Heart")
                 end
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Heart)
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                Player.Character.Humanoid:EquipTool(Player.Backpack.Heart)
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
             end
         end
     )
@@ -1491,15 +1495,15 @@ end)
 local Toggle1 = Section2:CreateToggle("Auto Trait", nil, function(State)
 Heart1 = State
 while Heart1 do
-    wait(getgenv().delay)
+    wait(delay)
     pcall(
         function()
-            if game.Players.LocalPlayer.PlayerValues.Trait.Value ~= ab6 then
-                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Eyeball") then
-                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Eyeball")
+            if Player.PlayerValues.Trait.Value ~= ab6 then
+                if not Player.Backpack:FindFirstChild("Eyeball") then
+                    ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Eyeball")
                 end
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Eyeball)
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                Player.Character.Humanoid:EquipTool(Player.Backpack.Eyeball)
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
             end
         end
     )
@@ -1515,16 +1519,16 @@ end)
 local Toggle1 = Section2:CreateToggle("Auto Class", nil, function(State)
 Heart2 = State
 while Heart2 do
-    wait(getgenv().delay)
+    wait(delay)
     pcall(
         function()
-            if game.Players.LocalPlayer.PlayerValues.Class.Value ~= ab7 then
-                if not game.Players.LocalPlayer.Backpack:FindFirstChild("Brain") then
-                    game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Brain")
+            if Player.PlayerValues.Class.Value ~= ab7 then
+                if not Player.Backpack:FindFirstChild("Brain") then
+                    ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Brain")
                 end
 
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack.Brain)
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                Player.Character.Humanoid:EquipTool(Player.Backpack.Brain)
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
             end
         end
     )
@@ -1539,16 +1543,16 @@ end)
 local Toggle1 = Section2:CreateToggle("Auto Sharingan", nil, function(State)
 Heart9 = State
 while Heart9 do
-    wait(getgenv().delay)
-    if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab10 then
-        game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
-        for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+    wait(delay)
+    if Player.PlayerValues.Specialization.Value ~= ab10 then
+        ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
+        for i, v in pairs(Player.Backpack:GetChildren()) do
             if v.ClassName == "Tool" and v:FindFirstChild("Meshes/Sphere_009") then
-                v.Parent = game.Players.LocalPlayer.Character
+                v.Parent = Player.Character
                 wait(1)
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
             else
-                v.Parent = game.Players.LocalPlayer, Character
+                v.Parent = Player, Character
                 v:remove()
             end
         end
@@ -1563,17 +1567,17 @@ end)
 local Toggle1 = Section2:CreateToggle("Auto Specialization", nil, function(State)
 Heart3 = State
 while Heart3 do
-    wait(getgenv().delay)
+    wait(delay)
     pcall(
         function()
-            if game.Players.LocalPlayer.PlayerValues.Specialization.Value ~= ab2 then
-                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
-                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if Player.PlayerValues.Specialization.Value ~= ab2 then
+                ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Specialization")
+                for i, v in pairs(Player.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v:FindFirstChild("Scroll") or v:FindFirstChild("Fruit") then
-                        v.Parent = game.Players.LocalPlayer.Character
+                        v.Parent = Player.Character
                     end
                 end
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
             end
         end
     )
@@ -1588,17 +1592,17 @@ end)
 local Toggle1 = Section2:CreateToggle("Auto Mentor", nil, function(State)
 Heart4 = State
 while Heart4 do
-    wait(getgenv().delay)
+    wait(delay)
     pcall(
         function()
-            if game.Players.LocalPlayer.PlayerValues.Mentor.Value ~= ab5 then
-                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Mentor")
-                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if Player.PlayerValues.Mentor.Value ~= ab5 then
+                ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Mentor")
+                for i, v in pairs(Player.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v:FindFirstChild("MentorEgg") then
-                        v.Parent = game.Players.LocalPlayer.Character
+                        v.Parent = Player.Character
                     end
                 end
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
             end
         end
     )
@@ -1614,33 +1618,33 @@ local Toggle1 = Section2:CreateToggle("Select Accessory1", nil, function(State)
 Accessory1 = State
 while Accessory1 do
     wait()
-    game:GetService("ReplicatedStorage").RemoteEvents.EquipAccessoryRemote:FireServer("Accessory1")
+    ReplicatedStorage.RemoteEvents.EquipAccessoryRemote:FireServer("Accessory1")
 end
 end)
 local Toggle1 = Section2:CreateToggle("Select Accessory2", nil, function(State)
 Accessory2 = State
 while Accessory2 do
     wait()
-    game:GetService("ReplicatedStorage").RemoteEvents.EquipAccessoryRemote:FireServer("Accessory2")
+    ReplicatedStorage.RemoteEvents.EquipAccessoryRemote:FireServer("Accessory2")
 end
 end)
 local Toggle1 = Section2:CreateToggle("Auto Accessory", nil, function(State)
 Heart2 = State
 while Heart2 do
-    wait(getgenv().delay)
+    wait(delay)
     pcall(
         function()
             if
-                game:GetService("Players").LocalPlayer.PlayerValues.Accessory1.Value and
-                    game:GetService("Players").LocalPlayer.PlayerValues.Accessory2.Value ~= ab8
+                Player.PlayerValues.Accessory1.Value and
+                    Player.PlayerValues.Accessory2.Value ~= ab8
              then
-                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
-                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Accessory")
+                for i, v in pairs(Player.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v:FindFirstChild("BagPart") then
-                        v.Parent = game.Players.LocalPlayer.Character
+                        v.Parent = Player.Character
                     end
                 end
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
             end
         end
     )
@@ -1658,17 +1662,17 @@ local Toggle1 = Section2:CreateToggle("Auto Armor", nil, function(State)
 Heart5 = State
 
 while Heart5 do
-    wait(getgenv().delay)
+    wait(delay)
     pcall(
         function()
-            if game:GetService("Players").LocalPlayer.PlayerValues.Armor.Value ~= ab9 then
-                game:GetService("ReplicatedStorage").RemoteEvents.BuyItemRemote:FireServer("Random Armor")
-                for i, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if Player.PlayerValues.Armor.Value ~= ab9 then
+                ReplicatedStorage.RemoteEvents.BuyItemRemote:FireServer("Random Armor")
+                for i, v in pairs(Player.Backpack:GetChildren()) do
                     if v.ClassName == "Tool" and v:FindFirstChild("Handle") then
-                        v.Parent = game.Players.LocalPlayer.Character
+                        v.Parent = Player.Character
                     end
                 end
-                game:GetService("ReplicatedStorage").RemoteEvents.ItemRemote:FireServer()
+                ReplicatedStorage.RemoteEvents.ItemRemote:FireServer()
             end
         end
     )
@@ -1679,73 +1683,73 @@ local Dropdown1 = Section2:CreateDropdown("Accessorys", ab9, function(String)
 	ab9 = String
 end)
 local Toggle1 = Section2:CreateToggle("AutoKeyPress E", nil, function(State)
-getgenv().E = State
-while getgenv().E do 
+E = State
+while E do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"E",false,uwu)
 end 
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress R", nil, function(State)
-getgenv().R = State
-while getgenv().R do 
+R = State
+while R do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"R",false,uwu)
 end 
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress X", nil, function(State)
-getgenv().X = State
-while getgenv().X do 
+X = State
+while X do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"X",false,uwu)
 end 
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress C", nil, function(State)
-getgenv().C = State
-while getgenv().C do 
+C = State
+while C do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"C",false,uwu)
 end 
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress Y", nil, function(State)
-getgenv().Y = State
-while getgenv().Y do 
+Y = State
+while Y do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"Y",false,uwu)
 end 
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress V", nil, function(State)
-getgenv().V = State
-while getgenv().V do 
+V = State
+while V do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"V",false,uwu)
 end 
 end)
 
 local Toggle1 = Section2:CreateToggle("AutoKeyPress T", nil, function(State)
-getgenv().T = State
-while getgenv().T do 
+T = State
+while T do 
     wait()
 game:GetService('VirtualInputManager'):SendKeyEvent(true,"T",false,uwu)
 end 
 end)
 if syn then
 local TextBox1 = SectionA:CreateTextBox("Fps Cap", "Only numbers", true, function(Value)
-    getgenv().Fps = Value
+    Fps = Value
     pcall(function()
-setfpscap(getgenv().Fps)
+setfpscap(Fps)
 end)
 end)
 end
 local TextBox1 = SectionA:CreateTextBox("WalkSpeed", "Only numbers", true, function(Value)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    Player.Character.Humanoid.WalkSpeed = Value
 end)
 local TextBox1 = SectionA:CreateTextBox("JumpPower", "Only numbers", true, function(Value)
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    Player.Character.Humanoid.JumpPower = Value
 end)
 
 
@@ -1764,23 +1768,23 @@ local words = {"V.G Hub Best","Autofarming with V.G hub makes this game ten time
 local Toggle1 = SectionA:CreateToggle("Spam Chat", nil, function(State)
 words1 = State
 while words1 do wait(5)
-game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(words[math.random(#words)],"All")
+ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(words[math.random(#words)],"All")
 end end)
 local Toggle1 = SectionA:CreateToggle("Be Wired", nil, function(State)
 sy = State
 spawn(function()
 while sy do wait()
 pcall(function()
-game.Players.LocalPlayer.Character["Left Leg"]:remove()
-game.Players.LocalPlayer.Character["Left Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Arm"]:remove()
-game.Players.LocalPlayer.Character["Right Leg"]:remove() end) end end) end)
+Player.Character["Left Leg"]:remove()
+Player.Character["Left Arm"]:remove()
+Player.Character["Right Arm"]:remove()
+Player.Character["Right Leg"]:remove() end) end end) end)
 
 local Toggle1 = SectionA:CreateToggle("SS Jump Mobs", nil, function(State)
 deeznuts = State
 while deeznuts do
     wait(1)
-    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+    for i, v in pairs(Workspace.Live:GetDescendants()) do
         if v:IsA("Humanoid") then
             v.Jump = true
         end
@@ -1791,7 +1795,7 @@ local Toggle1 = SectionA:CreateToggle("SS Sit Mobs", nil, function(State)
 deeznuts1 = State
 while deeznuts1 do
     wait(1)
-    for i, v in pairs(game:GetService("Workspace").Live:GetDescendants()) do
+    for i, v in pairs(Workspace.Live:GetDescendants()) do
         if v:IsA("Humanoid") then
             v.Sit = true
         end
@@ -1804,17 +1808,17 @@ noclip = false
 game:GetService("RunService").Stepped:connect(
     function()
         if noclip then
-            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            Player.Character.Humanoid:ChangeState(11)
         end
     end
 )
-mouse = game.Players.LocalPlayer:GetMouse()
-game.Players.LocalPlayer:GetMouse().KeyDown:connect(
+mouse = Player:GetMouse()
+Player:GetMouse().KeyDown:connect(
     function(v)
         if v == "g" then
             if sex then
                 noclip = not noclip
-                game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                Player.Character.Humanoid:ChangeState(11)
             end
         end
     end
@@ -1823,14 +1827,14 @@ end)
 local Toggle1 = SectionA:CreateToggle("B Fly", nil, function(State)
 sex2 = State
 local Max = 0
-local Players = game.Players
-local LP = Players.LocalPlayer
+local Players = Players
+local LP = Player
 local Mouse = LP:GetMouse()
 Mouse.KeyDown:connect(
     function(k)
         if k:lower() == "b" then
             Max = Max + 1
-            getgenv().Fly = false
+            Fly = false
             if sex2 then
                 local T = LP.Character.Torso
                 local S = {
@@ -1847,7 +1851,7 @@ Mouse.KeyDown:connect(
                 }
                 local SPEED = 5
                 local function FLY()
-                    getgenv().Fly = true
+                    Fly = true
                     local BodyGyro = Instance.new("BodyGyro", T)
                     local BodyVelocity = Instance.new("BodyVelocity", T)
                     BodyGyro.P = 9e4
@@ -1867,10 +1871,10 @@ Mouse.KeyDown:connect(
                                 end
                                 if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
                                     BodyVelocity.velocity =
-                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
-                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
                                             CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) -
-                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
                                         SPEED
                                     S2 = {
                                         F = S.F,
@@ -1880,16 +1884,16 @@ Mouse.KeyDown:connect(
                                     }
                                 elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
                                     BodyVelocity.velocity =
-                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
-                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                        ((Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) +
+                                        ((Workspace.CurrentCamera.CoordinateFrame *
                                             CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) -
-                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                            Workspace.CurrentCamera.CoordinateFrame.p)) *
                                         SPEED
                                 else
                                     BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
                                 end
-                                BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
-                            until not getgenv().Fly
+                                BodyGyro.cframe = Workspace.CurrentCamera.CoordinateFrame
+                            until not Fly
                             S = {
                                 F = 0,
                                 B = 0,
@@ -1937,7 +1941,7 @@ Mouse.KeyDown:connect(
                 )
                 FLY()
                 if Max == 2 then
-                    getgenv().Fly = false
+                    Fly = false
                     Max = 0
                 end
             end
@@ -1946,7 +1950,7 @@ Mouse.KeyDown:connect(
 )
 end)
 local Button1 = SectionA:CreateButton("Anti Lag", function()
-for _, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+for _, v in pairs(Workspace:GetDescendants()) do
     if v:IsA("BasePart") and not v.Parent:FindFirstChild("Humanoid") then
         v.Material = Enum.Material.SmoothPlastic
         if v:IsA("Texture") then
@@ -1957,9 +1961,9 @@ end
 end)
 
 local Button1 = SectionA:CreateButton("Teleport to RandomPlayer", function()
-local randomPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
+local randomPlayer = Players:GetPlayers()[math.random(1, #Players:GetPlayers())]
 
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+Player.Character.HumanoidRootPart.CFrame =
     CFrame.new(
     Vector3.new(
         randomPlayer.Character.Head.Position.X,
@@ -2032,7 +2036,7 @@ function TPReturner()
                 pcall(function()
                     writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
                     wait()
-                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
+                    game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, Player)
                 end)
                 wait(4)
             end
@@ -2055,7 +2059,7 @@ end
 Teleport() 
 end)
 local Button1 = SectionA:CreateButton("Rejoin", function()
-game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) end)
+game:GetService("TeleportService"):Teleport(game.PlaceId, Player) end)
 
 
 local Toggle3 = Section3:CreateToggle("UI Toggle", nil, function(State)
