@@ -1,3 +1,4 @@
+
 repeat wait() until game:IsLoaded()
 local ReplicatedStorage = Get.ReplicatedStorage
 local Players = Get.Players
@@ -16,32 +17,6 @@ local Config = {
 Player.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
-
-
-local Name = "UnCo.json"
-
-Des = {}
-if makefolder then
-    makefolder("V.G Hub")
-end
-
-local Settings
-
-if
-    not pcall(
-        function()
-            readfile("V.G Hub//" .. Name)
-        end
-    )
- then
-    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Des))
-end
-
-Settings = HttpService:JSONDecode(readfile("V.G Hub//" .. Name))
-
-local function Save()
-    writefile("V.G Hub//" .. Name, HttpService:JSONEncode(Settings))
-end
 
 local h = require(ReplicatedStorage.Shared.Modules.DungeonLibrary)
 
