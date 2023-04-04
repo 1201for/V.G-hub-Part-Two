@@ -1,4 +1,12 @@
-
+getgenv().Get =
+    setmetatable(
+    {},
+    {
+        __index = function(A, B)
+            return game:GetService(B)
+        end
+    }
+)
 repeat wait() until game:IsLoaded()
 local ReplicatedStorage = Get.ReplicatedStorage
 local Players = Get.Players
@@ -19,6 +27,8 @@ game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
 
 local h = require(ReplicatedStorage.Shared.Modules.DungeonLibrary)
+
+local Settings = {}
 
 local Dungeons = {}
 for i, v in pairs(h.Dungeons) do
