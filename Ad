@@ -188,6 +188,14 @@ local PersonHome = function()
         return false
     end
 end
+local CheckMainMap = function()
+    local Orgasum = Workspace.Interiors
+    for i,v in pairs(Orgasum:GetChildren()) do
+        if v.Name:find("MainMap") then
+            return v 
+        end 
+    end 
+end
 local Store = function()
     if Workspace.Interiors:FindFirstChildWhichIsA("Model") then
         if not string.find(Workspace.Interiors:FindFirstChildWhichIsA("Model").Name,"MainMap") and not
@@ -626,7 +634,23 @@ RunService.RenderStepped:Connect(function()
     end 
 end)
 end)
-
+LeftGroupBox:AddToggle('Hunt', {Text = 'Egg Hune', Default = false,Tooltip = ''})
+Toggles.Hunt:OnChanged(function(State)
+    Tg = Toggles.Hunt.Value
+    spawn(function()
+        while wait() and Tg do
+            pcall(function()
+                if not CheckMainMap() then
+                    GoToMainMap()
+                end 
+                for i,v in pairs(Workspace.EggHuntEggs:GetChildren()) do
+                    Player.Character.HumanoidRootPart.CFrame = v:GetModelCFrame()
+                    ReplicatedStorage:WaitForChild("API"):WaitForChild("EventAPI/EggHuntCollectEgg"):FireServer(v.Name)
+                end 
+            end)
+        end 
+    end)
+end)
 LeftGroupBox:AddToggle('FK', {Text = 'Auto Claim Quest', Default = false,Tooltip = ''})
 Toggles.FK:OnChanged(function(State)
 FK = Toggles.FK.Value
