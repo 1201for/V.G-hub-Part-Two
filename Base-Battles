@@ -14,17 +14,19 @@ repeat wait() until game:IsLoaded() wait()
 Player.Idled:connect(function()
 game:GetService("VirtualUser"):ClickButton2(Vector2.new())
 end)
+
+local NoMore = game:GetService("ReplicatedStorage").Network.Hola:GetChildren()
+
 local OldNameCall = nil
 OldNameCall = hookmetamethod(game, "__namecall", function(self,...)
     local Args = {...}
-    if getnamecallmethod()=="FireServer" and self.Parent.Name =="Hola" and Args[1] == nil then
-            return
+    if getnamecallmethod()=="FireServer" and table.find(NoMore, self) and Args[1] == nil then
+        return
     end
-    
     return OldNameCall(self,...)
 end)
 
-game:GetService("ScriptContext"):SetTimeout(0.01)
+game:GetService("ScriptContext"):SetTimeout(0)
 
 local Circle = Drawing.new("Circle")
 Circle.Color =  Color3.fromRGB(22, 13, 56)
