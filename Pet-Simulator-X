@@ -114,8 +114,6 @@ spawn(function()
                         v.CFrame = Player.Character:GetModelCFrame()
                     end
                 end 
-            else
-                return Client.Network.Invoke("Redeem Rank Rewards"), Client.Network.Invoke("Redeem Free Gift", i), Frame.Signal.Fire("Fireworks Animation")
             end 
         end)
     end 
