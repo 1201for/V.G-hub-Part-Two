@@ -5,12 +5,12 @@ local Config = {
 	Keybind = Enum.KeyCode.RightControl
 }
 
-local Players = Get.Players
-local Workspace = Get.Workspace
-local RunService = Get.RunService
-local ReplicatedStorage = Get.ReplicatedStorage
-local HttpService = Get.HttpService
-local RunService = Get.RunService
+local Players = game.Players
+local Workspace = game.Workspace
+local RunService = game.RunService
+local ReplicatedStorage = game.ReplicatedStorage
+local HttpService = game.HttpService
+local RunService = game.RunService
 local Player = Players.LocalPlayer
 local Coins = Workspace["__THINGS"].Coins
 local wait = task.wait 
@@ -56,7 +56,7 @@ local function getNearestCoin()
     for i, v in ipairs(Coins:GetChildren()) do
         if v:FindFirstChild("Coin") then
             local Mag =
-                (Get.Players.LocalPlayer.Character.HumanoidRootPart.Position -
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
                 v:FindFirstChild("Coin").Position).Magnitude
             if Mag < TargetDistance then
                 TargetDistance = Mag
